@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\AuraEchoResources\logo.ico">
+    <Image Include="Assets\splash_screen.jpg">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="..\..\..\..\AuraEchoResources\splash_screen.png">
+    <Image Include="Assets\logo.ico">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

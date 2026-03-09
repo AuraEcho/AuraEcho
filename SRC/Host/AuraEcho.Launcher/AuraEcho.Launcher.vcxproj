@@ -146,8 +146,8 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\AuraEchoResources\logo.ico" />
-    <Image Include="..\..\..\..\AuraEchoResources\splash_screen.png" />
+    <Image Include="Assets\logo.ico" />
+    <Image Include="Assets\splash_screen.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,7 +5,9 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/DOC/" />
+  <Folder Name="/DOC/">
+    <File Path="DOC/EULA.md" />
+  </Folder>
   <Folder Name="/SRC/" />
   <Folder Name="/SRC/Host/">
     <Project Path="SRC/Host/AuraEcho.Launcher/AuraEcho.Launcher.vcxproj" Id="bf3f5db7-8727-4b92-999b-72e29c7e3031">
@@ -15,10 +17,6 @@
   </Folder>
   <Folder Name="/SRC/Installer/">
     <Project Path="SRC/Installer/AuraEcho.DataMigrator.Installer/AuraEcho.DataMigrator.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" Id="be58907e-406b-46dc-b585-4d9e455dad21">
-      <Platform Solution="*|Any CPU" Project="x64" />
-    </Project>
-    <Project Path="SRC/Installer/AuraEcho.Setup.UI/AuraEcho.Setup.UI.csproj" />
-    <Project Path="SRC/Installer/AuraEcho.Setup/AuraEcho.Setup.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
     <Project Path="SRC/Installer/AuraEcho.Installer/AuraEcho.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
@@ -31,6 +29,10 @@
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
     <Project Path="SRC/Installer/AuraEcho.PluginInstaller.Installer/AuraEcho.PluginInstaller.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
+      <Platform Solution="*|Any CPU" Project="x64" />
+    </Project>
+    <Project Path="SRC/Installer/AuraEcho.Setup.UI/AuraEcho.Setup.UI.csproj" />
+    <Project Path="SRC/Installer/AuraEcho.Setup/AuraEcho.Setup.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
     <Project Path="SRC/Installer/AuraEcho.UpdaterService.Installer/AuraEcho.UpdaterService.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" Id="0504b72a-891f-4992-8688-2e151be66619">
@@ -59,9 +61,9 @@
     <Project Path="SRC/Shared/AuraEcho.UIToolkit/AuraEcho.UIToolkit.csproj" Id="ca0e586d-0fd5-4f8d-8bbe-f9b45765068c" />
   </Folder>
   <Folder Name="/SRC/Tools/">
+    <Project Path="SRC/Tools/AuraEcho.DataMigrator/AuraEcho.DataMigrator.fsproj" Id="cbb40445-b602-44f8-b27f-9a3ca89b7b21" />
     <Project Path="SRC/Tools/PluginInstaller/PluginInstaller.csproj" />
     <Project Path="SRC/Tools/PluginPacker/PluginPacker.csproj" />
-    <Project Path="SRC/Tools/AuraEcho.DataMigrator/AuraEcho.DataMigrator.fsproj" Id="cbb40445-b602-44f8-b27f-9a3ca89b7b21" />
   </Folder>
   <Folder Name="/TEST/">
     <Project Path="TEST/AuraEcho.Control.Tests/AuraEcho.Control.Tests.csproj" />

@@ -214,6 +214,10 @@ static void StartApp(HWND hwndTarget) {
         if (targetHwnd != NULL && IsWindowVisible(targetHwnd)) {
             OutputDebugString(L"Target window found! Closing launcher...\n");
 
+            // 激活窗口(防止主程序窗口不在最前)
+            SetForegroundWindow(targetHwnd);
+            SetFocus(targetHwnd);
+
             PostMessage(hwndTarget, WM_CLOSE, 0, 0);
             return;
         }

@@ -29,13 +29,15 @@
         </i:PropertyChangedTrigger>
     </i:Interaction.Triggers>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" />
-        <StackPanel Grid.Row="1" Margin="24">
-            <DockPanel Margin="0,0,0,8" LastChildFill="True">
+        <StackPanel Grid.Row="1" Margin="0, 0, 0, 100" Width="400" VerticalAlignment="Bottom">
+            <TextBlock Margin="0, 0, 0, 50" Text="正在将灵光回声安装到此计算机，请耐心等待。" HorizontalAlignment="Center" FontSize="14"/>
+            <ProgressBar x:Name="InstallProgressBar"
+                         Height="4"
+                         Margin="0,0,0,8"
+                         d:Value="10"
+                         Maximum="100"
+                         Minimum="0" />
+            <DockPanel LastChildFill="True">
                 <TextBlock d:Text="10%"
                            DockPanel.Dock="Right"
                            Text="{Binding ElementName=InstallProgressBar, Path=Value, StringFormat={}{0:N0}%}" />
@@ -46,18 +48,6 @@
                            TextTrimming="CharacterEllipsis"
                            Text="{Binding Message}" />
             </DockPanel>
-            <ProgressBar x:Name="InstallProgressBar"
-                         Height="4"
-                         Margin="0,0,0,16"
-                         d:Value="10"
-                         Maximum="100"
-                         Minimum="0" />
-            <Button Width="75"
-                    Height="36"
-                    HorizontalAlignment="Right"
-                    Command="{Binding CancelCommand}"
-                    Content="取消"
-                    FontSize="14" />
         </StackPanel>
     </Grid>
 </UserControl>

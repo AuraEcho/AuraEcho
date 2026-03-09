@@ -23,6 +23,13 @@
 			<Custom Action="CleanRunAtBootRegistry"
 					After="InstallInitialize"
 					Condition="(REMOVE=&quot;ALL&quot;) AND (NOT UPGRADINGPRODUCTCODE)"/>
+			
+			<Custom Action="CA_CleanupData_SetProps" 
+					After="InstallInitialize" 
+					Condition="(REMOVE=&quot;ALL&quot;) AND (NOT UPGRADINGPRODUCTCODE)"/>
+			<Custom Action="CA_CleanupData_Exec" 
+					After="CA_CleanupData_SetProps" 
+					Condition="(REMOVE=&quot;ALL&quot;) AND (NOT UPGRADINGPRODUCTCODE)"/>
 		</InstallExecuteSequence>
 	</Package>
 </Wix>

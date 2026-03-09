@@ -6,6 +6,7 @@ internal static class BundleVar
     /// Gets the variable name for the installation directory.
     /// </summary>
     public const string InstallDirectory = "InstallFolder";
+    public const string RemoveLocalDataOnUninstall = "RemoveLocalDataOnUninstall";
     public const string AppLauncherName = "AppLauncherExeName";
     public const string UninstallerPath = "UninstallerPath";
 

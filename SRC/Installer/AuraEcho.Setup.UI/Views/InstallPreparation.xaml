@@ -8,50 +8,26 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:InstallPreparationViewModel}"
              d:DesignHeight="500"
              d:DesignWidth="750"
-             Foreground="White"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d">
-    <Grid Background="{DynamicResource Themes.Brushes.Background}">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"
+             Foreground="White"
+             mc:Ignorable="d"> 
+    <Grid Margin="24">
+        <StackPanel Grid.Row="0" 
                     Margin="0,60,0,0"
-                    HorizontalAlignment="Center">
-            <Image Width="120"
-                   Height="120"
-                   Margin="0,0,0,16"
-                   Source="/Assets/Images/auraecho.png" />
-            <StackPanel Margin="0,0,0,24"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                <TextBlock Margin="0,0,8,0"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Text="AuraEcho" />
-                <TextBlock VerticalAlignment="Center"
-                           d:Text="V1.2.0"
-                           FontSize="18"
-                           Foreground="#8c8c8c"
-                           Text="{Binding Version, StringFormat=V{0}}" />
-            </StackPanel>
+                    VerticalAlignment="Bottom">
+
             <StackPanel x:Name="CustomInstallationLayout"
                         d:Visibility="Visible"
                         Visibility="Hidden">
                 <StackPanel Height="40"
-                            Margin="0,0,0,16"
+                            Margin="0,0,0,12"
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
-                    <TextBlock Margin="0,0,16,0"
+                    <TextBlock Margin="0,0,8,0"
                                VerticalAlignment="Center"
                                FontSize="14"
-                               Text="安装路径:"
-                               TextOptions.TextFormattingMode="Display" />
-                    <Border Width="360"
-                            Padding="8,0"
-                            BorderBrush="#d1d1d1"
-                            BorderThickness="1">
+                               Text="安装在" />
+                    <Border>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -59,6 +35,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock x:Name="TargetInstallFolderTextBlock"
                                        Grid.Column="0"
+                                       Margin="0,0,8,0"
                                        VerticalAlignment="Center"
                                        d:Text="C:\Program Files(x86)\Lenovo\AuraEcho"
                                        FontSize="14"
@@ -68,7 +45,8 @@
                                     VerticalAlignment="Center"
                                     Click="SelectFolderButton_Click"
                                     Style="{DynamicResource IconButtonStyle}">
-                                <Viewbox Width="16" Height="16">
+                                <Viewbox Width="16"
+                                         Height="16">
                                     <Canvas Width="16"
                                             Height="16"
                                             UseLayoutRounding="False">
@@ -89,59 +67,38 @@
                     <CheckBox Margin="0,0,48,0"
                               Content="创建桌面图标"
                               IsChecked="{Binding IsCreateDesktopFolderShortcut}" />
-                    <CheckBox Margin="0,0,48,0"
-                              Content="添加到快速启动栏"
-                              IsChecked="True" />
-                    <CheckBox Content="开机默认启动 " IsChecked="{Binding IsRunAtBoot}" />
+                    <CheckBox Content="开机默认启动 "
+                              IsChecked="{Binding IsRunAtBoot}" />
                 </StackPanel>
             </StackPanel>
-            <Button Width="160"
+            <Button Width="200"
                     Height="48"
+                    Margin="0, 0, 0, 52"
                     HorizontalAlignment="Center"
                     Command="{Binding InstallCommand}"
-                    Content="快速安装"
-                    FontSize="18"
+                    Content="开始安装"
+                    FontSize="16"
                     Foreground="White"
                     Style="{DynamicResource PrimaryButtonStyle}"
                     TextOptions.TextFormattingMode="Display" />
-        </StackPanel>
-        <Grid Grid.Row="1" Margin="16">
-            <DockPanel x:Name="RegularInstallation" LastChildFill="False">
-                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-
-                    <CheckBox d:IsChecked="True"
-                              Content="阅读并同意"
-                              FontSize="14"
-                              IsChecked="{Binding AgreeAgreement}" />
+            <Grid>
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock FontSize="14">
-                        <Hyperlink Command="{Binding OpenCloudServiceAgreementCommand}">
-                            用户协议
-                        </Hyperlink>
+                        <TextBlock Text="点击开始安装，即代表您已同意" Foreground="#8C8C8C"/>
+                    <Hyperlink Command="{Binding OpenEULACommand}">
+                        最终用户许可协议
+                    </Hyperlink>
                     </TextBlock>
                 </StackPanel>
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                    <TextBlock Margin="0,0,6,0" FontSize="14">
-                        <Hyperlink x:Name="CustomInstallationHyperLink" Click="CustomInstallationHyperLink_Click">
-                            <Run x:Name="CustomInstallationRun">自定义安装</Run>
-                        </Hyperlink>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock FontSize="14">
+                    <Hyperlink x:Name="CustomInstallationHyperLink"
+                               Click="CustomInstallationHyperLink_Click">
+                        <Run x:Name="CustomInstallationRun">自定义安装</Run>
+                    </Hyperlink>
                     </TextBlock>
-                    <Canvas Width="6"
-                            Height="10"
-                            RenderTransformOrigin=".5, .5"
-                            UseLayoutRounding="False">
-                        <Canvas.RenderTransform>
-                            <ScaleTransform ScaleX="-1" />
-                        </Canvas.RenderTransform>
-                        <Path Data="M 4.71484 8.85693 L 0.85714 5.03052 L 4.71484 1.22459" Fill="{Binding ElementName=CustomInstallationHyperLink, Path=Foreground}" />
-                        <Path Data="M 4.71484 8.85693 L 0.85714 5.03052 L 4.71484 1.22459"
-                              Stroke="#ffa3a3a3"
-                              StrokeDashCap="Round"
-                              StrokeEndLineCap="Round"
-                              StrokeStartLineCap="Round"
-                              StrokeThickness="1" />
-                    </Canvas>
                 </StackPanel>
-            </DockPanel>
-        </Grid>
+            </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>

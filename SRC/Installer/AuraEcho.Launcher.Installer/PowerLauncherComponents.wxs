@@ -89,5 +89,16 @@
 					  Execute="deferred"
 					  Impersonate="no"
 					  Return="ignore" />
+
+		<CustomAction Id="CA_CleanupData_SetProps"
+				      Property="CA_CleanupData_Exec"
+					  Value="REMOVE_DATA=[REMOVE_LOCAL_DATA]" />
+
+		<CustomAction Id="CA_CleanupData_Exec"
+					  BinaryRef="AEInstallerCADll"
+					  DllEntry="CleanupLocalData"
+					  Execute="deferred"
+					  Impersonate="no"
+					  Return="ignore" />
 	</Fragment>
 </Wix>

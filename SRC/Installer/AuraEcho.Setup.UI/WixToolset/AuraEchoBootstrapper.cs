@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using AuraEcho.Setup.UI.Constants;
 using WixToolset.BootstrapperApplicationApi;
 using ErrorEventArgs = WixToolset.BootstrapperApplicationApi.ErrorEventArgs;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace AuraEcho.Setup.UI.WixToolset;
 
@@ -37,6 +38,7 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
     private int _executeProgress;
 
     private WixStringVariable _installDirVar;
+    private WixStringVariable _removeLocalDataOnUninstall;
     private WixStringVariable _uninstallerPath;
     private WixBooleanVariable _createShortcutVar;
     private WixBooleanVariable _launchOnStartupVar;
@@ -56,6 +58,12 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
     {
         get => _installDirVar.Get();
         set => _installDirVar.Set(value);
+    }
+
+    public string RemoveLocalDataOnUninstall
+    {
+        get => _removeLocalDataOnUninstall.Get();
+        set => _removeLocalDataOnUninstall.Set(value);
     }
 
     public string AppLauncherFullName
@@ -97,6 +105,7 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
         Engine.Log(LogLevel.Standard, $"Command: {Command.Action} | Display: {Command.Display}");
 
         _installDirVar = new(Engine, BundleVar.InstallDirectory);
+        _removeLocalDataOnUninstall = new(Engine, BundleVar.RemoveLocalDataOnUninstall);
         _appLauncherName = new(Engine, BundleVar.AppLauncherName);
         _createShortcutVar = new(Engine, BundleVar.CreateDesktopShortcut);
         _bundleFileName = new(Engine, BundleVar.BundleFileName);
@@ -124,7 +133,11 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
                 BundleFileName);
         _uninstallerPath.Set(uninstallPath);
     }
-
+    public void SendNotification()
+    {
+        var notification = new ToastContentBuilder().AddText("另一个安装程序已在运行。");
+        notification.Show();
+    }
     protected override void Run()
     {
         if (Command.ParseCommandLine().UnknownCommandLineArgs.Contains("-debug", StringComparer.OrdinalIgnoreCase))
@@ -138,6 +151,7 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
             {
                 if (!InstallerMutex.WaitOne(TimeSpan.Zero, true))
                 {
+                    SendNotification();
                     Engine.Log(LogLevel.Standard, "Exiting the AuraEcho.InstallerUI.");
                     Engine.Quit(0);
                     return;

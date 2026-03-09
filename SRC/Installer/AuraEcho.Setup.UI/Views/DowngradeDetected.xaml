@@ -9,13 +9,48 @@
              av:DesignHeight="500"
              av:DesignWidth="750"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Background="#1B1B1B"
              mc:Ignorable="av">
     <Grid>
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="36"
-                   Foreground="#EFEFEF"
-                   Text="已安装更高版本" />
+        <StackPanel Margin="0,0,0,100" VerticalAlignment="Bottom">
+            <Border Width="320"
+                    Height="48"
+                    Margin="0,0,0,100"
+                    Padding="8"
+                    Background="#1AFFAA4A"
+                    BorderBrush="#FFAA4A"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                <StackPanel Orientation="Horizontal">
+                    <Viewbox Width="24"
+                             Height="24"
+                             Margin="0,0,4,0">
+                        <Canvas Width="16.0" Height="16.0">
+                            <Path Stroke="#ffffaa4a"
+                                  StrokeDashCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeThickness="1.0">
+                                <Path.Data>
+                                    <PathGeometry Figures="M 7.99998 10.6667 V 8.00001 M 7.99998 5.33334 H 8.00665 M 14.6666 8.00001 C 14.6666 11.6819 11.6819 14.6667 7.99998 14.6667 C 4.31808 14.6667 1.33331 11.6819 1.33331 8.00001 C 1.33331 4.31811 4.31808 1.33334 7.99998 1.33334 C 11.6819 1.33334 14.6666 4.31811 14.6666 8.00001 Z" FillRule="Nonzero" />
+                                </Path.Data>
+                            </Path>
+                        </Canvas>
+                    </Viewbox>                
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="#FFAA4A"
+                               Text="此计算机已存在更高版本的灵光回声。" />
+                </StackPanel>
+
+            </Border>
+            <Button Width="200"
+                    Height="48"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="完成"
+                    FontSize="18"
+                    Style="{DynamicResource PrimaryButtonStyle}" />
+        </StackPanel>
     </Grid>
 </UserControl>

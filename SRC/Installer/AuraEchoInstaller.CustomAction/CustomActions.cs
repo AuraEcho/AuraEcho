@@ -159,5 +159,38 @@ namespace AuraEchoInstaller.CustomAction
                 session.Log("RemoveRunAtBootRegistry Begin");
             }
         }
+
+        [CustomAction]
+        public static ActionResult CleanupLocalData(Session session)
+        {
+            string shouldRemove = session.CustomActionData["REMOVE_DATA"];
+            if (shouldRemove != "1") return ActionResult.Success;
+
+            string path = @"C:\ProgramData\AuraEcho";
+
+            try
+            {
+                if (!Directory.Exists(path))
+                {
+                    session.Log($"路径不存在：{path}");
+                    return ActionResult.Failure;
+                }
+
+                session.Log("正在清理本地数据...");
+                using (Record record = new Record(2))
+                {
+                    record[1] = "CleanRunAtBootRegistry";
+                    record[2] = "正在清理本地数据...";
+                    session.Message(InstallMessage.ActionStart, record);
+                }
+                Directory.Delete(path, true);
+            }
+            catch (System.Exception ex)
+            {
+                session.Log("清理失败: " + ex.Message);
+                return ActionResult.Failure;
+            }
+            return ActionResult.Success;
+        }
     }
 }

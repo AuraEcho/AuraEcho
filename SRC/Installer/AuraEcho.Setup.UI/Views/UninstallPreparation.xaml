@@ -11,15 +11,18 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <Grid>
-        <StackPanel Height="120"
-                    VerticalAlignment="Bottom"
-                    Background="#90000000">
-            <Button Width="150"
-                    Height="36"
-                    Margin="0,20,0,15"
+        <StackPanel VerticalAlignment="Bottom">
+            <Button Width="200"
+                    Height="48"
                     Command="{Binding NavigationToUninstallCommand}"
-                    Content="立即卸载"
+                    Content="开始卸载"
+                    Margin="60"
+                    FontSize="16"
                     Style="{DynamicResource PrimaryButtonStyle}" />
+            <CheckBox Margin="0,0,0,24"
+                      Content="保留本地用户数据"
+                      HorizontalAlignment="Center"
+                      IsChecked="{Binding IsKeepLocalData}" />
         </StackPanel>
     </Grid>
 </UserControl>

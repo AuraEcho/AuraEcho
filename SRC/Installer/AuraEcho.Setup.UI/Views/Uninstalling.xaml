@@ -27,38 +27,32 @@
             <i:CallMethodAction MethodName="BeginProgressStoryboard" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}" />
         </i:PropertyChangedTrigger>
     </i:Interaction.Triggers>
-    <Grid Background="#202020">
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="25"
-                   Foreground="#DFDFDF"
-                   Text="正在卸载..." />
+    <Grid>
         <StackPanel Grid.Row="1"
-                    Margin="24"
+                    Width="400"
+                    Margin="0,0,0,100"
                     VerticalAlignment="Bottom">
-            <DockPanel Margin="0,0,0,8" LastChildFill="True">
-                <TextBlock d:Text="10%"
-                           DockPanel.Dock="Right"
-                           Text="{Binding ElementName=UninstallProgressBar, Path=Value, StringFormat={}{0:N0}%}" />
-                <TextBlock d:Text="正在安装，请稍后..."
-                           DockPanel.Dock="Left"
-                           FontSize="14"
-                           TextTrimming="CharacterEllipsis"
-                           Margin="0, 0, 20, 0"
-                           Text="{Binding Message}" />
-            </DockPanel>
+            <TextBlock Margin="0,0,0,50"
+                       HorizontalAlignment="Center"
+                       FontSize="14"
+                       Text="正在将灵光回声从此计算机中移除，请耐心等待。" />
             <ProgressBar x:Name="UninstallProgressBar"
                          Height="4"
-                         Margin="0,0,0,16"
+                         Margin="0,0,0,8"
                          d:Value="10"
                          Maximum="100"
                          Minimum="0" />
-            <Button Width="75"
-                    Height="36"
-                    HorizontalAlignment="Right"
-                    Command="{Binding CancelCommand}"
-                    Content="取消"
-                    FontSize="14" />
+            <DockPanel LastChildFill="True">
+                <TextBlock d:Text="10%"
+                           DockPanel.Dock="Right"
+                           Text="{Binding ElementName=UninstallProgressBar, Path=Value, StringFormat={}{0:N0}%}" />
+                <TextBlock Margin="0,0,20,0"
+                           d:Text="正在初始化..."
+                           DockPanel.Dock="Left"
+                           FontSize="14"
+                           Text="{Binding Message}"
+                           TextTrimming="CharacterEllipsis" />
+            </DockPanel>
         </StackPanel>
     </Grid>
 </UserControl>

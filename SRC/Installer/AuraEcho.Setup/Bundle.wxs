@@ -12,6 +12,7 @@
 		
 		<netfx:DotNetCoreSearch RuntimeType="desktop" MajorVersion="10" Platform="x64" Variable="DOTNETDESKTOPVERSION" />
 		<Variable Name="InstallFolder" Type="string" Value="[ProgramFiles6432Folder]AuraEcho" />
+		<Variable Name="RemoveLocalDataOnUninstall" Type="string" Value="0" />
 		<Variable Name="BundleFileName" Value="$(var.BundleFileName).exe" Type="string" />
 		<Variable Name="AppLauncherExeName" Type="string" Value="AuraEchoLauncher.exe" />
 		
@@ -20,6 +21,11 @@
 			<Payload SourceFile="AuraEcho.Setup.UI.dll" />
 			<Payload SourceFile="DryIoc.dll" />
 			<Payload SourceFile="Microsoft.WindowsAPICodePack.dll" />
+			
+			<Payload SourceFile="Microsoft.Toolkit.Uwp.Notifications.dll" />
+			<Payload SourceFile="Microsoft.Windows.SDK.NET.dll" />
+			<Payload SourceFile="WinRT.Runtime.dll" />
+			
 			<Payload SourceFile="Microsoft.WindowsAPICodePack.Shell.dll" />
 			<Payload SourceFile="Microsoft.Xaml.Behaviors.dll" />
 			<Payload SourceFile="Prism.dll" />
@@ -31,6 +37,7 @@
 			<Payload SourceFile="AuraEcho.UIToolkit.dll" />
 			<Payload SourceFile="WixToolset.BootstrapperApplicationApi.dll" />
 			<Payload SourceFile="AuraEcho.Setup.UI.runtimeconfig.json" />
+			<Payload SourceFile="Assets/PDF/EULA.pdf" />
 
 			<?if $(var.IncludeRuntime) = "yes" ?>
 			<bal:WixPrerequisiteBootstrapperApplication Theme="standard" LogoFile="Assets/Icons/AuraEcho.ico" LocalizationFile="Strings/zh-cn.wxl"/>
@@ -73,6 +80,7 @@
 						SourceFile="$(AuraEcho.Launcher.Installer.TargetFileName)">
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
 				<MsiProperty Name="UNINSTALLER_PATH" Value="[UninstallerPath]"/>
+				<MsiProperty Name="REMOVE_LOCAL_DATA" Value="[RemoveLocalDataOnUninstall]" />
 			</MsiPackage>
 
 			<!-- Plugin Installer -->

@@ -18,26 +18,30 @@ public class InstallPreparationViewModel : BindableBase
     private readonly AuraEchoBootstrapper _ba;
     private readonly IRegionManager _regionManager;
     private readonly IRegionDialogService _regionDialogService;
-    private bool _agreeAgreement;
     private bool _isCreateDesktopFolderShortcut;
     private bool _isRunAtBoot;
     #region Command
     /// <summary>
     /// 打开协议声明
     /// </summary>
-    public DelegateCommand OpenCloudServiceAgreementCommand { get; }
-    private void OpenCloudServiceAgreement()
+    public DelegateCommand OpenEULACommand { get; }
+    private void OpenEULA()
     {
         string currentFolderPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        string cloudServiceAgreementFilePath = Path.Combine(currentFolderPath, "协议声明.pdf");
-        Task.Run(() => Process.Start(cloudServiceAgreementFilePath));
+        string filePath = Path.Combine(currentFolderPath, "EULA.pdf");
+
+        Task.Run(() => 
+            Process.Start(new ProcessStartInfo 
+            { 
+                UseShellExecute = true, 
+                FileName = filePath 
+            }));
     }
 
     /// <summary>
     /// 执行安装命令
     /// </summary>
     public DelegateCommand InstallCommand { get; }
-    private bool CanInstall() => AgreeAgreement;
     private async void Install()
     {
         if (!await StopAppAsync()) return;
@@ -123,14 +127,6 @@ public class InstallPreparationViewModel : BindableBase
         get => _isRunAtBoot;
         set => SetProperty(ref _isRunAtBoot, value);
     }
-    /// <summary>
-    /// 同意协议
-    /// </summary>
-    public bool AgreeAgreement
-    {
-        get => _agreeAgreement;
-        set => SetProperty(ref _agreeAgreement, value);
-    }
 
     public Version Version => _ba.Version;
 
@@ -166,8 +162,8 @@ public class InstallPreparationViewModel : BindableBase
         IsCreateDesktopFolderShortcut = true;
         IsRunAtBoot = true;
 
-        InstallCommand = new DelegateCommand(Install, CanInstall).ObservesProperty(() => AgreeAgreement);
-        OpenCloudServiceAgreementCommand = new DelegateCommand(OpenCloudServiceAgreement);
+        InstallCommand = new DelegateCommand(Install);
+        OpenEULACommand = new DelegateCommand(OpenEULA);
     }
     #endregion
 }

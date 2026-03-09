@@ -7,13 +7,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:ui="http://ui.auraecho.com/"
+        xmlns:views="clr-namespace:AuraEcho.Setup.UI.Views"
         xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
         Title="AuraEcho 安装向导"
-        Width="750"
-        Height="500"
+        Width="1157"
+        Height="768"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
-        d:DesignHeight="500"
-        d:DesignWidth="750"
+        d:DesignHeight="768"
+        d:DesignWidth="1157"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="Black"
         Foreground="White"
@@ -31,14 +32,46 @@
                       GlassFrameThickness="1"
                       UseAeroCaptionButtons="False" />
     </WindowChrome.WindowChrome>
-    
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding CloseSplashScreenCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <Grid>
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/Assets/Images/bg.jpg" />
+            </Grid.Background>
+            <Rectangle Fill="#000000" Opacity="0.7" />
+            <StackPanel Margin="0,-152,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Border Width="128"
+                        Height="128"
+                        Margin="0,0,0,24"
+                        BorderBrush="White"
+                        BorderThickness="2"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
+                    </Border.Background>
+                </Border>
+                <TextBlock FontSize="64"
+                           FontWeight="Bold"
+                           Text="灵光回声" />
+                <TextBlock HorizontalAlignment="Center"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#B7B7B7"
+                           Text="版本 1.2.0" />
+            </StackPanel>
+
+        </Grid>
+        <d:ContentControl>
+            <views:InstallPreparation />
+        </d:ContentControl>
         <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MainRegion}" />
         <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MessageRegion}" />
         <Grid Height="36"
@@ -46,7 +79,7 @@
               Background="Transparent"
               MouseLeftButtonDown="Grid_MouseLeftButtonDown">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Width="40"
+                <Button Width="48"
                         ui:ControlHelper.CornerRadius="0"
                         Click="Button_Click"
                         IsTabStop="False"
@@ -59,10 +92,10 @@
                         </Viewbox>
                     </Button.Content>
                 </Button>
-                <Button Width="40"
-                        IsTabStop="False"
+                <Button Width="48"
                         ui:ControlHelper.CornerRadius="0"
                         Command="{Binding ExitCommand}"
+                        IsTabStop="False"
                         Style="{DynamicResource IconButtonStyle}">
                     <Viewbox Width="20" Height="20">
                         <Canvas Width="16" Height="16">
@@ -71,10 +104,6 @@
                     </Viewbox>
                 </Button>
             </StackPanel>
-            <TextBlock Margin="16,8"
-                       HorizontalAlignment="Left"
-                       FontSize="14"
-                       Text="AuraEcho 安装向导" />
         </Grid>
     </Grid>
 </Window>

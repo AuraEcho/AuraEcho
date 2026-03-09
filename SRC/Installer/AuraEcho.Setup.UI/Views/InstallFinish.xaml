@@ -11,25 +11,42 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="av">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <TextBlock HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="24"
-                       Text="安装成功！" />
-        </Grid>
-        <Grid Grid.Row="1" Height="154">
-            <Button Width="160"
+        <StackPanel Margin="0,0,0,100" VerticalAlignment="Bottom">
+            <Border Width="330"
+                    Height="42"
+                    Margin="0,0,0,100"
+                    Padding="16,8"
+                    Background="#1A00C853"
+                    BorderBrush="#00C853"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                <StackPanel Orientation="Horizontal">
+                    <Viewbox Width="16" Height="16" Margin="0, 2, 4, 0">
+                        <Canvas Width="16"
+                                Height="16">
+                            <Path Stroke="#ff00b400"
+                                  StrokeDashCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeThickness="2.0"
+                                  Data="M 13.33 4 L 6 11.33 L 2.67 8"/>
+                        </Canvas>
+                    </Viewbox>
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="14"
+                               Foreground="#00C853"
+                               Text="安装成功！" />
+                </StackPanel>
+            </Border>
+            <Button Width="200"
                     Height="48"
-                    FontSize="18"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="立即体验"
                     Click="FinishedButton_Click"
+                    Content="现在启动"
+                    FontSize="18"
                     Style="{DynamicResource PrimaryButtonStyle}" />
-        </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -30,6 +30,5 @@ public partial class InstallPreparation : UserControl
     private void CustomInstallationHyperLink_Click(object sender, RoutedEventArgs e)
     {
         CustomInstallationLayout.Visibility = CustomInstallationLayout.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
-        CustomInstallationRun.Text = CustomInstallationRun.Text == "快速安装" ? "自定义安装" : "快速安装";
     }
 }

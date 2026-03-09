@@ -1,21 +1,29 @@
 using System.Diagnostics;
 using System.IO;
-using Microsoft.Win32;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
+using AuraEcho.Setup.UI.Constants;
 using AuraEcho.Setup.UI.Utils;
+using AuraEcho.Setup.UI.WixToolset;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using AuraEcho.Setup.UI.Constants;
 
 namespace AuraEcho.Setup.UI.ViewModels;
 
 public class UninstallPreparationViewModel : BindableBase
 {
+    private readonly AuraEchoBootstrapper _ba;
     private readonly IRegionManager _regionManager;
     private readonly IRegionDialogService _regionDialogService;
+
+    public bool IsKeepLocalData
+    {
+        get => _ba.RemoveLocalDataOnUninstall == "0"; 
+        set => _ba.RemoveLocalDataOnUninstall = value ? "0" : "1";
+    }
 
     public DelegateCommand NavigationToUninstallCommand { get; }
     private async void NavigationToUninstall()
@@ -69,6 +77,7 @@ public class UninstallPreparationViewModel : BindableBase
         runningProcesses.ForEach(p => p.Kill());
         return true;
     }
+
     private static string GetInstallPath()
     {
         const string keyPath = @"Software\AuraEcho";
@@ -83,8 +92,9 @@ public class UninstallPreparationViewModel : BindableBase
     /// 构造函数
     /// </summary>
     /// <param name="model"></param>
-    public UninstallPreparationViewModel(IRegionManager regionManager, IRegionDialogService regionDialogService)
+    public UninstallPreparationViewModel(AuraEchoBootstrapper ba, IRegionManager regionManager, IRegionDialogService regionDialogService)
     {
+        _ba = ba;
         _regionManager = regionManager;
         _regionDialogService = regionDialogService;
 

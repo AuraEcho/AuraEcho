@@ -26,6 +26,8 @@ public class MainWindowViewModel : BindableBase
         _regionManager.RequestNavigateOnUIThread(InstallerRegionNames.MainRegion, targetView);
     }
 
+    public Version Version => _ba.Version;
+
     public DelegateCommand ExitCommand { get; }
     private void Exit()
     {

@@ -131,8 +131,6 @@ public class InstallPreparationViewModel : BindableBase
         set => SetProperty(ref _isRunAtBoot, value);
     }
 
-    public Version Version => _ba.Version;
-
     public string TargetInstallFolder
     {
         get => _ba.InstallDirectory;

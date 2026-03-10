@@ -65,7 +65,8 @@
                            FontSize="16"
                            FontWeight="Bold"
                            Foreground="#B7B7B7"
-                           Text="版本 1.2.0" />
+                           d:Text="版本 1.2.0"
+                           Text="{Binding Version, StringFormat=版本 {0}}" />
             </StackPanel>
 
         </Grid>
@@ -74,12 +75,12 @@
         </d:ContentControl>
         <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MainRegion}" />
         <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MessageRegion}" />
-        <Grid Height="36"
+        <Grid Height="30"
               VerticalAlignment="Top"
               Background="Transparent"
               MouseLeftButtonDown="Grid_MouseLeftButtonDown">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Width="48"
+                <Button Width="45"
                         ui:ControlHelper.CornerRadius="0"
                         Click="Button_Click"
                         IsTabStop="False"
@@ -92,7 +93,7 @@
                         </Viewbox>
                     </Button.Content>
                 </Button>
-                <Button Width="48"
+                <Button Width="45"
                         ui:ControlHelper.CornerRadius="0"
                         Command="{Binding ExitCommand}"
                         IsTabStop="False"

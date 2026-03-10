@@ -49,7 +49,10 @@ public class UninstallPreparationViewModel : BindableBase
                 if (String.IsNullOrEmpty(exePath)) return false;
 
                 DirectoryInfo processDir = new DirectoryInfo(Path.GetDirectoryName(exePath));
-                return String.Equals(processDir.FullName, installFolder.FullName, StringComparison.OrdinalIgnoreCase);
+                return String.Equals(
+                    processDir.FullName.TrimEnd('\\'),
+                    installFolder.FullName.TrimEnd('\\'),
+                    StringComparison.OrdinalIgnoreCase);
             })];
 
         if (runningProcesses.Count <= 0) return true;

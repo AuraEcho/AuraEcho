@@ -12,7 +12,7 @@
              mc:Ignorable="av">
     <Grid>
         <StackPanel Margin="0,0,0,100" VerticalAlignment="Bottom">
-            <Border Width="320"
+            <Border Width="330"
                     Height="48"
                     Margin="0,0,0,100"
                     Padding="16,8"
@@ -39,7 +39,7 @@
                     <TextBlock VerticalAlignment="Center"
                                FontSize="16"
                                Foreground="#FFAA4A"
-                               Text="安装过程已中断。您的系统未被修改。" />
+                               Text="安装过程已取消。您的系统未被修改。" />
                 </StackPanel>
             </Border>
             <Button Width="200"

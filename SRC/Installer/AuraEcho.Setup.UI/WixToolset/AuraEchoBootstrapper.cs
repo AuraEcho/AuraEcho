@@ -12,6 +12,7 @@ using AuraEcho.Setup.UI.Constants;
 using WixToolset.BootstrapperApplicationApi;
 using ErrorEventArgs = WixToolset.BootstrapperApplicationApi.ErrorEventArgs;
 using Microsoft.Toolkit.Uwp.Notifications;
+using AuraEcho.Setup.UI.Models;
 
 namespace AuraEcho.Setup.UI.WixToolset;
 
@@ -53,6 +54,8 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
     public event EventHandler<PlanMsiFeatureEventArgs> PlanFeature;
     public event EventHandler<string>? ExecuteMessage;
     public event EventHandler? OnCanceled;
+
+    public InstallState InstallState { get; private set; }
 
     public string InstallDirectory
     {
@@ -297,12 +300,17 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
 
     public void Uninstall() => Plan(LaunchAction.Uninstall);
 
-    public void Cancel() => CancelRequested = true;
+    public void Cancel()
+    {
+        CancelRequested = true;
+        ExecuteMessage?.Invoke(this, "正在取消...");
+    }
 
     /// <inheritdoc/>
     protected override void OnApplyBegin(ApplyBeginEventArgs args)
     {
         base.OnApplyBegin(args);
+        InstallState = InstallState.Applying;
         _progressPhases = args.PhaseCount;
     }
 
@@ -315,6 +323,7 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
     protected override void OnApplyComplete(ApplyCompleteEventArgs args)
     {
         base.OnApplyComplete(args);
+        InstallState = InstallState.Completed;
         OnActionCompleted?.Invoke(this, EventArgs.Empty);
 
         if (!_isAutoPlan) return;
@@ -337,6 +346,24 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
             ReportProgress();
             args.Cancel = CancelRequested;
         }
+    }
+
+    protected override void OnPlanRollbackBoundary(PlanRollbackBoundaryEventArgs args)
+    {
+        base.OnPlanRollbackBoundary(args);
+        Engine.Log(LogLevel.Error, $"OnPlanRollbackBoundary 已执行");
+    }
+
+    protected override void OnRollbackMsiTransactionBegin(RollbackMsiTransactionBeginEventArgs args)
+    {
+        base.OnRollbackMsiTransactionBegin(args);
+        Engine.Log(LogLevel.Error, $"OnRollbackMsiTransactionBegin 已执行");
+    }
+
+    protected override void OnRollbackMsiTransactionComplete(RollbackMsiTransactionCompleteEventArgs args)
+    {
+        base.OnRollbackMsiTransactionComplete(args);
+        Engine.Log(LogLevel.Error, $"OnRollbackMsiTransactionComplete 已执行");
     }
 
     /// <inheritdoc/>
@@ -505,6 +532,9 @@ public sealed partial class AuraEchoBootstrapper : BootstrapperApplication
         base.OnExecuteMsiMessage(args);
 
         args.Result = CancelRequested ? Result.Cancel : Result.Ok;
+
+        if (args.Result == Result.Cancel)
+            return;
 
         string formattedMessage = FormatMessage(args);
         if (String.IsNullOrWhiteSpace(formattedMessage)) return;

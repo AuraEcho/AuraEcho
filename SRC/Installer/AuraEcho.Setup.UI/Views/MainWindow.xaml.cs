@@ -1,7 +1,9 @@
+using AuraEcho.Setup.UI.Models;
+using AuraEcho.Setup.UI.ViewModels;
 using Prism.Events;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace AuraEcho.Setup.UI.Views;
 
@@ -33,11 +35,30 @@ public partial class MainWindow : Window
         BringToForeground();
     }
 
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        var vm = DataContext as MainWindowViewModel;
+        var installState = vm!.InstallState;
+        if (installState != InstallState.Applying)
+        {
+            base.OnClosing(e);
+            return;
+        }
+
+        e.Cancel = true;
+        BringToForeground();
+        vm.ExitCommand.Execute();
+    }
     /// <summary>
     /// 使主窗口前置
     /// </summary>
     public void BringToForeground()
     {
+        if (WindowState == WindowState.Minimized)
+        {
+            WindowState = WindowState.Normal;
+        }
+
         Topmost = true;
         Topmost = false;
         Focus();

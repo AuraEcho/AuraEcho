@@ -11,7 +11,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
         <Setter Property="Background" Value="{DynamicResource Themes.Brushes.Primary}" />
         <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnPrimary}" />
         <Setter Property="Template">
@@ -66,7 +66,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnSecondary}" />
         <Setter Property="Template">
@@ -176,7 +176,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
         <Setter Property="Background" Value="{DynamicResource Themes.Brushes.Secondary}" />
         <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnSecondary}" />
         <Setter Property="Template">

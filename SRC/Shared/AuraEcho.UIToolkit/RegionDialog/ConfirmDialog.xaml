@@ -1,6 +1,7 @@
-<UserControl x:Class="AuraEcho.UIToolkit.RegionDialog.ConfirmDialog"
+﻿<UserControl x:Class="AuraEcho.UIToolkit.RegionDialog.ConfirmDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ae="clr-namespace:AuraEcho.Themes.AttachedProperties;assembly=AuraEcho.Themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AuraEcho.UIToolkit.RegionDialog"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,42 +11,66 @@
              Background="#60000000"
              Foreground="#EFEFEF"
              mc:Ignorable="d">
-    <Grid Width="320"
-          Height="150"
-          Background="#212121">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Height="24">
-            <TextBlock Margin="4"
-                       VerticalAlignment="Center"
-                       d:Text="Dialog Title"
-                       Text="{Binding Parameter.Title}" />
-            <Button Padding="12,0"
-                    HorizontalAlignment="Right"
-                    Command="{Binding CloseCommand}"
-                    Content="X" />
-        </Grid>
-        <TextBlock Grid.Row="1"
-                   Margin="0,0,0,10"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   d:Text="Are you sure?"
-                   Text="{Binding Parameter.Message}"
-                   TextWrapping="Wrap" />
-        <StackPanel Grid.Row="2"
+    <Border Width="360"
+            MinHeight="220"
+            VerticalAlignment="Center"
+            Background="#161616"
+            BorderBrush="#4A4A4A"
+            BorderThickness="1"
+            CornerRadius="4">
+        <Grid>
+            <Grid Margin="24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0, 0, 0, 20">
+                    <TextBlock VerticalAlignment="Top"
+                               d:Text="灵光回声仍在运行"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Text="{Binding Parameter.Title}" />
+                </Grid>
+                <TextBlock Grid.Row="1"
+                           d:Text="灵光回声仍在运行，正在等待灵光回声退出，选择继续以退出灵光回声继续安装。"
+                           FontSize="14"
+                           Foreground="#D9D9D9"
+                           Text="{Binding Parameter.Message}"
+                           TextWrapping="Wrap" />
+                <UniformGrid Grid.Row="2" Columns="2">
+
+                    <Button Height="32"
+                            Margin="0,0,8,0"
+                            d:Content="取消"
+                            Command="{Binding CancelCommand}"
+                            Content="{Binding Parameter.CancelText}"
+                            FontSize="14" />
+                    <Button Height="32"
+                            d:Content="确定"
+                            Command="{Binding OkCommand}"
+                            Content="{Binding Parameter.ConfirmText}"
+                            FontSize="14"
+                            Style="{DynamicResource PrimaryButtonStyle}" />
+
+                </UniformGrid>
+
+            </Grid>
+            <Button Grid.Row="0"
                     Margin="8"
+                    Grid.RowSpan="3"
+                    Height="40"
+                    Width="40"
                     HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-            <Button Margin="0,0,8,0"
-                    Padding="8,4"
-                    Command="{Binding CancelCommand}"
-                    Content="{Binding Parameter.CancelText}" />
-            <Button Padding="8,4"
-                    Command="{Binding OkCommand}"
-                    Content="{Binding Parameter.ConfirmText}" />
-        </StackPanel>
-    </Grid>
+                    VerticalAlignment="Top"
+                    Command="{Binding CloseCommand}"
+                    Style="{DynamicResource IconButtonStyle}">
+                <Viewbox Width="24" Height="24">
+                    <Canvas Width="16" Height="16">
+                        <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
+        </Grid>
+    </Border>
 </UserControl>

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
+    <ProjectReference Include="..\AuraEcho.Themes\AuraEcho.Themes.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,6 +5,7 @@ open System.Threading
 open System.Threading.Tasks
 open Microsoft.Extensions.Hosting
 open System.IO
+open AuraEcho.Core.Models
 open Microsoft.Extensions.DependencyInjection
 open AuraEcho.Core.Contracts
 open AuraEcho.PluginContracts.Interfaces
@@ -117,7 +118,11 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
 
     let downloadPluginPackage (localRepo: ILocalPluginRepository, remoteRepo: IRemotePluginRepository) = async {
         logger.Information "开始检测插件版本信息..."
-        let installedPlugins = localRepo.GetPluginRegistries() |> List.ofSeq
+        let installedPlugins = 
+            localRepo.GetPluginRegistries() 
+            |> List.ofSeq 
+            |> List.filter (fun p -> p.PlanStatus <> PluginPlanStatus.UninstallPending)
+
         SqliteConnection.ClearAllPools()
 
         for plugin in installedPlugins do
@@ -167,7 +172,7 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
 
     let installPluginPackageCore (pluginIds: Guid list) installFolder = task {
         let pluginInstallerPath = Path.Combine(installFolder, "PluginInstaller.exe")
-        
+
         for pluginId in pluginIds do
             match pendingUpdate.Plugins.TryFind pluginId with
             | Some info ->
@@ -192,13 +197,36 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
             | None -> ()
     }
 
-    let installPluginPackage () = async {
-        let cachedPluginIdList = pendingUpdate.Plugins.Keys |> Seq.toList
-        if List.isEmpty cachedPluginIdList then return ()
+    let installPluginPackage (localRepo: ILocalPluginRepository) = async {
+
+        let cachedPluginIds = pendingUpdate.Plugins.Keys 
+        if Seq.isEmpty cachedPluginIds then return ()
+
+        let installedPluginIds = 
+            localRepo.GetPluginRegistries()
+            |> Seq.filter (fun p -> p.PlanStatus <> PluginPlanStatus.UninstallPending)
+            |> Seq.map (fun p -> p.Manifest.Id)
+            |> Set.ofSeq
+        SqliteConnection.ClearAllPools()
+
+        let needUpdatePlugins = 
+            cachedPluginIds 
+            |> Seq.filter installedPluginIds.Contains
+            |> Seq.toList 
+
+        if List.isEmpty needUpdatePlugins then 
+            return ()
 
         match getInstallPath() with
-        | None -> logger.Information "找不到客户端的安装目录，无法安装插件"
-        | Some installFolder -> do! installPluginPackageCore cachedPluginIdList installFolder |> Async.AwaitTask
+        | None -> 
+            logger.Warning "找不到客户端的安装目录，跳过插件安装"
+        | Some installFolder -> 
+            try
+                do! installPluginPackageCore needUpdatePlugins installFolder 
+                    |> Async.AwaitTask
+            with
+            | ex -> 
+                logger.Error($"执行插件包安装时发生异常{ex}")
     }
 
     override _.ExecuteAsync(stoppingToken: CancellationToken) = task {
@@ -215,7 +243,7 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
                 do! downloadPluginPackage (localRepo, remoteRepo) |> Async.StartAsTask
 
                 if not (isAppRunning()) then
-                    do! installPluginPackage () |> Async.StartAsTask
+                    do! installPluginPackage localRepo |> Async.StartAsTask
                     do! installAppPackage () |> Async.StartAsTask
                 else
                     if pendingUpdate.App.IsSome || not pendingUpdate.Plugins.IsEmpty then

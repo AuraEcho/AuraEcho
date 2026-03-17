@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppName" xml:space="preserve">
-    <value>AuraEcho</value>
+    <value>灵光回声</value>
   </data>
   <data name="AppLanguage_zh_CN" xml:space="preserve">
     <value>简体中文</value>

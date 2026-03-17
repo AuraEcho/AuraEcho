@@ -88,7 +88,7 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 AuraEcho 的本地化字符串。
+        ///   查找类似 灵光回声 的本地化字符串。
         /// </summary>
         public static string AppName {
             get {

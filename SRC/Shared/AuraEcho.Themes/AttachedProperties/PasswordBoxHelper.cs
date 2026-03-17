@@ -86,5 +86,5 @@ public static class PasswordBoxHelper
     public static void SetSelection(this PasswordBox passwordBox, int start, int length)
         => passwordBox.GetType()
                       .GetMethod("Select", BindingFlags.Instance | BindingFlags.NonPublic)
-                      .Invoke(passwordBox, new object[] { start, length });
+                      .Invoke(passwordBox, [start, length]);
 }

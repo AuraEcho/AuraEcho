@@ -4,7 +4,8 @@
     <Color x:Key="Themes.Colors.PrimaryFixed">#FF5B5FC7</Color>
     <Color x:Key="Themes.Colors.PrimaryFixedDim">#FF383966</Color>
 
-    <SolidColorBrush x:Key="Themes.Brushes.Primary">#4F52B2</SolidColorBrush>
+    <SolidColorBrush x:Key="Themes.Brushes.Primary">#502F94</SolidColorBrush>
+    <SolidColorBrush x:Key="Themes.Brushes.Primary2">#9A3BFF</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnPrimary">White</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.PrimaryContainer">#FF4F378B</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnPrimaryContainer">#FFEADDFF</SolidColorBrush>

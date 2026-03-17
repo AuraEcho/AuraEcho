@@ -11,7 +11,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
         <Setter Property="Background" Value="{DynamicResource Themes.Brushes.Primary}" />
         <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnPrimary}" />
         <Setter Property="Template">
@@ -73,7 +73,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="LayoutRoot"
-                            Background="{TemplateBinding Background}"
+                            Background="{TemplateBinding Background}" 
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="{TemplateBinding ClipToBounds}"

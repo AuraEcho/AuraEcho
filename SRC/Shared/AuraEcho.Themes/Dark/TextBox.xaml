@@ -120,10 +120,10 @@
     <!--  错误信息模板  -->
     <ControlTemplate x:Key="ValidationErrorTemplate">
         <DockPanel LastChildFill="True">
-            <TextBlock Margin="0,4,0,0"
+            <TextBlock Margin="0,2,0,0"
                        DockPanel.Dock="Bottom"
                        FontSize="12"
-                       Foreground="{DynamicResource State.Error}"
+                       Foreground="{DynamicResource Themes.Brushes.Error}"
                        Text="{Binding [0].ErrorContent}" />
             <AdornedElementPlaceholder />
         </DockPanel>
@@ -143,5 +143,11 @@
         <Setter Property="Template" Value="{StaticResource PlaceHolderTextBoxTemplte}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Themes.Brushes.Error}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

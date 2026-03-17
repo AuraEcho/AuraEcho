@@ -4,8 +4,9 @@ namespace AuraEcho.Core.Contracts;
 
 public interface IAuthRepository
 {
-    Task<SignUpResponse> SignUpAsync(SignUpRequest request);
-    Task<SignInResponse> SignInAsync(SignInRequest request);
+    Task<ResponseResult<CodeSignInResponse>> SignInByCodeAsync(CodeSignInRequest request);
+    Task<ResponseResult<AuthResponse>> SignInByPasswordAsync(PasswordSignInRequest request);
+    Task<bool> SendEmailVerificationCodeAsync(string targetEmail);
     Task<MeResponse> GetCurrentUserAsync();
     Task<RefreshTokenResponse> RefreshTokenAsync(RefreshTokenRequest request);
 }

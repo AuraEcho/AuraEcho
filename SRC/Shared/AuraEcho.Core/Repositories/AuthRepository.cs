@@ -2,6 +2,7 @@ using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
+using System.Net.Http.Json;
 
 namespace AuraEcho.Core.Repositories;
 
@@ -27,18 +28,22 @@ public class AuthRepository : IAuthRepository
         return result;
     }
 
-    public async Task<SignInResponse> SignInAsync(SignInRequest request)
+    public async Task<bool> SendEmailVerificationCodeAsync(string targetEmail)
     {
-        var result = await _httpHelper.PostAsync<SignInResponse>($"{Urls.ServerUrl}/api/auth/signin", request);
+        var result = await _httpHelper.PostAsync($"{Urls.ServerUrl}/api/auth/sendEmailCode", JsonContent.Create(targetEmail));
 
         return result;
     }
-
-    public async Task<SignUpResponse> SignUpAsync(SignUpRequest request)
+    public async Task<ResponseResult<CodeSignInResponse>> SignInByCodeAsync(CodeSignInRequest request)
     {
-        var result = await _httpHelper.PostAsync<SignUpResponse>($"{Urls.ServerUrl}/api/auth/signup", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<CodeSignInResponse>>($"{Urls.ServerUrl}/api/auth/signInByCode", request);
+
         return result;
     }
+    public async Task<ResponseResult<AuthResponse>> SignInByPasswordAsync(PasswordSignInRequest request)
+    {
+        var result = await _httpHelper.PostAsync<ResponseResult<AuthResponse>>($"{Urls.ServerUrl}/api/auth/signInByPassword", request);
 
-
+        return result;
+    }
 }

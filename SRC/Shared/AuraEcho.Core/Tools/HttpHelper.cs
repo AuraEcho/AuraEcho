@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -173,7 +174,7 @@ public class HttpHelper
         {
             // 统一处理错误码
             string error = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"❌ HTTP {response.StatusCode}: {error}");
+            Debug.WriteLine($"❌ HTTP {response.StatusCode}: {error}");
             return default;
         }
     }
@@ -196,15 +197,15 @@ public class HttpHelper
     {
         if (ex is TaskCanceledException)
         {
-            Console.WriteLine("⚠️ 请求超时");
+            Debug.WriteLine("⚠️ 请求超时");
         }
         else if (ex is HttpRequestException)
         {
-            Console.WriteLine("⚠️ 网络异常，请检查连接");
+            Debug.WriteLine("⚠️ 网络异常，请检查连接");
         }
         else
         {
-            Console.WriteLine($"⚠️ 未知异常：{ex.Message}");
+            Debug.WriteLine($"⚠️ 未知异常：{ex.Message}");
         }
     }
 }

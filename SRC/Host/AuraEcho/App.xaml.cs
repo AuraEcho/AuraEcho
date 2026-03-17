@@ -98,7 +98,6 @@ public partial class App
         containerRegistry.RegisterForNavigation<PluginsMarketplace>();
         containerRegistry.RegisterForNavigation<MarketplacePluginDetails>();
         containerRegistry.RegisterForNavigation<SignIn>();
-        containerRegistry.RegisterForNavigation<SignUp>();
         containerRegistry.RegisterForNavigation<SignInExpired>();
     }
 

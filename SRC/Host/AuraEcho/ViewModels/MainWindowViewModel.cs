@@ -19,7 +19,6 @@ namespace AuraEcho.ViewModels;
 public class MainWindowViewModel : BindableBase
 {
     #region private members
-    private string _title = "AuraEcho";
     private readonly IAuthRepository _authRepository;
     private readonly IClientSession _clientSession;
     #endregion
@@ -32,14 +31,6 @@ public class MainWindowViewModel : BindableBase
     }
     private readonly IEventAggregator _eventAggregator;
 
-    /// <summary>
-    /// 窗口标题
-    /// </summary>
-    public string Title
-    {
-        get => _title;
-        set => SetProperty(ref _title, value);
-    }
     public DelegateCommand GoBackCommand { get; }
     public bool CanGoBack() => NavigationService.CanGoBack;
     private void GoBack()

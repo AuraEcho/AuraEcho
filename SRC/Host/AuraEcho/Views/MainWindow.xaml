@@ -10,8 +10,8 @@
         xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
         xmlns:views="clr-namespace:AuraEcho.Views"
         Title="{Binding Source={StaticResource R}, Path=Labels.AppName}"
-        Width="800"
-        Height="600"
+        Width="960"
+        Height="640"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="{DynamicResource Themes.Brushes.Background}"
@@ -139,12 +139,11 @@
                             </Canvas>
                         </Viewbox>
                     </Button>
-                    <TextBlock Margin="8,0"
-                               VerticalAlignment="Center"
-                               d:Text="AppName"
+                    <Image Source="/Assets/Icons/AuraEcho.ico" Margin="8"/>
+                    <TextBlock VerticalAlignment="Center"
                                FontSize="12"
                                Foreground="{DynamicResource Themes.Brushes.OnSurface}"
-                               Text="{Binding Title}" />
+                               Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
 

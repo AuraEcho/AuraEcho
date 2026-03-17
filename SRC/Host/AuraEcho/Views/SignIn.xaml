@@ -1,4 +1,4 @@
-<UserControl x:Class="AuraEcho.Views.SignIn"
+﻿<UserControl x:Class="AuraEcho.Views.SignIn"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cc="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
@@ -9,53 +9,270 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:rule="clr-namespace:AuraEcho.ValidationRules"
              xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
-             d:Background="{DynamicResource Themes.Brushes.Background}"
              d:DataContext="{d:DesignInstance Type=viewmodels:SignInViewModel}"
-             d:DesignHeight="655"
-             d:DesignWidth="835"
+             d:DesignHeight="640"
+             d:DesignWidth="960"
              d:Foreground="{DynamicResource Themes.Brushes.OnBackground}"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="Black"
              mc:Ignorable="d">
-    <Grid Margin="0,36,0,0">
-        <Border Width="450"
-                Height="350"
-                Padding="32"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="#10FFFFFF"
-                CornerRadius="8">
-            <Grid>
+    <Grid>
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                    <GradientStop Offset="0" Color="#FF9A3BFF" />
+                    <GradientStop Offset="1" Color="#00000000" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle>
+            <Rectangle.Fill>
+                <RadialGradientBrush Center=".5, 0" GradientOrigin=".5, 0" RadiusX="1" RadiusY="1">
+                    <GradientStop Offset="0" Color="#FF000000" />
+                    <GradientStop Offset="1" Color="#00000000" />
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle>
+            <Rectangle.Fill>
+                <RadialGradientBrush Center=".5, 0.2" GradientOrigin=".5, 0.2" RadiusX="0.5" RadiusY="0.8">
+                    <GradientStop Offset="0" Color="#FF4B2B8C" />
+                    <GradientStop Offset="1" Color="#00000000" />
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <Grid>
 
-                <StackPanel>
-                    <TextBlock Margin="0,0,0,24"
-                               FontSize="30"
-                               Text="SIGN IN TO AURAECHO." />
-                    <TextBox Height="40"
-                             Margin="0,0,0,16"
-                             Padding="16,0"
-                             ui:ControlHelper.PlaceHolder="USERNAME"
-                             FontSize="20"
-                             Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
-                    <PasswordBox Height="40"
-                                 Padding="16,0"
-                                 ui:ControlHelper.PlaceHolder="PASSWORD"
-                                 ui:PasswordBoxHelper.Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 FontSize="20" />
-                </StackPanel>
-                <StackPanel VerticalAlignment="Bottom">
-                    <Button Height="50"
-                            Margin="0,0,0,8"
-                            Command="{Binding SignInCommand}"
-                            Content="SIGN IN"
-                            FontSize="20"
-                            Style="{DynamicResource PrimaryButtonStyle}" />
-                    <TextBlock>
-                        <Hyperlink Command="{Binding NavigationToSignUpCommand}">NO ACCOUNT? CREATE NOW</Hyperlink>
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-        </Border>
+                    <Border Width="80"
+                            Height="80"
+                            Margin="0,0,0,12"
+                            Background="#FF9A3BFF"
+                            CornerRadius="8">
+                        <Border.Effect>
+                            <BlurEffect Radius="40" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Width="80"
+                            Height="80"
+                            Margin="0,0,0,12"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="1, 0" EndPoint="0.5, 0.5">
+                                <GradientStop Offset="0" Color="White" />
+                                <GradientStop Offset="1" Color="#00FFFFFF" />
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <!--<Border.Effect>
+                            <DropShadowEffect BlurRadius="30"
+                                              ShadowDepth="0"
+                                              Color="#FF9A3BFF" />
+                        </Border.Effect>-->
+                    </Border>
+                </Grid>
+                <TextBlock Margin="0,0,0,40"
+                           HorizontalAlignment="Center"
+                           FontFamily="Microsoft YaHei UI"
+                           FontSize="52"
+                           FontWeight="Bold"
+                           Text="灵光回声">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                            <GradientStop Offset="0.2" Color="White" />
+                            <GradientStop Offset="1" Color="#00FFFFFF" />
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <Border Width="400"
+                        Height="320"
+                        Background="#33000000"
+                        CornerRadius="8">
+                    <Grid>
+                        <Rectangle RadiusX="8"
+                                   RadiusY="8"
+                                   Stroke="#33FFFFFF"
+                                   StrokeThickness="1" />
+                        <Rectangle RadiusX="8"
+                                   RadiusY="8"
+                                   StrokeThickness="1">
+                            <Rectangle.Stroke>
+                                <LinearGradientBrush StartPoint="0.7, 0" EndPoint="0.5, 0.4">
+                                    <GradientStop Offset="0" Color="#99FFFFFF" />
+                                    <GradientStop Offset="1" Color="#00FFFFFF" />
+                                </LinearGradientBrush>
+                            </Rectangle.Stroke>
+                        </Rectangle>
+
+                        <Grid Margin="24">
+                            <StackPanel VerticalAlignment="Top">
+                                <StackPanel Margin="0,0,0,16" Orientation="Horizontal">
+                                    <RadioButton Margin="0,0,24,0"
+                                                 Command="{Binding ResetDataCommand}"
+                                                 Content="验证码登录"
+                                                 FontSize="18"
+                                                 IsChecked="True"
+                                                 Style="{DynamicResource TextRadioButtonStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="CodeSignInLayout"
+                                                                        Value="Visible" />
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="PasswordSignInLayout"
+                                                                        Value="Hidden" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <RadioButton Command="{Binding ResetDataCommand}"
+                                                 Content="密码登录"
+                                                 FontSize="18"
+                                                 Style="{DynamicResource TextRadioButtonStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="CodeSignInLayout"
+                                                                        Value="Hidden" />
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="PasswordSignInLayout"
+                                                                        Value="Visible" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                </StackPanel>
+                                <Grid>
+                                    <!-- 验证码登录 -->
+                                    <Grid x:Name="CodeSignInLayout" Visibility="Visible">
+                                        <StackPanel>
+                                            <TextBox Height="40"
+                                                     Margin="0,0,0,20"
+                                                     Padding="8,0"
+                                                     ui:ControlHelper.PlaceHolder="请输入邮箱"
+                                                     FontSize="16"
+                                                     MaxLength="40"
+                                                     Text="{Binding Email, ValidatesOnNotifyDataErrors=True}">
+                                                <!--<TextBox.Text>
+                                                    <Binding Path="Email">
+                                                        <Binding.ValidationRules>
+                                                            <rule:EmailValidationRule />
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>-->
+                                            </TextBox>
+                                            <Grid Height="84">
+                                                <Grid VerticalAlignment="Top">
+                                                    <i:Interaction.Triggers>
+                                                        <i:DataTrigger Binding="{Binding SendEmailCodeCooldown}" Value="0">
+                                                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                    TargetName="SendEmailCodeTextBlock"
+                                                                                    Value="Visible" />
+                                                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                    TargetName="SendEmailCodeCooldownTextBlock"
+                                                                                    Value="Hidden" />
+                                                        </i:DataTrigger>
+                                                        <i:DataTrigger Binding="{Binding SendEmailCodeCooldown}"
+                                                                       Comparison="NotEqual"
+                                                                       Value="0">
+                                                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                    TargetName="SendEmailCodeTextBlock"
+                                                                                    Value="Hidden" />
+                                                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                    TargetName="SendEmailCodeCooldownTextBlock"
+                                                                                    Value="Visible" />
+                                                        </i:DataTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <TextBox Height="40"
+                                                             Margin="0,0,0,2"
+                                                             Padding="8,0"
+                                                             ui:ControlHelper.PlaceHolder="请输入验证码"
+                                                             FontSize="16"
+                                                             InputMethod.IsInputMethodEnabled="False"
+                                                             MaxLength="10"
+                                                             Text="{Binding EmailCode, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <TextBlock x:Name="SendEmailCodeCooldownTextBlock"
+                                                               Margin="0,0,12,0"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               d:Text="重新发送(49)"
+                                                               FontSize="14"
+                                                               Foreground="#8c8c8c"
+                                                               Text="{Binding SendEmailCodeCooldown, StringFormat=重新发送({0})}" />
+                                                    <TextBlock x:Name="SendEmailCodeTextBlock"
+                                                               Margin="0,0,12,0"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="14"
+                                                               Visibility="Hidden">
+                                                        <Hyperlink Command="{Binding SendEmailCodeCommand}" Cursor="Hand">
+                                                            获取验证码
+                                                        </Hyperlink>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Grid>
+                                            <Button Height="45"
+                                                    Command="{Binding SignInByCodeCommand}"
+                                                    Content="登录 / 注册"
+                                                    FontSize="18"
+                                                    Style="{DynamicResource PrimaryButtonStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <!-- 密码登录 -->
+                                    <Grid x:Name="PasswordSignInLayout" Visibility="Hidden">
+                                        <StackPanel>
+                                            <TextBox Height="40"
+                                                     Margin="0,0,0,20"
+                                                     Padding="8,0"
+                                                     ui:ControlHelper.PlaceHolder="请输入邮箱"
+                                                     FontSize="16"
+                                                     Text="{Binding Email, ValidatesOnNotifyDataErrors=True}" />
+                                            <StackPanel Height="84">
+                                                <PasswordBox Height="40"
+                                                             Margin="0,0,0,2"
+                                                             Padding="8,0"
+                                                             VerticalAlignment="Top"
+                                                             ui:ControlHelper.PlaceHolder="请输入密码"
+                                                             ui:PasswordBoxHelper.Attach="True"
+                                                             ui:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             FontSize="16" />
+
+                                                <TextBlock HorizontalAlignment="Right" FontSize="14">
+                                                    <Hyperlink Command="{Binding NavigationToSignUpCommand}" Cursor="Hand">
+                                                        忘记密码?
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <Button Height="45"
+                                                    Command="{Binding SignInByPasswordCommand}"
+                                                    Content="登录"
+                                                    FontSize="18"
+                                                    Style="{DynamicResource PrimaryButtonStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel VerticalAlignment="Bottom">
+                                <TextBlock Margin="0,0,0,2"
+                                           FontSize="14"
+                                           Foreground="#8C8C8C"
+                                           Text="未注册邮箱验证后系统将自动注册账号" />
+                                <TextBlock FontSize="14" TextWrapping="Wrap">
+                                    <Run Foreground="#8C8C8C" Text="登录或完成注册即代表您同意" />
+                                    <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
+                                        最终用户许可协议
+                                    </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

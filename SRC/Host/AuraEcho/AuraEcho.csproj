@@ -12,6 +12,9 @@
 	<ItemGroup>
 		<ApplicationDefinition Remove="App.xaml" />
 		<None Remove="Assets\Icons\AuraEcho.ico" />
+		<Content Include="Assets\PDF\EULA.pdf">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 		<Page Include="App.xaml" />
 	</ItemGroup>
 	<ItemGroup>
@@ -37,5 +40,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Assets\Icons\AuraEcho.ico" />
+	  <Resource Include="Assets\Images\auraecho.png" />
 	</ItemGroup>
 </Project>

@@ -30,10 +30,6 @@ public static class ViewNames
     /// 登录
     /// </summary>
     public const string SignIn = nameof(Views.SignIn);
-    /// <summary>
-    /// 注册
-    /// </summary>
-    public const string SignUp = nameof(Views.SignUp);
 
     /// <summary>
     /// 登录失效

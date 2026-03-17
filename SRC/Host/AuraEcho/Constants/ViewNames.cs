@@ -26,6 +26,7 @@ public static class ViewNames
     /// 插件市场详情页
     /// </summary>
     public const string MarketplacePluginDetails = nameof(Views.MarketplacePluginDetails);
+
     /// <summary>
     /// 登录
     /// </summary>
@@ -35,4 +36,14 @@ public static class ViewNames
     /// 登录失效
     /// </summary>
     public const string SignInExpired = nameof(Views.SignInExpired);
+
+    /// <summary>
+    /// 重置密码
+    /// </summary>
+    public const string ResetPassword = nameof(Views.ResetPassword);
+
+    /// <summary>
+    /// 重置密码成功
+    /// </summary>
+    public const string PasswordResetCompleted = nameof(Views.PasswordResetCompleted);
 }

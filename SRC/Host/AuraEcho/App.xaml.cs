@@ -98,6 +98,8 @@ public partial class App
         containerRegistry.RegisterForNavigation<PluginsMarketplace>();
         containerRegistry.RegisterForNavigation<MarketplacePluginDetails>();
         containerRegistry.RegisterForNavigation<SignIn>();
+        containerRegistry.RegisterForNavigation<ResetPassword>();
+        containerRegistry.RegisterForNavigation<PasswordResetCompleted>();
         containerRegistry.RegisterForNavigation<SignInExpired>();
     }
 

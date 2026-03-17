@@ -1,15 +1,14 @@
 using System.Windows.Controls;
 
-namespace AuraEcho.Views
+namespace AuraEcho.Views;
+
+/// <summary>
+/// Interaction logic for SignInExpired
+/// </summary>
+public partial class SignInExpired : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SignInExpired
-    /// </summary>
-    public partial class SignInExpired : UserControl
+    public SignInExpired()
     {
-        public SignInExpired()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

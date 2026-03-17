@@ -1,7 +1,9 @@
+using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Models.Api;
 using AuraEcho.PluginContracts.Constants;
+using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -19,7 +21,7 @@ namespace AuraEcho.ViewModels;
 
 public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegionMemberLifetime
 {
-    private readonly IRegionManager _regionManager;
+    private readonly INavigationService _navigationService;
     private readonly IAuthRepository _authRepository;
     private readonly IClientSession _clientSession;
     private readonly Dictionary<string, List<string>> _errors = [];
@@ -52,6 +54,15 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand SendEmailCodeCommand { get; }
     private async void SendEmailCode()
     {
+        ClearErrors(nameof(Email));
+        ClearErrors(nameof(EmailCode));
+        if (ValidateCore(nameof(Email)) is string emailError && emailError != String.Empty)
+        {
+            _errors[nameof(Email)] = [emailError];
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+            return;
+        }
+
         SendEmailCodeCooldown = 60;
         bool requestResult = await _authRepository.SendEmailVerificationCodeAsync(Email.Trim());
 
@@ -115,9 +126,9 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             RefreshToken = result.Data.Data.RefreshToken,
             ExpiresAt = result.Data.Data.ExpiresAt
         });
-        _regionManager.RequestNavigate(HostRegionNames.HomeRegion, nameof(Homepage));
+        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage);
     }
-
+    public DelegateCommand<string> ClearErrorsCommand { get; }
     private void ClearErrors(string propertyName)
     {
         if (_errors.ContainsKey(propertyName))
@@ -181,7 +192,13 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             RefreshToken = result.Data.RefreshToken,
             ExpiresAt = result.Data.ExpiresAt
         });
-        _regionManager.RequestNavigate(HostRegionNames.HomeRegion, nameof(Homepage));
+        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, null, false);
+    }
+
+    public DelegateCommand NavigationToResetPasswordCommand { get; }
+    private void NavigationToResetPassword()
+    {
+        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.ResetPassword, null, false);
     }
 
     public DelegateCommand ResetDataCommand { get; set; }
@@ -223,9 +240,9 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public bool KeepAlive => false;
 
 
-    public SignInViewModel(IRegionManager regionManager, IAuthRepository authRepository, IClientSession clientSession)
+    public SignInViewModel(INavigationService navigationService, IAuthRepository authRepository, IClientSession clientSession)
     {
-        _regionManager = regionManager;
+        _navigationService = navigationService;
         _authRepository = authRepository;
         _clientSession = clientSession;
 
@@ -234,5 +251,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         SignInByPasswordCommand = new DelegateCommand(SignInByPassword);
         OpenEULACommand = new DelegateCommand(OpenEULA);
         ResetDataCommand = new DelegateCommand(ResetData);
+        NavigationToResetPasswordCommand = new DelegateCommand(NavigationToResetPassword);
+        ClearErrorsCommand = new DelegateCommand<string>(ClearErrors);
     }
 }

@@ -9,7 +9,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:rule="clr-namespace:AuraEcho.ValidationRules"
              xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:SignInViewModel}"
@@ -71,11 +70,6 @@
                                 <GradientStop Offset="1" Color="#00FFFFFF" />
                             </LinearGradientBrush>
                         </Border.BorderBrush>
-                        <!--<Border.Effect>
-                            <DropShadowEffect BlurRadius="30"
-                                              ShadowDepth="0"
-                                              Color="#FF9A3BFF" />
-                        </Border.Effect>-->
                     </Border>
                 </Grid>
                 <TextBlock Margin="0,0,0,40"
@@ -157,14 +151,12 @@
                                                      ui:ControlHelper.PlaceHolder="请输入邮箱"
                                                      FontSize="16"
                                                      MaxLength="40"
-                                                     Text="{Binding Email, ValidatesOnNotifyDataErrors=True}">
-                                                <!--<TextBox.Text>
-                                                    <Binding Path="Email">
-                                                        <Binding.ValidationRules>
-                                                            <rule:EmailValidationRule />
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>-->
+                                                     Text="{Binding Email}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="GotFocus">
+                                                        <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Email" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
                                             </TextBox>
                                             <Grid Height="84">
                                                 <Grid VerticalAlignment="Top">
@@ -195,7 +187,13 @@
                                                              FontSize="16"
                                                              InputMethod.IsInputMethodEnabled="False"
                                                              MaxLength="10"
-                                                             Text="{Binding EmailCode, UpdateSourceTrigger=PropertyChanged}" />
+                                                             Text="{Binding EmailCode, UpdateSourceTrigger=PropertyChanged}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="GotFocus">
+                                                                <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="EmailCode" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
                                                     <TextBlock x:Name="SendEmailCodeCooldownTextBlock"
                                                                Margin="0,0,12,0"
                                                                HorizontalAlignment="Right"
@@ -231,7 +229,13 @@
                                                      Padding="8,0"
                                                      ui:ControlHelper.PlaceHolder="请输入邮箱"
                                                      FontSize="16"
-                                                     Text="{Binding Email, ValidatesOnNotifyDataErrors=True}" />
+                                                     Text="{Binding Email}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="GotFocus">
+                                                        <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Email" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
                                             <StackPanel Height="84">
                                                 <PasswordBox Height="40"
                                                              Margin="0,0,0,2"
@@ -240,10 +244,16 @@
                                                              ui:ControlHelper.PlaceHolder="请输入密码"
                                                              ui:PasswordBoxHelper.Attach="True"
                                                              ui:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                             FontSize="16" />
+                                                             FontSize="16">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="GotFocus">
+                                                            <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Password" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </PasswordBox>
 
                                                 <TextBlock HorizontalAlignment="Right" FontSize="14">
-                                                    <Hyperlink Command="{Binding NavigationToSignUpCommand}" Cursor="Hand">
+                                                    <Hyperlink Command="{Binding NavigationToResetPasswordCommand}" Cursor="Hand">
                                                         忘记密码?
                                                     </Hyperlink>
                                                 </TextBlock>

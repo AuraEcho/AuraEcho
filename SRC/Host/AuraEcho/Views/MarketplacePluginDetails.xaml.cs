@@ -1,15 +1,14 @@
 using System.Windows.Controls;
 
-namespace AuraEcho.Views
+namespace AuraEcho.Views;
+
+/// <summary>
+/// Interaction logic for MarketplacePluginDetails
+/// </summary>
+public partial class MarketplacePluginDetails : UserControl
 {
-    /// <summary>
-    /// Interaction logic for MarketplacePluginDetails
-    /// </summary>
-    public partial class MarketplacePluginDetails : UserControl
+    public MarketplacePluginDetails()
     {
-        public MarketplacePluginDetails()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

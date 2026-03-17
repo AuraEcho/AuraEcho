@@ -12,4 +12,13 @@ public enum ResultStatus
 
     [Description("账号或密码错误")]
     PasswordError = 2,
+
+    [Description("用户不存在")]
+    UserNotFound = 3,
+
+    [Description("密码强度弱")]
+    PasswordWeak = 4,
+
+    [Description("请求频繁")]
+    RequestTooFrequent = 5,
 }

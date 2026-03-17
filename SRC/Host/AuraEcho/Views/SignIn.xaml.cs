@@ -1,15 +1,14 @@
 using System.Windows.Controls;
 
-namespace AuraEcho.Views
+namespace AuraEcho.Views;
+
+/// <summary>
+/// Interaction logic for SignIn
+/// </summary>
+public partial class SignIn : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SignIn
-    /// </summary>
-    public partial class SignIn : UserControl
+    public SignIn()
     {
-        public SignIn()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

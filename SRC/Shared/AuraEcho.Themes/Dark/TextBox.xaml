@@ -119,7 +119,7 @@
 
     <!--  错误信息模板  -->
     <ControlTemplate x:Key="ValidationErrorTemplate">
-        <DockPanel LastChildFill="True">
+        <DockPanel LastChildFill="True" IsHitTestVisible="False">
             <TextBlock Margin="0,2,0,0"
                        DockPanel.Dock="Bottom"
                        FontSize="12"

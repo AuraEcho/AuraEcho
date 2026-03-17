@@ -17,7 +17,6 @@ namespace AuraEcho.ViewModels;
 public class HomepageViewModel : BindableBase
 {
     private string _title = "AuraEcho";
-    private readonly IRegionManager _regionManager;
     private readonly ILocalPluginRepository _localPluginRepository;
     private readonly INavigationService _navigationService;
     private readonly IEventAggregator _eventAggregator;
@@ -92,14 +91,12 @@ public class HomepageViewModel : BindableBase
 
     public HomepageViewModel(
         INavigationService navigationService, 
-        IRegionManager regionManager, 
         ILocalPluginRepository localPluginRepository,
         IEventAggregator eventAggregator,
         IPluginManager pluginManager, 
         IThemeManager themeManager, 
         IAppLogger logger)
     {
-        _regionManager = regionManager;
         _navigationService = navigationService;
         _localPluginRepository = localPluginRepository;
         _eventAggregator = eventAggregator;

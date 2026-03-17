@@ -105,6 +105,9 @@ public partial class App
 
     protected override void OnInitialized()
     {
+        RegisterEvents();
+        LoadConfig();
+
         if (_startupArgs.Contains("-hide")) return;
 
         base.OnInitialized();
@@ -117,9 +120,6 @@ public partial class App
         base.OnStartup(e);
 
         StartPipeServer();
-
-        RegisterEvents();
-        LoadConfig();
 
         _notifyIcon = (TaskbarIcon)FindResource("NotifyIcon");
         _notifyIcon.DataContext = Container.Resolve<NotifyIconViewModel>();

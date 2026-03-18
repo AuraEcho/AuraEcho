@@ -1,19 +1,20 @@
-﻿using System;
+﻿using AuraEcho.Constants;
+using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Models.Api;
+using AuraEcho.Core.Models.Api.Auth;
+using AuraEcho.PluginContracts.Constants;
+using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AuraEcho.Constants;
-using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Models.Api;
-using AuraEcho.Core.Models.Api.Auth;
-using AuraEcho.PluginContracts.Constants;
-using AuraEcho.PluginContracts.Interfaces;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 
 namespace AuraEcho.ViewModels;
 
@@ -21,7 +22,14 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 {
     private readonly INavigationService _navigationService;
     private readonly IAuthRepository _authRepository;
+    private readonly IAuraToastService _toastService;
     private readonly Dictionary<string, List<string>> _errors = [];
+
+    public bool IsSubmitting
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
 
     public string Email
     {
@@ -66,7 +74,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         if (!requestResult)
         {
             SendEmailCodeCooldown = 0;
-            // TODO: 显示发送失败的提示
+            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
             return;
         }
 
@@ -85,6 +93,8 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
     public DelegateCommand ResetPasswordCommand { get; }
     private async void ResetPassword()
     {
+        IsSubmitting = true;
+
         ClearErrors(nameof(Email));
         ClearErrors(nameof(EmailCode));
         ClearErrors(nameof(Password));
@@ -93,6 +103,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         {
             _errors[nameof(Email)] = [emailError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+            IsSubmitting = false;
             return;
         }
 
@@ -100,6 +111,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         {
             _errors[nameof(EmailCode)] = [emailCodeError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
+            IsSubmitting = false;
             return;
         }
 
@@ -107,6 +119,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         {
             _errors[nameof(Password)] = [passwordError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Password)));
+            IsSubmitting = false;
             return;
         }
 
@@ -118,26 +131,29 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
                 NewPassword = Password,
             });
 
-        if (result.Status == ResultStatus.UserNotFound)
+        if (result?.Status == ResultStatus.UserNotFound)
         {
             _errors[nameof(Email)] = ["用户不存在"];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+            IsSubmitting = false;
             return;
         }
 
-        if (result.Status == ResultStatus.EmailCodeError)
+        if (result?.Status == ResultStatus.EmailCodeError)
         {
             _errors[nameof(EmailCode)] = ["验证码错误"];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
+            IsSubmitting = false;
             return;
         }
 
-        if (result.Status != ResultStatus.Success || result.Data is null)
+        if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            // TODO: 提示失败
+            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
+            IsSubmitting = false;
             return;
         }
-        
+        IsSubmitting = false;
         _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.PasswordResetCompleted, null, false);
     }
 
@@ -186,8 +202,9 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
     public bool KeepAlive => false;
 
 
-    public ResetPasswordViewModel(INavigationService navigationService, IAuthRepository authRepository)
+    public ResetPasswordViewModel(INavigationService navigationService, IAuthRepository authRepository, IAuraToastService auraToastService)
     {
+        _toastService = auraToastService;
         _navigationService = navigationService;
         _authRepository = authRepository;
 

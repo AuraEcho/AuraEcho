@@ -107,40 +107,78 @@
 
                         <Grid Margin="24">
                             <StackPanel VerticalAlignment="Top">
-                                <StackPanel Margin="0,0,0,16" Orientation="Horizontal">
-                                    <RadioButton Margin="0,0,24,0"
-                                                 Command="{Binding ResetDataCommand}"
-                                                 Content="验证码登录"
-                                                 FontSize="18"
-                                                 IsChecked="True"
-                                                 Style="{DynamicResource TextRadioButtonStyle}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Checked">
-                                                <i:ChangePropertyAction PropertyName="Visibility"
-                                                                        TargetName="CodeSignInLayout"
-                                                                        Value="Visible" />
-                                                <i:ChangePropertyAction PropertyName="Visibility"
-                                                                        TargetName="PasswordSignInLayout"
-                                                                        Value="Hidden" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </RadioButton>
-                                    <RadioButton Command="{Binding ResetDataCommand}"
-                                                 Content="密码登录"
-                                                 FontSize="18"
-                                                 Style="{DynamicResource TextRadioButtonStyle}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Checked">
-                                                <i:ChangePropertyAction PropertyName="Visibility"
-                                                                        TargetName="CodeSignInLayout"
-                                                                        Value="Hidden" />
-                                                <i:ChangePropertyAction PropertyName="Visibility"
-                                                                        TargetName="PasswordSignInLayout"
-                                                                        Value="Visible" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </RadioButton>
-                                </StackPanel>
+                                <Grid Margin="0,0,0,16">
+                                    <Grid.Resources>
+                                        <Storyboard x:Key="ToCodeButton">
+                                            <DoubleAnimation Storyboard.TargetName="SignInModeBg"
+                                                             Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
+                                                             To="10"
+                                                             Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase EasingMode="EaseOut" Amplitude="0.4"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                        <Storyboard x:Key="ToPasswordButton">
+                                            <DoubleAnimation Storyboard.TargetName="SignInModeBg"
+                                                             Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
+                                                             To="120"
+                                                             Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase EasingMode="EaseOut" Amplitude="0.4"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </Grid.Resources>
+                                    <Rectangle x:Name="SignInModeBg"
+                                               Width="60"
+                                               Height="12"
+                                               RadiusX="2"
+                                               RadiusY="2"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               Fill="#FF9A3BFF">
+                                        <Rectangle.RenderTransform>
+                                            <TranslateTransform X="10" Y="2"/>
+                                        </Rectangle.RenderTransform>
+                                    </Rectangle>
+                                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                        <RadioButton Margin="0,0,24,0"
+                                                     Command="{Binding ResetDataCommand}"
+                                                     Content="验证码登录"
+                                                     FontSize="18"
+                                                     IsChecked="True"
+                                                     Style="{DynamicResource TextRadioButtonStyle}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Checked">
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="CodeSignInLayout"
+                                                                            Value="Visible" />
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="PasswordSignInLayout"
+                                                                            Value="Hidden" />
+                                                    <i:ControlStoryboardAction Storyboard="{StaticResource ToCodeButton}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </RadioButton>
+                                        <RadioButton Command="{Binding ResetDataCommand}"
+                                                     Content="密码登录"
+                                                     FontSize="18"
+                                                     Style="{DynamicResource TextRadioButtonStyle}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Checked">
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="CodeSignInLayout"
+                                                                            Value="Hidden" />
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="PasswordSignInLayout"
+                                                                            Value="Visible" />
+                                                    <i:ControlStoryboardAction Storyboard="{StaticResource ToPasswordButton}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </RadioButton>
+                                    </StackPanel>
+                                </Grid>
                                 <Grid>
                                     <!-- 验证码登录 -->
                                     <Grid x:Name="CodeSignInLayout" Visibility="Visible">
@@ -218,7 +256,15 @@
                                                     Command="{Binding SignInByCodeCommand}"
                                                     Content="登录 / 注册"
                                                     FontSize="18"
-                                                    Style="{DynamicResource PrimaryButtonStyle}" />
+                                                    Style="{DynamicResource PrimaryButtonStyle}">
+                                                <Button.IsEnabled>
+                                                    <Binding Path="IsSigningInByCode">
+                                                        <Binding.Converter>
+                                                            <ui:ReverseBooleanConverter />
+                                                        </Binding.Converter>
+                                                    </Binding>
+                                                </Button.IsEnabled>
+                                            </Button>
                                         </StackPanel>
                                     </Grid>
                                     <!-- 密码登录 -->
@@ -262,7 +308,15 @@
                                                     Command="{Binding SignInByPasswordCommand}"
                                                     Content="登录"
                                                     FontSize="18"
-                                                    Style="{DynamicResource PrimaryButtonStyle}" />
+                                                    Style="{DynamicResource PrimaryButtonStyle}">
+                                                <Button.IsEnabled>
+                                                    <Binding Path="IsSigningInByPassword">
+                                                        <Binding.Converter>
+                                                            <ui:ReverseBooleanConverter />
+                                                        </Binding.Converter>
+                                                    </Binding>
+                                                </Button.IsEnabled>
+                                            </Button>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>

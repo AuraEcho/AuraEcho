@@ -4,6 +4,7 @@ using AuraEcho.Core.Models;
 using AuraEcho.Core.Models.Api;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
 using AuraEcho.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -24,7 +25,20 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     private readonly INavigationService _navigationService;
     private readonly IAuthRepository _authRepository;
     private readonly IClientSession _clientSession;
+    private readonly IAuraToastService _toastService;
     private readonly Dictionary<string, List<string>> _errors = [];
+
+    public bool IsSigningInByCode
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public bool IsSigningInByPassword
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
 
     public string Email
     {
@@ -69,9 +83,11 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         if (!requestResult)
         {
             SendEmailCodeCooldown = 0;
-            // TODO: 显示发送失败的提示
+            _toastService.Show($"发送验证码时遇到了错误", ToastLevel.Error);
             return;
         }
+
+        _toastService.Show($"验证码已发送至 {Email}", ToastLevel.Info);
 
         _ = Task.Run(async () =>
         {
@@ -88,12 +104,15 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand SignInByCodeCommand { get; }
     private async void SignInByCode()
     {
+        IsSigningInByCode = true;
+
         ClearErrors(nameof(Email));
         ClearErrors(nameof(EmailCode));
         if (ValidateCore(nameof(Email)) is string emailError && emailError != String.Empty)
         {
             _errors[nameof(Email)] = [emailError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+            IsSigningInByCode = false;
             return;
         }
 
@@ -101,22 +120,25 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         {
             _errors[nameof(EmailCode)] = [emailCodeError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
+            IsSigningInByCode = false;
             return;
         }
 
         ResponseResult<CodeSignInResponse>? result =
             await _authRepository.SignInByCodeAsync(new CodeSignInRequest(Email.Trim(), EmailCode.Trim()));
 
-        if (result.Status == ResultStatus.EmailCodeError)
+        if (result?.Status == ResultStatus.EmailCodeError)
         {
             _errors[nameof(EmailCode)] = ["验证码错误"];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
+            IsSigningInByCode = false;
             return;
         }
 
-        if (result.Status != ResultStatus.Success || result.Data is null)
+        if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            // TODO: 提示失败
+            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
+            IsSigningInByCode = false;
             return;
         }
 
@@ -126,6 +148,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             RefreshToken = result.Data.Data.RefreshToken,
             ExpiresAt = result.Data.Data.ExpiresAt
         });
+        IsSigningInByCode = false;
         _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage);
     }
     public DelegateCommand<string> ClearErrorsCommand { get; }
@@ -154,12 +177,14 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand SignInByPasswordCommand { get; }
     private async void SignInByPassword()
     {
+        IsSigningInByPassword = true;
         ClearErrors(nameof(Email));
         ClearErrors(nameof(Password));
         if (ValidateCore(nameof(Email)) is string emailError && emailError != String.Empty)
         {
             _errors[nameof(Email)] = [emailError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+            IsSigningInByPassword = false;
             return;
         }
 
@@ -167,22 +192,25 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         {
             _errors[nameof(Password)] = [passwordError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Password)));
+            IsSigningInByPassword = false;
             return;
         }
 
         ResponseResult<AuthResponse>? result =
             await _authRepository.SignInByPasswordAsync(new PasswordSignInRequest(Email.Trim(), Password.Trim()));
 
-        if (result.Status == ResultStatus.PasswordError)
+        if (result?.Status == ResultStatus.PasswordError)
         {
             _errors[nameof(Email)] = ["账号或密码错误"];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+            IsSigningInByPassword = false;
             return;
         }
 
-        if (result.Status != ResultStatus.Success || result.Data is null)
+        if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            // TODO: 提示失败
+            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
+            IsSigningInByPassword = false;
             return;
         }
 
@@ -192,6 +220,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             RefreshToken = result.Data.RefreshToken,
             ExpiresAt = result.Data.ExpiresAt
         });
+        IsSigningInByPassword = false;
         _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, null, false);
     }
 
@@ -240,11 +269,16 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public bool KeepAlive => false;
 
 
-    public SignInViewModel(INavigationService navigationService, IAuthRepository authRepository, IClientSession clientSession)
+    public SignInViewModel(
+        INavigationService navigationService,
+        IAuthRepository authRepository,
+        IClientSession clientSession,
+        IAuraToastService auraToastService)
     {
         _navigationService = navigationService;
         _authRepository = authRepository;
         _clientSession = clientSession;
+        _toastService = auraToastService;
 
         SendEmailCodeCommand = new DelegateCommand(SendEmailCode);
         SignInByCodeCommand = new DelegateCommand(SignInByCode);

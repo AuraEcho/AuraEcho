@@ -1,11 +1,12 @@
 <Window x:Class="AuraEcho.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:auraecho="http://ui.auraecho.com/"
         xmlns:constants="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:auraecho="http://ui.auraecho.com/"
+        xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
         xmlns:views="clr-namespace:AuraEcho.Views"
@@ -20,7 +21,6 @@
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
-
 
     <Window.Resources>
         <Storyboard x:Key="ShowMask">
@@ -55,7 +55,7 @@
     </i:Interaction.Behaviors>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding AutoSignInCommand}"/>
+            <i:InvokeCommandAction Command="{Binding AutoSignInCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.InputBindings>
@@ -139,7 +139,7 @@
                             </Canvas>
                         </Viewbox>
                     </Button>
-                    <Image Source="/Assets/Icons/AuraEcho.ico" Margin="8"/>
+                    <Image Margin="8" Source="/Assets/Icons/AuraEcho.ico" />
                     <TextBlock VerticalAlignment="Center"
                                FontSize="12"
                                Foreground="{DynamicResource Themes.Brushes.OnSurface}"
@@ -262,9 +262,104 @@
                             Height="36"
                             prism:RegionManager.RegionName="{x:Static constants:HostRegionNames.ErrorRegion}" />
             <!--#endregion-->
+            
+            <!-- Toast 区域-->
+            <ItemsControl Grid.Row="1"
+                          Margin="0,24,24,0"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Top"
+                          d:ItemsSource="{d:SampleData ItemCount=3}"
+                          Grid.ZIndex="999"
+                          ItemsSource="{Binding ToastService.ActiveToasts}">
 
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type pm:AuraToast}">
+                        <Border x:Name="ToastBorder"
+                                MaxWidth="250"
+                                Margin="0,0,0,10"
+                                Padding="20,12"
+                                HorizontalAlignment="Right"
+                                Background="#77000000"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                RenderTransformOrigin="0.5,0.5">
+
+                            <Border.LayoutTransform>
+                                <ScaleTransform x:Name="LayoutScale" ScaleY="1" />
+                            </Border.LayoutTransform>
+
+                            <Border.RenderTransform>
+                                <TranslateTransform x:Name="RenderMove" Y="0" />
+                            </Border.RenderTransform>
+                            <TextBlock FontSize="12"
+                                       Foreground="White"
+                                       Text="{Binding Message}"
+                                       TextWrapping="Wrap" />
+                        </Border>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Level}" Value="Info">
+                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#9A3BFF" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Level}" Value="Success">
+                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#34C759" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Level}" Value="Warning">
+                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#FFC402" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Level}" Value="Error">
+                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#FF4A4A" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsClosing}" Value="False">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ToastBorder"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.3" />
+                                            <DoubleAnimation Storyboard.TargetName="RenderMove"
+                                                             Storyboard.TargetProperty="Y"
+                                                             From="20"
+                                                             To="0"
+                                                             Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase Amplitude="1" EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ToastBorder"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0"
+                                                             Duration="0:0:0.3" />
+                                            <DoubleAnimation Storyboard.TargetName="RenderMove"
+                                                             Storyboard.TargetProperty="Y"
+                                                             To="-40"
+                                                             Duration="0:0:1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="LayoutScale"
+                                                             Storyboard.TargetProperty="ScaleY"
+                                                             To="0"
+                                                             Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
-
-
     </Grid>
 </Window>

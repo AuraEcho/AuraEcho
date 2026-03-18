@@ -21,6 +21,7 @@ public class MainWindowViewModel : BindableBase
     #region private members
     private readonly IAuthRepository _authRepository;
     private readonly IClientSession _clientSession;
+    public IAuraToastService ToastService { get; }
     #endregion
 
     private Task _autoSignInTask;
@@ -59,8 +60,14 @@ public class MainWindowViewModel : BindableBase
         NavigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.SignIn, canBack: false);
     }
 
-    public MainWindowViewModel(INavigationService navigationService, IEventAggregator eventAggregator, IAuthRepository authRepository, IClientSession clientSession)
+    public MainWindowViewModel(
+        INavigationService navigationService, 
+        IEventAggregator eventAggregator, 
+        IAuthRepository authRepository, 
+        IClientSession clientSession,
+        IAuraToastService auraToastService)
     {
+        ToastService = auraToastService;
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
         _authRepository = authRepository;

@@ -83,6 +83,7 @@ public partial class App
         containerRegistry.RegisterSingleton<IRegionDialogService, RegionDialogService>();
         containerRegistry.RegisterSingleton<INavigationService, NavigationService>();
         containerRegistry.RegisterSingleton<IPluginInstallService, PluginInstallService>();
+        containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
 
         containerRegistry.RegisterSingleton<IFileRepository, FileRepository>();
         containerRegistry.RegisterSingleton<ITransferManager, TransferManager>();

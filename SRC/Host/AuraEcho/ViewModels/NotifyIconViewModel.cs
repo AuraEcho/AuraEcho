@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
+using AuraEcho.PluginContracts.Events;
 using Prism.Commands;
 using Prism.DryIoc;
 using Prism.Events;
@@ -23,8 +24,6 @@ public class NotifyIconViewModel : BindableBase
         set => SetProperty(ref field, value);
     } = false;
 
-    public static bool ShutdownRequested { get; private set; }
-
     public ICommand ShowWindowCommand { get; }
     private void ShowWindow()
     {
@@ -34,8 +33,7 @@ public class NotifyIconViewModel : BindableBase
     public ICommand ExitApplicationCommand { get; }
     private void ExitApplication()
     {
-        ShutdownRequested = true;
-        Application.Current.Shutdown();
+        _eventAggregator.GetEvent<AppShutdownEvent>().Publish();
     }
 
     public DelegateCommand<string> GoToTargetViewCommand { get; }

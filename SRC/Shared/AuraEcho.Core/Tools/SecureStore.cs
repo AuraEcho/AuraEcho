@@ -3,7 +3,6 @@ namespace AuraEcho.Core.Tools;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using AuraEcho.Core.Constants;
 
 public static class SecureStore
 {

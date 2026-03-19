@@ -197,7 +197,7 @@ void CenterWindow(HWND hwnd) {
 
 
 static void StartApp(HWND hwndTarget) {
-    LPCWSTR TARGET_WINDOW_TITLE = L"AuraEcho";
+    LPCWSTR TARGET_WINDOW_TITLE = L"灵光回声";
 
     std::string message = GetAppInstallPath();
     bool sendResult = SendPipeMessage(LAUNCHER_SERVICE_PIPE_NAME, message);

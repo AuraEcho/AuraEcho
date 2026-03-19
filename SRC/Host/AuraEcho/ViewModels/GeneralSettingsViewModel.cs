@@ -126,23 +126,13 @@ public class GeneralSettingsViewModel : BindableBase
         using RegistryKey itemKeyRoot = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
         if (isEnabled)
         {
-            itemKeyRoot.SetValue("AuraEcho", $@"""{GetAppLauncherPath()}"" -hide", RegistryValueKind.String);
+            itemKeyRoot.SetValue("AuraEcho", $@"""{ApplicationPaths.LauncherPath}"" -hide", RegistryValueKind.String);
             return;
         }
 
         if (itemKeyRoot.GetValue("AuraEcho") is null) return;
 
         itemKeyRoot.DeleteValue("AuraEcho");
-    }
-
-    private static string GetAppLauncherPath()
-    {
-        const string keyPath = @"Software\AuraEcho";
-        using RegistryKey key = Registry.LocalMachine.OpenSubKey(keyPath);
-        if (key == null) return null;
-
-        object value = key.GetValue("LauncherPath");
-        return value?.ToString();
     }
 
     public DelegateCommand LoadSettingsCommand { get; }

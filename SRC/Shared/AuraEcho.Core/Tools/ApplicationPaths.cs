@@ -1,6 +1,7 @@
+using Microsoft.Win32;
 using System.IO;
 
-namespace AuraEcho.Core.Constants;
+namespace AuraEcho.Core.Tools;
 
 /// <summary>
 /// 程序路径常量
@@ -19,6 +20,8 @@ public static class ApplicationPaths
     public static string HostSettings => Path.Combine(Data, "settings.json");
     public static string HostDataBase => Path.Combine(Data, "auraecho.db");
     public static string GetPluginPath(Guid pluginId) => Path.Combine(Plugins, pluginId.ToString());
+    public static string LauncherPath { get; }
+    public static string AppPath { get; }
 
     static ApplicationPaths()
     {
@@ -27,5 +30,23 @@ public static class ApplicationPaths
         Directory.CreateDirectory(Temp);
         Directory.CreateDirectory(Data);
         Directory.CreateDirectory(SecureStore);
+
+        LauncherPath = GetLauncherPath();
+        AppPath = GetAppPath();
+    }
+
+    private static string GetLauncherPath()
+        => GetPathFromRegistry("LauncherPath");
+
+    private static string GetAppPath()
+        => GetPathFromRegistry("AppPath");
+
+    private static string GetPathFromRegistry(string valueName)
+    {
+        const string keyPath = @"Software\AuraEcho";
+        using RegistryKey key = Registry.LocalMachine.OpenSubKey(keyPath);
+        if (key == null) return null;
+        object value = key.GetValue(valueName);
+        return value?.ToString();
     }
 }

@@ -48,7 +48,7 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        if (NotifyIconViewModel.ShutdownRequested) return;
+        if (App.ShutdownRequested) return;
 
         e.Cancel = true;
         Hide();

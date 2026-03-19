@@ -1,7 +1,7 @@
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using AuraEcho.Core.Constants;
+using AuraEcho.Core.Tools;
 
 namespace AuraEcho.Core.Data;
 

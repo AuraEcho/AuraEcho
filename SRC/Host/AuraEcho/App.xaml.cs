@@ -36,6 +36,8 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using AuraEcho.PluginContracts.Events;
+using System.Diagnostics;
 
 namespace AuraEcho;
 
@@ -45,7 +47,7 @@ namespace AuraEcho;
 public partial class App
 {
     private const string PIPE_NAME = "AuraEcho_SingleInstance_Pipe";
-
+    private static Mutex _instanceMutex;
     private string[] _startupArgs;
     private TaskbarIcon _notifyIcon;
     private static IAppLogger _logger;
@@ -54,6 +56,8 @@ public partial class App
         LoggingAttribute.Logger = Container.Resolve<IAppLogger>();
         return Container.Resolve<MainWindow>();
     }
+
+    public static bool ShutdownRequested { get; private set; }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
@@ -83,6 +87,7 @@ public partial class App
         containerRegistry.RegisterSingleton<IRegionDialogService, RegionDialogService>();
         containerRegistry.RegisterSingleton<INavigationService, NavigationService>();
         containerRegistry.RegisterSingleton<IPluginInstallService, PluginInstallService>();
+        containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
         containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
 
         containerRegistry.RegisterSingleton<IFileRepository, FileRepository>();
@@ -124,6 +129,10 @@ public partial class App
 
         _notifyIcon = (TaskbarIcon)FindResource("NotifyIcon");
         _notifyIcon.DataContext = Container.Resolve<NotifyIconViewModel>();
+
+
+        Container.Resolve<IEventAggregator>().GetEvent<AppRestartEvent>().Subscribe(RestartApp);
+        Container.Resolve<IEventAggregator>().GetEvent<AppShutdownEvent>().Subscribe(ShutdownApp);
     }
 
     private void LoadConfig()
@@ -161,8 +170,8 @@ public partial class App
             return;
         }
 
-        using var mutex = new Mutex(true, MutexNames.AURAECHO_MUTEX_ID);
-        if (!mutex.WaitOne(TimeSpan.Zero, true))
+        _instanceMutex = new(true, MutexNames.AURAECHO_MUTEX_ID, out bool createdNew);
+        if (!createdNew)
         {
             using var client = new NamedPipeClientStream(".", PIPE_NAME, PipeDirection.Out);
             client.Connect(200);
@@ -234,6 +243,23 @@ public partial class App
         eventAggregator.GetEvent<RequestShowAppEvent>().Publish();
     }
 
+    private static void RestartApp() => ExitInternal(true);
+
+    private static void ShutdownApp() => ExitInternal(false);
+
+    private static void ExitInternal(bool isRestart)
+    {
+        if (ShutdownRequested) return;
+        ShutdownRequested = true;
+
+        _instanceMutex?.ReleaseMutex();
+        _instanceMutex?.Dispose();
+
+        if (isRestart)
+            Process.Start(Environment.ProcessPath!);
+
+        Current.Shutdown();
+    }
     /// <summary>
     /// 订阅全局异常处理事件
     /// </summary>

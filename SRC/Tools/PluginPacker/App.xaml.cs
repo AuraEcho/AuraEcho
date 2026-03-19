@@ -1,6 +1,5 @@
 using PluginPacker.Constants;
 using PluginPacker.Views;
-using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Repositories;
 using AuraEcho.Core.Services;
@@ -10,6 +9,7 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Regions;
 using System.Windows;
+using AuraEcho.Core.Tools;
 
 namespace PluginPacker;
 

@@ -2,12 +2,12 @@ using System.IO;
 using System.IO.Compression;
 using System.Text.Json;
 using PluginInstaller.Constants;
-using AuraEcho.Core.Constants;
 using AuraEcho.Core.Models;
 using AuraEcho.PluginContracts.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using AuraEcho.Core.Tools;
 
 namespace PluginInstaller.ViewModels;
 

@@ -3,9 +3,11 @@ using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Constants;
+using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -22,6 +24,7 @@ public class SettingsViewModel : BindableBase
     private readonly IAuthRepository _authRepository;
     private readonly IClientSession _clientSession;
     private readonly INavigationService _navigationService;
+    private readonly IEventAggregator _eventAggregator;
 
     private ObservableCollection<AppSettingsItem> _settingsItems;
     #endregion
@@ -82,7 +85,8 @@ public class SettingsViewModel : BindableBase
         _regionManager.Regions[HostRegionNames.MainRegion].RemoveAll();
 
         _navigationService.Reset();
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.SignIn, canBack: false);
+
+        _eventAggregator.GetEvent<AppRestartEvent>().Publish();
     }
 
     public SettingsViewModel(
@@ -90,8 +94,10 @@ public class SettingsViewModel : BindableBase
         IPluginManager pluginManager, 
         IAuthRepository authRepository, 
         IClientSession clientSession,
+        IEventAggregator eventAggregator,
         INavigationService navigationService)
     {
+        _eventAggregator = eventAggregator;
         _regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
         _pluginManager = pluginManager ?? throw new ArgumentNullException(nameof(pluginManager));
         _authRepository = authRepository ?? throw new ArgumentNullException(nameof(authRepository));

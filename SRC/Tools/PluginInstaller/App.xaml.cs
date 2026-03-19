@@ -18,6 +18,7 @@ using AuraEcho.UIToolkit.RegionDialog;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
+using AuraEcho.Core.Tools;
 
 namespace PluginInstaller;
 

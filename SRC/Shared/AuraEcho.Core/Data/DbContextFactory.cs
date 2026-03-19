@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using AuraEcho.Core.Constants;
+using AuraEcho.Core.Tools;
 
 namespace AuraEcho.Core.Data
 {

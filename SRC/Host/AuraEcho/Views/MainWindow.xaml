@@ -341,7 +341,7 @@
                                                              Duration="0:0:0.3" />
                                             <DoubleAnimation Storyboard.TargetName="RenderMove"
                                                              Storyboard.TargetProperty="Y"
-                                                             To="-40"
+                                                             To="-20"
                                                              Duration="0:0:1">
                                                 <DoubleAnimation.EasingFunction>
                                                     <CubicEase EasingMode="EaseOut" />

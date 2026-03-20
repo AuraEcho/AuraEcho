@@ -1,8 +1,57 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- 背景 -->
+    <DrawingBrush x:Key="Themes.Background">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z">
+                    <GeometryDrawing.Brush>
+                        <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                            <GradientStop Offset="0" Color="#FF9A3BFF" />
+                            <GradientStop Offset="1" Color="#00000000" />
+                        </LinearGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z">
+                    <GeometryDrawing.Brush>
+                        <RadialGradientBrush Center=".5, 0" GradientOrigin=".5, 0" RadiusX="1" RadiusY="1">
+                            <GradientStop Offset="0" Color="#FF000000" />
+                            <GradientStop Offset="1" Color="#00000000" />
+                        </RadialGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z">
+                    <GeometryDrawing.Brush>
+                        <RadialGradientBrush Center=".5, 0.2" GradientOrigin=".5, 0.2" RadiusX="0.5" RadiusY="0.8">
+                            <GradientStop Offset="0" Color="#FF4B2B8C" />
+                            <GradientStop Offset="1" Color="#00000000" />
+                        </RadialGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="Themes.BorderBrush">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#33FFFFFF" Geometry="M0,0 H1 V1 H0 Z" />
+                <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z">
+                    <GeometryDrawing.Brush>
+                        <LinearGradientBrush StartPoint="0.7, 0" EndPoint="0.5, 0.4">
+                            <GradientStop Offset="0" Color="#99FFFFFF" />
+                            <GradientStop Offset="1" Color="#00FFFFFF" />
+                        </LinearGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
 
-    <!--  Primary 系列  -->
-    <Color x:Key="Themes.Colors.PrimaryFixed">#FF5B5FC7</Color>
-    <Color x:Key="Themes.Colors.PrimaryFixedDim">#FF383966</Color>
+    <!-- Primary 系列 -->
+    <Color x:Key="Themes.Colors.PrimaryFixed">#6644AC</Color>
+    <Color x:Key="Themes.Colors.PrimaryFixedDim">#3D2471</Color>
+
+
 
     <SolidColorBrush x:Key="Themes.Brushes.Primary">#502F94</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.Primary2">#9A3BFF</SolidColorBrush>
@@ -14,7 +63,7 @@
     <SolidColorBrush x:Key="Themes.Brushes.PrimaryFixedDim" Color="{StaticResource Themes.Colors.PrimaryFixedDim}" />
     <SolidColorBrush x:Key="Themes.Brushes.OnPrimaryFixedVariant">#FF381E72</SolidColorBrush>
 
-    <!--  Secondary 系列  -->
+    <!-- Secondary 系列 -->
     <Color x:Key="Themes.Colors.SecondaryFixed">#20FFFFFF</Color>
     <Color x:Key="Themes.Colors.SecondaryFixedDim">#10FFFFFF</Color>
 
@@ -27,7 +76,7 @@
     <SolidColorBrush x:Key="Themes.Brushes.SecondaryFixedDim" Color="{StaticResource Themes.Colors.SecondaryFixedDim}" />
     <SolidColorBrush x:Key="Themes.Brushes.OnSecondaryFixedVariant">#FF332D41</SolidColorBrush>
 
-    <!--  Tertiary 系列  -->
+    <!-- Tertiary 系列 -->
     <SolidColorBrush x:Key="Themes.Brushes.Tertiary">#FFEFB8C8</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnTertiary">#FF492532</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.TertiaryContainer">#FF633B48</SolidColorBrush>
@@ -37,13 +86,13 @@
     <SolidColorBrush x:Key="Themes.Brushes.TertiaryFixedDim">#FFDFA0B1</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnTertiaryFixedVariant">#FF492532</SolidColorBrush>
 
-    <!--  Error 系列  -->
+    <!-- Error 系列 -->
     <SolidColorBrush x:Key="Themes.Brushes.Error">#FFF2B8B5</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnError">#FF601410</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.ErrorContainer">#FF8C1D18</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnErrorContainer">#FFF9DEDC</SolidColorBrush>
 
-    <!--  Background / Surface  -->
+    <!-- Background / Surface -->
     <SolidColorBrush x:Key="Themes.Brushes.Background">#FF1B1B1B</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnBackground">#FFE6E1E5</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.Surface">#FF1C1B1F</SolidColorBrush>
@@ -51,13 +100,13 @@
     <SolidColorBrush x:Key="Themes.Brushes.SurfaceVariant">#FF49454F</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnSurfaceVariant">#FFCAC4D0</SolidColorBrush>
 
-    <!--  Outline / Shadow  -->
+    <!-- Outline / Shadow -->
     <SolidColorBrush x:Key="Themes.Brushes.Outline">#FF938F99</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OutlineVariant">#FF49454F</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.Shadow">#FF000000</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.Scrim">#FF000000</SolidColorBrush>
 
-    <!--  Inverse Colors  -->
+    <!-- Inverse Colors -->
     <SolidColorBrush x:Key="Themes.Brushes.InverseSurface">#FFE6E1E5</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.InverseOnSurface">#FF313033</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.InversePrimary">#FF6750A4</SolidColorBrush>

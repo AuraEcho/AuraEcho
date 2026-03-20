@@ -40,28 +40,36 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Grid>
-            <Grid.Background>
-                <ImageBrush ImageSource="/Assets/Images/bg.jpg" />
-            </Grid.Background>
-            <Rectangle Fill="#000000" Opacity="0.7" />
+        <Grid Background="{DynamicResource Themes.Background}">
             <StackPanel Margin="0,-152,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
+                <Grid>
                 <Border Width="128"
                         Height="128"
                         Margin="0,0,0,24"
-                        BorderBrush="White"
+                            Background="#FF9A3BFF"
+                            CornerRadius="8">
+                        <Border.Effect>
+                            <BlurEffect Radius="40" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Width="128"
+                            Height="128"
+                            Margin="0,0,0,24"
+                            BorderBrush="{DynamicResource Themes.BorderBrush}"
                         BorderThickness="2"
                         CornerRadius="8">
                     <Border.Background>
                         <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
                     </Border.Background>
                 </Border>
+                </Grid>
                 <TextBlock FontSize="64"
                            FontWeight="Bold"
                            Text="灵光回声" />
                 <TextBlock HorizontalAlignment="Center"
+                           d:Text="版本 1.2.0"
                            FontSize="16"
                            FontWeight="Bold"
                            Foreground="#B7B7B7"

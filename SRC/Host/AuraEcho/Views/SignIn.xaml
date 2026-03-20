@@ -18,35 +18,10 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="Black"
              mc:Ignorable="d">
-    <Grid>
-        <Rectangle>
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
-                    <GradientStop Offset="0" Color="#FF9A3BFF" />
-                    <GradientStop Offset="1" Color="#00000000" />
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle>
-            <Rectangle.Fill>
-                <RadialGradientBrush Center=".5, 0" GradientOrigin=".5, 0" RadiusX="1" RadiusY="1">
-                    <GradientStop Offset="0" Color="#FF000000" />
-                    <GradientStop Offset="1" Color="#00000000" />
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle>
-            <Rectangle.Fill>
-                <RadialGradientBrush Center=".5, 0.2" GradientOrigin=".5, 0.2" RadiusX="0.5" RadiusY="0.8">
-                    <GradientStop Offset="0" Color="#FF4B2B8C" />
-                    <GradientStop Offset="1" Color="#00000000" />
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
+    <Grid Background="{DynamicResource Themes.Background}">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
                 <Grid>
-
                     <Border Width="80"
                             Height="80"
                             Margin="0,0,0,12"
@@ -59,17 +34,12 @@
                     <Border Width="80"
                             Height="80"
                             Margin="0,0,0,12"
+                            BorderBrush="{DynamicResource Themes.BorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8">
                         <Border.Background>
                             <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
                         </Border.Background>
-                        <Border.BorderBrush>
-                            <LinearGradientBrush StartPoint="1, 0" EndPoint="0.5, 0.5">
-                                <GradientStop Offset="0" Color="White" />
-                                <GradientStop Offset="1" Color="#00FFFFFF" />
-                            </LinearGradientBrush>
-                        </Border.BorderBrush>
                     </Border>
                 </Grid>
                 <TextBlock Margin="0,0,0,40"
@@ -88,252 +58,237 @@
                 <Border Width="400"
                         Height="320"
                         Background="#33000000"
+                        BorderBrush="{DynamicResource Themes.BorderBrush}"
+                        BorderThickness="1"
                         CornerRadius="8">
-                    <Grid>
-                        <Rectangle RadiusX="8"
-                                   RadiusY="8"
-                                   Stroke="#33FFFFFF"
-                                   StrokeThickness="1" />
-                        <Rectangle RadiusX="8"
-                                   RadiusY="8"
-                                   StrokeThickness="1">
-                            <Rectangle.Stroke>
-                                <LinearGradientBrush StartPoint="0.7, 0" EndPoint="0.5, 0.4">
-                                    <GradientStop Offset="0" Color="#99FFFFFF" />
-                                    <GradientStop Offset="1" Color="#00FFFFFF" />
-                                </LinearGradientBrush>
-                            </Rectangle.Stroke>
-                        </Rectangle>
-
-                        <Grid Margin="24">
-                            <StackPanel VerticalAlignment="Top">
-                                <Grid Margin="0,0,0,16">
-                                    <Grid.Resources>
-                                        <Storyboard x:Key="ToCodeButton">
-                                            <DoubleAnimation Storyboard.TargetName="SignInModeBg"
-                                                             Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
-                                                             To="10"
-                                                             Duration="0:0:0.3">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <BackEase EasingMode="EaseOut" Amplitude="0.4"/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                        <Storyboard x:Key="ToPasswordButton">
-                                            <DoubleAnimation Storyboard.TargetName="SignInModeBg"
-                                                             Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
-                                                             To="120"
-                                                             Duration="0:0:0.3">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <BackEase EasingMode="EaseOut" Amplitude="0.4"/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </Grid.Resources>
-                                    <Rectangle x:Name="SignInModeBg"
-                                               Width="60"
-                                               Height="12"
-                                               RadiusX="2"
-                                               RadiusY="2"
-                                               HorizontalAlignment="Left"
-                                               VerticalAlignment="Bottom"
-                                               Fill="#FF9A3BFF">
-                                        <Rectangle.RenderTransform>
-                                            <TranslateTransform X="10" Y="2"/>
-                                        </Rectangle.RenderTransform>
-                                    </Rectangle>
-                                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
-                                        <RadioButton Margin="0,0,24,0"
-                                                     Command="{Binding ResetDataCommand}"
-                                                     Content="验证码登录"
-                                                     FontSize="18"
-                                                     IsChecked="True"
-                                                     Style="{DynamicResource TextRadioButtonStyle}">
+                    <Grid Margin="24">
+                        <StackPanel VerticalAlignment="Top">
+                            <Grid Margin="0,0,0,16">
+                                <Grid.Resources>
+                                    <Storyboard x:Key="ToCodeButton">
+                                        <DoubleAnimation Storyboard.TargetName="SignInModeBg"
+                                                         Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
+                                                         To="10"
+                                                         Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase Amplitude="0.4" EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                    <Storyboard x:Key="ToPasswordButton">
+                                        <DoubleAnimation Storyboard.TargetName="SignInModeBg"
+                                                         Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
+                                                         To="120"
+                                                         Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase Amplitude="0.4" EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </Grid.Resources>
+                                <Rectangle x:Name="SignInModeBg"
+                                           Width="60"
+                                           Height="12"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Bottom"
+                                           Fill="#FF9A3BFF"
+                                           RadiusX="2"
+                                           RadiusY="2">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="10" Y="2" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                                <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                    <RadioButton Margin="0,0,24,0"
+                                                 Command="{Binding ResetDataCommand}"
+                                                 Content="验证码登录"
+                                                 FontSize="18"
+                                                 IsChecked="True"
+                                                 Style="{DynamicResource TextRadioButtonStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="CodeSignInLayout"
+                                                                        Value="Visible" />
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="PasswordSignInLayout"
+                                                                        Value="Hidden" />
+                                                <i:ControlStoryboardAction Storyboard="{StaticResource ToCodeButton}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <RadioButton Command="{Binding ResetDataCommand}"
+                                                 Content="密码登录"
+                                                 FontSize="18"
+                                                 Style="{DynamicResource TextRadioButtonStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="CodeSignInLayout"
+                                                                        Value="Hidden" />
+                                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                                        TargetName="PasswordSignInLayout"
+                                                                        Value="Visible" />
+                                                <i:ControlStoryboardAction Storyboard="{StaticResource ToPasswordButton}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                </StackPanel>
+                            </Grid>
+                            <Grid>
+                                <!-- 验证码登录 -->
+                                <Grid x:Name="CodeSignInLayout" Visibility="Visible">
+                                    <StackPanel>
+                                        <TextBox Height="40"
+                                                 Margin="0,0,0,20"
+                                                 Padding="8,0"
+                                                 ui:ControlHelper.PlaceHolder="请输入邮箱"
+                                                 FontSize="16"
+                                                 MaxLength="40"
+                                                 Text="{Binding Email}">
                                             <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Checked">
-                                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                                            TargetName="CodeSignInLayout"
-                                                                            Value="Visible" />
-                                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                                            TargetName="PasswordSignInLayout"
-                                                                            Value="Hidden" />
-                                                    <i:ControlStoryboardAction Storyboard="{StaticResource ToCodeButton}" />
+                                                <i:EventTrigger EventName="GotFocus">
+                                                    <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Email" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
-                                        </RadioButton>
-                                        <RadioButton Command="{Binding ResetDataCommand}"
-                                                     Content="密码登录"
-                                                     FontSize="18"
-                                                     Style="{DynamicResource TextRadioButtonStyle}">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Checked">
-                                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                                            TargetName="CodeSignInLayout"
-                                                                            Value="Hidden" />
-                                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                                            TargetName="PasswordSignInLayout"
-                                                                            Value="Visible" />
-                                                    <i:ControlStoryboardAction Storyboard="{StaticResource ToPasswordButton}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </RadioButton>
-                                    </StackPanel>
-                                </Grid>
-                                <Grid>
-                                    <!-- 验证码登录 -->
-                                    <Grid x:Name="CodeSignInLayout" Visibility="Visible">
-                                        <StackPanel>
-                                            <TextBox Height="40"
-                                                     Margin="0,0,0,20"
-                                                     Padding="8,0"
-                                                     ui:ControlHelper.PlaceHolder="请输入邮箱"
-                                                     FontSize="16"
-                                                     MaxLength="40"
-                                                     Text="{Binding Email}">
+                                        </TextBox>
+                                        <Grid Height="84">
+                                            <Grid VerticalAlignment="Top">
                                                 <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="GotFocus">
-                                                        <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Email" />
-                                                    </i:EventTrigger>
+                                                    <i:DataTrigger Binding="{Binding SendEmailCodeCooldown}" Value="0">
+                                                        <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetName="SendEmailCodeTextBlock"
+                                                                                Value="Visible" />
+                                                        <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetName="SendEmailCodeCooldownTextBlock"
+                                                                                Value="Hidden" />
+                                                    </i:DataTrigger>
+                                                    <i:DataTrigger Binding="{Binding SendEmailCodeCooldown}"
+                                                                   Comparison="NotEqual"
+                                                                   Value="0">
+                                                        <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetName="SendEmailCodeTextBlock"
+                                                                                Value="Hidden" />
+                                                        <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetName="SendEmailCodeCooldownTextBlock"
+                                                                                Value="Visible" />
+                                                    </i:DataTrigger>
                                                 </i:Interaction.Triggers>
-                                            </TextBox>
-                                            <Grid Height="84">
-                                                <Grid VerticalAlignment="Top">
-                                                    <i:Interaction.Triggers>
-                                                        <i:DataTrigger Binding="{Binding SendEmailCodeCooldown}" Value="0">
-                                                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                                                    TargetName="SendEmailCodeTextBlock"
-                                                                                    Value="Visible" />
-                                                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                                                    TargetName="SendEmailCodeCooldownTextBlock"
-                                                                                    Value="Hidden" />
-                                                        </i:DataTrigger>
-                                                        <i:DataTrigger Binding="{Binding SendEmailCodeCooldown}"
-                                                                       Comparison="NotEqual"
-                                                                       Value="0">
-                                                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                                                    TargetName="SendEmailCodeTextBlock"
-                                                                                    Value="Hidden" />
-                                                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                                                    TargetName="SendEmailCodeCooldownTextBlock"
-                                                                                    Value="Visible" />
-                                                        </i:DataTrigger>
-                                                    </i:Interaction.Triggers>
-                                                    <TextBox Height="40"
-                                                             Margin="0,0,0,2"
-                                                             Padding="8,0"
-                                                             ui:ControlHelper.PlaceHolder="请输入验证码"
-                                                             FontSize="16"
-                                                             InputMethod.IsInputMethodEnabled="False"
-                                                             MaxLength="10"
-                                                             Text="{Binding EmailCode, UpdateSourceTrigger=PropertyChanged}">
-                                                        <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="GotFocus">
-                                                                <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="EmailCode" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                    </TextBox>
-                                                    <TextBlock x:Name="SendEmailCodeCooldownTextBlock"
-                                                               Margin="0,0,12,0"
-                                                               HorizontalAlignment="Right"
-                                                               VerticalAlignment="Center"
-                                                               d:Text="重新发送(49)"
-                                                               FontSize="14"
-                                                               Foreground="#8c8c8c"
-                                                               Text="{Binding SendEmailCodeCooldown, StringFormat=重新发送({0})}" />
-                                                    <TextBlock x:Name="SendEmailCodeTextBlock"
-                                                               Margin="0,0,12,0"
-                                                               HorizontalAlignment="Right"
-                                                               VerticalAlignment="Center"
-                                                               FontSize="14"
-                                                               Visibility="Hidden">
-                                                        <Hyperlink Command="{Binding SendEmailCodeCommand}" Cursor="Hand">
-                                                            获取验证码
-                                                        </Hyperlink>
-                                                    </TextBlock>
-                                                </Grid>
-                                            </Grid>
-                                            <Button Height="45"
-                                                    Command="{Binding SignInByCodeCommand}"
-                                                    Content="登录 / 注册"
-                                                    FontSize="18"
-                                                    Style="{DynamicResource PrimaryButtonStyle}">
-                                                <Button.IsEnabled>
-                                                    <Binding Path="IsSigningInByCode">
-                                                        <Binding.Converter>
-                                                            <ui:ReverseBooleanConverter />
-                                                        </Binding.Converter>
-                                                    </Binding>
-                                                </Button.IsEnabled>
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
-                                    <!-- 密码登录 -->
-                                    <Grid x:Name="PasswordSignInLayout" Visibility="Hidden">
-                                        <StackPanel>
-                                            <TextBox Height="40"
-                                                     Margin="0,0,0,20"
-                                                     Padding="8,0"
-                                                     ui:ControlHelper.PlaceHolder="请输入邮箱"
-                                                     FontSize="16"
-                                                     Text="{Binding Email}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="GotFocus">
-                                                        <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Email" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </TextBox>
-                                            <StackPanel Height="84">
-                                                <PasswordBox Height="40"
-                                                             Margin="0,0,0,2"
-                                                             Padding="8,0"
-                                                             VerticalAlignment="Top"
-                                                             ui:ControlHelper.PlaceHolder="请输入密码"
-                                                             ui:PasswordBoxHelper.Attach="True"
-                                                             ui:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                             FontSize="16">
+                                                <TextBox Height="40"
+                                                         Margin="0,0,0,2"
+                                                         Padding="8,0"
+                                                         ui:ControlHelper.PlaceHolder="请输入验证码"
+                                                         FontSize="16"
+                                                         InputMethod.IsInputMethodEnabled="False"
+                                                         MaxLength="10"
+                                                         Text="{Binding EmailCode, UpdateSourceTrigger=PropertyChanged}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="GotFocus">
-                                                            <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Password" />
+                                                            <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="EmailCode" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
-                                                </PasswordBox>
-
-                                                <TextBlock HorizontalAlignment="Right" FontSize="14">
-                                                    <Hyperlink Command="{Binding NavigationToResetPasswordCommand}" Cursor="Hand">
-                                                        忘记密码?
+                                                </TextBox>
+                                                <TextBlock x:Name="SendEmailCodeCooldownTextBlock"
+                                                           Margin="0,0,12,0"
+                                                           HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
+                                                           d:Text="重新发送(49)"
+                                                           FontSize="14"
+                                                           Foreground="#8c8c8c"
+                                                           Text="{Binding SendEmailCodeCooldown, StringFormat=重新发送({0})}" />
+                                                <TextBlock x:Name="SendEmailCodeTextBlock"
+                                                           Margin="0,0,12,0"
+                                                           HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="14"
+                                                           Visibility="Hidden">
+                                                    <Hyperlink Command="{Binding SendEmailCodeCommand}" Cursor="Hand">
+                                                        获取验证码
                                                     </Hyperlink>
                                                 </TextBlock>
-                                            </StackPanel>
-                                            <Button Height="45"
-                                                    Command="{Binding SignInByPasswordCommand}"
-                                                    Content="登录"
-                                                    FontSize="18"
-                                                    Style="{DynamicResource PrimaryButtonStyle}">
-                                                <Button.IsEnabled>
-                                                    <Binding Path="IsSigningInByPassword">
-                                                        <Binding.Converter>
-                                                            <ui:ReverseBooleanConverter />
-                                                        </Binding.Converter>
-                                                    </Binding>
-                                                </Button.IsEnabled>
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Button Height="45"
+                                                Command="{Binding SignInByCodeCommand}"
+                                                Content="登录 / 注册"
+                                                FontSize="18"
+                                                Style="{DynamicResource PrimaryButtonStyle}">
+                                            <Button.IsEnabled>
+                                                <Binding Path="IsSigningInByCode">
+                                                    <Binding.Converter>
+                                                        <ui:ReverseBooleanConverter />
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Button.IsEnabled>
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
-                            </StackPanel>
-                            <StackPanel VerticalAlignment="Bottom">
-                                <TextBlock Margin="0,0,0,2"
-                                           FontSize="14"
-                                           Foreground="#8C8C8C"
-                                           Text="未注册邮箱验证后系统将自动注册账号" />
-                                <TextBlock FontSize="14" TextWrapping="Wrap">
-                                    <Run Foreground="#8C8C8C" Text="登录或完成注册即代表您同意" />
-                                    <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
-                                        最终用户许可协议
-                                    </Hyperlink>
-                                </TextBlock>
-                            </StackPanel>
-                        </Grid>
+                                <!-- 密码登录 -->
+                                <Grid x:Name="PasswordSignInLayout" Visibility="Hidden">
+                                    <StackPanel>
+                                        <TextBox Height="40"
+                                                 Margin="0,0,0,20"
+                                                 Padding="8,0"
+                                                 ui:ControlHelper.PlaceHolder="请输入邮箱"
+                                                 FontSize="16"
+                                                 Text="{Binding Email}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="GotFocus">
+                                                    <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Email" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                        <StackPanel Height="84">
+                                            <PasswordBox Height="40"
+                                                         Margin="0,0,0,2"
+                                                         Padding="8,0"
+                                                         VerticalAlignment="Top"
+                                                         ui:ControlHelper.PlaceHolder="请输入密码"
+                                                         ui:PasswordBoxHelper.Attach="True"
+                                                         ui:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         FontSize="16">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="GotFocus">
+                                                        <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Password" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </PasswordBox>
+
+                                            <TextBlock HorizontalAlignment="Right" FontSize="14">
+                                                <Hyperlink Command="{Binding NavigationToResetPasswordCommand}" Cursor="Hand">
+                                                    忘记密码?
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <Button Height="45"
+                                                Command="{Binding SignInByPasswordCommand}"
+                                                Content="登录"
+                                                FontSize="18"
+                                                Style="{DynamicResource PrimaryButtonStyle}">
+                                            <Button.IsEnabled>
+                                                <Binding Path="IsSigningInByPassword">
+                                                    <Binding.Converter>
+                                                        <ui:ReverseBooleanConverter />
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Button.IsEnabled>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Bottom">
+                            <TextBlock Margin="0,0,0,2"
+                                       FontSize="14"
+                                       Foreground="#8C8C8C"
+                                       Text="未注册邮箱验证后系统将自动注册账号" />
+                            <TextBlock FontSize="14" TextWrapping="Wrap">
+                                <Run Foreground="#8C8C8C" Text="登录或完成注册即代表您同意" />
+                                <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
+                                    最终用户许可协议
+                                </Hyperlink>
+                            </TextBlock>
+                        </StackPanel>
                     </Grid>
                 </Border>
             </StackPanel>

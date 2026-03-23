@@ -22,9 +22,9 @@ public class AuthRepository : IAuthRepository
         return result;
     }
 
-    public async Task<RefreshTokenResponse> RefreshTokenAsync(RefreshTokenRequest request)
+    public async Task<ResponseResult<RefreshTokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
     {
-        var result = await _httpHelper.PostAsync<RefreshTokenResponse>($"{Urls.ServerUrl}/api/auth/refresh", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<RefreshTokenResponse>>($"{Urls.ServerUrl}/api/auth/refresh", request);
 
         return result;
     }

@@ -101,7 +101,7 @@ public class MainWindowViewModel : BindableBase
             RefreshToken = refreshToken
         });
 
-        if (result is null)
+        if (result is null || result.Data is null)
         {
             SecureStore.Delete(SecureStoreKeys.RefreshToken);
             return;
@@ -109,9 +109,9 @@ public class MainWindowViewModel : BindableBase
 
         _clientSession.SignIn(new AppToken
         { 
-            AccessToken = result.AccessToken,
-            RefreshToken = result.RefreshToken,
-            ExpiresAt = result.ExpiresAt
+            AccessToken = result.Data.AccessToken,
+            RefreshToken = result.Data.RefreshToken,
+            ExpiresAt = result.Data.ExpiresAt
         });
     }
 }

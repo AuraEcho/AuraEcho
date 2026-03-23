@@ -69,7 +69,11 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         }
 
         SendEmailCodeCooldown = 60;
-        bool requestResult = await _authRepository.SendEmailVerificationCodeAsync(Email.Trim());
+        bool requestResult = 
+            await _authRepository.SendEmailVerificationCodeAsync(
+                new SendEmailCodeRequest(
+                    Email.Trim(), 
+                    EmailCodeScene.ResetPassword));
 
         if (!requestResult)
         {
@@ -78,6 +82,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
             return;
         }
 
+        _toastService.Show($"验证码已发送至 {Email}", ToastLevel.Info);
         _ = Task.Run(async () =>
         {
             SendEmailCodeCooldown = 60;

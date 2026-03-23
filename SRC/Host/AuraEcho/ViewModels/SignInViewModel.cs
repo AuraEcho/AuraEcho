@@ -2,10 +2,10 @@ using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Models.Api;
+using AuraEcho.Core.Models.Api.Auth;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
-using AuraEcho.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -78,7 +78,11 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         }
 
         SendEmailCodeCooldown = 60;
-        bool requestResult = await _authRepository.SendEmailVerificationCodeAsync(Email.Trim());
+        bool requestResult = 
+            await _authRepository.SendEmailVerificationCodeAsync(
+                new SendEmailCodeRequest(
+                    Email.Trim(),
+                    EmailCodeScene.SignIn));
 
         if (!requestResult)
         {
@@ -149,7 +153,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             ExpiresAt = result.Data.Data.ExpiresAt
         });
         IsSigningInByCode = false;
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage);
+        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
     }
     public DelegateCommand<string> ClearErrorsCommand { get; }
     private void ClearErrors(string propertyName)
@@ -221,7 +225,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             ExpiresAt = result.Data.ExpiresAt
         });
         IsSigningInByPassword = false;
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, null, false);
+        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
     }
 
     public DelegateCommand NavigationToResetPasswordCommand { get; }

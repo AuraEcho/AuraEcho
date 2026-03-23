@@ -18,7 +18,7 @@ public partial class InstallPreparation : UserControl
     {
         var dialog = new CommonOpenFileDialog
         {
-            Title = "请选择 Wix3Demo 的安装位置",
+            Title = "请选择灵光回声的安装位置",
             IsFolderPicker = true
         };
         if (dialog.ShowDialog() == CommonFileDialogResult.Ok)

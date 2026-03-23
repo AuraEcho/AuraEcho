@@ -73,7 +73,6 @@
                            FontSize="16"
                            FontWeight="Bold"
                            Foreground="#B7B7B7"
-                           d:Text="版本 1.2.0"
                            Text="{Binding Version, StringFormat=版本 {0}}" />
             </StackPanel>
 

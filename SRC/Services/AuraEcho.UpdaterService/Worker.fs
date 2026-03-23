@@ -15,12 +15,6 @@ open Microsoft.Data.Sqlite
 open System.Text.Json
 
 [<CLIMutable>]
-type AppUpdateInfo = {
-    Version: string
-    FilePath: string
-}
-
-[<CLIMutable>]
 type PluginUpdateInfo = {
     PluginId: Guid
     Version: string
@@ -29,7 +23,6 @@ type PluginUpdateInfo = {
 
 [<CLIMutable>]
 type PendingUpdate = {
-    mutable App: AppUpdateInfo option
     mutable Plugins: Map<Guid, PluginUpdateInfo>
 }
 
@@ -44,7 +37,7 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
     let pluginPackageCachePath = Path.Combine(basePath, "PluginCache")
     let configFilePath = Path.Combine(basePath, "pending_updates.json")
     
-    let mutable pendingUpdate = { App = None; Plugins = Map.empty }
+    let mutable pendingUpdate = { Plugins = Map.empty }
 
     let saveState (state: PendingUpdate) =
         try
@@ -61,7 +54,7 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
                 logger.Information "成功从本地恢复待更新状态"
         with ex -> 
             logger.Information $"加载状态文件失败，将重新开始: {ex.Message}"
-            pendingUpdate <- { App = None; Plugins = Map.empty }
+            pendingUpdate <- { Plugins = Map.empty }
 
     do
         [basePath; appPackageCachePath; pluginPackageCachePath]
@@ -100,20 +93,21 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
         let newestVersion = if isNull latestInfo then "1.0.0" else latestInfo.Version
 
         let newestVer = Version newestVersion
-        let cachedVer = pendingUpdate.App |> Option.map (fun i -> Version i.Version) |> Option.defaultValue (Version "0.0.0")
 
-        if newestVer > currentVersion && newestVer > cachedVer then
+        if newestVer > currentVersion then
             logger.Information $"发现新版本 {newestVersion}，正在下载..."
             let targetPath = Path.Combine(appPackageCachePath, latestInfo.UpdateFileName)
             let! success = packageRepo.DownloadLatestAsync(false, targetPath, Progress<double> ignore) |> Async.AwaitTask
             match success with
             | true -> 
-                pendingUpdate.App <- Some { Version = newestVersion; FilePath = targetPath }
-                saveState pendingUpdate
-                logger.Information "客户端下载完成并已保存状态"
-            | false -> logger.Information "客户端下载失败"
+                logger.Information "客户端下载完成"
+                return Some targetPath
+            | false -> 
+                logger.Information "客户端下载失败"
+                return None
         else
             logger.Information "未检测到更高版本的客户端"
+            return None
     }
 
     let downloadPluginPackage (localRepo: ILocalPluginRepository, remoteRepo: IRemotePluginRepository) = async {
@@ -147,27 +141,20 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
                 | false -> logger.Information $"插件 {plugin.Manifest.PluginName} 下载失败"
     }
 
-    let installAppPackage () = async {
-        match pendingUpdate.App with
-        | None -> ()
-        | Some info ->
+    let installAppPackage installerPath = async {
+        logger.Information "开始启动客户端安装程序"
+        let psi = ProcessStartInfo(installerPath, Arguments = "/quiet /log debug.log", UseShellExecute = false, CreateNoWindow = true)
+        try
+            use p = Process.Start psi
+            match p |> Option.ofObj with
+            | None -> logger.Information $"无法启动客户端安装程序 {installerPath}"
+            | Some proc -> 
+                logger.Information $"客户端安装程序已启动，进程ID: {proc.Id}"
+                do! p.WaitForExitAsync() |> Async.AwaitTask
+                logger.Information "客户端更新完成"
+                if File.Exists installerPath then File.Delete installerPath
 
-            logger.Information "开始启动客户端安装程序"
-            let psi = ProcessStartInfo(info.FilePath, Arguments = "/quiet /log debug.log", UseShellExecute = false, CreateNoWindow = true)
-            try
-                use p = Process.Start psi
-                match p |> Option.ofObj with
-                | None -> logger.Information $"无法启动客户端安装程序 {info.FilePath}"
-                | Some proc -> 
-                    logger.Information $"客户端安装程序已启动，进程ID: {proc.Id}"
-                    pendingUpdate.App <- None
-                    saveState pendingUpdate
-
-                    do! p.WaitForExitAsync() |> Async.AwaitTask
-                    logger.Information "客户端更新完成"
-                    if File.Exists info.FilePath then File.Delete info.FilePath
-
-            with ex -> logger.Information $"安装客户端时发生异常: {ex.Message}"
+        with ex -> logger.Information $"安装客户端时发生异常: {ex.Message}"
     }
 
     let installPluginPackageCore (pluginIds: Guid list) installFolder = task {
@@ -239,14 +226,17 @@ type Worker(logger: IAppLogger, serviceProvider: IServiceProvider) =
                 let localRepo = scope.ServiceProvider.GetRequiredService<ILocalPluginRepository>()
                 let remoteRepo = scope.ServiceProvider.GetRequiredService<IRemotePluginRepository>()
 
-                do! downloadAppPackage packageRepo |> Async.StartAsTask
+                let! downloadResult = downloadAppPackage packageRepo |> Async.StartAsTask
+                match downloadResult with
+                | Some installerPath -> do! installAppPackage installerPath |> Async.StartAsTask
+                | None -> ()
+
                 do! downloadPluginPackage (localRepo, remoteRepo) |> Async.StartAsTask
 
                 if not (isAppRunning()) then
                     do! installPluginPackage localRepo |> Async.StartAsTask
-                    do! installAppPackage () |> Async.StartAsTask
                 else
-                    if pendingUpdate.App.IsSome || not pendingUpdate.Plugins.IsEmpty then
+                    if not pendingUpdate.Plugins.IsEmpty then
                         logger.Information "检测到待更新项，但程序正在运行，等待退出后安装"
 
                 do! Task.Delay(TimeSpan.FromMinutes 1.0, stoppingToken)

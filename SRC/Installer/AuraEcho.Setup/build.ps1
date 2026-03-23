@@ -22,12 +22,12 @@ $isRebuild = if ($Mode -eq "2") { $false } else { $true }
 $Runtime = Read-Host "选择构建版本 [1: Slim (默认), 2: Full]"
 $isFull = if ($Runtime -eq "2") { "yes" } else { "no" }
 
-$BundleVersion = "1.2.1"
-$AppVersion = "1.2.1"
-$LauncherVersion = "1.2.1"
-$LauncherServiceVersion = "1.2.1"
-$PluginInstallerVersion = "1.2.1"
-$UpdaterServiceVersion = "1.2.1"
+$BundleVersion = "1.2.3"
+$AppVersion = "1.2.3"
+$LauncherVersion = "1.2.3"
+$LauncherServiceVersion = "1.2.3"
+$PluginInstallerVersion = "1.2.3"
+$UpdaterServiceVersion = "1.2.3"
 $DataMigratorVersion = $BundleVersion
 $BundleFileName = "AuraEchoSetup"
 

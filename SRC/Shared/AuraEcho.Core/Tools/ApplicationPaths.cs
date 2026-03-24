@@ -16,8 +16,9 @@ public static class ApplicationPaths
     public static string Logs => Path.Combine(BasePath, "logs");
     public static string Temp => Path.Combine(BasePath, "temp");
     public static string Data => Path.Combine(BasePath, "data");
+    public static string Config => Path.Combine(BasePath, "config");
     public static string SecureStore => Path.Combine(BasePath, "securestore");
-    public static string HostSettings => Path.Combine(Data, "settings.json");
+    public static string HostSettings => Path.Combine(Config, "global.cfg");
     public static string HostDataBase => Path.Combine(Data, "auraecho.db");
     public static string GetPluginPath(Guid pluginId) => Path.Combine(Plugins, pluginId.ToString());
     public static string LauncherPath { get; }
@@ -29,6 +30,7 @@ public static class ApplicationPaths
         Directory.CreateDirectory(Logs);
         Directory.CreateDirectory(Temp);
         Directory.CreateDirectory(Data);
+        Directory.CreateDirectory(Config);
         Directory.CreateDirectory(SecureStore);
 
         LauncherPath = GetLauncherPath();

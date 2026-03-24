@@ -35,7 +35,7 @@ void WriteLog(const std::string& text) {
         std::filesystem::path logPath(path_tmp);
         CoTaskMemFree(path_tmp); // 释放内存
 
-        logPath /= "AuraEcho\\Launcher";
+        logPath /= "AuraEcho\\Client\\Logs";
 
         // 确保文件夹存在
         std::error_code ec;

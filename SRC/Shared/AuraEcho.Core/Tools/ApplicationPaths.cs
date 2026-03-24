@@ -12,12 +12,12 @@ public static class ApplicationPaths
             Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
             "AuraEcho", "Client");
 
-    public static string Plugins => Path.Combine(BasePath, "plugins");
-    public static string Logs => Path.Combine(BasePath, "logs");
-    public static string Temp => Path.Combine(BasePath, "temp");
-    public static string Data => Path.Combine(BasePath, "data");
-    public static string Config => Path.Combine(BasePath, "config");
-    public static string SecureStore => Path.Combine(BasePath, "securestore");
+    public static string Plugins => Path.Combine(BasePath, "Plugins");
+    public static string Logs => Path.Combine(BasePath, "Logs");
+    public static string Temp => Path.Combine(BasePath, "Temp");
+    public static string Data => Path.Combine(BasePath, "Data");
+    public static string Config => Path.Combine(BasePath, "Config");
+    public static string SecureStore => Path.Combine(BasePath, "SecureStore");
     public static string HostSettings => Path.Combine(Config, "global.cfg");
     public static string HostDataBase => Path.Combine(Data, "auraecho.db");
     public static string GetPluginPath(Guid pluginId) => Path.Combine(Plugins, pluginId.ToString());

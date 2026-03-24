@@ -108,6 +108,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand SignInByCodeCommand { get; }
     private async void SignInByCode()
     {
+        // TODO：发生异常时，确保 IsSigningInByCode 能够被正确重置。
         IsSigningInByCode = true;
 
         ClearErrors(nameof(Email));

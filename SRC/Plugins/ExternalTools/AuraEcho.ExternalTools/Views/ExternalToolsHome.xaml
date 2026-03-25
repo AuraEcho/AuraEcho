@@ -108,6 +108,7 @@
             <TextBlock Margin="0,0,0,12"
                        HorizontalAlignment="Left"
                        FontSize="24"
+                       Foreground="Red"
                        Text="{Binding Source={x:Static utils:ExternalToolsResources.Current}, Path=Strings.PluginName}" />
             <Line Margin="0,0,0,12"
                   Stretch="Fill"

@@ -16,9 +16,9 @@ public class PluginIconConverter : MarkupExtension, IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not PluginRegistryModel pr) return null;
+        if (value is not UserPluginModel pr) return null;
 
-        var iconPath = new PathCombineConverter().Convert([pr.PluginFolder, pr.Manifest.Icon], null, null, null);
+        var iconPath = new PathCombineConverter().Convert([pr.LocalPlugin.PluginFolder, pr.LocalPlugin.Manifest.Icon], null, null, null);
         var imageSource = new StringToImageSourceConverter().Convert(iconPath, null, null, null);
         return imageSource;
     }

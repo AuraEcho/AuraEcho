@@ -1,4 +1,5 @@
 using AuraEcho.Core.Models;
+using AuraEcho.Core.Models.Api;
 
 namespace AuraEcho.Core.Contracts;
 
@@ -9,6 +10,6 @@ public interface IClientSession
 
     UserProfile? CurrentUser { get; }
     Task<bool> TryRefreshTokenAsync();
-    void SignIn(AppToken appToken);
+    void SignIn(AuthResponse appToken);
     void SignOut();
 }

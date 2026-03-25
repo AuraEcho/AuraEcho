@@ -1,14 +1,15 @@
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Models;
+using AuraEcho.Core.Repositories;
 using AuraEcho.Core.Tools;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using Prism.Events;
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AuraEcho.Services;
 
@@ -18,6 +19,8 @@ public class PluginDownloadTask : BaseTransferTask
     private readonly IPluginInstallService _pluginInstallService;
     private readonly IPluginManager _pluginManager;
     private readonly IEventAggregator _eventAggregator;
+    private readonly IClientSession _clientSession;
+    private readonly ILocalPluginRepository _localPluginRepository;
     private readonly Guid _pluginId;
 
     public static PluginDownloadTask CreateAsCompleted()
@@ -36,11 +39,15 @@ public class PluginDownloadTask : BaseTransferTask
         IPluginInstallService pluginInstallService,
         IPluginManager pluginManager,
         IEventAggregator eventAggregator,
+        ILocalPluginRepository localPluginRepository,
+        IClientSession clientSession,
         Guid pluginId,
         string taskName)
         : base(pluginId.ToString(), taskName, TransferType.Download)
     {
         _pluginId = pluginId;
+        _clientSession = clientSession;
+        _localPluginRepository = localPluginRepository;
         _remotePluginRepository = remotePluginRepository;
         _pluginInstallService = pluginInstallService;
         _pluginManager = pluginManager;
@@ -65,17 +72,18 @@ public class PluginDownloadTask : BaseTransferTask
 
         Status = TransferStatus.Processing;
 
-        Task<PluginRegistryModel> installlTask = _pluginInstallService.InstallAsync(pluginInstallerFilePath);
+        Task<LocalPluginModel> installlTask = _pluginInstallService.InstallAsync(pluginInstallerFilePath);
         await Task.WhenAll(installlTask, Task.Delay(TimeSpan.FromSeconds(0.5), token));
-        var pluginRegistry = await installlTask;
+        var localPlugin = await installlTask;
         File.Delete(pluginInstallerFilePath);
-        if (pluginRegistry is null) throw new Exception("Plugin install failed");
+        if (localPlugin is null) throw new Exception("Plugin install failed");
+        var addUserPlugin = await _localPluginRepository.AddUserPluginAsync(_clientSession.CurrentUser.Id, localPlugin.Id);
 
-        var loadPluginTask = _pluginManager.LoadPluginAsync(pluginRegistry);
+        var loadPluginTask = _pluginManager.LoadPluginAsync(addUserPlugin);
         await Task.WhenAll(loadPluginTask, Task.Delay(TimeSpan.FromSeconds(0.5), token));
         var installResult = await loadPluginTask;
         if (!installResult) throw new Exception("Plugin load failed");
 
-        _eventAggregator.GetEvent<PluginInstalledEvent>().Publish(pluginRegistry);
+        _eventAggregator.GetEvent<PluginInstalledEvent>().Publish(addUserPlugin);
     }
 }

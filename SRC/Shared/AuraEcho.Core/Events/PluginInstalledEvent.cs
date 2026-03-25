@@ -3,6 +3,6 @@ using Prism.Events;
 
 namespace AuraEcho.Core.Events;
 
-public class PluginInstalledEvent : PubSubEvent<PluginRegistryModel>
+public class PluginInstalledEvent : PubSubEvent<UserPluginModel>
 {
 }

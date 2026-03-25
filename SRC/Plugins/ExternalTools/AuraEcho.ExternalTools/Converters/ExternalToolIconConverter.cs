@@ -15,7 +15,8 @@ public class ExternalToolIconConverter : MarkupExtension, IMultiValueConverter
 
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        var type = (ExternalToolType)values[0];
+        if (values[0] is not ExternalToolType type) return null;
+
         var command = values[1] as string ?? throw new ArgumentException("values[1] is not a string");
 
         return type switch

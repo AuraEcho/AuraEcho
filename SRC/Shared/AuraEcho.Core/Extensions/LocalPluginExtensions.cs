@@ -3,22 +3,21 @@ using AuraEcho.Core.Models;
 
 namespace AuraEcho.Core.Extensions;
 
-public static class PluginRegistryExtensions
+public static class LocalPluginExtensions
 {
-    public static PluginRegistryEntity ToPluginRegistryEntity(this PluginRegistryModel @this)
+    public static LocalPlugin ToLocalPlugin(this LocalPluginModel @this)
         => new()
         {
             PluginFolder = @this.PluginFolder,
             Id = @this.Id,
             Manifest = @this.Manifest,
-            PlanStatus = @this.PlanStatus
         };
-    public static PluginRegistryModel ToPluginRegistryEntity(this PluginRegistryEntity @this)
+
+    public static LocalPluginModel ToLocalPluginModel(this LocalPlugin @this)
         => new()
         {
             PluginFolder = @this.PluginFolder,
             Id = @this.Id,
             Manifest = @this.Manifest,
-            PlanStatus = @this.PlanStatus
         };
 }

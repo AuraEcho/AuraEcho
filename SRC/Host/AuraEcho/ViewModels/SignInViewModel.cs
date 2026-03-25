@@ -147,12 +147,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             return;
         }
 
-        _clientSession.SignIn(new AppToken
-        {
-            AccessToken = result.Data.Data.AccessToken,
-            RefreshToken = result.Data.Data.RefreshToken,
-            ExpiresAt = result.Data.Data.ExpiresAt
-        });
+        _clientSession.SignIn(result.Data.Data);
         IsSigningInByCode = false;
         _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
     }
@@ -219,12 +214,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             return;
         }
 
-        _clientSession.SignIn(new AppToken
-        {
-            AccessToken = result.Data.AccessToken,
-            RefreshToken = result.Data.RefreshToken,
-            ExpiresAt = result.Data.ExpiresAt
-        });
+        _clientSession.SignIn(result.Data);
         IsSigningInByPassword = false;
         _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
     }

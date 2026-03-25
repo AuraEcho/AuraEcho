@@ -5,7 +5,8 @@ namespace AuraEcho.Core.Data;
 
 public class AuraEchoDbContext : DbContext
 {
-    public DbSet<PluginRegistryEntity> PluginRegistries { get; set; }
+    public DbSet<LocalPlugin> LocalPlugins { get; set; }
+    public DbSet<UserPlugin> UserPlugins { get; set; }
 
     public AuraEchoDbContext(DbContextOptions<AuraEchoDbContext> options) : base(options)
     {
@@ -13,6 +14,6 @@ public class AuraEchoDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PluginRegistryEntity>(pr => pr.OwnsOne(p => p.Manifest));
+        modelBuilder.Entity<LocalPlugin>(pr => pr.OwnsOne(p => p.Manifest));
     }
 }

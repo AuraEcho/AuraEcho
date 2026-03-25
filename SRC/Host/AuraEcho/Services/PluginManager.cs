@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.Interfaces;
@@ -21,16 +22,23 @@ public class PluginManager : IPluginManager
     private readonly IModuleCatalog _moduleCatalog;
     private readonly ILocalPluginRepository _pluginRepository;
     private readonly IAppLogger _logger;
+    private readonly IClientSession _clientSession;
     private readonly List<PluginLoadContext> _pluginLoadContexts = [];
 
-    private List<PluginRegistryModel> _plugins;
-    public List<PluginRegistryModel> Plugins
+    private List<UserPluginModel> _plugins;
+    public List<UserPluginModel> Plugins
     {
         get => _isInitialized ? _plugins : [];
     }
 
-    public PluginManager(IModuleManager moduleManager, IModuleCatalog moduleCatalog, ILocalPluginRepository pluginRepository, IAppLogger logger)
+    public PluginManager(
+        IModuleManager moduleManager,
+        IModuleCatalog moduleCatalog,
+        ILocalPluginRepository pluginRepository,
+        IAppLogger logger,
+        IClientSession clientSession)
     {
+        _clientSession = clientSession;
         _moduleManager = moduleManager;
         _moduleCatalog = moduleCatalog;
         _pluginRepository = pluginRepository;
@@ -41,7 +49,7 @@ public class PluginManager : IPluginManager
     /// 加载所有插件并返回插件信息
     /// </summary>
     /// <returns></returns>
-    public List<PluginRegistryModel> LoadPlugins()
+    public async Task<List<UserPluginModel>> LoadPluginsAsync()
     {
         // TODO: 线程安全
 
@@ -52,38 +60,32 @@ public class PluginManager : IPluginManager
         }
 
         _plugins = [];
-        foreach (var pluginRegistry in _pluginRepository.GetPluginRegistries())
+        foreach (var pluginRegistry in await _pluginRepository.GetUserPluginsAsync(_clientSession.CurrentUser.Id))
         {
-            LoadPlugin(pluginRegistry);
+            await LoadPluginAsync(pluginRegistry);
         }
         _logger.Debug($"已加载 {_plugins.Count} 个插件。");
 
         _isInitialized = true;
         return _plugins;
     }
-    public Task<List<PluginRegistryModel>> LoadPluginsAsync()
-    {
-        return Task.Run(LoadPlugins);
-    }
 
-    public bool LoadPlugin(PluginRegistryModel pluginRegistryModel)
+    public bool LoadPlugin(UserPluginModel pluginRegistryModel)
     {
-        if (pluginRegistryModel.PlanStatus == PluginPlanStatus.UninstallPending)
+        if (pluginRegistryModel.Status == PluginPlanStatus.UninstallPending)
         {
-            if (Directory.Exists(pluginRegistryModel.PluginFolder))
-            {
-                Directory.Delete(pluginRegistryModel.PluginFolder, true);
-            }
-            _pluginRepository.RemovePluginRegistry(pluginRegistryModel.Id);
-            _logger.Debug($"插件 {pluginRegistryModel.Manifest.PluginName} 已被卸载，跳过加载。");
+            _pluginRepository.RemoveUserPluginAsync(pluginRegistryModel.Id);
+            _logger.Debug($"插件 {pluginRegistryModel.LocalPlugin.Manifest.PluginName} 已被卸载，跳过加载。");
             return false;
         }
 
-        string entryAssemblyPath = Path.Combine(ApplicationPaths.GetPluginPath(pluginRegistryModel.Manifest.Id), pluginRegistryModel.Manifest.EntryAssemblyName);
+        string entryAssemblyPath = Path.Combine(
+            pluginRegistryModel.LocalPlugin.PluginFolder, 
+            pluginRegistryModel.LocalPlugin.Manifest.EntryAssemblyName);
 
         if (!File.Exists(entryAssemblyPath))
         {
-            _logger.Error($"插件 {pluginRegistryModel.Manifest.PluginName} 主程序集不存在：{entryAssemblyPath}");
+            _logger.Error($"插件 {pluginRegistryModel.LocalPlugin.Manifest.PluginName} 主程序集不存在：{entryAssemblyPath}");
             return false;
         }
 
@@ -96,14 +98,14 @@ public class PluginManager : IPluginManager
         }
         catch (Exception ex)
         {
-            _logger.Error($"加载插件程序集失败：{pluginRegistryModel.Manifest.PluginName}，异常：{ex.Message}");
+            _logger.Error($"加载插件程序集失败：{pluginRegistryModel.LocalPlugin.Manifest.PluginName}，异常：{ex.Message}");
             return false;
         }
 
         PluginDefaultViewAttribute defaultView = pluginAssembly.GetCustomAttributes<PluginDefaultViewAttribute>().FirstOrDefault();
         if (defaultView is null)
         {
-            _logger.Error($"插件 {pluginRegistryModel.Manifest.PluginName} 没有指定默认视图。");
+            _logger.Error($"插件 {pluginRegistryModel.LocalPlugin.Manifest.PluginName} 没有指定默认视图。");
             return false;
         }
 
@@ -113,7 +115,8 @@ public class PluginManager : IPluginManager
         _plugins.Add(pluginRegistryModel);
         return true;
     }
-    public Task<bool> LoadPluginAsync(PluginRegistryModel pluginRegistryModel)
+
+    public Task<bool> LoadPluginAsync(UserPluginModel pluginRegistryModel)
         => Task.Run(() => LoadPlugin(pluginRegistryModel));
 
     private IPlugin LoadPluginByAssembly(Assembly pluginAssembly)
@@ -155,5 +158,38 @@ public class PluginManager : IPluginManager
             InitializationMode = InitializationMode.OnDemand,
             Ref = type.Assembly.CodeBase,
         };
+    }
+
+    /// <summary>
+    /// 清理旧版本插件
+    /// </summary>
+    /// <returns></returns>
+    public async Task CleanOldPluginsAsync()
+    {
+        List<LocalPluginModel> plugins = await _pluginRepository.GetLocalPluginsAsync();
+
+        await Task.Run(() => plugins.ForEach(CleanOldPlugin));
+
+        void CleanOldPlugin(LocalPluginModel plugin)
+        {
+            DirectoryInfo? currentPluginRootPath = Directory.GetParent(plugin.PluginFolder);
+            currentPluginRootPath.GetDirectories()
+                                 .Where(d => !DirectoryUtils.AreDirectoriesEqual(d.FullName, plugin.PluginFolder))
+                                 .Where(d => Version.TryParse(d.Name, out var v))
+                                 .ForEach(DeleteDirectorySafely);
+        }
+
+        void DeleteDirectorySafely(DirectoryInfo dir)
+        {
+            try
+            { 
+                dir.Delete(true);
+                _logger.Information($"已成功清理旧版本目录: {dir.Name}");
+            }
+            catch (IOException)
+            { 
+                _logger.Warning($"目录 {dir.Name} 正被占用，跳过本次清理。");
+            }
+        }
     }
 }

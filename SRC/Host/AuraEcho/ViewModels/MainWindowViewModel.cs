@@ -107,11 +107,6 @@ public class MainWindowViewModel : BindableBase
             return;
         }
 
-        _clientSession.SignIn(new AppToken
-        { 
-            AccessToken = result.Data.AccessToken,
-            RefreshToken = result.Data.RefreshToken,
-            ExpiresAt = result.Data.ExpiresAt
-        });
+        _clientSession.SignIn(result.Data);
     }
 }

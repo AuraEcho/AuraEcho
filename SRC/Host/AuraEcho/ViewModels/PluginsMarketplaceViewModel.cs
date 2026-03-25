@@ -26,6 +26,8 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     private readonly IPluginManager _pluginManager;
     private readonly IPluginInstallService _pluginInstallService;
     private readonly ITransferManager _transferManager;
+    private readonly ILocalPluginRepository _localPluginRespository;
+    private readonly IClientSession _clientSession;
 
     public ObservableCollection<MarketPlugin> Plugins
     {
@@ -39,7 +41,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         var result = await _pluginRespository.GetPluginsAsync();
         if (result is null) return;
 
-        List<Guid> installedPluginIds = _pluginManager.Plugins.Select(p => p.Manifest.Id).ToList();
+        List<Guid> installedPluginIds = _pluginManager.Plugins.Select(p => p.LocalPlugin.Manifest.Id).ToList();
         List<PluginDownloadTask> inProcessTasks = [.. _transferManager.AllTasks.OfType<PluginDownloadTask>()];
         ObservableCollection<MarketPlugin> marketPlugins = result.Select(ToMarketPlugin).ToObservableCollection();
 
@@ -63,6 +65,8 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
                     _pluginInstallService,
                     _pluginManager,
                     _eventAggregator,
+                    _localPluginRespository,
+                    _clientSession,
                     plugin.Id,
                     plugin.DisplayName);
 
@@ -83,13 +87,13 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     public DelegateCommand<MarketPlugin> OpenPluginCommand { get; }
     private void OpenPlugin(MarketPlugin plugin)
     {
-        PluginRegistryModel? targetRegistry =
-            _pluginManager.Plugins.FirstOrDefault(p => p.Manifest.Id == plugin.PluginInfo.Id)
+        UserPluginModel? targetRegistry =
+            _pluginManager.Plugins.FirstOrDefault(p => p.LocalPlugin.Manifest.Id == plugin.PluginInfo.Id)
             ?? throw new Exception();
 
         _navigationService.RequestNavigate(
             HostRegionNames.MainRegion,
-            targetRegistry.Manifest.DefaultViewName);
+            targetRegistry.LocalPlugin.Manifest.DefaultViewName);
     }
 
     public DelegateCommand<MarketPlugin> NavigationToPluginDetailsCommand { get; }
@@ -110,8 +114,12 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         IRemotePluginRepository pluginRespository,
         IPluginInstallService pluginInstallService,
         IEventAggregator eventAggregator,
-        ITransferManager transferManager)
+        ITransferManager transferManager,
+        ILocalPluginRepository localPluginRepository,
+        IClientSession clientSession)
     {
+        _clientSession = clientSession;
+        _localPluginRespository = localPluginRepository;
         _transferManager = transferManager;
         _eventAggregator = eventAggregator;
         _pluginRespository = pluginRespository;

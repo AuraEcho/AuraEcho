@@ -88,7 +88,6 @@ public partial class App
         containerRegistry.RegisterSingleton<INavigationService, NavigationService>();
         containerRegistry.RegisterSingleton<IPluginInstallService, PluginInstallService>();
         containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
-        containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
 
         containerRegistry.RegisterSingleton<IFileRepository, FileRepository>();
         containerRegistry.RegisterSingleton<ITransferManager, TransferManager>();
@@ -130,10 +129,12 @@ public partial class App
         _notifyIcon = (TaskbarIcon)FindResource("NotifyIcon");
         _notifyIcon.DataContext = Container.Resolve<NotifyIconViewModel>();
 
-
         Container.Resolve<IEventAggregator>().GetEvent<AppRestartEvent>().Subscribe(RestartApp);
         Container.Resolve<IEventAggregator>().GetEvent<AppShutdownEvent>().Subscribe(ShutdownApp);
+
+        Container.Resolve<IPluginManager>().CleanOldPluginsAsync();
     }
+
 
     private void LoadConfig()
     {

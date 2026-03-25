@@ -16,15 +16,15 @@ public class AuthRepository : IAuthRepository
         _httpHelper = httpHelper;
     }
 
-    public async Task<MeResponse> GetCurrentUserAsync()
+    public async Task<AppUserDto> GetCurrentUserAsync()
     {
-        var result = await _httpHelper.GetAsync<MeResponse>($"{Urls.ServerUrl}/api/auth/me");
+        var result = await _httpHelper.GetAsync<AppUserDto>($"{Urls.ServerUrl}/api/auth/me");
         return result;
     }
 
-    public async Task<ResponseResult<RefreshTokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
+    public async Task<ResponseResult<AuthResponse>> RefreshTokenAsync(RefreshTokenRequest request)
     {
-        var result = await _httpHelper.PostAsync<ResponseResult<RefreshTokenResponse>>($"{Urls.ServerUrl}/api/auth/refresh", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<AuthResponse>>($"{Urls.ServerUrl}/api/auth/refresh", request);
 
         return result;
     }

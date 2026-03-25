@@ -1,5 +1,6 @@
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Constants;
@@ -117,10 +118,6 @@ public class SettingsViewModel : BindableBase
         var profile = await _authRepository.GetCurrentUserAsync();
         if (profile is null) return;
 
-        CurrentUser = new UserProfile
-        {
-            Id = profile.UserId,
-            UserName = profile.UserName
-        };
+        CurrentUser = profile.ToUserProfile();
     }
 }

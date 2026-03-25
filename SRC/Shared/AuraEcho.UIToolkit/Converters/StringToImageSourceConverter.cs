@@ -8,39 +8,38 @@ namespace AuraEcho.UIToolkit.Converters;
 
 public class StringToImageSourceConverter : MarkupExtension, IValueConverter
 {
-    public StringToImageSourceConverter _instance;
+    private static StringToImageSourceConverter? _instance;
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not string path || string.IsNullOrWhiteSpace(path))
-            return null!;
+        if (value is not string path || String.IsNullOrWhiteSpace(path))
+            return null;
 
         try
         {
-            // 自动加 file:// 前缀（如果需要）
-            Uri uri;
-            if (Uri.TryCreate(path, UriKind.Absolute, out uri) && uri.IsFile && File.Exists(uri.LocalPath))
-            {
-                return new BitmapImage(uri);
-            }
+            if (!File.Exists(path)) return null;
 
-            // 如果是纯文件路径
-            if (File.Exists(path))
-            {
-                return new BitmapImage(new Uri(path, UriKind.Absolute));
-            }
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(path, UriKind.Absolute);
+
+            // 在加载时就完成解码, 在 UI 渲染时不需要再次触发解码, 避免滑动列表卡顿。
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+
+            bitmap.EndInit();
+            bitmap.Freeze();
+
+            return bitmap;
         }
         catch
         {
-            // 可选：记录日志或返回默认图像
+            return null; // TODO: 默认图
         }
-
-        return null!;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotSupportedException("StringToImageSourceConverter does not support ConvertBack.");
+        return Binding.DoNothing;
     }
 
     public override object ProvideValue(IServiceProvider serviceProvider)

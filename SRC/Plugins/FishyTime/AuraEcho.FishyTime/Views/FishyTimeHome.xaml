@@ -216,6 +216,7 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0, 12" >
                     <TextBlock FontSize="24"
+                               Foreground="Red"
                                Text="{Binding Source={x:Static utils:FishyTimeResources.Current}, Path=Strings.PluginName}" />
                 </StackPanel>
                 <Line Margin="0,0,0,12"

@@ -8,8 +8,8 @@ public interface IAuthRepository
     Task<ResponseResult<CodeSignInResponse>> SignInByCodeAsync(CodeSignInRequest request);
     Task<ResponseResult<AuthResponse>> SignInByPasswordAsync(PasswordSignInRequest request);
     Task<bool> SendEmailVerificationCodeAsync(SendEmailCodeRequest request);
-    Task<MeResponse> GetCurrentUserAsync();
-    Task<ResponseResult<RefreshTokenResponse>> RefreshTokenAsync(RefreshTokenRequest request);
+    Task<AppUserDto> GetCurrentUserAsync();
+    Task<ResponseResult<AuthResponse>> RefreshTokenAsync(RefreshTokenRequest request);
     Task<ResponseResult<string>> ResetPasswordAsync(ResetPasswordRequest request);
     Task<ResponseResult<string>> UpdatePasswordAsync(UpdatePasswordRequest request);
 }

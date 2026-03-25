@@ -31,8 +31,8 @@ public class PluginInstallService : IPluginInstallService
     /// <returns></returns>
     /// <exception cref="FileNotFoundException"></exception>
     /// <remarks>TODO: 优化升级逻辑</remarks>
-    private PluginRegistryModel InstallCore(string filePath)
-    {
+    public async Task<LocalPluginModel> InstallAsync(string filePath)
+    {        
         // 解压插件到临时目录
         var extractPath = Path.Combine(ApplicationPaths.Temp, "PluginInstall_" + Guid.NewGuid());
         ZipFile.ExtractToDirectory(filePath, extractPath);
@@ -50,21 +50,34 @@ public class PluginInstallService : IPluginInstallService
         var manifest = JsonSerializer.Deserialize<PluginManifest>(manifestJson);
 
         // 拷贝到目标插件目录
-        string finalPath = Path.Combine(ApplicationPaths.Plugins, manifest.Id.ToString());
-        if (Directory.Exists(finalPath))
-            Directory.Delete(finalPath, true);
+        string finalFolderPath = Path.Combine(ApplicationPaths.Plugins, manifest.Id.ToString("N"), manifest.Version);
+        DirectoryUtils.SafeMoveDirectory(extractPath, finalFolderPath);
 
-        DirectoryUtils.SafeMoveDirectory(extractPath, finalPath);
         _logger.Error("查询已安装信息");
-        var existingPlugin = _localPluginRepository.GetPluginRegistries().FirstOrDefault(pr => pr.Manifest.Id == manifest.Id);
-        if (existingPlugin is not null)
+        var localPluginModel = (await _localPluginRepository.GetLocalPluginsAsync()).FirstOrDefault(pr => pr.Manifest.Id == manifest.Id);
+        if (localPluginModel is not null)
         {
-            _logger.Error("正在移除已安装信息");
-            _localPluginRepository?.RemovePluginRegistry(existingPlugin.Id);
+            _logger.Error("正在更新插件信息");
+            await _localPluginRepository.UpdateLocalPluginAsync(new LocalPluginModel
+            {
+                Id = localPluginModel.Id,
+                Manifest = manifest,
+                PluginFolder = finalFolderPath,
+            });
+        }
+        else
+        {
+            localPluginModel = new LocalPluginModel
+            {
+                Id = manifest.Id,
+                Manifest = manifest,
+                PluginFolder = finalFolderPath,
+            };
+            await _localPluginRepository.AddLocalPluginAsync(localPluginModel);
         }
 
         _logger.Debug("加载程序集");
-        var entryAssemblyPath = Path.Combine(finalPath, manifest.EntryAssemblyName);
+        var entryAssemblyPath = Path.Combine(finalFolderPath, manifest.EntryAssemblyName);
         var alc = new PluginLoadContext(entryAssemblyPath);
         Assembly pluginAssembly = null;
         try
@@ -79,16 +92,9 @@ public class PluginInstallService : IPluginInstallService
         _logger.Debug("执行插件环境初始化");
         IPluginSetup pluginDatabaseInitializer = GetPluginDatabaseInitializer(pluginAssembly);
         pluginDatabaseInitializer?.Setup(_containerProvider);
-        var pluginRegistry = new PluginRegistryModel
-        {
-            Id = Guid.NewGuid().ToString(),
-            PlanStatus = PluginPlanStatus.None,
-            Manifest = manifest,
-            PluginFolder = ApplicationPaths.GetPluginPath(manifest.Id),
-        };
-        _localPluginRepository.AddPluginRegistry(pluginRegistry);
+
         _logger.Debug("安装成功");
-        return pluginRegistry;
+        return localPluginModel;
 
         IPluginSetup GetPluginDatabaseInitializer(Assembly pluginAssembly)
         {
@@ -96,12 +102,8 @@ public class PluginInstallService : IPluginInstallService
                 pluginAssembly.GetExportedTypes()
                               .Where(t => typeof(IPluginSetup).IsAssignableFrom(t))
                               .Where(t => t != typeof(IPluginSetup))
-                              .Where(t => !t.IsAbstract)
-                              .SingleOrDefault();
+                              .SingleOrDefault(t => !t.IsAbstract);
             return _containerProvider.Resolve(pluginDatabaseInitializerType) as IPluginSetup;
         }
     }
-
-    public Task<PluginRegistryModel> InstallAsync(string filePath)
-        => Task.Run(() => InstallCore(filePath));
 }

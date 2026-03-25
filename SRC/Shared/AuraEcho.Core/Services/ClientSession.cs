@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
+using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
@@ -45,10 +46,16 @@ public class ClientSession : BindableBase, IClientSession
         return _clock.UtcNow >= AppToken.ExpiresAt;
     }
 
-    public void SignIn(AppToken appToken)
+    public void SignIn(AuthResponse authResponse)
     {
-        AppToken = appToken;
-        SecureStore.Save(SecureStoreKeys.RefreshToken, appToken.RefreshToken);
+        AppToken = new AppToken
+        {
+            AccessToken = authResponse.AccessToken,
+            RefreshToken = authResponse.RefreshToken,
+            ExpiresAt = authResponse.ExpiresAt
+        };
+        CurrentUser = authResponse.User.ToUserProfile();
+        SecureStore.Save(SecureStoreKeys.RefreshToken, AppToken.RefreshToken);
 
         _eventAggregator.GetEvent<SignedInEvent>().Publish();
     }
@@ -82,16 +89,11 @@ public class ClientSession : BindableBase, IClientSession
             if (!response.IsSuccessStatusCode)
                 return false;
 
-            var token = await response.Content.ReadFromJsonAsync<RefreshTokenResponse>();
+            var token = await response.Content.ReadFromJsonAsync<ResponseResult<AuthResponse>>();
             if (token is null)
                 return false;
 
-            SignIn(new AppToken
-            { 
-                AccessToken = token.AccessToken,
-                RefreshToken = token.RefreshToken,
-                ExpiresAt = token.ExpiresAt
-            });
+            SignIn(token.Data);
 
             return true;
         }

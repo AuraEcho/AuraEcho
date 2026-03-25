@@ -44,13 +44,13 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     public DelegateCommand OpenPluginCommand { get; }
     private void OpenPlugin()
     {
-        PluginRegistryModel? targetRegistry = 
-            _pluginManager.Plugins.FirstOrDefault(p => p.Manifest.Id == MarketPlugin.PluginInfo.Id) 
+        UserPluginModel? targetRegistry = 
+            _pluginManager.Plugins.FirstOrDefault(p => p.LocalPlugin.Manifest.Id == MarketPlugin.PluginInfo.Id) 
             ?? throw new Exception();
 
         _navigationService.RequestNavigate(
             HostRegionNames.MainRegion,
-            targetRegistry.Manifest.DefaultViewName);
+            targetRegistry.LocalPlugin.Manifest.DefaultViewName);
     }
 
     private async Task LoadPluginDetails()

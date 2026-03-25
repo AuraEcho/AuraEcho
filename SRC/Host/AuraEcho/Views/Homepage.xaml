@@ -19,7 +19,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
-        <DataTemplate x:Key="PluginTemplate" DataType="{x:Type cm:PluginRegistryModel}">
+        <DataTemplate x:Key="PluginTemplate" DataType="{x:Type cm:UserPluginModel}">
 
             <Button Width="120"
                     Height="120"
@@ -39,10 +39,10 @@
                                   CommandParameter="{Binding}"
                                   Header="UNINSTALL">
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding Status}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding PlanStatus}"
+                                <i:DataTrigger Binding="{Binding Status}"
                                                Comparison="NotEqual"
                                                Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
@@ -54,10 +54,10 @@
                                   CommandParameter="{Binding}"
                                   Header="CANCEL UNINSTALL">
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding Status}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding PlanStatus}"
+                                <i:DataTrigger Binding="{Binding Status}"
                                                Comparison="NotEqual"
                                                Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -83,7 +83,7 @@
                         <TextBlock VerticalAlignment="Center"
                                    d:Text="Plugin Name"
                                    FontSize="14"
-                                   Text="{Binding Manifest.PluginName}" />
+                                   Text="{Binding LocalPlugin.Manifest.PluginName}" />
                     </DockPanel>
                     <Label Padding="4,2"
                            HorizontalAlignment="Right"
@@ -91,10 +91,10 @@
                            Background="Orange"
                            Content="Pending">
                         <i:Interaction.Triggers>
-                            <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
+                            <i:DataTrigger Binding="{Binding Status}" Value="{x:Static models:PluginPlanStatus.None}">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                             </i:DataTrigger>
-                            <i:DataTrigger Binding="{Binding PlanStatus}"
+                            <i:DataTrigger Binding="{Binding Status}"
                                            Comparison="NotEqual"
                                            Value="{x:Static models:PluginPlanStatus.None}">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />

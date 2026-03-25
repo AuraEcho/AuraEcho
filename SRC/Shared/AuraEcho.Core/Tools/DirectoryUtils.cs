@@ -11,6 +11,7 @@ public static class DirectoryUtils
     {
         if (Path.GetPathRoot(sourceDir) == Path.GetPathRoot(destinationDir))
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(destinationDir));
             // 同一卷，直接移动
             Directory.Move(sourceDir, destinationDir);
             return;
@@ -41,4 +42,29 @@ public static class DirectoryUtils
             CopyDirectory(subDir, destSubDir);
         }
     }
+
+    public static bool AreDirectoriesEqual(DirectoryInfo dir1, DirectoryInfo dir2)
+    {
+        if (dir1 == null || dir2 == null)
+            return dir1 == dir2;
+
+        return AreDirectoriesEqual(dir1.FullName, dir2.FullName);
+    }
+
+    public static bool AreDirectoriesEqual(string dir1, string dir2)
+    {
+        if (String.IsNullOrWhiteSpace(dir1) || String.IsNullOrWhiteSpace(dir1))
+            return dir1 == dir2;
+
+        if (!Directory.Exists(dir1) || !Directory.Exists(dir2))
+            return false;
+
+        // 去除结尾的路径分隔符
+        string path1 = dir1.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        string path2 = dir2.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+        // 不区分大小写比较
+        return String.Equals(path1, path2, StringComparison.OrdinalIgnoreCase);
+    }
+
 }

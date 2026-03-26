@@ -9,6 +9,8 @@
 
 
   <ItemGroup>
+    <Compile Include="Utils.fs" />
+    <Compile Include="Workflows.fs" />
     <Compile Include="Worker.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

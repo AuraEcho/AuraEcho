@@ -260,7 +260,7 @@ public class HomepageViewModel : BindableBase
         }
     }
 
-    private async Task LoadPluginsAsync()
+    private async Task LoadRemotePluginsAsync()
     {
         var result = await _remotePluginRepository.GetAllPluginsAsync();
         if (result is null) return;
@@ -278,7 +278,7 @@ public class HomepageViewModel : BindableBase
         }
         catch (Exception ex)
         {
-            _logger.Error($"加载插件程序集失败：{pluginFile.Name}，异常：{ex.Message}");
+            MessageBox.Show($"加载插件程序集失败，异常：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             return null;
         }
         var targetAttribute = pluginAssembly.GetCustomAttributes<PluginDefaultViewAttribute>().FirstOrDefault();
@@ -287,6 +287,12 @@ public class HomepageViewModel : BindableBase
 
         return targetAttribute?.ViewName;
     }
+
+    /// <summary>
+    /// 加载插件信息
+    /// </summary>
+    /// <param name="plugin"></param>
+    /// <returns></returns>
     private async Task LoadPluginDetailsAsync(AppPlugin plugin)
     {
         var fileInfo = await _fileRepository.GetFileByIdAsync(CurrentPlugin.IconFileId);
@@ -329,7 +335,7 @@ public class HomepageViewModel : BindableBase
         SetEntryFileCommand = new DelegateCommand<PluginFile>(SetEntryFile);
         SetOutputFolderCommand = new DelegateCommand(SetOutputFolder);
 
-        _ = LoadPluginsAsync();
+        _ = LoadRemotePluginsAsync();
     }
 
     private void BuildPluginManifestConetnt()

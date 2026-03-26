@@ -1,13 +1,10 @@
 using System.IO;
 using System.IO.Compression;
-using System.Reflection;
 using System.Text.Json;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Interfaces;
-using Prism.Ioc;
-using Serilog;
 
 namespace AuraEcho.Core.Services;
 
@@ -15,12 +12,10 @@ public class PluginInstallService : IPluginInstallService
 {
     private const string MANIFEST_FILE_NAME = "plugin.manifest.json";
     private readonly ILocalPluginRepository _localPluginRepository;
-    private readonly IContainerProvider _containerProvider;
     private readonly IAppLogger _logger;
-    public PluginInstallService(ILocalPluginRepository localPluginRepository, IContainerProvider containerProvider, IAppLogger logger)
+    public PluginInstallService(ILocalPluginRepository localPluginRepository, IAppLogger logger)
     {
         _localPluginRepository = localPluginRepository;
-        _containerProvider = containerProvider;
         _logger = logger;
     }
 
@@ -76,34 +71,7 @@ public class PluginInstallService : IPluginInstallService
             await _localPluginRepository.AddLocalPluginAsync(localPluginModel);
         }
 
-        _logger.Debug("加载程序集");
-        var entryAssemblyPath = Path.Combine(finalFolderPath, manifest.EntryAssemblyName);
-        var alc = new PluginLoadContext(entryAssemblyPath);
-        Assembly pluginAssembly = null;
-        try
-        {
-            pluginAssembly = alc.LoadFromAssemblyPath(entryAssemblyPath);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error($"加载插件程序集失败：{manifest.PluginName}，异常：{ex.Message}");
-            return null;
-        }
-        _logger.Debug("执行插件环境初始化");
-        IPluginSetup pluginDatabaseInitializer = GetPluginDatabaseInitializer(pluginAssembly);
-        pluginDatabaseInitializer?.Setup(_containerProvider);
-
         _logger.Debug("安装成功");
         return localPluginModel;
-
-        IPluginSetup GetPluginDatabaseInitializer(Assembly pluginAssembly)
-        {
-            Type? pluginDatabaseInitializerType =
-                pluginAssembly.GetExportedTypes()
-                              .Where(t => typeof(IPluginSetup).IsAssignableFrom(t))
-                              .Where(t => t != typeof(IPluginSetup))
-                              .SingleOrDefault(t => !t.IsAbstract);
-            return _containerProvider.Resolve(pluginDatabaseInitializerType) as IPluginSetup;
-        }
     }
 }

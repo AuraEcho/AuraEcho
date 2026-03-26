@@ -23,4 +23,6 @@ public class LocalPlugin : BindableBase
     /// 模块所在目录路径
     /// </summary>
     public string PluginFolder { get; set; } = String.Empty;
+
+    public bool IsSetup { get; set; }
 }

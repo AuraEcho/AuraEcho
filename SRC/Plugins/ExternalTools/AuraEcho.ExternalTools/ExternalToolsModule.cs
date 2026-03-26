@@ -10,6 +10,7 @@ using Prism.Ioc;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace AuraEcho.ExternalTools;
 
@@ -51,15 +52,16 @@ public class ExternalToolsModule : IPlugin
         containerRegistry.Register<IExternalToolsRepository, ExternalToolsRepository>();
     }
 
-    public void Setup(IContainerProvider containerProvider)
+    public async Task SetupAsync(IContainerProvider containerProvider)
     {
         IPathProvider pathProvider = containerProvider.Resolve<IPathProvider>();
         Directory.CreateDirectory(Path.Combine(pathProvider.DataRootPath, "ExternalTools"));
 
         using var dbContext = containerProvider.Resolve<ExternalToolsDbContext>();
-        if (dbContext.Database.GetPendingMigrations().Any())
+        var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+        if (pendingMigrations.Any())
         {
-            dbContext.Database.Migrate();
+            await dbContext.Database.MigrateAsync();
         }
     }
 }

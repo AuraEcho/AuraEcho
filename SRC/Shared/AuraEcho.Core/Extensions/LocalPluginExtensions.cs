@@ -11,6 +11,7 @@ public static class LocalPluginExtensions
             PluginFolder = @this.PluginFolder,
             Id = @this.Id,
             Manifest = @this.Manifest,
+            IsSetup = @this.IsSetup
         };
 
     public static LocalPluginModel ToLocalPluginModel(this LocalPlugin @this)
@@ -19,5 +20,6 @@ public static class LocalPluginExtensions
             PluginFolder = @this.PluginFolder,
             Id = @this.Id,
             Manifest = @this.Manifest,
+            IsSetup = @this.IsSetup
         };
 }

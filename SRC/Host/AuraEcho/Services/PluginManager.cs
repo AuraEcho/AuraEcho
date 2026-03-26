@@ -9,8 +9,8 @@ using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.Interfaces;
-using AuraEcho.PluginContracts.Attributes;
 using AuraEcho.PluginContracts.Interfaces;
+using Prism.Ioc;
 using Prism.Modularity;
 
 namespace AuraEcho.Services;
@@ -23,6 +23,7 @@ public class PluginManager : IPluginManager
     private readonly ILocalPluginRepository _pluginRepository;
     private readonly IAppLogger _logger;
     private readonly IClientSession _clientSession;
+    private readonly IContainerProvider _containerProvider;
     private readonly List<PluginLoadContext> _pluginLoadContexts = [];
 
     private List<UserPluginModel> _plugins;
@@ -31,18 +32,14 @@ public class PluginManager : IPluginManager
         get => _isInitialized ? _plugins : [];
     }
 
-    public PluginManager(
-        IModuleManager moduleManager,
-        IModuleCatalog moduleCatalog,
-        ILocalPluginRepository pluginRepository,
-        IAppLogger logger,
-        IClientSession clientSession)
+    public PluginManager(IContainerProvider containerProvider)
     {
-        _clientSession = clientSession;
-        _moduleManager = moduleManager;
-        _moduleCatalog = moduleCatalog;
-        _pluginRepository = pluginRepository;
-        _logger = logger;
+        _containerProvider = containerProvider;
+        _clientSession = _containerProvider.Resolve<IClientSession>();
+        _moduleManager = _containerProvider.Resolve<IModuleManager>();
+        _moduleCatalog = _containerProvider.Resolve<IModuleCatalog>();
+        _pluginRepository = _containerProvider.Resolve<ILocalPluginRepository>();
+        _logger = _containerProvider.Resolve<IAppLogger>();
     }
 
     /// <summary>
@@ -70,7 +67,7 @@ public class PluginManager : IPluginManager
         return _plugins;
     }
 
-    public bool LoadPlugin(UserPluginModel pluginRegistryModel)
+    public async Task<bool> LoadPluginAsync(UserPluginModel pluginRegistryModel)
     {
         if (pluginRegistryModel.Status == PluginPlanStatus.UninstallPending)
         {
@@ -80,7 +77,7 @@ public class PluginManager : IPluginManager
         }
 
         string entryAssemblyPath = Path.Combine(
-            pluginRegistryModel.LocalPlugin.PluginFolder, 
+            pluginRegistryModel.LocalPlugin.PluginFolder,
             pluginRegistryModel.LocalPlugin.Manifest.EntryAssemblyName);
 
         if (!File.Exists(entryAssemblyPath))
@@ -102,22 +99,22 @@ public class PluginManager : IPluginManager
             return false;
         }
 
-        PluginDefaultViewAttribute defaultView = pluginAssembly.GetCustomAttributes<PluginDefaultViewAttribute>().FirstOrDefault();
-        if (defaultView is null)
-        {
-            _logger.Error($"插件 {pluginRegistryModel.LocalPlugin.Manifest.PluginName} 没有指定默认视图。");
-            return false;
-        }
-
         IPlugin pluginContext = LoadPluginByAssembly(pluginAssembly);
         pluginRegistryModel.PluginContext = pluginContext;
+
+        _logger.Debug("执行插件环境初始化");
+
+        if (!pluginRegistryModel.LocalPlugin.IsSetup)
+        {
+            await pluginContext.SetupAsync(_containerProvider);
+
+            pluginRegistryModel.LocalPlugin.IsSetup = true;
+            _pluginRepository.UpdateLocalPluginAsync(pluginRegistryModel.LocalPlugin);
+        }
 
         _plugins.Add(pluginRegistryModel);
         return true;
     }
-
-    public Task<bool> LoadPluginAsync(UserPluginModel pluginRegistryModel)
-        => Task.Run(() => LoadPlugin(pluginRegistryModel));
 
     private IPlugin LoadPluginByAssembly(Assembly pluginAssembly)
     {
@@ -182,12 +179,12 @@ public class PluginManager : IPluginManager
         void DeleteDirectorySafely(DirectoryInfo dir)
         {
             try
-            { 
+            {
                 dir.Delete(true);
                 _logger.Information($"已成功清理旧版本目录: {dir.Name}");
             }
             catch (IOException)
-            { 
+            {
                 _logger.Warning($"目录 {dir.Name} 正被占用，跳过本次清理。");
             }
         }

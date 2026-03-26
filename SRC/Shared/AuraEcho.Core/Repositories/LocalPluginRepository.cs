@@ -100,6 +100,7 @@ public class LocalPluginRepository : ILocalPluginRepository
 
         localPlugin.Manifest = plugin.Manifest;
         localPlugin.PluginFolder = plugin.PluginFolder;
+        localPlugin.IsSetup = plugin.IsSetup;
         await _dbContext.SaveChangesAsync();
     }
 

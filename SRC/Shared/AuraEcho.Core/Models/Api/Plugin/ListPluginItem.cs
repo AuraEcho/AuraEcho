@@ -9,4 +9,5 @@ public class ListPluginItem
     public string Author { get; set; }
     public Guid IconFileId { get; set; }
     public DateTime CreateTime { get; set; }
+    public bool IsAcquired { get; set; }
 }

@@ -5,7 +5,7 @@ open System.IO
 open System.Diagnostics
 open Microsoft.Win32
 
-// 基础配置记录 (可通过 Options 模式注入，这里为简便作为常量或简单函数)
+// 基础配置记录
 let getAppPaths () =
     let baseData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
     let rootPath = Path.Combine(baseData, "AuraEcho", "UpdaterService")
@@ -15,7 +15,7 @@ let getAppPaths () =
         PluginCache = Path.Combine(rootPath, "Download", "PluginCache")
     |}
 
-// 注册表与系统信息
+// 客户端信息
 module SystemInfo =
     let private getRegistryValue keyName = 
         use key = Registry.LocalMachine.OpenSubKey(@"Software\AuraEcho")

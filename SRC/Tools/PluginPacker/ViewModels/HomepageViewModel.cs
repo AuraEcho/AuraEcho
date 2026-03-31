@@ -30,13 +30,13 @@ public class HomepageViewModel : BindableBase
     private PluginFolder _rootFolder;
     #endregion
 
-    public ObservableCollection<AppPlugin> Plugins
+    public ObservableCollection<RemotePlugin> Plugins
     {
         get;
         set => SetProperty(ref field, value);
     }
 
-    public AppPlugin CurrentPlugin
+    public RemotePlugin CurrentPlugin
     {
         get;
         set
@@ -293,7 +293,7 @@ public class HomepageViewModel : BindableBase
     /// </summary>
     /// <param name="plugin"></param>
     /// <returns></returns>
-    private async Task LoadPluginDetailsAsync(AppPlugin plugin)
+    private async Task LoadPluginDetailsAsync(RemotePlugin plugin)
     {
         var fileInfo = await _fileRepository.GetFileByIdAsync(CurrentPlugin.IconFileId);
         IconFile = new PluginFile(Path.Combine(ApplicationPaths.Temp, fileInfo.FileName).Replace("\\", "/"), fileInfo.FileName, RootFolder);

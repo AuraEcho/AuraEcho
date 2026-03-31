@@ -56,7 +56,8 @@ let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) 
             let remoteVer = if isNull remotePackage then Version("0.0.0") else Version(remotePackage.Version)
             let localVer = Version(plugin.Manifest.Version)
 
-            if remoteVer > localVer then
+            match remoteVer > localVer with
+            | true ->
                 logger.Information($"发现插件 {pluginName} 的新版本 {remoteVer}")
                 let targetPath = Path.Combine(cachePath, remotePackage.FileName)
                 
@@ -70,6 +71,8 @@ let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) 
                         logger.Error($"安装插件 {pluginName} 时失败 {ex}")
                 else
                     logger.Warning($"插件 {pluginName} 下载失败")
+            | false -> logger.Debug($"插件 {pluginName} 已是最新版本")
+
     with ex ->
         logger.Error($"插件更新流程发生异常{ex}")
 }

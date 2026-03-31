@@ -6,6 +6,7 @@ using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
+using AuraEcho.Enums;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
@@ -42,39 +43,39 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         if (result is null) return;
 
         List<Guid> installedPluginIds = _pluginManager.Plugins.Select(p => p.LocalPlugin.Manifest.Id).ToList();
-        List<PluginDownloadTask> inProcessTasks = [.. _transferManager.AllTasks.OfType<PluginDownloadTask>()];
+        List<MarketPluginInstallTask> inProcessTasks = [.. _transferManager.AllTasks.OfType<MarketPluginInstallTask>()];
         ObservableCollection<MarketPlugin> marketPlugins = result.Select(ToMarketPlugin).ToObservableCollection();
 
         Plugins = [.. marketPlugins];
 
-        MarketPlugin ToMarketPlugin(AppPlugin plugin)
+        MarketPlugin ToMarketPlugin(RemotePlugin plugin)
         {
             if (installedPluginIds.Contains(plugin.Id))
             {
-                return new MarketPlugin
+                var mp = new MarketPlugin
                 {
                     PluginInfo = plugin,
-                    InstallContext = PluginDownloadTask.CreateAsCompleted()
+                    Status = MarketPluginStatus.Installed,
                 };
+                mp.InstallContext = MarketPluginInstallTask.CreateAsCompleted(mp);
             }
 
-            PluginDownloadTask installContext =
-                inProcessTasks.FirstOrDefault(t => t.Id == plugin.Id.ToString()) 
-                ?? new PluginDownloadTask(
+            var marketPlugin = new MarketPlugin
+            {
+                PluginInfo = plugin,
+                Status = plugin.IsAcquired ? MarketPluginStatus.Acquired : MarketPluginStatus.None
+            };
+            marketPlugin.InstallContext =
+                inProcessTasks.FirstOrDefault(t => t.Id == plugin.Id.ToString())
+                ?? new MarketPluginInstallTask(
                     _pluginRespository,
                     _pluginInstallService,
                     _pluginManager,
                     _eventAggregator,
                     _localPluginRespository,
                     _clientSession,
-                    plugin.Id,
-                    plugin.DisplayName);
-
-            return new MarketPlugin
-            {
-                PluginInfo = plugin,
-                InstallContext = installContext
-            };
+                    marketPlugin);
+            return marketPlugin;
         }
     }
 
@@ -109,8 +110,8 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     }
 
     public PluginsMarketplaceViewModel(
-        IPluginManager pluginManager, 
-        INavigationService navigationService, 
+        IPluginManager pluginManager,
+        INavigationService navigationService,
         IRemotePluginRepository pluginRespository,
         IPluginInstallService pluginInstallService,
         IEventAggregator eventAggregator,

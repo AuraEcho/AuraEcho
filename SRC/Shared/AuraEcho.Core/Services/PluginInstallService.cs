@@ -46,6 +46,8 @@ public class PluginInstallService : IPluginInstallService
 
         // 拷贝到目标插件目录
         string finalFolderPath = Path.Combine(ApplicationPaths.Plugins, manifest.Id.ToString("N"), manifest.Version);
+        if (Directory.Exists(finalFolderPath))
+            Directory.Delete(finalFolderPath, true);
         DirectoryUtils.SafeMoveDirectory(extractPath, finalFolderPath);
 
         _logger.Error("查询已安装信息");

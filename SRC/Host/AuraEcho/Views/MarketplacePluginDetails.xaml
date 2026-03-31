@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:AuraEcho.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:AuraEcho.Enums"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:models="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
+             xmlns:models="clr-namespace:AuraEcho.Models"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:selectors="clr-namespace:AuraEcho.Selectors"
              xmlns:sv="clr-namespace:AuraEcho.Services"
@@ -22,33 +23,44 @@
     <UserControl.Resources>
         <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <converters:FileIdToUrlConverter x:Key="FileIdToUrl" />
-        <DataTemplate x:Key="NotInstalledTemplate" DataType="{x:Type models:TransferStatus}">
+        <DataTemplate x:Key="NotInstalledTemplate" DataType="{x:Type enums:MarketPluginInstallStatus}">
             <Button Width="200"
                     Height="48"
                     Padding="16,0"
                     HorizontalContentAlignment="Left"
                     Command="{Binding Source={StaticResource BindingProxy}, Path=Data.InstallCommand}"
-                    Content="INSTALL"
+                    d:Content="INSTALL"
                     FontSize="16"
-                    Style="{DynamicResource PrimaryButtonStyle}" />
+                    Style="{DynamicResource PrimaryButtonStyle}">
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.Status}" Value="{x:Static enums:MarketPluginStatus.Acquired}">
+                        <i:ChangePropertyAction PropertyName="Content" Value="安装" />
+                    </i:DataTrigger>
+                    <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.Status}" Value="{x:Static enums:MarketPluginStatus.None}">
+                        <i:ChangePropertyAction PropertyName="Content" Value="获取" />
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+            </Button>
         </DataTemplate>
-        <DataTemplate x:Key="DownloadingTemplate" DataType="{x:Type models:TransferStatus}">
+        <DataTemplate x:Key="DownloadingTemplate" DataType="{x:Type enums:MarketPluginInstallStatus}">
             <Border Width="200"
                     Height="48"
                     Background="#10FFFFFF"
                     CornerRadius="4">
                 <DockPanel LastChildFill="True">
-                    <ProgressBar DockPanel.Dock="Top" Value="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.InstallContext.Progress, Mode=OneWay}" d:Value="80"/>
+                    <ProgressBar d:Value="80"
+                                 DockPanel.Dock="Top"
+                                 Value="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.InstallContext.Progress, Mode=OneWay}" />
                     <TextBlock Margin="16,0,0,0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="14"
                                d:Text="正在下载(87.23%)"
+                               FontSize="14"
                                Text="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.InstallContext.Progress, StringFormat=正在下载({0:F2}%)}" />
                 </DockPanel>
             </Border>
         </DataTemplate>
-        <DataTemplate x:Key="InstallingTemplate" DataType="{x:Type models:TransferStatus}">
+        <DataTemplate x:Key="InstallingTemplate" DataType="{x:Type enums:MarketPluginInstallStatus}">
             <Border Width="200"
                     Height="48"
                     Background="#10FFFFFF"
@@ -63,7 +75,22 @@
                 </DockPanel>
             </Border>
         </DataTemplate>
-        <DataTemplate x:Key="InstalledTemplate" DataType="{x:Type models:TransferStatus}">
+        <DataTemplate x:Key="AcquiringTemplate" DataType="{x:Type enums:MarketPluginInstallStatus}">
+            <Border Width="200"
+                    Height="48"
+                    Background="#10FFFFFF"
+                    CornerRadius="4">
+                <DockPanel LastChildFill="True">
+                    <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" />
+                    <TextBlock Margin="16,0,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               Text="正在获取..." />
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="InstalledTemplate" DataType="{x:Type enums:MarketPluginInstallStatus}">
             <Button Width="200"
                     Height="48"
                     Padding="16,0"
@@ -105,70 +132,13 @@
                                 d:ContentTemplate="{StaticResource DownloadingTemplate}"
                                 Content="{Binding MarketPlugin.InstallContext.Status}">
                     <ContentControl.ContentTemplateSelector>
-                        <selectors:MarketPluginStateTemplateSelector DownloadingTemplate="{StaticResource DownloadingTemplate}"
+                        <selectors:MarketPluginStateTemplateSelector AcquiringTemplate="{StaticResource AcquiringTemplate}"
+                                                                     DownloadingTemplate="{StaticResource DownloadingTemplate}"
                                                                      InstalledTemplate="{StaticResource InstalledTemplate}"
                                                                      InstallingTemplate="{StaticResource InstallingTemplate}"
                                                                      NotInstalledTemplate="{StaticResource NotInstalledTemplate}" />
                     </ContentControl.ContentTemplateSelector>
                 </ContentControl>
-                <!--<TextBlock Text="{Binding MarketPlugin.InstallContext.Progress, StringFormat=Installing {0:F2}%}"
-                           Margin="0, 0, 0, 4" />
-                <ProgressBar Width="200"
-                             Margin="0,0,0,4"
-                             HorizontalAlignment="Left"
-                             Maximum="100"
-                             Minimum="0"
-                             Value="{Binding MarketPlugin.InstallContext.Progress, Mode=OneWay}" />
-                <Button Padding="16,0"
-                        HorizontalAlignment="Left"
-                        Width="200"
-                        Height="48"
-                        Margin="0, 0, 0, 24"
-                        HorizontalContentAlignment="Left"
-                        Command="{Binding InstallCommand}"
-                        Content="{Binding MarketPlugin.InstallContext.Status}"
-                        FontSize="16"
-                        Style="{DynamicResource PrimaryButtonStyle}" />
-                <Grid Width="200"
-                      Height="48"
-                      Margin="0,0,0,24"
-                      Visibility="Collapsed"
-                      HorizontalAlignment="Left">
-                    <i:Interaction.Triggers>
-                        <i:DataTrigger Binding="{Binding Plugin.IsInstalled}"
-                                       Value="True">
-                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                    TargetName="InstallButton"
-                                                    Value="{x:Static Visibility.Hidden}" />
-                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                    TargetName="OpenButton"
-                                                    Value="{x:Static Visibility.Visible}" />
-                        </i:DataTrigger>
-                        <i:DataTrigger Binding="{Binding Plugin.IsInstalled}"
-                                       Value="False">
-                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                    TargetName="InstallButton"
-                                                    Value="{x:Static Visibility.Visible}" />
-                            <i:ChangePropertyAction PropertyName="Visibility"
-                                                    TargetName="OpenButton"
-                                                    Value="{x:Static Visibility.Hidden}" />
-                        </i:DataTrigger>
-                    </i:Interaction.Triggers>
-                    <Button x:Name="InstallButton"
-                            Padding="16,0"
-                            HorizontalContentAlignment="Left"
-                            Command="{Binding InstallCommand}"
-                            Content="INSTALL"
-                            FontSize="16"
-                            Style="{DynamicResource PrimaryButtonStyle}" />
-                    <Button x:Name="OpenButton"
-                            Padding="16,0"
-                            HorizontalContentAlignment="Left"
-                            Command="{Binding OpenPluginCommand}"
-                            Content="OPEN"
-                            FontSize="16"
-                            Style="{DynamicResource PrimaryButtonStyle}" />
-                </Grid>-->
 
                 <Border Margin="0,0,0,16"
                         Background="{DynamicResource Themes.Brushes.SecondaryContainer}"

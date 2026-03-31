@@ -95,14 +95,14 @@ public class RemotePluginRepository : IRemotePluginRepository
         };
     }
 
-    public async Task<List<AppPlugin>> GetPluginsAsync()
+    public async Task<List<RemotePlugin>> GetPluginsAsync()
     {
-        var result = await _httpHelper.GetAsync<ListPluginsResponse>($"{Urls.ServerUrl}/api/plugin/list");
+        var result = await _httpHelper.GetAsync<ResponseResult<List<ListPluginItem>>>($"{Urls.ServerUrl}/api/plugin/list");
         if (result is null) return null;
 
-        List<AppPlugin> plugins =
-            result.Plugins
-                  .Select(p => new AppPlugin
+        List<RemotePlugin> plugins =
+            result.Data
+                  .Select(p => new RemotePlugin
                   {
                       Author = p.Author,
                       Name = p.Name,
@@ -111,20 +111,21 @@ public class RemotePluginRepository : IRemotePluginRepository
                       Description = p.Description,
                       DisplayName = p.DisplayName,
                       IconFileId = p.IconFileId,
+                      IsAcquired = p.IsAcquired
                   })
                   .ToList();
 
         return plugins;
     }
 
-    public async Task<List<AppPlugin>> GetAllPluginsAsync()
+    public async Task<List<RemotePlugin>> GetAllPluginsAsync()
     {
         var result = await _httpHelper.GetAsync<ListPluginsResponse>($"{Urls.ServerUrl}/api/plugin/listAll");
         if (result is null) return null;
 
-        List<AppPlugin> plugins =
+        List<RemotePlugin> plugins =
             result.Plugins
-                  .Select(p => new AppPlugin
+                  .Select(p => new RemotePlugin
                   {
                       Author = p.Author,
                       Name = p.Name,
@@ -158,6 +159,12 @@ public class RemotePluginRepository : IRemotePluginRepository
                   })
                   .ToList();
         return pluginVersions;
+    }
+
+    public async Task<bool> AcquireAsync(Guid userId, Guid pluginId)
+    {
+        var result = await _httpHelper.PostAsync<ResponseResult<string>>($"{Urls.ServerUrl}/api/plugin/{pluginId}/acquire", null);
+        return result is not null;
     }
 }
 

@@ -1,17 +1,18 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 
-namespace AuraEcho.UIToolkit.Mvvm;
-
-public abstract class ViewModelBase : BindableBase, IDestructible
+namespace AuraEcho.UIToolkit.Mvvm
 {
-    protected ViewModelBase()
+    public abstract class ViewModelBase : BindableBase, IDestructible
     {
+        protected ViewModelBase()
+        {
 
-    }
+        }
 
-    public virtual void Destroy()
-    {
+        public virtual void Destroy()
+        {
 
+        }
     }
 }

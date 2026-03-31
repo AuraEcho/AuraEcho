@@ -1,7 +1,8 @@
-namespace AuraEcho.PluginContracts.Models;
-
-public enum AppLanguage
+namespace AuraEcho.PluginContracts.Models
 {
-    ChineseSimplified = 0,
-    English = 1
+    public enum AppLanguage
+    {
+        ChineseSimplified = 0,
+        English = 1
+    }
 }

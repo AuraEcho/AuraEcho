@@ -1,22 +1,24 @@
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace AuraEcho.UIToolkit.Converters;
-
-/// <summary>
-/// <see cref="Color"/> 转换为 <see cref="SolidColorBrush"/> 的转换器"/>
-/// </summary>
-[ValueConversion(typeof(Color), typeof(SolidColorBrush))]
-public class ColorToSolidColorBrushConverter : IValueConverter
+namespace AuraEcho.UIToolkit.Converters
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    /// <summary>
+    /// <see cref="Color"/> 转换为 <see cref="SolidColorBrush"/> 的转换器"/>
+    /// </summary>
+    [ValueConversion(typeof(Color), typeof(SolidColorBrush))]
+    public class ColorToSolidColorBrushConverter : IValueConverter
     {
-        return new SolidColorBrush((Color)value);
-    }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return new SolidColorBrush((Color)value);
+        }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

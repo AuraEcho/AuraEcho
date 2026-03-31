@@ -1,7 +1,8 @@
-namespace AuraEcho.PluginContracts.Interfaces;
-
-public interface IPathProvider
+namespace AuraEcho.PluginContracts.Interfaces
 {
-    string PluginsRootPath { get; }
-    string DataRootPath { get; }
+    public interface IPathProvider
+    {
+        string PluginsRootPath { get; }
+        string DataRootPath { get; }
+    }
 }

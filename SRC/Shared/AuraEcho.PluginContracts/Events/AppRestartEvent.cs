@@ -1,5 +1,6 @@
 ﻿using Prism.Events;
 
-namespace AuraEcho.PluginContracts.Events;
-
-public class AppRestartEvent : PubSubEvent { }
+namespace AuraEcho.PluginContracts.Events
+{
+    public class AppRestartEvent : PubSubEvent { }
+}

@@ -2,44 +2,45 @@ using Microsoft.Xaml.Behaviors;
 using System.Windows;
 using System.Windows.Input;
 
-namespace AuraEcho.UIToolkit.Behaviors;
-
-/// <summary>
-/// 拖放命令行为，用于在拖放操作时执行指定的命令。
-/// </summary>
-public class DropCommandBehavior : Behavior<UIElement>
+namespace AuraEcho.UIToolkit.Behaviors
 {
-    public static readonly DependencyProperty CommandProperty 
-        = DependencyProperty.Register(
-            nameof(Command), 
-            typeof(ICommand), 
-            typeof(DropCommandBehavior), 
-            new PropertyMetadata(null));
-
-    public ICommand Command
+    /// <summary>
+    /// 拖放命令行为，用于在拖放操作时执行指定的命令。
+    /// </summary>
+    public class DropCommandBehavior : Behavior<UIElement>
     {
-        get => (ICommand)GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
+        public static readonly DependencyProperty CommandProperty
+            = DependencyProperty.Register(
+                nameof(Command),
+                typeof(ICommand),
+                typeof(DropCommandBehavior),
+                new PropertyMetadata(null));
 
-    protected override void OnAttached()
-    {
-        base.OnAttached();
-        AssociatedObject.AllowDrop = true;
-        AssociatedObject.Drop += OnDrop;
-    }
-
-    protected override void OnDetaching()
-    {
-        base.OnDetaching();
-        AssociatedObject.Drop -= OnDrop;
-    }
-
-    private void OnDrop(object sender, DragEventArgs e)
-    {
-        if (Command?.CanExecute(e) == true)
+        public ICommand Command
         {
-            Command.Execute(e);
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.AllowDrop = true;
+            AssociatedObject.Drop += OnDrop;
+        }
+
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            AssociatedObject.Drop -= OnDrop;
+        }
+
+        private void OnDrop(object sender, DragEventArgs e)
+        {
+            if (Command?.CanExecute(e) == true)
+            {
+                Command.Execute(e);
+            }
         }
     }
 }

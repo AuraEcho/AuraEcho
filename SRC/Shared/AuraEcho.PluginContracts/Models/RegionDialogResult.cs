@@ -1,9 +1,10 @@
-namespace AuraEcho.PluginContracts.Models;
-
-public enum RegionDialogResult
+namespace AuraEcho.PluginContracts.Models
 {
-    None,
-    OK,
-    Cancel,
-    Close
+    public enum RegionDialogResult
+    {
+        None,
+        OK,
+        Cancel,
+        Close
+    }
 }

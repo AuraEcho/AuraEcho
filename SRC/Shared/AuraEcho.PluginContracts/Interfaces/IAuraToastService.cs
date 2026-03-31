@@ -1,8 +1,9 @@
 ﻿using AuraEcho.PluginContracts.Models;
 
-namespace AuraEcho.PluginContracts.Interfaces;
-
-public interface IAuraToastService
+namespace AuraEcho.PluginContracts.Interfaces
 {
-    void Show(string message, ToastLevel level = ToastLevel.Info, double duration = 3.0);
+    public interface IAuraToastService
+    {
+        void Show(string message, ToastLevel level = ToastLevel.Info, double duration = 3.0);
+    }
 }

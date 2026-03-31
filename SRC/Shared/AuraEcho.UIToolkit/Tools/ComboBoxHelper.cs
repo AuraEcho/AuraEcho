@@ -1,14 +1,15 @@
 using System.Windows.Controls;
 
-namespace AuraEcho.UIToolkit.Tools;
-
-public static class ComboBoxHelper
+namespace AuraEcho.UIToolkit.Tools
 {
-    public static void RefreshItems(ComboBox comboBox)
+    public static class ComboBoxHelper
     {
-        int i = comboBox.SelectedIndex;
-        comboBox.SelectedIndex = -1;
-        comboBox.SelectedIndex = i;
-        comboBox.Items.Refresh();
+        public static void RefreshItems(ComboBox comboBox)
+        {
+            int i = comboBox.SelectedIndex;
+            comboBox.SelectedIndex = -1;
+            comboBox.SelectedIndex = i;
+            comboBox.Items.Refresh();
+        }
     }
 }

@@ -1,24 +1,25 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace AuraEcho.UIToolkit.Tools;
-
-public static class VisualTreeUtil
+namespace AuraEcho.UIToolkit.Tools
 {
-    public static ChildType FindVisualChild<ChildType>(DependencyObject obj) where ChildType : DependencyObject
+    public static class VisualTreeUtil
     {
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        public static ChildType FindVisualChild<ChildType>(DependencyObject obj) where ChildType : DependencyObject
         {
-            DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-            if (child != null && child is ChildType)
-                return (ChildType)child;
-            else
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
-                ChildType childOfChild = FindVisualChild<ChildType>(child);
-                if (childOfChild != null)
-                    return childOfChild;
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is ChildType)
+                    return (ChildType)child;
+                else
+                {
+                    ChildType childOfChild = FindVisualChild<ChildType>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
             }
+            return null;
         }
-        return null;
     }
 }

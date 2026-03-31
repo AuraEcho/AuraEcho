@@ -1,10 +1,11 @@
 using System.Collections.ObjectModel;
 
-namespace AuraEcho.PluginContracts.Interfaces;
-
-public interface ITransferManager
+namespace AuraEcho.PluginContracts.Interfaces
 {
-    ObservableCollection<ITransferTask> AllTasks { get; }
-    void AddTask(ITransferTask task);
-    ITransferTask GetTaskById(string id);
+    public interface ITransferManager
+    {
+        ObservableCollection<ITransferTask> AllTasks { get; }
+        void AddTask(ITransferTask task);
+        ITransferTask GetTaskById(string id);
+    }
 }

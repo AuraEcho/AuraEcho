@@ -1,11 +1,18 @@
-namespace AuraEcho.PluginContracts.Attributes;
+using System;
 
-/// <summary>
-/// 模块默认视图
-/// </summary>
-/// <param name="viewName"></param>
-[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
-public sealed class PluginDefaultViewAttribute(string viewName) : Attribute
+namespace AuraEcho.PluginContracts.Attributes
 {
-    public string ViewName { get; } = viewName;
+    /// <summary>
+    /// 模块默认视图
+    /// </summary>
+    /// <param name="viewName"></param>
+    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
+    public sealed class PluginDefaultViewAttribute : Attribute
+    {
+        public PluginDefaultViewAttribute(string viewName)
+        {
+            ViewName = viewName;
+        }
+        public string ViewName { get; }
+    }
 }

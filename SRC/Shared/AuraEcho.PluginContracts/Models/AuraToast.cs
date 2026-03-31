@@ -1,14 +1,18 @@
 ﻿using Prism.Mvvm;
 
-namespace AuraEcho.PluginContracts.Models;
-
-public class AuraToast : BindableBase
+namespace AuraEcho.PluginContracts.Models
 {
-    public string Message { get; init; }
-    public bool IsClosing 
-    { 
-        get;
-        set => SetProperty(ref field, value);
+    public class AuraToast : BindableBase
+    {
+        public string Message { get; set; }
+
+        private bool _isClosing;
+        public bool IsClosing
+        {
+            get => _isClosing;
+            set => SetProperty(ref _isClosing, value);
+        }
+        public ToastLevel Level { get; set; }
     }
-    public ToastLevel Level { get; init; }
+
 }

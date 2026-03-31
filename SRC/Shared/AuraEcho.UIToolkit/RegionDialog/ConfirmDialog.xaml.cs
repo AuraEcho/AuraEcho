@@ -1,16 +1,17 @@
 using Prism.Ioc;
 using System.Windows.Controls;
 
-namespace AuraEcho.UIToolkit.RegionDialog;
-
-/// <summary>
-/// ConfirmDialog.xaml 的交互逻辑
-/// </summary>
-public partial class ConfirmDialog : UserControl
+namespace AuraEcho.UIToolkit.RegionDialog
 {
-    public ConfirmDialog(IContainerProvider containerProvider)
+    /// <summary>
+    /// ConfirmDialog.xaml 的交互逻辑
+    /// </summary>
+    public partial class ConfirmDialog : UserControl
     {
-        InitializeComponent();
-        DataContext = containerProvider.Resolve<ConfirmDialogViewModel>();
+        public ConfirmDialog(IContainerProvider containerProvider)
+        {
+            InitializeComponent();
+            DataContext = containerProvider.Resolve<ConfirmDialogViewModel>();
+        }
     }
 }

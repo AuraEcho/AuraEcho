@@ -1,6 +1,7 @@
-namespace AuraEcho.PluginContracts.Constants;
-
-public static class HostRegionDialogTypes
+namespace AuraEcho.PluginContracts.Constants
 {
-    public const string ConfirmDialog = "ConfirmDialog";
+    public static class HostRegionDialogTypes
+    {
+        public const string ConfirmDialog = "ConfirmDialog";
+    }
 }

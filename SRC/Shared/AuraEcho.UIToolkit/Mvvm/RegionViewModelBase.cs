@@ -1,33 +1,35 @@
+using System;
 using Prism.Regions;
 
-namespace AuraEcho.UIToolkit.Mvvm;
-
-public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
+namespace AuraEcho.UIToolkit.Mvvm
 {
-    protected IRegionManager RegionManager { get; private set; }
-
-    public RegionViewModelBase(IRegionManager regionManager)
+    public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
     {
-        RegionManager = regionManager;
-    }
+        protected IRegionManager RegionManager { get; private set; }
 
-    public virtual void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-    {
-        continuationCallback(true);
-    }
+        public RegionViewModelBase(IRegionManager regionManager)
+        {
+            RegionManager = regionManager;
+        }
 
-    public virtual bool IsNavigationTarget(NavigationContext navigationContext)
-    {
-        return true;
-    }
+        public virtual void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        {
+            continuationCallback(true);
+        }
 
-    public virtual void OnNavigatedFrom(NavigationContext navigationContext)
-    {
+        public virtual bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
 
-    }
+        public virtual void OnNavigatedFrom(NavigationContext navigationContext)
+        {
 
-    public virtual void OnNavigatedTo(NavigationContext navigationContext)
-    {
+        }
 
+        public virtual void OnNavigatedTo(NavigationContext navigationContext)
+        {
+
+        }
     }
 }

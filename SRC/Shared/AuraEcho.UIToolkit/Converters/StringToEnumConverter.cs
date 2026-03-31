@@ -1,30 +1,33 @@
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace AuraEcho.UIToolkit.Converters;
-
-[ValueConversion(typeof(string), typeof(Enum))]
-public class StringToEnumConverter : IValueConverter
+namespace AuraEcho.UIToolkit.Converters
 {
-    public Type EnumType { get; set; }
-
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    [ValueConversion(typeof(string), typeof(Enum))]
+    public class StringToEnumConverter : IValueConverter
     {
-        if ($"{value}" == String.Empty)
+        public Type EnumType { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return null;
+            if ($"{value}" == String.Empty)
+            {
+                return null;
+            }
+
+            try
+            {
+                return Enum.Parse(EnumType, $"{value}");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        try
-        {
-            return Enum.Parse(EnumType, $"{value}");
-        }
-        catch
-        {
-            return null;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            => value?.ToString();
     }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => value?.ToString();
 }
+

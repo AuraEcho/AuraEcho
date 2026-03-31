@@ -1,8 +1,9 @@
-namespace AuraEcho.PluginContracts.Models;
-
-public enum AppTheme
+namespace AuraEcho.PluginContracts.Models
 {
-    Light,
-    Dark,
-    FollowSystem
+    public enum AppTheme
+    {
+        Light,
+        Dark,
+        FollowSystem
+    }
 }

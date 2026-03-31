@@ -3,36 +3,37 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AuraEcho.UIToolkit.Behaviors;
-
-/// <summary>
-/// 忽略鼠标滚轮事件的行为
-/// </summary>
-public class IgnoreMouseWheelBehavior : Behavior<UIElement>
+namespace AuraEcho.UIToolkit.Behaviors
 {
-    protected override void OnAttached()
+    /// <summary>
+    /// 忽略鼠标滚轮事件的行为
+    /// </summary>
+    public class IgnoreMouseWheelBehavior : Behavior<UIElement>
     {
-        base.OnAttached();
-        AssociatedObject.PreviewMouseWheel += AssociatedObjectPreviewMouseWheel;
-    }
-
-    protected override void OnDetaching()
-    {
-        AssociatedObject.PreviewMouseWheel -= AssociatedObjectPreviewMouseWheel;
-        base.OnDetaching();
-    }
-
-    private void AssociatedObjectPreviewMouseWheel(object sender, MouseWheelEventArgs e)
-    {
-        e.Handled = true;
-
-        if (AssociatedObject is ComboBox cb)
+        protected override void OnAttached()
         {
-            e.Handled = !cb.IsDropDownOpen;
+            base.OnAttached();
+            AssociatedObject.PreviewMouseWheel += AssociatedObjectPreviewMouseWheel;
         }
 
-        var e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
-        e2.RoutedEvent = UIElement.MouseWheelEvent;
-        AssociatedObject.RaiseEvent(e2);
+        protected override void OnDetaching()
+        {
+            AssociatedObject.PreviewMouseWheel -= AssociatedObjectPreviewMouseWheel;
+            base.OnDetaching();
+        }
+
+        private void AssociatedObjectPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+
+            if (AssociatedObject is ComboBox cb)
+            {
+                e.Handled = !cb.IsDropDownOpen;
+            }
+
+            var e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            e2.RoutedEvent = UIElement.MouseWheelEvent;
+            AssociatedObject.RaiseEvent(e2);
+        }
     }
 }

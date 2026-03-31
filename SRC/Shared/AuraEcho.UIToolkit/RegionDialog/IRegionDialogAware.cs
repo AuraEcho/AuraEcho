@@ -1,10 +1,12 @@
+using System;
 using AuraEcho.PluginContracts.Models;
 
-namespace AuraEcho.UIToolkit.RegionDialog;
-
-public interface IRegionDialogAware
+namespace AuraEcho.UIToolkit.RegionDialog
 {
-    event Action<RegionDialogResult> RequestClose;
+    public interface IRegionDialogAware
+    {
+        event Action<RegionDialogResult> RequestClose;
 
-    void OnDialogOpened(RegionDialogParameter parameters);
+        void OnDialogOpened(RegionDialogParameter parameters);
+    }
 }

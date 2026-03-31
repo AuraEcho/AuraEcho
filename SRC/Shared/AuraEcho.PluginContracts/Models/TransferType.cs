@@ -1,7 +1,8 @@
-namespace AuraEcho.PluginContracts.Models;
-
-public enum TransferType
+namespace AuraEcho.PluginContracts.Models
 {
-    Download,
-    Upload
+    public enum TransferType
+    {
+        Download,
+        Upload
+    }
 }

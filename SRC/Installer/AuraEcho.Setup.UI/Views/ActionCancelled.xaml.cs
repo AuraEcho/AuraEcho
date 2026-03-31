@@ -1,14 +1,15 @@
 using System.Windows.Controls;
 
-namespace AuraEcho.Setup.UI.Views;
-
-/// <summary>
-/// Interaction logic for ActionCancelled
-/// </summary>
-public partial class ActionCancelled : UserControl
+namespace AuraEcho.Setup.UI.Views
 {
-    public ActionCancelled()
+    /// <summary>
+    /// Interaction logic for ActionCancelled
+    /// </summary>
+    public partial class ActionCancelled : UserControl
     {
-        InitializeComponent();
+        public ActionCancelled()
+        {
+            InitializeComponent();
+        }
     }
 }

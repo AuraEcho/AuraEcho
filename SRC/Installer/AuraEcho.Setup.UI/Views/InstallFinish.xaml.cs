@@ -2,22 +2,23 @@ using System.Windows;
 using System.Windows.Controls;
 using AuraEcho.Setup.UI.ViewModels;
 
-namespace AuraEcho.Setup.UI.Views;
-
-/// <summary>
-/// Interaction logic for InstallFinish
-/// </summary>
-public partial class InstallFinish : UserControl
+namespace AuraEcho.Setup.UI.Views
 {
-    public InstallFinish()
+    /// <summary>
+    /// Interaction logic for InstallFinish
+    /// </summary>
+    public partial class InstallFinish : UserControl
     {
-        InitializeComponent();
-    }
+        public InstallFinish()
+        {
+            InitializeComponent();
+        }
 
-    private void FinishedButton_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-        Application.Current.MainWindow.Close();
+        private void FinishedButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
 
-        (DataContext as InstallFinishViewModel)!.FinishedCommand.Execute();
+            (DataContext as InstallFinishViewModel).FinishedCommand.Execute();
+        }
     }
 }

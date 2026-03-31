@@ -1,14 +1,15 @@
 using System.Windows.Controls;
 
-namespace AuraEcho.Setup.UI.Views;
-
-/// <summary>
-/// Interaction logic for UninstallFinish
-/// </summary>
-public partial class UninstallFinish : UserControl
+namespace AuraEcho.Setup.UI.Views
 {
-    public UninstallFinish()
+    /// <summary>
+    /// Interaction logic for UninstallFinish
+    /// </summary>
+    public partial class UninstallFinish : UserControl
     {
-        InitializeComponent();
+        public UninstallFinish()
+        {
+            InitializeComponent();
+        }
     }
 }

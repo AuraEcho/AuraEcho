@@ -1,18 +1,19 @@
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace AuraEcho.Setup.UI.ViewModels;
-
-public class ActionCancelledViewModel : BindableBase
+namespace AuraEcho.Setup.UI.ViewModels
 {
-    public DelegateCommand FinishedCommand { get; }
-    private void Finished()
+    public class ActionCancelledViewModel : BindableBase
     {
-        App.Current.Shutdown();
-    }
+        public DelegateCommand FinishedCommand { get; }
+        private void Finished()
+        {
+            App.Current.Shutdown();
+        }
 
-    public ActionCancelledViewModel()
-    {
-        FinishedCommand = new DelegateCommand(Finished);
+        public ActionCancelledViewModel()
+        {
+            FinishedCommand = new DelegateCommand(Finished);
+        }
     }
 }

@@ -2,9 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net10.0-windows10.0.18362.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<TargetFramework>net472</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Assets/Images/AuraEcho.ico</ApplicationIcon>

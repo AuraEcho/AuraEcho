@@ -1,17 +1,18 @@
-namespace AuraEcho.Setup.UI.WixToolset;
-
-/// <summary>
-/// Represents the detection state of a product on the target system.
-/// </summary>
-public enum DetectionState
+namespace AuraEcho.Setup.UI.WixToolset
 {
     /// <summary>
-    /// The product is not detected on the system.
+    /// Represents the detection state of a product on the target system.
     /// </summary>
-    Absent,
+    public enum DetectionState
+    {
+        /// <summary>
+        /// The product is not detected on the system.
+        /// </summary>
+        Absent,
 
-    /// <summary>
-    /// The product is detected and present on the system.
-    /// </summary>
-    Present,
+        /// <summary>
+        /// The product is detected and present on the system.
+        /// </summary>
+        Present,
+    }
 }

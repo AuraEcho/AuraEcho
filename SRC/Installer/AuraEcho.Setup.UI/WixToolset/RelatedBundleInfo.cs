@@ -1,8 +1,12 @@
-namespace AuraEcho.Setup.UI.WixToolset;
+using System;
+using System.Collections.Generic;
 
-public class RelatedBundleInfo
+namespace AuraEcho.Setup.UI.WixToolset
 {
-    public Version Version { get; set; } = new Version();
-    public Dictionary<string, bool> FeatureStatus { get; set; } = [];
-    public string InstallationFolder { get; set; }
+    public class RelatedBundleInfo
+    {
+        public Version Version { get; set; } = new Version();
+        public Dictionary<string, bool> FeatureStatus { get; set; } = new Dictionary<string, bool>();
+        public string InstallationFolder { get; set; }
+    }
 }

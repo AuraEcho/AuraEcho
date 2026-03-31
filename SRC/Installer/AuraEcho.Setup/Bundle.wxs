@@ -16,16 +16,11 @@
 		<Variable Name="BundleFileName" Value="$(var.BundleFileName).exe" Type="string" />
 		<Variable Name="AppLauncherExeName" Type="string" Value="AuraEchoLauncher.exe" />
 		
-		<BootstrapperApplication SourceFile="AuraEcho.Setup.UI.exe" Secondary="$(var.IncludeRuntime)">
+		<BootstrapperApplication SourceFile="AuraEcho.Setup.UI.exe">
 			<Payload SourceFile="mbanative.dll" />
-			<Payload SourceFile="AuraEcho.Setup.UI.dll" />
 			<Payload SourceFile="DryIoc.dll" />
 			<Payload SourceFile="Microsoft.WindowsAPICodePack.dll" />
-			
 			<Payload SourceFile="Microsoft.Toolkit.Uwp.Notifications.dll" />
-			<Payload SourceFile="Microsoft.Windows.SDK.NET.dll" />
-			<Payload SourceFile="WinRT.Runtime.dll" />
-			
 			<Payload SourceFile="Microsoft.WindowsAPICodePack.Shell.dll" />
 			<Payload SourceFile="Microsoft.Xaml.Behaviors.dll" />
 			<Payload SourceFile="Prism.dll" />
@@ -36,13 +31,7 @@
 			<Payload SourceFile="AuraEcho.PluginContracts.dll" />
 			<Payload SourceFile="AuraEcho.UIToolkit.dll" />
 			<Payload SourceFile="WixToolset.BootstrapperApplicationApi.dll" />
-			<Payload SourceFile="AuraEcho.Setup.UI.runtimeconfig.json" />
 			<Payload SourceFile="Assets/PDF/EULA.pdf" />
-
-			<?if $(var.IncludeRuntime) = "yes" ?>
-			<bal:WixPrerequisiteBootstrapperApplication Theme="standard" LogoFile="Assets/Icons/AuraEcho.ico" LocalizationFile="Strings/zh-cn.wxl"/>
-			<?endif ?>
-
 		</BootstrapperApplication>
 
 		<Chain DisableSystemRestore="yes">
@@ -55,8 +44,6 @@
 						Permanent="yes"
 						Vital="no"
 						RepairCondition="DOTNETDESKTOPVERSION &lt; &quot;10.0.0&quot;"
-						bal:PrereqLicenseUrl="https://dotnet.microsoft.com"
-						bal:PrereqPackage="yes"
 						InstallArguments="windowsdesktop-runtime-10.0.0-win-x64.exe /install /quiet /norestart"
 						RepairArguments="windowsdesktop-runtime-10.0.0-win-x64.exe /repair /quiet /norestart"
 						UninstallArguments="windowsdesktop-runtime-10.0.0-win-x64.exe /uninstall /quiet /norestart">

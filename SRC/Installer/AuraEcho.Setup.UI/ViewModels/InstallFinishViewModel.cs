@@ -1,24 +1,24 @@
-using AuraEcho.Setup.UI;
 using AuraEcho.Setup.UI.WixToolset;
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace AuraEcho.Setup.UI.ViewModels;
-
-public class InstallFinishViewModel : BindableBase
+namespace AuraEcho.Setup.UI.ViewModels
 {
-    private readonly AuraEchoBootstrapper _ba;
-
-    public DelegateCommand FinishedCommand { get; }
-    private async void Finished()
+    public class InstallFinishViewModel : BindableBase
     {
-        _ba.LaunchExecutedExe(_ba.AppLauncherFullName, null!);
-        App.Current.Shutdown();
-    }
+        private readonly AuraEchoBootstrapper _ba;
 
-    public InstallFinishViewModel(AuraEchoBootstrapper ba)
-    {
-        _ba = ba;
-        FinishedCommand = new DelegateCommand(Finished);
+        public DelegateCommand FinishedCommand { get; }
+        private async void Finished()
+        {
+            _ba.LaunchExecutedExe(_ba.AppLauncherFullName, null);
+            App.Current.Shutdown();
+        }
+
+        public InstallFinishViewModel(AuraEchoBootstrapper ba)
+        {
+            _ba = ba;
+            FinishedCommand = new DelegateCommand(Finished);
+        }
     }
 }

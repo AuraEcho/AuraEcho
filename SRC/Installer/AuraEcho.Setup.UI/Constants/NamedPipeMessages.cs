@@ -1,6 +1,7 @@
-namespace AuraEcho.Setup.UI.Constants;
-
-public static class NamedPipeMessages
+namespace AuraEcho.Setup.UI.Constants
 {
-    public const string LaunchAppWhenInstalled = "LaunchAppWhenInstalled";
+    public static class NamedPipeMessages
+    {
+        public const string LaunchAppWhenInstalled = "LaunchAppWhenInstalled";
+    }
 }

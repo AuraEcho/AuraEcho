@@ -1,14 +1,15 @@
 using System.Windows.Controls;
 
-namespace AuraEcho.Setup.UI.Views;
-
-/// <summary>
-/// Interaction logic for DowngradeDetected
-/// </summary>
-public partial class DowngradeDetected : UserControl
+namespace AuraEcho.Setup.UI.Views
 {
-    public DowngradeDetected()
+    /// <summary>
+    /// Interaction logic for DowngradeDetected
+    /// </summary>
+    public partial class DowngradeDetected : UserControl
     {
-        InitializeComponent();
+        public DowngradeDetected()
+        {
+            InitializeComponent();
+        }
     }
 }

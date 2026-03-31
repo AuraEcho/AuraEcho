@@ -1,22 +1,23 @@
-namespace AuraEcho.Setup.UI.WixToolset;
-
-/// <summary>
-/// Represents the state of upgrade detection relative to other bundles.
-/// </summary>
-public enum UpgradeDetectionState
+namespace AuraEcho.Setup.UI.WixToolset
 {
     /// <summary>
-    /// No related bundles are installed.
+    /// Represents the state of upgrade detection relative to other bundles.
     /// </summary>
-    None,
+    public enum UpgradeDetectionState
+    {
+        /// <summary>
+        /// No related bundles are installed.
+        /// </summary>
+        None,
 
-    /// <summary>
-    /// All installed related bundles are older than or the same version as this bundle.
-    /// </summary>
-    Older,
+        /// <summary>
+        /// All installed related bundles are older than or the same version as this bundle.
+        /// </summary>
+        Older,
 
-    /// <summary>
-    /// At least one installed related bundle is newer than this bundle.
-    /// </summary>
-    Newer,
+        /// <summary>
+        /// At least one installed related bundle is newer than this bundle.
+        /// </summary>
+        Newer,
+    }
 }

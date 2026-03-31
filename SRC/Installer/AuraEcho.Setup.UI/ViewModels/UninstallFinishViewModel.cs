@@ -2,18 +2,19 @@ using AuraEcho.Setup.UI;
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace AuraEcho.Setup.UI.ViewModels;
-
-public class UninstallFinishViewModel : BindableBase
+namespace AuraEcho.Setup.UI.ViewModels
 {
-    public DelegateCommand FinishedCommand { get; }
-    private void Finished()
+    public class UninstallFinishViewModel : BindableBase
     {
-        App.Current.Shutdown();
-    }
+        public DelegateCommand FinishedCommand { get; }
+        private void Finished()
+        {
+            App.Current.Shutdown();
+        }
 
-    public UninstallFinishViewModel()
-    {
-        FinishedCommand = new DelegateCommand(Finished);
+        public UninstallFinishViewModel()
+        {
+            FinishedCommand = new DelegateCommand(Finished);
+        }
     }
 }

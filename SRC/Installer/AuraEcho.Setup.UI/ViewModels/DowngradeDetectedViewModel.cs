@@ -1,11 +1,12 @@
 using Prism.Mvvm;
 
-namespace AuraEcho.Setup.UI.ViewModels;
-
-public class DowngradeDetectedViewModel : BindableBase
+namespace AuraEcho.Setup.UI.ViewModels
 {
-    public DowngradeDetectedViewModel()
+    public class DowngradeDetectedViewModel : BindableBase
     {
+        public DowngradeDetectedViewModel()
+        {
 
+        }
     }
 }

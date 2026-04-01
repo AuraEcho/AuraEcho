@@ -22,21 +22,26 @@ namespace AuraEcho.Setup.UI.ViewModels
 
         private void DetectCompleted(object sender, EventArgs e)
         {
-            string targetView;
-            switch (_ba.Downgrade)
-            { 
-                case true:
-                    targetView = InstallerViewNames.DowngradeDetected;
-                    break;
-                case false when _ba.Command.Action == LaunchAction.Uninstall:
-                    targetView = InstallerViewNames.UninstallPreparation;
-                    break;
-                default: 
-                    targetView = InstallerViewNames.InstallPreparation;
-                    break;
+            if (_ba.Downgrade)
+            {
+                _regionManager.RequestNavigateOnUIThread(
+                    InstallerRegionNames.MainRegion,
+                    InstallerViewNames.InstallFailed,
+                    new NavigationParameters
+                    {
+                        { "Message", "此计算机已存在更高版本的灵光回声。" }
+                    });
+                return;
             }
 
-            _regionManager.RequestNavigateOnUIThread(InstallerRegionNames.MainRegion, targetView);
+            string targetView =
+                _ba.Command.Action == LaunchAction.Uninstall
+                ? InstallerViewNames.UninstallPreparation
+                : InstallerViewNames.InstallPreparation;
+
+            _regionManager.RequestNavigateOnUIThread(
+                InstallerRegionNames.MainRegion, 
+                targetView);
         }
 
         public Version Version => _ba.Version;

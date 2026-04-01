@@ -89,11 +89,29 @@ namespace AuraEcho.Setup.UI.ViewModels
             Progress = e;
         }
 
-        private void UninstallCompleted(object sender, EventArgs e)
+        private void UninstallCompleted(object sender, int e)
         {
             if (_ba.CancelRequested)
             {
-                _regionManager.RequestNavigateOnUIThread(InstallerRegionNames.MainRegion, InstallerViewNames.ActionCancelled);
+                _regionManager.RequestNavigateOnUIThread(
+                    InstallerRegionNames.MainRegion, 
+                    InstallerViewNames.InstallFailed,
+                    new NavigationParameters
+                    {
+                        { "Message", "卸载过程已取消。您的系统未被修改。" }
+                    });
+                return;
+            }
+
+            if (e != 0)
+            {
+                _regionManager.RequestNavigateOnUIThread(
+                    InstallerRegionNames.MainRegion,
+                    InstallerViewNames.InstallFailed,
+                    new NavigationParameters
+                    {
+                        { "Message", $"卸载过程中发生错误，错误代码：{e}。" }
+                    });
                 return;
             }
 
@@ -105,7 +123,6 @@ namespace AuraEcho.Setup.UI.ViewModels
             _ba.OnActionCompleted -= UninstallCompleted;
             _ba.ProgressChanged -= UpdateProgress;
         }
-
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {

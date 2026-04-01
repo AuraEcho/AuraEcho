@@ -8,7 +8,6 @@ namespace AuraEcho.Setup.UI.Constants
         public const string UninstallPreparation = nameof(Views.UninstallPreparation);
         public const string Uninstalling = nameof(Views.Uninstalling);
         public const string UninstallFinish = nameof(Views.UninstallFinish);
-        public const string ActionCancelled = nameof(Views.ActionCancelled);
-        public const string DowngradeDetected = nameof(Views.DowngradeDetected);
+        public const string InstallFailed = nameof(Views.InstallFailed);
     }
 }

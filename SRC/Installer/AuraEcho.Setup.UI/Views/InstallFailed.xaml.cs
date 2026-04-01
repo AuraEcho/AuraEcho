@@ -3,11 +3,11 @@ using System.Windows.Controls;
 namespace AuraEcho.Setup.UI.Views
 {
     /// <summary>
-    /// Interaction logic for ActionCancelled
+    /// Interaction logic for DowngradeDetected
     /// </summary>
-    public partial class ActionCancelled : UserControl
+    public partial class InstallFailed : UserControl
     {
-        public ActionCancelled()
+        public InstallFailed()
         {
             InitializeComponent();
         }

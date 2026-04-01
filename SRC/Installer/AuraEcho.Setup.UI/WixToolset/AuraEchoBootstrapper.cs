@@ -54,7 +54,7 @@ namespace AuraEcho.Setup.UI.WixToolset
         private WixStringVariable _appLauncherName;
 
         public event EventHandler OnActionRequested;
-        public event EventHandler OnActionCompleted;
+        public event EventHandler<int> OnActionCompleted;
         public event EventHandler<int> ProgressChanged;
         public event EventHandler<PlanMsiFeatureEventArgs> PlanFeature;
         public event EventHandler<string> ExecuteMessage;
@@ -336,7 +336,7 @@ namespace AuraEcho.Setup.UI.WixToolset
         {
             base.OnApplyComplete(args);
             InstallState = InstallState.Completed;
-            OnActionCompleted?.Invoke(this, EventArgs.Empty);
+            OnActionCompleted?.Invoke(this, args.Status);
 
             if (!_isAutoPlan) return;
 

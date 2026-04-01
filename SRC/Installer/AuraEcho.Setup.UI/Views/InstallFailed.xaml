@@ -1,21 +1,20 @@
-<UserControl x:Class="AuraEcho.Setup.UI.Views.DowngradeDetected"
+<UserControl x:Class="AuraEcho.Setup.UI.Views.InstallFailed"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
-             av:DataContext="{av:DesignInstance Type=viewmodels:DowngradeDetectedViewModel}"
+             av:DataContext="{av:DesignInstance Type=viewmodels:InstallFailedViewModel}"
              av:DesignHeight="500"
              av:DesignWidth="750"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="av">
     <Grid>
         <StackPanel Margin="0,0,0,100" VerticalAlignment="Bottom">
-            <Border Width="320"
-                    Height="48"
-                    Margin="0,0,0,100"
-                    Padding="8"
+            <Border Margin="0,0,0,100"
+                    Padding="16,12"
+                    HorizontalAlignment="Center"
                     Background="#1AFFAA4A"
                     BorderBrush="#FFAA4A"
                     BorderThickness="1"
@@ -36,11 +35,12 @@
                                 </Path.Data>
                             </Path>
                         </Canvas>
-                    </Viewbox>                
+                    </Viewbox>
                     <TextBlock VerticalAlignment="Center"
+                               av:Text="此计算机已存在更高版本的灵光回声。"
                                FontSize="16"
                                Foreground="#FFAA4A"
-                               Text="此计算机已存在更高版本的灵光回声。" />
+                               Text="{Binding Message}" />
                 </StackPanel>
 
             </Border>
@@ -48,6 +48,7 @@
                     Height="48"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Command="{Binding FinishedCommand}"
                     Content="完成"
                     FontSize="18"
                     Style="{DynamicResource PrimaryButtonStyle}" />

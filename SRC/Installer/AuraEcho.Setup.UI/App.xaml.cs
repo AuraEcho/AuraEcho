@@ -35,8 +35,7 @@ namespace AuraEcho.Setup.UI
             containerRegistry.RegisterForNavigation<UninstallPreparation>();
             containerRegistry.RegisterForNavigation<Uninstalling>();
             containerRegistry.RegisterForNavigation<UninstallFinish>();
-            containerRegistry.RegisterForNavigation<ActionCancelled>();
-            containerRegistry.RegisterForNavigation<DowngradeDetected>();
+            containerRegistry.RegisterForNavigation<InstallFailed>();
         }
 
         protected override void OnStartup(System.Windows.StartupEventArgs e)

@@ -1,4 +1,4 @@
-namespace AuraEcho.Core.Models.Api;
+namespace AuraEcho.Core.Models;
 
 public class AppVersionInfo
 {

@@ -1,5 +1,4 @@
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
 
 namespace AuraEcho.Core.Contracts;
 

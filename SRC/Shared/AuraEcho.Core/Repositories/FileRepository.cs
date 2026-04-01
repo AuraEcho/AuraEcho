@@ -20,7 +20,7 @@ public class FileRepository : IFileRepository
     {
         try
         {
-            using var response = await _httpHelper.GetAsync($"{Urls.ServerUrl}/api/file/download?fileId={fileId}", HttpCompletionOption.ResponseHeadersRead);
+            using var response = await _httpHelper.GetAsync($"{Urls.ServerUrl}/api/v1/file/download?fileId={fileId}", HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
 
             var totalBytes = response.Content.Headers.ContentLength ?? -1L;
@@ -51,7 +51,7 @@ public class FileRepository : IFileRepository
     }
     public async Task<UploadedFile> GetFileByIdAsync(Guid fileId)
     {
-        var result = await _httpHelper.GetAsync<GetUploadedFileByIdResponse>($"{Urls.ServerUrl}/api/file/{fileId}");
+        var result = await _httpHelper.GetAsync<GetUploadedFileByIdResponse>($"{Urls.ServerUrl}/api/v1/file/{fileId}");
         if (result == null) return null;
         return new UploadedFile
         {
@@ -64,7 +64,7 @@ public class FileRepository : IFileRepository
     }
     public async Task<List<UploadedFile>> GetUploadedFilesAsync()
     {
-        var response = await _httpHelper.GetAsync<UploadFileListResponse>($"{Urls.ServerUrl}/api/file/UploadFileList");
+        var response = await _httpHelper.GetAsync<UploadFileListResponse>($"{Urls.ServerUrl}/api/v1/file/UploadFileList");
         if (response is null) return null;
 
         var result = response.Files.Select(f => new UploadedFile
@@ -88,7 +88,7 @@ public class FileRepository : IFileRepository
         form.Add(streamContent, "file", Path.GetFileName(filePath));
         form.Add(new StringContent(type), "type");
 
-        var response = await _httpHelper.PostAsync<UploadFileResponse>($"{Urls.ServerUrl}/api/file/upload", form);
+        var response = await _httpHelper.PostAsync<UploadFileResponse>($"{Urls.ServerUrl}/api/v1/file/upload", form);
         if (response is null) return null;
 
         return response.FileId;
@@ -116,7 +116,7 @@ public class FileRepository : IFileRepository
             { new StringContent(sha256), "sha256"  }
         };
 
-        var initResp = await _httpHelper.PostAsync<UploadInitResponse>($"{Urls.ServerUrl}/api/file/uploadinit", initForm);
+        var initResp = await _httpHelper.PostAsync<UploadInitResponse>($"{Urls.ServerUrl}/api/v1/file/uploadinit", initForm);
         if (initResp is null) return null;
 
         if (initResp.IsDuplicated) return initResp.FileId;
@@ -124,7 +124,7 @@ public class FileRepository : IFileRepository
         var uploadId = initResp.UploadId;
 
         // try get already uploaded chunks (in case resume)
-        var uploadedResp = await _httpHelper.GetAsync<UploadedChunksResponse>($"{Urls.ServerUrl}/api/file/uploadedChunks?uploadId={uploadId}");
+        var uploadedResp = await _httpHelper.GetAsync<UploadedChunksResponse>($"{Urls.ServerUrl}/api/v1/file/uploadedChunks?uploadId={uploadId}");
         var uploadedSet = new HashSet<int>(uploadedResp?.ChunkParts ?? []);
 
         long uploadedBytes = (long)uploadedSet.Count * chunkSize;
@@ -143,7 +143,7 @@ public class FileRepository : IFileRepository
                 { new StringContent(i.ToString()), "chunkIndex" },
                 { new StreamContent(new MemoryStream(buffer, 0, read)), "chunk", $"chunk{i}" }
             };
-            var uploadResult = await _httpHelper.PostAsync($"{Urls.ServerUrl}/api/file/uploadchunk", content);
+            var uploadResult = await _httpHelper.PostAsync($"{Urls.ServerUrl}/api/v1/file/uploadchunk", content);
             if (!uploadResult) return null;
 
             uploadedBytes += read;
@@ -153,7 +153,7 @@ public class FileRepository : IFileRepository
         // merge
         var mergeForm = new MultipartFormDataContent { { new StringContent(uploadId.ToString()), "uploadId" } };
 
-        var mergeResp = await _httpHelper.PostAsync<UploadMergeResponse>($"{Urls.ServerUrl}/api/file/uploadMerge", mergeForm);
+        var mergeResp = await _httpHelper.PostAsync<UploadMergeResponse>($"{Urls.ServerUrl}/api/v1/file/uploadMerge", mergeForm);
         if (mergeResp is null) return null;
 
         return mergeResp.FileId;

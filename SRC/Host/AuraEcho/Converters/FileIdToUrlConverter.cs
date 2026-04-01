@@ -11,7 +11,7 @@ public class FileIdToUrlConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is not Guid fileId) return null;
-        return $"{Urls.ServerUrl}/api/file/download?fileId={fileId}";
+        return $"{Urls.ServerUrl}/api/v1/file/download?fileId={fileId}";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

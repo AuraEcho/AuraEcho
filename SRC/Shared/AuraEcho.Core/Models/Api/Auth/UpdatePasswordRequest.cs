@@ -1,4 +1,4 @@
-﻿namespace AuraEcho.Core.Models.Api.Auth;
+namespace AuraEcho.Core.Models.Api.Auth;
 
 public class UpdatePasswordRequest
 {

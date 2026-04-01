@@ -1,4 +1,4 @@
-﻿using AuraEcho.Core.Models;
+using AuraEcho.Core.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace AuraEcho.Core.Data.Entities;

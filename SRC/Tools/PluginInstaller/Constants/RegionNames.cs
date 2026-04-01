@@ -1,4 +1,4 @@
-﻿namespace PluginInstaller.Constants;
+namespace PluginInstaller.Constants;
 
 /// <summary>
 /// Region 名称

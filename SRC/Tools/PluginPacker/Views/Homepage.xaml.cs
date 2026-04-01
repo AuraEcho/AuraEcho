@@ -1,4 +1,4 @@
-﻿using PluginPacker.Models;
+using PluginPacker.Models;
 using PluginPacker.ViewModels;
 using System.IO;
 using System.Windows;

@@ -1,4 +1,4 @@
-﻿#include <windows.h>
+#include <windows.h>
 #include <gdiplus.h>
 #include <string>
 #include <dwmapi.h>

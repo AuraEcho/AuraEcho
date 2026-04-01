@@ -1,4 +1,4 @@
-﻿namespace AuraEcho.Core.Tools;
+namespace AuraEcho.Core.Tools;
 
 public static class IdUtil
 {

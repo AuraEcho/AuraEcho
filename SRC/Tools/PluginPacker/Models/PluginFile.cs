@@ -1,4 +1,4 @@
-﻿namespace PluginPacker.Models;
+namespace PluginPacker.Models;
 
 public class PluginFile : PluginItem
 {

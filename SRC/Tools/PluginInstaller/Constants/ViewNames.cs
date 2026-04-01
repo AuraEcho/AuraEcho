@@ -1,4 +1,4 @@
-﻿namespace PluginInstaller.Constants;
+namespace PluginInstaller.Constants;
 
 /// <summary>
 /// 视图名称常量

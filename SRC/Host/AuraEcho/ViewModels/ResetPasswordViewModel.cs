@@ -1,4 +1,4 @@
-﻿using AuraEcho.Constants;
+using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Models.Api.Auth;

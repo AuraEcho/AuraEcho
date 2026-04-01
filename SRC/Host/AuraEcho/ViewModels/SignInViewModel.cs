@@ -87,11 +87,11 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         if (!requestResult)
         {
             SendEmailCodeCooldown = 0;
-            _toastService.Show($"·¢ËÍÑéÖ¤ÂëÊ±Óöµ½ÁË´íÎó", ToastLevel.Error);
+            _toastService.Show($"å‘é€éªŒè¯ç æ—¶é‡åˆ°äº†é”™è¯¯", ToastLevel.Error);
             return;
         }
 
-        _toastService.Show($"ÑéÖ¤ÂëÒÑ·¢ËÍÖÁ {Email}", ToastLevel.Info);
+        _toastService.Show($"éªŒè¯ç å·²å‘é€è‡³ {Email}", ToastLevel.Info);
 
         _ = Task.Run(async () =>
         {
@@ -108,7 +108,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand SignInByCodeCommand { get; }
     private async void SignInByCode()
     {
-        // TODO£º·¢ÉúÒì³£Ê±£¬È·±£ IsSigningInByCode ÄÜ¹»±»ÕıÈ·ÖØÖÃ¡£
+        // TODOï¼šå‘ç”Ÿå¼‚å¸¸æ—¶ï¼Œç¡®ä¿ IsSigningInByCode èƒ½å¤Ÿè¢«æ­£ç¡®é‡ç½®ã€‚
         IsSigningInByCode = true;
 
         ClearErrors(nameof(Email));
@@ -134,7 +134,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result?.Status == ResultStatus.EmailCodeError)
         {
-            _errors[nameof(EmailCode)] = ["ÑéÖ¤Âë´íÎó"];
+            _errors[nameof(EmailCode)] = ["éªŒè¯ç é”™è¯¯"];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
             IsSigningInByCode = false;
             return;
@@ -142,7 +142,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            _toastService.Show($"·şÎñÆ÷·±Ã¦£¬ÇëÉÔºóÖØÊÔ¡£", ToastLevel.Error);
+            _toastService.Show($"æœåŠ¡å™¨ç¹å¿™ï¼Œè¯·ç¨åé‡è¯•ã€‚", ToastLevel.Error);
             IsSigningInByCode = false;
             return;
         }
@@ -167,10 +167,10 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
     private string ValidateCore(string propertyName) => propertyName switch
     {
-        nameof(Email) when String.IsNullOrWhiteSpace(Email) => "ÓÊÏäµØÖ·²»ÄÜÎª¿Õ£¡",
-        nameof(Email) when EmailRegex.IsMatch(Email) == false => "ÇëÊäÈëÓĞĞ§µÄÓÊÏä¸ñÊ½",
-        nameof(EmailCode) when String.IsNullOrWhiteSpace(EmailCode) => "ÑéÖ¤Âë²»ÄÜÎª¿Õ£¡",
-        nameof(Password) when String.IsNullOrWhiteSpace(Password) => "ÃÜÂë²»ÄÜÎª¿Õ£¡",
+        nameof(Email) when String.IsNullOrWhiteSpace(Email) => "é‚®ç®±åœ°å€ä¸èƒ½ä¸ºç©ºï¼",
+        nameof(Email) when EmailRegex.IsMatch(Email) == false => "è¯·è¾“å…¥æœ‰æ•ˆçš„é‚®ç®±æ ¼å¼",
+        nameof(EmailCode) when String.IsNullOrWhiteSpace(EmailCode) => "éªŒè¯ç ä¸èƒ½ä¸ºç©ºï¼",
+        nameof(Password) when String.IsNullOrWhiteSpace(Password) => "å¯†ç ä¸èƒ½ä¸ºç©ºï¼",
         _ => String.Empty
     };
 
@@ -201,7 +201,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result?.Status == ResultStatus.PasswordError)
         {
-            _errors[nameof(Email)] = ["ÕËºÅ»òÃÜÂë´íÎó"];
+            _errors[nameof(Email)] = ["è´¦å·æˆ–å¯†ç é”™è¯¯"];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
             IsSigningInByPassword = false;
             return;
@@ -209,7 +209,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            _toastService.Show($"·şÎñÆ÷·±Ã¦£¬ÇëÉÔºóÖØÊÔ¡£", ToastLevel.Error);
+            _toastService.Show($"æœåŠ¡å™¨ç¹å¿™ï¼Œè¯·ç¨åé‡è¯•ã€‚", ToastLevel.Error);
             IsSigningInByPassword = false;
             return;
         }
@@ -237,7 +237,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         ClearErrors(nameof(Password));
     }
     /// <summary>
-    /// ´ò¿ªĞ­ÒéÉùÃ÷
+    /// æ‰“å¼€åè®®å£°æ˜
     /// </summary>
     public DelegateCommand OpenEULACommand { get; }
     private void OpenEULA()

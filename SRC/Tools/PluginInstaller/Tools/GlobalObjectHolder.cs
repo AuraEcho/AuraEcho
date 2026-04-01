@@ -1,4 +1,4 @@
-﻿namespace PluginInstaller.Tools;
+namespace PluginInstaller.Tools;
 
 public static class GlobalObjectHolder
 {

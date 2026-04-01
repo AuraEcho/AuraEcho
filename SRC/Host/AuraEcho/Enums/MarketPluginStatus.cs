@@ -1,4 +1,4 @@
-﻿namespace AuraEcho.Enums;
+namespace AuraEcho.Enums;
 
 public enum MarketPluginStatus
 {

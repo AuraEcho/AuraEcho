@@ -1,4 +1,4 @@
-﻿using AuraEcho.PluginContracts.Models;
+using AuraEcho.PluginContracts.Models;
 
 namespace AuraEcho.PluginContracts.Interfaces
 {

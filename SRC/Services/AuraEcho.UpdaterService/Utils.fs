@@ -1,4 +1,4 @@
-﻿module AuraEcho.UpdaterService.Utils
+module AuraEcho.UpdaterService.Utils
 
 open System
 open System.IO

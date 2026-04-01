@@ -1,4 +1,4 @@
-﻿namespace PluginPacker.Constants;
+namespace PluginPacker.Constants;
 
 public static class RegionNames
 {

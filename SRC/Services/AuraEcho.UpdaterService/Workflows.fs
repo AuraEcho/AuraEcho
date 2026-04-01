@@ -1,4 +1,4 @@
-﻿module AuraEcho.UpdaterService.Workflows
+module AuraEcho.UpdaterService.Workflows
 
 open System
 open System.IO

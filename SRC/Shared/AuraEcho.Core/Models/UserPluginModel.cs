@@ -1,4 +1,4 @@
-﻿using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Interfaces;
 using Prism.Mvvm;
 
 namespace AuraEcho.Core.Models;

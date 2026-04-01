@@ -1,4 +1,4 @@
-﻿using Prism.Events;
+using Prism.Events;
 
 namespace AuraEcho.PluginContracts.Events
 {

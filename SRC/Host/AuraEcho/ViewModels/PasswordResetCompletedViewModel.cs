@@ -1,4 +1,4 @@
-﻿using AuraEcho.Constants;
+using AuraEcho.Constants;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using Prism.Commands;

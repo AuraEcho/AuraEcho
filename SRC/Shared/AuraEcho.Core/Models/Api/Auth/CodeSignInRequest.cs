@@ -1,3 +1,3 @@
-﻿namespace AuraEcho.Core.Models.Api;
+namespace AuraEcho.Core.Models.Api;
 
 public record CodeSignInRequest(string Email, string Code);

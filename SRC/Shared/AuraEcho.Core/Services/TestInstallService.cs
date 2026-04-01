@@ -1,4 +1,4 @@
-﻿using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using System;
 using System.Collections.Generic;

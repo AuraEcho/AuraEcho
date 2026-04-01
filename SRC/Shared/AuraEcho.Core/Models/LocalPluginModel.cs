@@ -1,4 +1,4 @@
-﻿namespace AuraEcho.Core.Models;
+namespace AuraEcho.Core.Models;
 
 public class LocalPluginModel
 {

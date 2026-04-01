@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AuraEcho.Views.SignIn"
+<UserControl x:Class="AuraEcho.Views.SignIn"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cc="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"

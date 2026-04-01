@@ -1,4 +1,4 @@
-﻿using PluginInstaller.ViewModels;
+using PluginInstaller.ViewModels;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;

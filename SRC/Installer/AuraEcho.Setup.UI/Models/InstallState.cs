@@ -1,4 +1,4 @@
-﻿namespace AuraEcho.Setup.UI.Models
+namespace AuraEcho.Setup.UI.Models
 {
     public enum InstallState
     {

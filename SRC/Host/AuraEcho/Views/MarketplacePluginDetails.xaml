@@ -28,8 +28,8 @@
                     Height="48"
                     Padding="16,0"
                     HorizontalContentAlignment="Left"
-                    Command="{Binding Source={StaticResource BindingProxy}, Path=Data.InstallCommand}"
                     d:Content="INSTALL"
+                    Command="{Binding Source={StaticResource BindingProxy}, Path=Data.InstallCommand}"
                     FontSize="16"
                     Style="{DynamicResource PrimaryButtonStyle}">
                 <i:Interaction.Triggers>
@@ -119,9 +119,14 @@
                                    d:Text="Plugin Name"
                                    FontSize="24"
                                    Text="{Binding MarketPlugin.PluginInfo.DisplayName}" />
-                        <TextBlock d:Text="Plugin author"
-                                   FontSize="16"
-                                   Text="{Binding MarketPlugin.PluginInfo.Author}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock d:Text="Plugin author"
+                                       FontSize="16"
+                                       Text="{Binding MarketPlugin.PluginInfo.Author}" />
+                            <TextBlock d:Text=" | Users: 21"
+                                       FontSize="16"
+                                       Text="{Binding MarketPlugin.PluginInfo.UserCount, StringFormat={} | Users: {0}}" />
+                        </StackPanel>
                     </StackPanel>
                 </DockPanel>
                 <TextBlock Margin="0,0,0,16"

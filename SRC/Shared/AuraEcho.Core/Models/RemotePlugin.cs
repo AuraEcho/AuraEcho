@@ -12,7 +12,7 @@ public class RemotePlugin : BindableBase
     public Guid IconFileId { get; set; }
     public bool IsAcquired { get; set; }
     public DateTime CreateTime { get; set; }
-
+    public int UserCount { get; set; }
     private List<PluginPackage> _versions;
     public List<PluginPackage> Versions
     {

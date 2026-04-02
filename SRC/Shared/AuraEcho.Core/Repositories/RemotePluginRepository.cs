@@ -111,7 +111,8 @@ public class RemotePluginRepository : IRemotePluginRepository
                       Description = p.Description,
                       DisplayName = p.DisplayName,
                       IconFileId = p.IconFileId,
-                      IsAcquired = p.IsAcquired
+                      IsAcquired = p.IsAcquired,
+                      UserCount = p.UserCount
                   })
                   .ToList();
 

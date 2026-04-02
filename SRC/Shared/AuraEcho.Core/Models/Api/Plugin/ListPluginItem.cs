@@ -10,4 +10,5 @@ public class ListPluginItem
     public Guid IconFileId { get; set; }
     public DateTime CreateTime { get; set; }
     public bool IsAcquired { get; set; }
+    public int UserCount { get; set; }
 }

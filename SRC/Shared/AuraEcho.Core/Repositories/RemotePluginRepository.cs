@@ -88,6 +88,7 @@ public class RemotePluginRepository : IRemotePluginRepository
             PluginId = result.PluginId,
             FileName = result.FileName,
             FileId = result.FileId,
+            ReleaseNotes = result.ReleaseNotes,
             CreateTime = result.CreateTime,
             Id = result.Id,
             Size = result.Size,
@@ -152,6 +153,7 @@ public class RemotePluginRepository : IRemotePluginRepository
                   {
                       CreateTime = v.CreateTime,
                       Id = v.Id,
+                      ReleaseNotes = v.ReleaseNotes,
                       Version = v.Version,
                       FileId = v.FileId,
                       FileName = v.FileName,

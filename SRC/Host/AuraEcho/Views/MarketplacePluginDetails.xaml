@@ -163,7 +163,25 @@
                                    Text="{Binding MarketPlugin.PluginInfo.Description}" />
                     </StackPanel>
                 </Border>
-
+                <Border Margin="0,0,0,16"
+                        Background="{DynamicResource Themes.Brushes.SecondaryContainer}"
+                        CornerRadius="4">
+                    <StackPanel>
+                        <TextBlock Margin="16"
+                                   FontSize="14"
+                                   Text="Release Notes" />
+                        <Line Stretch="Fill"
+                              Stroke="{DynamicResource Themes.Brushes.OnSurface}"
+                              X1="0"
+                              X2="1"
+                              Y1="0"
+                              Y2="0" />
+                        <TextBlock Margin="16"
+                                   TextWrapping="Wrap"
+                                   d:Text="这是显示此版本中的更新内容。"
+                                   Text="{Binding LatestVersionInfo.ReleaseNotes}" />
+                    </StackPanel>
+                </Border>
                 <Border Background="{DynamicResource Themes.Brushes.SecondaryContainer}" CornerRadius="4">
                     <StackPanel>
                         <TextBlock Margin="16"

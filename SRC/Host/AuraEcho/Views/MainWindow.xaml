@@ -71,7 +71,7 @@
         <WindowChrome CaptionHeight="36"
                       CornerRadius="0"
                       GlassFrameThickness="0,0,0,1"
-                      ResizeBorderThickness="8"
+                      ResizeBorderThickness="4"
                       UseAeroCaptionButtons="False" />
     </WindowChrome.WindowChrome>
     <Grid x:Name="AppContainer">

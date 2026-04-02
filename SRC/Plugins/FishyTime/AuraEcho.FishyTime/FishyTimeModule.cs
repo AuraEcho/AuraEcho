@@ -3,6 +3,7 @@ using AuraEcho.FishyTime.Views;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using Prism.Ioc;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace AuraEcho.FishyTime;
@@ -40,7 +41,8 @@ public class FishyTimeModule : IPlugin
         containerRegistry.RegisterForNavigation<FishyTimeSettings>();
     }
 
-    public void Setup(IContainerProvider containerProvider)
+    public Task SetupAsync(IContainerProvider containerProvider)
     {
+        return Task.CompletedTask;
     }
 }

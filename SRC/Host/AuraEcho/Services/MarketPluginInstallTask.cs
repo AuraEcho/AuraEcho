@@ -31,7 +31,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     private bool _inProgress;
 
     public string Id => _plugin.PluginInfo.Id.ToString();
-    public string Name => _plugin.PluginInfo.DisplayName;
+    public string Name => _plugin.PluginInfo.Name;
     public TransferType Type => TransferType.Download;
 
     public double Progress

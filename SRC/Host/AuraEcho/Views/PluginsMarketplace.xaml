@@ -152,7 +152,7 @@
                                    VerticalAlignment="Top"
                                    d:Text="PLUGIN DISPLAY NAME"
                                    FontSize="16"
-                                   Text="{Binding PluginInfo.DisplayName}"
+                                   Text="{Binding PluginInfo.Name}"
                                    TextWrapping="Wrap" />
                         <ContentControl VerticalAlignment="Bottom"
                                         d:ContentTemplate="{DynamicResource NotInstalledTemplate}"

@@ -109,7 +109,7 @@ public class RemotePluginRepository : IRemotePluginRepository
                       CreateTime = p.CreateTime,
                       Id = p.Id,
                       Description = p.Description,
-                      DisplayName = p.DisplayName,
+                      Summary = p.Summary,
                       IconFileId = p.IconFileId,
                       IsAcquired = p.IsAcquired,
                       UserCount = p.UserCount
@@ -133,7 +133,7 @@ public class RemotePluginRepository : IRemotePluginRepository
                       CreateTime = p.CreateTime,
                       Id = p.Id,
                       Description = p.Description,
-                      DisplayName = p.DisplayName,
+                      Summary= p.Summary,
                       IconFileId = p.IconFileId,
                   })
                   .ToList();

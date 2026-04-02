@@ -348,7 +348,7 @@ public class HomepageViewModel : BindableBase
                 EntryAssemblyName = EntryFile?.Name,
                 Icon = IconFile.Name,
                 Id = CurrentPlugin.Id,
-                PluginName = CurrentPlugin.DisplayName,
+                PluginName = CurrentPlugin.Name,
                 Version = Version,
                 DefaultViewName = DefaultViewName
             }, new JsonSerializerOptions

@@ -111,6 +111,7 @@ public class RemotePluginRepository : IRemotePluginRepository
                       Id = p.Id,
                       Description = p.Description,
                       Summary = p.Summary,
+                      BannerFileId = p.BannerFileId,
                       IconFileId = p.IconFileId,
                       IsAcquired = p.IsAcquired,
                       UserCount = p.UserCount

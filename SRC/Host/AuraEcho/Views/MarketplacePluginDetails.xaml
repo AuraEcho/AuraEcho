@@ -12,7 +12,6 @@
              xmlns:sv="clr-namespace:AuraEcho.Services"
              xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
-             Padding="0,36,0,0"
              d:DataContext="{d:DesignInstance Type=viewmodels:MarketplacePluginDetailsViewModel}"
              d:DesignHeight="615"
              d:DesignWidth="825"
@@ -102,7 +101,36 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <ScrollViewer Padding="32">
+        <Grid Height="265" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="1"  Source="{Binding MarketPlugin.PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}" Stretch="UniformToFill" />
+            <Border Grid.Column="0" Grid.ColumnSpan="2">
+                <Border.Background>
+                    <RadialGradientBrush Center="0.8, 0.5" GradientOrigin="0.8, 0.5" RadiusX="0.2" RadiusY="1.5">
+                        <GradientStop Offset="0" Color="Transparent" />
+                        <GradientStop Offset="0.2" Color="Transparent" />
+                        <GradientStop Offset="1" Color="#FF000000" />
+                    </RadialGradientBrush>
+                </Border.Background>
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="1, 0" EndPoint="0, 0">
+                        <GradientStop Offset="0" Color="#00000000" />
+                        <GradientStop Offset="0.6" Color="#FF000000" />
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+            <Grid.OpacityMask>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                    <GradientStop Offset="0" Color="#FF000000" />
+                    <GradientStop Offset="0.7" Color="#FF000000" />
+                    <GradientStop Offset="1" Color="#00000000" />
+                </LinearGradientBrush>
+            </Grid.OpacityMask>
+        </Grid>
+        <ScrollViewer Padding="32,68,32,32">
             <StackPanel MaxWidth="1200">
                 <DockPanel Margin="0,0,0,16" LastChildFill="True">
                     <Border Width="80"
@@ -177,9 +205,9 @@
                               Y1="0"
                               Y2="0" />
                         <TextBlock Margin="16"
-                                   TextWrapping="Wrap"
                                    d:Text="这是显示此版本中的更新内容。"
-                                   Text="{Binding LatestVersionInfo.ReleaseNotes}" />
+                                   Text="{Binding LatestVersionInfo.ReleaseNotes}"
+                                   TextWrapping="Wrap" />
                     </StackPanel>
                 </Border>
                 <Border Background="{DynamicResource Themes.Brushes.SecondaryContainer}" CornerRadius="4">

@@ -7,4 +7,5 @@ public class CreatePluginRequest
     public string Description { get; set; }
     public string Author { get; set; }
     public Guid IconFileId { get; set; }
+    public Guid BannerFileId { get; set; }
 }

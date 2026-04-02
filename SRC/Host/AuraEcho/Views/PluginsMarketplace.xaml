@@ -19,9 +19,11 @@
              Background="{DynamicResource Themes.Brushes.Background}"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+        <ui:BindingProxy x:Key="BindingProxy"
+                         Data="{Binding}" />
         <converters:FileIdToUrlConverter x:Key="FileIdToUrl" />
-        <DataTemplate x:Key="NotInstalledTemplate" DataType="{x:Type models:MarketPlugin}">
+        <DataTemplate x:Key="NotInstalledTemplate"
+                      DataType="{x:Type models:MarketPlugin}">
             <Border Height="24"
                     Margin="8"
                     Padding="8,4"
@@ -32,17 +34,22 @@
                            VerticalAlignment="Center"
                            d:Text="免费下载">
                     <i:Interaction.Triggers>
-                        <i:DataTrigger Binding="{Binding Status}" Value="{x:Static enums:MarketPluginStatus.Acquired}">
-                            <i:ChangePropertyAction PropertyName="Text" Value="安装" />
+                        <i:DataTrigger Binding="{Binding Status}"
+                                       Value="{x:Static enums:MarketPluginStatus.Acquired}">
+                            <i:ChangePropertyAction PropertyName="Text"
+                                                    Value="安装" />
                         </i:DataTrigger>
-                        <i:DataTrigger Binding="{Binding Status}" Value="{x:Static enums:MarketPluginStatus.None}">
-                            <i:ChangePropertyAction PropertyName="Text" Value="获取" />
+                        <i:DataTrigger Binding="{Binding Status}"
+                                       Value="{x:Static enums:MarketPluginStatus.None}">
+                            <i:ChangePropertyAction PropertyName="Text"
+                                                    Value="获取" />
                         </i:DataTrigger>
                     </i:Interaction.Triggers>
                 </TextBlock>
             </Border>
         </DataTemplate>
-        <DataTemplate x:Key="AcquiringTemplate" DataType="{x:Type models:MarketPlugin}">
+        <DataTemplate x:Key="AcquiringTemplate"
+                      DataType="{x:Type models:MarketPlugin}">
             <Grid>
                 <Border Height="24"
                         Margin="8"
@@ -54,10 +61,12 @@
                                VerticalAlignment="Center"
                                Text="正在获取" />
                 </Border>
-                <ProgressBar VerticalAlignment="Bottom" IsIndeterminate="True" />
+                <ProgressBar VerticalAlignment="Bottom"
+                             IsIndeterminate="True" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="DownloadingTemplate" DataType="{x:Type models:MarketPlugin}">
+        <DataTemplate x:Key="DownloadingTemplate"
+                      DataType="{x:Type models:MarketPlugin}">
             <Grid>
                 <Border Height="24"
                         Margin="8"
@@ -76,7 +85,8 @@
                              Value="{Binding InstallContext.Progress, Mode=OneWay}" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="InstallingTemplate" DataType="{x:Type models:MarketPlugin}">
+        <DataTemplate x:Key="InstallingTemplate"
+                      DataType="{x:Type models:MarketPlugin}">
             <Grid>
                 <Border Height="24"
                         Margin="8"
@@ -88,10 +98,12 @@
                                VerticalAlignment="Center"
                                Text="正在安装" />
                 </Border>
-                <ProgressBar VerticalAlignment="Bottom" IsIndeterminate="True" />
+                <ProgressBar VerticalAlignment="Bottom"
+                             IsIndeterminate="True" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="InstalledTemplate" DataType="{x:Type models:MarketPlugin}">
+        <DataTemplate x:Key="InstalledTemplate"
+                      DataType="{x:Type models:MarketPlugin}">
             <Border Height="24"
                     Margin="8"
                     Padding="8,4"
@@ -103,8 +115,9 @@
                            Text="已安装" />
             </Border>
         </DataTemplate>
-        <DataTemplate x:Key="PluginTemplate" DataType="{x:Type models:MarketPlugin}">
-            <Button Width="140"
+        <DataTemplate x:Key="PluginTemplate"
+                      DataType="{x:Type models:MarketPlugin}">
+            <Button Width="240"
                     Height="180"
                     Padding="0"
                     HorizontalContentAlignment="Stretch"
@@ -138,44 +151,78 @@
                         <RowDefinition Height="100" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Border Grid.Row="0" CornerRadius="4, 4, 0, 0">
+                    <Border Grid.Row="0"
+                            CornerRadius="4, 4, 0, 0">
                         <Border.Background>
-                            <VisualBrush AlignmentY="Top" Stretch="UniformToFill">
+                            <VisualBrush AlignmentY="Top"
+                                         Stretch="UniformToFill">
                                 <VisualBrush.Visual>
-                                    <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.IconFileId, Converter={StaticResource FileIdToUrl}}" />
+                                    <Image RenderOptions.BitmapScalingMode="LowQuality"
+                                           Source="{Binding PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}" />
                                 </VisualBrush.Visual>
                             </VisualBrush>
                         </Border.Background>
                     </Border>
-                    <Grid Grid.Row="1">
-                        <TextBlock Margin="8"
-                                   VerticalAlignment="Top"
-                                   d:Text="PLUGIN DISPLAY NAME"
-                                   FontSize="16"
-                                   Text="{Binding PluginInfo.Name}"
-                                   TextWrapping="Wrap" />
-                        <ContentControl VerticalAlignment="Bottom"
-                                        d:ContentTemplate="{DynamicResource NotInstalledTemplate}"
-                                        Content="{Binding}">
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding InstallContext.Status}" Value="{x:Static enums:MarketPluginInstallStatus.None}">
-                                    <i:ChangePropertyAction PropertyName="ContentTemplate" Value="{StaticResource NotInstalledTemplate}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding InstallContext.Status}" Value="{x:Static enums:MarketPluginInstallStatus.Acquiring}">
-                                    <i:ChangePropertyAction PropertyName="ContentTemplate" Value="{StaticResource AcquiringTemplate}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding InstallContext.Status}" Value="{x:Static enums:MarketPluginInstallStatus.Downloading}">
-                                    <i:ChangePropertyAction PropertyName="ContentTemplate" Value="{StaticResource DownloadingTemplate}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding InstallContext.Status}" Value="{x:Static enums:MarketPluginInstallStatus.Installing}">
-                                    <i:ChangePropertyAction PropertyName="ContentTemplate" Value="{StaticResource InstallingTemplate}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding InstallContext.Status}" Value="{x:Static enums:MarketPluginInstallStatus.Completed}">
-                                    <i:ChangePropertyAction PropertyName="ContentTemplate" Value="{StaticResource InstalledTemplate}" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                        </ContentControl>
-                    </Grid>
+                    <DockPanel Grid.Row="1"
+                               LastChildFill="True">
+                        <Border Width="60"
+                                Height="60"
+                                Margin="8, 0, 0, 0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Left"
+                                CornerRadius="4, 4, 0, 0">
+                            <Border.Background>
+                                <VisualBrush AlignmentY="Top"
+                                             Stretch="UniformToFill">
+                                    <VisualBrush.Visual>
+                                        <Image RenderOptions.BitmapScalingMode="LowQuality"
+                                               Source="{Binding PluginInfo.IconFileId, Converter={StaticResource FileIdToUrl}}" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Border.Background>
+                        </Border>
+                        <Grid>
+                            <StackPanel VerticalAlignment="Top" Margin="8">
+                                <TextBlock d:Text="PLUGIN DISPLAY NAME"
+                                           FontSize="14"
+                                           Margin="0, 0, 0, 4"
+                                           Text="{Binding PluginInfo.Name}"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding PluginInfo.Summary}"/>
+                            </StackPanel>
+                            <ContentControl VerticalAlignment="Bottom"
+                                            d:ContentTemplate="{DynamicResource NotInstalledTemplate}"
+                                            Content="{Binding}">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
+                                                   Value="{x:Static enums:MarketPluginInstallStatus.None}">
+                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
+                                                                Value="{StaticResource NotInstalledTemplate}" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
+                                                   Value="{x:Static enums:MarketPluginInstallStatus.Acquiring}">
+                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
+                                                                Value="{StaticResource AcquiringTemplate}" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
+                                                   Value="{x:Static enums:MarketPluginInstallStatus.Downloading}">
+                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
+                                                                Value="{StaticResource DownloadingTemplate}" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
+                                                   Value="{x:Static enums:MarketPluginInstallStatus.Installing}">
+                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
+                                                                Value="{StaticResource InstallingTemplate}" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
+                                                   Value="{x:Static enums:MarketPluginInstallStatus.Completed}">
+                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
+                                                                Value="{StaticResource InstalledTemplate}" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                            </ContentControl>
+                        </Grid>
+                    </DockPanel>
                 </Grid>
             </Button>
         </DataTemplate>
@@ -188,7 +235,8 @@
         <StackPanel Grid.Row="0"
                     Margin="0,16"
                     Orientation="Horizontal">
-            <TextBlock FontSize="20" Text="PLUGINS MARKETPLACE" />
+            <TextBlock FontSize="20"
+                       Text="PLUGINS MARKETPLACE" />
         </StackPanel>
         <ItemsControl Grid.Row="1"
                       d:ItemsSource="{d:SampleData ItemCount=10}"
@@ -197,12 +245,14 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type ContentPresenter}">
-                    <Setter Property="Margin" Value="4" />
+                    <Setter Property="Margin"
+                            Value="4" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+                    <WrapPanel IsItemsHost="True"
+                               Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>

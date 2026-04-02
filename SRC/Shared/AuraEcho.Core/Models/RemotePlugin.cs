@@ -10,6 +10,7 @@ public class RemotePlugin : BindableBase
     public string Description { get; set; }
     public string Author { get; set; }
     public Guid IconFileId { get; set; }
+    public Guid BannerFileId { get; set; }
     public bool IsAcquired { get; set; }
     public DateTime CreateTime { get; set; }
     public int UserCount { get; set; }

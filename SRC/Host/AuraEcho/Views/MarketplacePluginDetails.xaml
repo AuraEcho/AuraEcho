@@ -103,10 +103,12 @@
     <Grid>
         <Grid Height="265" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="1"  Source="{Binding MarketPlugin.PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}" Stretch="UniformToFill" />
+            <Image Grid.Column="1"
+                   Source="{Binding MarketPlugin.PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}"
+                   Stretch="UniformToFill" />
             <Border Grid.Column="0" Grid.ColumnSpan="2">
                 <Border.Background>
                     <RadialGradientBrush Center="0.8, 0.5" GradientOrigin="0.8, 0.5" RadiusX="0.2" RadiusY="1.5">
@@ -172,7 +174,41 @@
                                                                      NotInstalledTemplate="{StaticResource NotInstalledTemplate}" />
                     </ContentControl.ContentTemplateSelector>
                 </ContentControl>
-
+                <Border Margin="0,0,0,16"
+                        Background="{DynamicResource Themes.Brushes.SecondaryContainer}"
+                        CornerRadius="4">
+                    <StackPanel>
+                        <TextBlock Margin="16"
+                                   FontSize="14"
+                                   Text="SCREENSHOTS" />
+                        <Line Stretch="Fill"
+                              Stroke="{DynamicResource Themes.Brushes.OnSurface}"
+                              X1="0"
+                              X2="1"
+                              Y1="0"
+                              Y2="0" />
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ItemsControl Margin="8" d:ItemsSource="{d:SampleData ItemCount=3}" ItemsSource="{Binding MarketPlugin.PluginInfo.Screenshots}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="200"
+                                                Height="112"
+                                                Margin="8"
+                                                Background="#10FFFFFF"
+                                                CornerRadius="4">
+                                            <Image Source="{Binding FileId, Converter={StaticResource FileIdToUrl}}" Stretch="UniformToFill" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
                 <Border Margin="0,0,0,16"
                         Background="{DynamicResource Themes.Brushes.SecondaryContainer}"
                         CornerRadius="4">

@@ -14,10 +14,16 @@ public class RemotePlugin : BindableBase
     public bool IsAcquired { get; set; }
     public DateTime CreateTime { get; set; }
     public int UserCount { get; set; }
-    private List<PluginPackage> _versions;
+
     public List<PluginPackage> Versions
     {
-        get => _versions;
-        set => SetProperty(ref _versions, value);
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public List<PluginScreenshot> Screenshots
+    {
+        get;
+        set => SetProperty(ref field, value);
     }
 }

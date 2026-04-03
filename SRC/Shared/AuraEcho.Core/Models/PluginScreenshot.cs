@@ -1,0 +1,9 @@
+﻿namespace AuraEcho.Core.Models;
+
+public class PluginScreenshot
+{
+    public Guid Id { get; set; }
+    public Guid PluginId { get; set; }
+    public Guid FileId { get; set; }
+    public int Order { get; set; }
+}

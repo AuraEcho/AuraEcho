@@ -170,5 +170,24 @@ public class RemotePluginRepository : IRemotePluginRepository
         var result = await _httpHelper.PostAsync<ResponseResult<string>>($"{Urls.ServerUrl}/api/v1/plugin/{pluginId}/acquire", null);
         return result is not null;
     }
+
+    public async Task<List<PluginScreenshot>> GetScreenshotsAsync(Guid pluginId)
+    {
+        var result = await _httpHelper.GetAsync<GetPluginScreenshotsResponse>($"{Urls.ServerUrl}/api/v1/plugin/{pluginId}/screenshots");
+        if (result is null) return [];
+
+        List<PluginScreenshot> screenshots =
+            result.Screenshots
+                  .Select(s => new PluginScreenshot
+                  {
+                      Id = s.Id,
+                      FileId = s.FileId,
+                      PluginId = s.PluginId,
+                      Order = s.Order
+                  })
+                  .ToList();
+
+        return screenshots;
+    }
 }
 

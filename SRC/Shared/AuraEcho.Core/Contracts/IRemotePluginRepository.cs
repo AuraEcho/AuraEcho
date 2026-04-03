@@ -15,4 +15,5 @@ public interface IRemotePluginRepository
     Task<bool> DeleteAsync(Guid pluginId);
     Task<bool> DeleteVersionAsync(Guid versionId);
     Task<bool> AcquireAsync(Guid userId, Guid pluginId);
+    Task<List<PluginScreenshot>> GetScreenshotsAsync(Guid pluginId);
 }

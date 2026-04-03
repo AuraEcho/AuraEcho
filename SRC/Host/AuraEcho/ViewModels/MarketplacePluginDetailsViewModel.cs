@@ -53,6 +53,11 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
             targetRegistry.LocalPlugin.Manifest.DefaultViewName);
     }
 
+    private async Task LoadPluginScreenshotsAsync()
+    {
+        var screenshots = await _pluginRepository.GetScreenshotsAsync(MarketPlugin.PluginInfo.Id);
+        MarketPlugin.PluginInfo.Screenshots = screenshots;
+    }
     private async Task LoadPluginDetails()
     {
         var result = await _pluginRepository.GetLatestAsync(MarketPlugin.PluginInfo.Id);
@@ -91,6 +96,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
         MarketPlugin = navigationContext.Parameters["Plugin"] as MarketPlugin;
+        _ = LoadPluginScreenshotsAsync();
         _ = LoadPluginDetails();
     }
 }

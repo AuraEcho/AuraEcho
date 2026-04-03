@@ -81,7 +81,7 @@ public class ClientSession : BindableBase, IClientSession
                 return false;
 
             var response = await _httpClient.PostAsJsonAsync(
-                $"{Urls.ServerUrl}/api/v1/auth/refresh",
+                Urls.RefreshToken(),
                 new RefreshTokenRequest
                 {
                     RefreshToken = AppToken.RefreshToken

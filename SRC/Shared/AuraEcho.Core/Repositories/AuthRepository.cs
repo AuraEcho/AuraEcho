@@ -18,48 +18,48 @@ public class AuthRepository : IAuthRepository
 
     public async Task<AppUserDto> GetCurrentUserAsync()
     {
-        var result = await _httpHelper.GetAsync<AppUserDto>($"{Urls.ServerUrl}/api/v1/auth/me");
+        var result = await _httpHelper.GetAsync<AppUserDto>(Urls.GetCurrentUser());
         return result;
     }
 
     public async Task<ResponseResult<AuthResponse>> RefreshTokenAsync(RefreshTokenRequest request)
     {
-        var result = await _httpHelper.PostAsync<ResponseResult<AuthResponse>>($"{Urls.ServerUrl}/api/v1/auth/refresh", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<AuthResponse>>(Urls.RefreshToken(), request);
 
         return result;
     }
 
     public async Task<bool> SendEmailVerificationCodeAsync(SendEmailCodeRequest request)
     {
-        var result = await _httpHelper.PostAsync($"{Urls.ServerUrl}/api/v1/auth/sendEmailCode", request);
+        var result = await _httpHelper.PostAsync(Urls.SendEmailVerificationCode(), request);
 
         return result;
     }
 
     public async Task<ResponseResult<CodeSignInResponse>> SignInByCodeAsync(CodeSignInRequest request)
     {
-        var result = await _httpHelper.PostAsync<ResponseResult<CodeSignInResponse>>($"{Urls.ServerUrl}/api/v1/auth/signInByCode", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<CodeSignInResponse>>(Urls.SignInByCode(), request);
 
         return result;
     }
 
     public async Task<ResponseResult<AuthResponse>> SignInByPasswordAsync(PasswordSignInRequest request)
     {
-        var result = await _httpHelper.PostAsync<ResponseResult<AuthResponse>>($"{Urls.ServerUrl}/api/v1/auth/signInByPassword", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<AuthResponse>>(Urls.SignInByPassword(), request);
 
         return result;
     }
 
     public async Task<ResponseResult<string>> ResetPasswordAsync(ResetPasswordRequest request)
     {
-        var result = await _httpHelper.PostAsync<ResponseResult<string>>($"{Urls.ServerUrl}/api/v1/auth/resetPassword", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<string>>(Urls.ResetPassword(), request);
 
         return result;
     }
 
     public async Task<ResponseResult<string>> UpdatePasswordAsync(UpdatePasswordRequest request)
     {
-        var result = await _httpHelper.PostAsync<ResponseResult<string>>($"{Urls.ServerUrl}/api/v1/auth/updatePassword", request);
+        var result = await _httpHelper.PostAsync<ResponseResult<string>>(Urls.UpdatePassword(), request);
 
         return result;
     }

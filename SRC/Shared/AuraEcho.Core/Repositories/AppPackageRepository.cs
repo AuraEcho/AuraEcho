@@ -18,13 +18,13 @@ public class AppPackageRepository : IAppPackageRepository
     public async Task<Guid?> CreatePackageAsync(Guid fullFileId, Guid updateFileId, string name, string version)
     {
         var request = new CreatePackageRequest { Name = name, Version = version, FullFileId = fullFileId, UpdateFileId = updateFileId };
-        var response = await _httpHelper.PostAsync<CreatePackageResponse>($"{Urls.ServerUrl}/api/v1/package/create", request);
+        var response = await _httpHelper.PostAsync<CreatePackageResponse>(Urls.CreatePackage(), request);
         return response?.PackageId;
     }
 
     public async Task<bool> DeleteAsync(Guid packageId)
     {
-        var resp = await _httpHelper.DeleteAsync($"{Urls.ServerUrl}/api/v1/package/delete/{packageId}");
+        var resp = await _httpHelper.DeleteAsync(Urls.DeletePackage(packageId));
         return resp;
     }
 
@@ -32,7 +32,7 @@ public class AppPackageRepository : IAppPackageRepository
     {
         try
         {
-            using var response = await _httpHelper.GetAsync($"{Urls.ServerUrl}/api/v1/package/download?isFull={isFull}", HttpCompletionOption.ResponseHeadersRead);
+            using var response = await _httpHelper.GetAsync(Urls.DownloadLatestPackage(isFull), HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
 
             var totalBytes = response.Content.Headers.ContentLength ?? -1L;
@@ -64,7 +64,7 @@ public class AppPackageRepository : IAppPackageRepository
 
     public async Task<AppVersionInfo> GetLatestAsync()
     {
-        var result = await _httpHelper.GetAsync<GetLatestVersionResponse>($"{Urls.ServerUrl}/api/v1/package/latest");
+        var result = await _httpHelper.GetAsync<GetLatestVersionResponse>(Urls.GetLatestPackageVersion());
         if (result is null) return null;
 
         return new AppVersionInfo
@@ -82,7 +82,7 @@ public class AppPackageRepository : IAppPackageRepository
 
     public async Task<List<AppPackageDetail>> GetUploadedPackagesAsync()
     {
-        var result = await _httpHelper.GetAsync<ListAllPackagesResponse>($"{Urls.ServerUrl}/api/v1/package/listAll");
+        var result = await _httpHelper.GetAsync<ListAllPackagesResponse>(Urls.GetUploadedPackages());
         if (result is null) return null;
 
         List<AppPackageDetail> packages =

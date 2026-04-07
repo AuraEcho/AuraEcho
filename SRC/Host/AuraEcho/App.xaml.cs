@@ -106,6 +106,7 @@ public partial class App
         containerRegistry.RegisterForNavigation<ResetPassword>();
         containerRegistry.RegisterForNavigation<PasswordResetCompleted>();
         containerRegistry.RegisterForNavigation<SignInExpired>();
+        containerRegistry.RegisterForNavigation<ImageViewer>();
     }
 
     protected override void OnInitialized()

@@ -86,6 +86,7 @@
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Border x:Name="LayoutRoot"
                             Width="{TemplateBinding Width}"
+                            Margin="0, 36, 0, 0"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             CornerRadius="4">

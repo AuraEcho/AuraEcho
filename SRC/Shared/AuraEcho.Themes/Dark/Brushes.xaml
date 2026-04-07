@@ -69,7 +69,7 @@
 
     <SolidColorBrush x:Key="Themes.Brushes.Secondary">#10FFFFFF</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnSecondary">White</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.SecondaryContainer">#FF4A4458</SolidColorBrush>
+    <SolidColorBrush x:Key="Themes.Brushes.SecondaryContainer">#19FFFFFF</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnSecondaryContainer">#FFE8DEF8</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.SecondaryFixed" Color="{StaticResource Themes.Colors.SecondaryFixed}" />
     <SolidColorBrush x:Key="Themes.Brushes.OnSecondaryFixed">#FF1E192B</SolidColorBrush>
@@ -93,7 +93,7 @@
     <SolidColorBrush x:Key="Themes.Brushes.OnErrorContainer">#FFF9DEDC</SolidColorBrush>
 
     <!-- Background / Surface -->
-    <SolidColorBrush x:Key="Themes.Brushes.Background">#FF1B1B1B</SolidColorBrush>
+    <SolidColorBrush x:Key="Themes.Brushes.Background">#FF1B1428</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnBackground">#FFE6E1E5</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.Surface">#FF1C1B1F</SolidColorBrush>
     <SolidColorBrush x:Key="Themes.Brushes.OnSurface">#FFE6E1E5</SolidColorBrush>

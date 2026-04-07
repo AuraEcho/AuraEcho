@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="AuraEcho.Views.ImageViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
+             xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ImageViewerViewModel}"
+             d:DesignHeight="640"
+             d:DesignWidth="960"
+             d:Foreground="{DynamicResource Themes.Brushes.OnBackground}"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Storyboard x:Key="ShowImageStoryboard">
+            <DoubleAnimation Storyboard.TargetName="LayoutRoot"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ImageControl"
+                             Storyboard.TargetProperty="(Image.RenderTransform).(ScaleTransform.ScaleX)"
+                             To="1"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ImageControl"
+                             Storyboard.TargetProperty="(Image.RenderTransform).(ScaleTransform.ScaleY)"
+                             To="1"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ExitStoryboard">
+            <DoubleAnimation Storyboard.TargetName="LayoutRoot"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ImageControl"
+                             Storyboard.TargetProperty="(Image.RenderTransform).(ScaleTransform.ScaleX)"
+                             To="0.9"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ImageControl"
+                             Storyboard.TargetProperty="(Image.RenderTransform).(ScaleTransform.ScaleY)"
+                             To="0.9"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:ControlStoryboardAction Storyboard="{StaticResource ShowImageStoryboard}" />
+        </i:EventTrigger>
+        <i:StoryboardCompletedTrigger Storyboard="{StaticResource ExitStoryboard}">
+            <i:InvokeCommandAction Command="{Binding CloseCommand}" />
+        </i:StoryboardCompletedTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="LayoutRoot"
+          d:Opacity="1"
+          Background="#C0000000"
+          Opacity="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="48" Width="Auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition MinWidth="48" Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="108" Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition MinHeight="108" Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image x:Name="ImageControl"
+               Grid.Row="1"
+               Grid.Column="1"
+               RenderTransformOrigin="0.5, 0.5"
+               Source="{Binding ImageFilePath}"
+               Stretch="Uniform">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+            </Image.RenderTransform>
+        </Image>
+        <Button Grid.Column="1"
+                Grid.Row="0"
+                Padding="8"
+                HorizontalAlignment="Right"
+                Style="{DynamicResource IconButtonStyle}"
+                VerticalAlignment="Center"
+                Margin="0, 36, 0, 0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:ControlStoryboardAction Storyboard="{StaticResource ExitStoryboard}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Viewbox Width="20" Height="20">
+                <Canvas Width="16" Height="16">
+                    <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                </Canvas>
+            </Viewbox>
+        </Button>
+    </Grid>
+</UserControl>

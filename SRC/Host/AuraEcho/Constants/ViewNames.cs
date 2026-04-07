@@ -46,4 +46,9 @@ public static class ViewNames
     /// 重置密码成功
     /// </summary>
     public const string PasswordResetCompleted = nameof(Views.PasswordResetCompleted);
+
+    /// <summary>
+    /// 图片查看
+    /// </summary>
+    public const string ImageViewer = nameof(Views.ImageViewer);
 }

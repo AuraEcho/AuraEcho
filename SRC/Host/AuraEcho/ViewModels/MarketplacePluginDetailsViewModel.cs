@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AuraEcho.Constants;
+using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
@@ -53,6 +55,19 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
             targetRegistry.LocalPlugin.Manifest.DefaultViewName);
     }
 
+    public DelegateCommand<PluginScreenshot> NavigationToViewScreenshotCommand { get; }
+    private void NavigationToViewScreenshot(PluginScreenshot ss)
+    {
+        _navigationService.RequestNavigate(
+            HostRegionNames.ContentDialogRegion,
+            ViewNames.ImageViewer,
+            new NavigationParameters
+            {
+                { "ImageFilePath", Urls.DownloadFile(ss.FileId) }
+            },
+            canBack: false);
+    }
+
     private async Task LoadPluginScreenshotsAsync()
     {
         var screenshots = await _pluginRepository.GetScreenshotsAsync(MarketPlugin.PluginInfo.Id);
@@ -82,6 +97,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
 
         OpenPluginCommand = new DelegateCommand(OpenPlugin);
         InstallCommand = new DelegateCommand(Install);
+        NavigationToViewScreenshotCommand = new DelegateCommand<PluginScreenshot>(NavigationToViewScreenshot);
     }
 
     public bool KeepAlive => false;

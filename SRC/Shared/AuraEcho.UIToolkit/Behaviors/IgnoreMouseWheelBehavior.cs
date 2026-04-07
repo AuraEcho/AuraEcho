@@ -24,6 +24,8 @@ namespace AuraEcho.UIToolkit.Behaviors
 
         private void AssociatedObjectPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (e.Handled) return;
+
             e.Handled = true;
 
             if (AssociatedObject is ComboBox cb)
@@ -31,9 +33,13 @@ namespace AuraEcho.UIToolkit.Behaviors
                 e.Handled = !cb.IsDropDownOpen;
             }
 
-            var e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
-            e2.RoutedEvent = UIElement.MouseWheelEvent;
-            AssociatedObject.RaiseEvent(e2);
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = UIElement.MouseWheelEvent,
+                Source = sender
+            };
+            var parent = ((Control)sender).Parent as UIElement;
+            parent?.RaiseEvent(eventArg);
         }
     }
 }

@@ -12,6 +12,7 @@
 	<ItemGroup>
 		<ApplicationDefinition Remove="App.xaml" />
 		<None Remove="Assets\Icons\AuraEcho.ico" />
+		<None Remove="Assets\Images\market_banner.jpg" />
 		<Content Include="Assets\PDF\EULA.pdf">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
@@ -41,5 +42,6 @@
 	<ItemGroup>
 	  <Resource Include="Assets\Icons\AuraEcho.ico" />
 	  <Resource Include="Assets\Images\auraecho.png" />
+	  <Resource Include="Assets\Images\market_banner.jpg" />
 	</ItemGroup>
 </Project>

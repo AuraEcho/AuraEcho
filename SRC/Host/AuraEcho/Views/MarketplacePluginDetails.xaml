@@ -330,7 +330,71 @@
                                   X2="1"
                                   Y1="0"
                                   Y2="0" />
-                            <Grid>
+                            <Grid ClipToBounds="True">
+                                <Grid.Resources>
+                                    <Storyboard x:Key="ShowScrollButtonStoryboard">
+                                        <DoubleAnimation Storyboard.TargetName="ScrollLeftButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ScrollRightButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ScrollLeftButton"
+                                                         Storyboard.TargetProperty="(Button.RenderTransform).(TranslateTransform.X)"
+                                                         From="-48"
+                                                         To="0"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ScrollRightButton"
+                                                         Storyboard.TargetProperty="(Button.RenderTransform).(TranslateTransform.X)"
+                                                         From="48"
+                                                         To="0"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                    <Storyboard x:Key="HideScrollButtonStoryboard">
+                                        <DoubleAnimation Storyboard.TargetName="ScrollLeftButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ScrollRightButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </Grid.Resources>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:ControlStoryboardAction Storyboard="{StaticResource ShowScrollButtonStoryboard}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <i:ControlStoryboardAction Storyboard="{StaticResource HideScrollButtonStoryboard}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                                 <ScrollViewer x:Name="ScreenshotScrollViewer"
                                               HorizontalScrollBarVisibility="Hidden"
                                               ScrollChanged="ScreenshotScrollViewer_ScrollChanged">
@@ -367,11 +431,17 @@
                                 </ScrollViewer>
                                 <Button x:Name="ScrollLeftButton"
                                         Margin="8"
+                                        Opacity="0"
+                                        d:Opacity="1"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         ui:ControlHelper.CornerRadius="24"
                                         Click="ScrollLeft_Click"
+                                        RenderTransformOrigin="0.5, 0.5"
                                         Style="{DynamicResource PrimaryButtonStyle}">
+                                    <Button.RenderTransform>
+                                        <TranslateTransform X="-48" d:X="0" />
+                                    </Button.RenderTransform>
                                     <Viewbox Width="24" Height="24">
                                         <Canvas Width="24.0" Height="24.0">
                                             <Canvas>
@@ -391,9 +461,15 @@
                                         Margin="8"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
+                                        Opacity="0"
+                                        d:Opacity="1"
                                         ui:ControlHelper.CornerRadius="24"
                                         Click="ScrollRight_Click"
+                                        RenderTransformOrigin=".5, .5"
                                         Style="{DynamicResource PrimaryButtonStyle}">
+                                    <Button.RenderTransform>
+                                        <TranslateTransform X="48" d:X="0"/>
+                                    </Button.RenderTransform>
                                     <Viewbox Width="24" Height="24">
                                         <Canvas Width="24.0" Height="24.0">
                                             <Canvas>

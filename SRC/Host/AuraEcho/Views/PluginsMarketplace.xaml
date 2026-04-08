@@ -19,242 +19,226 @@
              Background="{DynamicResource Themes.Brushes.Background}"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <ui:BindingProxy x:Key="BindingProxy"
-                         Data="{Binding}" />
+        <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <converters:FileIdToUrlConverter x:Key="FileIdToUrl" />
-        <DataTemplate x:Key="NotInstalledTemplate"
-                      DataType="{x:Type models:MarketPlugin}">
-            <Border Height="24"
-                    Margin="8"
-                    Padding="8,4"
-                    HorizontalAlignment="Right"
-                    Background="#10FFFFFF"
-                    CornerRadius="4">
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           d:Text="免费下载">
-                    <i:Interaction.Triggers>
-                        <i:DataTrigger Binding="{Binding Status}"
-                                       Value="{x:Static enums:MarketPluginStatus.Acquired}">
-                            <i:ChangePropertyAction PropertyName="Text"
-                                                    Value="安装" />
-                        </i:DataTrigger>
-                        <i:DataTrigger Binding="{Binding Status}"
-                                       Value="{x:Static enums:MarketPluginStatus.None}">
-                            <i:ChangePropertyAction PropertyName="Text"
-                                                    Value="获取" />
-                        </i:DataTrigger>
-                    </i:Interaction.Triggers>
-                </TextBlock>
-            </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="AcquiringTemplate"
-                      DataType="{x:Type models:MarketPlugin}">
-            <Grid>
-                <Border Height="24"
-                        Margin="8"
-                        Padding="8,4"
-                        HorizontalAlignment="Right"
-                        Background="#10FFFFFF"
-                        CornerRadius="4">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="正在获取" />
-                </Border>
-                <ProgressBar VerticalAlignment="Bottom"
-                             IsIndeterminate="True" />
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="DownloadingTemplate"
-                      DataType="{x:Type models:MarketPlugin}">
-            <Grid>
-                <Border Height="24"
-                        Margin="8"
-                        Padding="8,4"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Background="#10FFFFFF"
-                        CornerRadius="4">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               d:Text="正在下载(87%)"
-                               Text="{Binding InstallContext.Progress, StringFormat=正在下载({0:F0}%)}" />
-                </Border>
-                <ProgressBar VerticalAlignment="Bottom"
-                             d:Value="66"
-                             Value="{Binding InstallContext.Progress, Mode=OneWay}" />
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="InstallingTemplate"
-                      DataType="{x:Type models:MarketPlugin}">
-            <Grid>
-                <Border Height="24"
-                        Margin="8"
-                        Padding="8,4"
-                        HorizontalAlignment="Right"
-                        Background="#10FFFFFF"
-                        CornerRadius="4">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="正在安装" />
-                </Border>
-                <ProgressBar VerticalAlignment="Bottom"
-                             IsIndeterminate="True" />
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="InstalledTemplate"
-                      DataType="{x:Type models:MarketPlugin}">
-            <Border Height="24"
-                    Margin="8"
-                    Padding="8,4"
-                    HorizontalAlignment="Right"
-                    Background="#10FFFFFF"
-                    CornerRadius="4">
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Text="已安装" />
-            </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="PluginTemplate"
-                      DataType="{x:Type models:MarketPlugin}">
-            <Button Width="240"
-                    Height="180"
-                    Padding="0"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToPluginDetailsCommand}"
-                    CommandParameter="{Binding}"
-                    RenderTransformOrigin=".5, .5">
-                <Button.RenderTransform>
-                    <ScaleTransform x:Name="PluginCardTransform" />
-                </Button.RenderTransform>
+        <DataTemplate x:Key="PluginTemplate" DataType="{x:Type models:MarketPlugin}">
+            <Grid Background="Transparent">
+                <Grid.Resources>
+                    <Storyboard x:Key="MouseEnterStoryboard">
+                        <DoubleAnimation Storyboard.TargetName="CardBorder"
+                                         Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                         To="-5"
+                                         Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                    <Storyboard x:Key="MouseLeaveStoryboard">
+                        <DoubleAnimation Storyboard.TargetName="CardBorder"
+                                         Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                         To="0"
+                                         Duration="0:0:0.2">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </Grid.Resources>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseEnter">
-                        <i:ChangePropertyAction PropertyName="ScaleX"
-                                                TargetObject="{Binding ElementName=PluginCardTransform}"
-                                                Value="1.05" />
-                        <i:ChangePropertyAction PropertyName="ScaleY"
-                                                TargetObject="{Binding ElementName=PluginCardTransform}"
-                                                Value="1.05" />
+                        <i:ControlStoryboardAction Storyboard="{StaticResource MouseEnterStoryboard}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeave">
-                        <i:ChangePropertyAction PropertyName="ScaleX"
-                                                TargetObject="{Binding ElementName=PluginCardTransform}"
-                                                Value="1" />
-                        <i:ChangePropertyAction PropertyName="ScaleY"
-                                                TargetObject="{Binding ElementName=PluginCardTransform}"
-                                                Value="1" />
+                        <i:ControlStoryboardAction Storyboard="{StaticResource MouseLeaveStoryboard}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0"
-                            CornerRadius="4, 4, 0, 0">
-                        <Border.Background>
-                            <VisualBrush AlignmentY="Top"
-                                         Stretch="UniformToFill">
-                                <VisualBrush.Visual>
-                                    <Image RenderOptions.BitmapScalingMode="LowQuality"
-                                           Source="{Binding PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}" />
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Border.Background>
-                    </Border>
-                    <DockPanel Grid.Row="1"
-                               LastChildFill="True">
-                        <Border Width="60"
-                                Height="60"
-                                Margin="8, 0, 0, 0"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Left"
-                                CornerRadius="4, 4, 0, 0">
-                            <Border.Background>
-                                <VisualBrush AlignmentY="Top"
-                                             Stretch="UniformToFill">
-                                    <VisualBrush.Visual>
-                                        <Image RenderOptions.BitmapScalingMode="LowQuality"
-                                               Source="{Binding PluginInfo.IconFileId, Converter={StaticResource FileIdToUrl}}" />
-                                    </VisualBrush.Visual>
-                                </VisualBrush>
-                            </Border.Background>
-                        </Border>
-                        <Grid>
-                            <StackPanel VerticalAlignment="Top" Margin="8">
-                                <TextBlock d:Text="PLUGIN DISPLAY NAME"
-                                           FontSize="14"
-                                           Margin="0, 0, 0, 4"
-                                           Text="{Binding PluginInfo.Name}"
-                                           TextWrapping="Wrap" />
-                                <TextBlock Text="{Binding PluginInfo.Summary}"/>
-                            </StackPanel>
-                            <ContentControl VerticalAlignment="Bottom"
-                                            d:ContentTemplate="{DynamicResource NotInstalledTemplate}"
-                                            Content="{Binding}">
-                                <i:Interaction.Triggers>
-                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
-                                                   Value="{x:Static enums:MarketPluginInstallStatus.None}">
-                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
-                                                                Value="{StaticResource NotInstalledTemplate}" />
-                                    </i:DataTrigger>
-                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
-                                                   Value="{x:Static enums:MarketPluginInstallStatus.Acquiring}">
-                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
-                                                                Value="{StaticResource AcquiringTemplate}" />
-                                    </i:DataTrigger>
-                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
-                                                   Value="{x:Static enums:MarketPluginInstallStatus.Downloading}">
-                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
-                                                                Value="{StaticResource DownloadingTemplate}" />
-                                    </i:DataTrigger>
-                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
-                                                   Value="{x:Static enums:MarketPluginInstallStatus.Installing}">
-                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
-                                                                Value="{StaticResource InstallingTemplate}" />
-                                    </i:DataTrigger>
-                                    <i:DataTrigger Binding="{Binding InstallContext.Status}"
-                                                   Value="{x:Static enums:MarketPluginInstallStatus.Completed}">
-                                        <i:ChangePropertyAction PropertyName="ContentTemplate"
-                                                                Value="{StaticResource InstalledTemplate}" />
-                                    </i:DataTrigger>
-                                </i:Interaction.Triggers>
-                            </ContentControl>
-                        </Grid>
-                    </DockPanel>
-                </Grid>
-            </Button>
+                <Border x:Name="CardBorder">
+                    <Border.RenderTransform>
+                        <TranslateTransform />
+                    </Border.RenderTransform>
+                    <Viewbox>
+                        <Button Width="210"
+                                Height="160"
+                                Padding="0"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                ui:ControlHelper.CornerRadius="4"
+                                Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToPluginDetailsCommand}"
+                                CommandParameter="{Binding}"
+                                RenderTransformOrigin=".5, .5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="105" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" CornerRadius="4, 4, 0, 0">
+                                    <Border.Background>
+                                        <VisualBrush AlignmentY="Top" Stretch="UniformToFill">
+                                            <VisualBrush.Visual>
+                                                <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Border.Background>
+                                </Border>
+                                <DockPanel Grid.Row="1"
+                                           Margin="8"
+                                           VerticalAlignment="Center"
+                                           LastChildFill="True">
+                                    <Border Width="28"
+                                            Height="28"
+                                            Margin="0,0,8,0"
+                                            CornerRadius="4"
+                                            DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <VisualBrush AlignmentY="Top" Stretch="UniformToFill">
+                                                <VisualBrush.Visual>
+                                                    <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.IconFileId, Converter={StaticResource FileIdToUrl}}" />
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <Grid>
+                                        <TextBlock VerticalAlignment="Top"
+                                                   d:Text="PLUGIN DISPLAY NAME"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Text="{Binding PluginInfo.Name}"
+                                                   TextWrapping="Wrap" />
+                                        <TextBlock VerticalAlignment="Bottom"
+                                                   FontSize="10"
+                                                   Foreground="#8C8C8C"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Text="{Binding PluginInfo.Summary}" />
+                                    </Grid>
+                                </DockPanel>
+                            </Grid>
+                        </Button>
+                    </Viewbox>
+                </Border>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid Margin="24,36">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"
-                    Margin="0,16"
-                    Orientation="Horizontal">
-            <TextBlock FontSize="20"
-                       Text="PLUGINS MARKETPLACE" />
-        </StackPanel>
+    <StackPanel x:Name="ContentPanel"
+                MaxWidth="1600"
+                Margin="40,48,40,40">
+        <Grid Margin="8">
+            <Border Margin="0,0,0,8">
+                <TextBlock FontSize="28"
+                           FontWeight="SemiBold"
+                           Text="扩展商店" />
+            </Border>
+            <Grid Margin="0,0,0,16">
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                   Comparison="LessThan"
+                                   Value="450">
+                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                    </i:DataTrigger>
+                    <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                   Comparison="GreaterThanOrEqual"
+                                   Value="450">
+                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+                <Viewbox>
+                    <Grid Width="480"
+                          Height="100"
+                          UseLayoutRounding="True">
+                        <Border CornerRadius="4" UseLayoutRounding="False">
+                            <Border.Background>
+                                <ImageBrush x:Name="BannerImage"
+                                            ImageSource="/Assets/Images/market_banner.jpg"
+                                            Stretch="UniformToFill" />
+                            </Border.Background>
+                        </Border>
+                        <Border Background="#A43C2F" CornerRadius="4">
+                            <!--<Border.Background>
+                                <Binding ElementName="BannerImage" Path="ImageSource">
+                                    <Binding.Converter>
+                                        <ui:OptimizedBrushConverter />
+                                    </Binding.Converter>
+                                </Binding>
+                            </Border.Background>-->
+                            <Border.OpacityMask>
+                                <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                    <GradientStop Offset="0.2" Color="Black" />
+                                    <GradientStop Offset="0.7" Color="Transparent" />
+                                </LinearGradientBrush>
+                            </Border.OpacityMask>
+                        </Border>
+                    </Grid>
+                </Viewbox>
+                <UniformGrid Margin="32,0,0,0" Columns="3">
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock FontSize="32"
+                                   FontWeight="SemiBold"
+                                   Text="扩展商店" />
+                        <TextBlock Margin="0,16,0,0"
+                                   FontSize="16"
+                                   Text="各色功能模块，让灵光回声成为你手中最得心应手的全能利器。"
+                                   TextWrapping="Wrap">
+                            <i:Interaction.Triggers>
+                                <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                               Comparison="LessThan"
+                                               Value="800">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                               Comparison="GreaterThanOrEqual"
+                                               Value="800">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+                    </StackPanel>
+                </UniformGrid>
+            </Grid>
+        </Grid>
         <ItemsControl Grid.Row="1"
                       d:ItemsSource="{d:SampleData ItemCount=10}"
                       ItemTemplate="{StaticResource PluginTemplate}"
-                      ItemsSource="{Binding Plugins}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                      ItemsSource="{Binding Plugins}">
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type ContentPresenter}">
-                    <Setter Property="Margin"
-                            Value="4" />
+                    <Setter Property="Margin" Value="8" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True"
-                               Orientation="Horizontal" />
+                    <UniformGrid x:Name="PluginItemGrid"
+                                 Columns="4"
+                                 IsItemsHost="True">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                           Comparison="GreaterThanOrEqual"
+                                           Value="1300">
+                                <i:ChangePropertyAction PropertyName="Columns" Value="5" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                           Comparison="LessThan"
+                                           Value="1300">
+                                <i:ChangePropertyAction PropertyName="Columns" Value="4" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                           Comparison="LessThan"
+                                           Value="900">
+                                <i:ChangePropertyAction PropertyName="Columns" Value="3" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                           Comparison="LessThan"
+                                           Value="650">
+                                <i:ChangePropertyAction PropertyName="Columns" Value="2" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                           Comparison="LessThan"
+                                           Value="450">
+                                <i:ChangePropertyAction PropertyName="Columns" Value="1" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                    </UniformGrid>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-    </Grid>
+    </StackPanel>
 </UserControl>

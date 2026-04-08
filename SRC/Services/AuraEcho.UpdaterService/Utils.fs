@@ -17,6 +17,8 @@ let getAppPaths () =
 
 // 客户端信息
 module SystemInfo =
+
+    let private hostProcess = "AuraEcho"
     let private getRegistryValue keyName = 
         use key = Registry.LocalMachine.OpenSubKey(@"Software\AuraEcho")
         if isNull key then None 
@@ -32,8 +34,9 @@ module SystemInfo =
     let isAppRunning () =
         let targetDir = getInstallPath() |> Option.map Path.GetDirectoryName
         
-        [ProcessNames.HostProcess; ProcessNames.PluginInstaller]
-        |> List.collect (Process.GetProcessesByName >> List.ofArray)
+        hostProcess
+        |> Process.GetProcessesByName
+        |> List.ofArray
         |> List.exists (fun p -> 
             try
                 let pDir = Path.GetDirectoryName(p.MainModule.FileName)

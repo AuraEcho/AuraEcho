@@ -61,12 +61,9 @@ namespace AuraEcho.Setup.UI.ViewModels
         }
         private async Task<bool> StopAppAsync()
         {
-            List<Process> allProcesses =
-                Process.GetProcessesByName(ProcessNames.HostProcess)
-                       .Concat(Process.GetProcessesByName(ProcessNames.PluginInstaller))
-                       .ToList();
+            Process[] allProcesses = Process.GetProcessesByName(ProcessNames.HostProcess);
 
-            if (allProcesses.Count <= 0) return true;
+            if (allProcesses.Length <= 0) return true;
 
             DirectoryInfo installFolder = new DirectoryInfo(GetInstallPath());
             List<Process> runningProcesses =

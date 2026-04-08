@@ -70,14 +70,6 @@
 				<MsiProperty Name="REMOVE_LOCAL_DATA" Value="[RemoveLocalDataOnUninstall]" />
 			</MsiPackage>
 
-			<!-- Plugin Installer -->
-			<MsiPackage Id="PluginInstallerMSI"
-						Visible="yes"
-						Compressed="yes"
-						SourceFile="$(AuraEcho.PluginInstaller.Installer.TargetFileName)">
-				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
-			</MsiPackage>
-
 			<!-- Data Migrator -->
 			<MsiPackage Id="AuraEchoDataMigratorMsi"
 						Visible="yes"

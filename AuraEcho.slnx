@@ -28,9 +28,6 @@
     <Project Path="SRC/Installer/AuraEcho.LauncherService.Installer/AuraEcho.LauncherService.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" Id="a3ada3fe-b108-4f00-9352-690bb468e9bf">
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
-    <Project Path="SRC/Installer/AuraEcho.PluginInstaller.Installer/AuraEcho.PluginInstaller.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
-      <Platform Solution="*|Any CPU" Project="x64" />
-    </Project>
     <Project Path="SRC/Installer/AuraEcho.Setup.UI/AuraEcho.Setup.UI.csproj" />
     <Project Path="SRC/Installer/AuraEcho.Setup/AuraEcho.Setup.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0">
       <Platform Solution="*|Any CPU" Project="x64" />
@@ -62,7 +59,6 @@
   </Folder>
   <Folder Name="/SRC/Tools/">
     <Project Path="SRC/Tools/AuraEcho.DataMigrator/AuraEcho.DataMigrator.fsproj" Id="cbb40445-b602-44f8-b27f-9a3ca89b7b21" />
-    <Project Path="SRC/Tools/PluginInstaller/PluginInstaller.csproj" />
     <Project Path="SRC/Tools/PluginPacker/PluginPacker.csproj" />
   </Folder>
   <Folder Name="/TEST/">

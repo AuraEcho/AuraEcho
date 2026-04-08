@@ -22,7 +22,6 @@
     <ProjectReference Include="..\AuraEcho.Installer\AuraEcho.Installer.wixproj" />
     <ProjectReference Include="..\AuraEcho.Launcher.Installer\AuraEcho.Launcher.Installer.wixproj" />
     <ProjectReference Include="..\AuraEcho.LauncherService.Installer\AuraEcho.LauncherService.Installer.wixproj" />
-    <ProjectReference Include="..\AuraEcho.PluginInstaller.Installer\AuraEcho.PluginInstaller.Installer.wixproj" />
     <ProjectReference Include="..\AuraEcho.UpdaterService.Installer\AuraEcho.UpdaterService.Installer.wixproj" />
   </ItemGroup>
   <ItemGroup>

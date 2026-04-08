@@ -26,7 +26,6 @@ $BundleVersion = "1.2.5"
 $AppVersion = "1.2.5"
 $LauncherVersion = "1.2.5"
 $LauncherServiceVersion = "1.2.5"
-$PluginInstallerVersion = "1.2.5"
 $UpdaterServiceVersion = "1.2.5"
 $DataMigratorVersion = $BundleVersion
 $BundleFileName = "AuraEchoSetup"
@@ -63,7 +62,6 @@ $buildArgs = @(
     "/p:LauncherVersion=$LauncherVersion",
     "/p:DataMigratorVersion=$DataMigratorVersion",
     "/p:LauncherServiceVersion=$LauncherServiceVersion",
-    "/p:PluginInstallerVersion=$PluginInstallerVersion",
     "/p:UpdaterServiceVersion=$UpdaterServiceVersion",
     "/m" #并行构建
 )

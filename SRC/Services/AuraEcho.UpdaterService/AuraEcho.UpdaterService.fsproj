@@ -9,7 +9,6 @@
 
 
   <ItemGroup>
-    <Compile Include="ProcessNames.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Workflows.fs" />
     <Compile Include="Worker.fs" />

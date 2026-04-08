@@ -4,14 +4,12 @@ open System
 open System.IO
 open System.Threading
 open Microsoft.Extensions.Hosting
-open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open AuraEcho.Core.Contracts
 open AuraEcho.PluginContracts.Interfaces
 open AuraEcho.UpdaterService.Utils
 open AuraEcho.UpdaterService.Workflows
 
-// 注入 IServiceScopeFactory，而不是具体的 Repo
 type Worker(logger: IAppLogger, scopeFactory: IServiceScopeFactory) =
     inherit BackgroundService()
 

@@ -1,13 +1,10 @@
 <Project Sdk="WixToolset.Sdk/6.0.2">
-	<PropertyGroup>
-		<Cultures>zh-CN;</Cultures>
-		<PluginInstallerVersion Condition="'$(PluginInstallerVersion)' == ''">1.0.0</PluginInstallerVersion>
-		<DefineConstants>Version=$(PluginInstallerVersion)</DefineConstants>
-	</PropertyGroup>
-	<ItemGroup>
-		<Content Include="Assets\Icons\AuraEcho.ico" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\..\Tools\PluginInstaller\PluginInstaller.csproj" />
-	</ItemGroup>
+  <PropertyGroup>
+    <Cultures>zh-CN;</Cultures>
+    <PluginInstallerVersion Condition="'$(PluginInstallerVersion)' == ''">1.0.0</PluginInstallerVersion>
+    <DefineConstants>Version=$(PluginInstallerVersion)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Assets\Icons\AuraEcho.ico" />
+  </ItemGroup>
 </Project>

@@ -1,15 +1,14 @@
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Microsoft.Win32;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Models;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

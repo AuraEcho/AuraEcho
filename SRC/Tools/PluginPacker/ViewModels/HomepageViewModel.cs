@@ -14,6 +14,7 @@ using AuraEcho.PluginContracts.Attributes;
 using AuraEcho.PluginContracts.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
+using AuraEcho.Core.Constants;
 
 namespace PluginPacker.ViewModels;
 
@@ -211,7 +212,7 @@ public class HomepageViewModel : BindableBase
 
         await _fileRepository.DownloadFileAsync(CurrentPlugin.IconFileId, IconFile.FilePath, null);
 
-        string pluginPackageFilePath = Path.Combine(OutputFolder, $"{CurrentPlugin.Name}.plix");
+        string pluginPackageFilePath = Path.Combine(OutputFolder, $"{CurrentPlugin.Name}.{FileExtensionNames.PluginFile}");
 
         byte[] manifestContentBytes = Encoding.UTF8.GetBytes(ManifestFileContent);
 

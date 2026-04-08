@@ -11,8 +11,8 @@
 
 		<Component Id="FileAssociations" Guid="F850DAE9-1CA8-4529-BDA4-461C4FFFEA9E">
 			<File Id="AuraEchoIcon" Source="Assets/Icons/AuraEcho.ico" />
-			<ProgId Id="Suence.Plix" Description="AuraEcho plugin file" Icon="AuraEchoIcon">
-				<Extension Id="plix" ContentType="application/plix" >
+			<ProgId Id="auraecho.aex" Description="AuraEcho plugin file" Icon="AuraEchoIcon">
+				<Extension Id="aex" ContentType="application/aex" >
 					<Verb Id="open" Command="Open" TargetFile="PluginInstallerExecutable" Argument="&quot;%1&quot;" />
 				</Extension>
 			</ProgId>

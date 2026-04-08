@@ -28,7 +28,7 @@ public class PickPluginInstallFileViewModel : BindableBase, IRegionMemberLifetim
     public DelegateCommand PickPluginInstallFileCommand { get; }
     private void PickPluginInstallFile()
     {
-        var filePath = _fileDialogService.OpenFile("选择 AuraEcho 模块安装文件", "AuraEcho 模块安装文件|*.plix");
+        var filePath = _fileDialogService.OpenFile("选择 AuraEcho 模块安装文件", "AuraEcho 模块安装文件|*.aex");
         if (filePath is null) return;
 
         NavigationToInstallPreparation(filePath);

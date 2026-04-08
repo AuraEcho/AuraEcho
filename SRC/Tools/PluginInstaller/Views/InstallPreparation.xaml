@@ -17,7 +17,7 @@
         <StackPanel>
             <TextBlock d:Text="Name: PluginName" Text="{Binding PluginManifest.PluginName, StringFormat=Name: {0}}" />
             <TextBlock d:Text="Version: 1.0.0" Text="{Binding PluginManifest.Version, StringFormat=Version: {0}}" />
-            <TextBlock d:Text="Description: This is a plix plugin." Text="{Binding PluginManifest.Description, StringFormat=Description: {0}}" />
+            <TextBlock d:Text="Description: This is a eax plugin." Text="{Binding PluginManifest.Description, StringFormat=Description: {0}}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"

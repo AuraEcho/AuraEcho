@@ -23,7 +23,7 @@ public partial class PickPluginInstallFile : UserControl
         var files = (string[])e.Data.GetData(DataFormats.FileDrop);
         if (files.Length <= 0) return;
 
-        if (String.Equals(Path.GetExtension(files[0]), ".plix", StringComparison.OrdinalIgnoreCase))
+        if (String.Equals(Path.GetExtension(files[0]), ".aex", StringComparison.OrdinalIgnoreCase))
         {
             var command = (DataContext as PickPluginInstallFileViewModel).NavigationToInstallPreparationCommand;
             command.Execute(files[0]);
@@ -47,7 +47,7 @@ public partial class PickPluginInstallFile : UserControl
             return;
         }
 
-        if (String.Equals(Path.GetExtension(files[0]), ".plix", StringComparison.OrdinalIgnoreCase))
+        if (String.Equals(Path.GetExtension(files[0]), ".aex", StringComparison.OrdinalIgnoreCase))
         {
             e.Effects = DragDropEffects.Copy; 
             e.Handled = true;

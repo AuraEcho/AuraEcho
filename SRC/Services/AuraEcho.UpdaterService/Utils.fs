@@ -32,7 +32,7 @@ module SystemInfo =
     let isAppRunning () =
         let targetDir = getInstallPath() |> Option.map Path.GetDirectoryName
         
-        ["AuraEcho"; "PlixInstaller"]
+        [ProcessNames.HostProcess; ProcessNames.PluginInstaller]
         |> List.collect (Process.GetProcessesByName >> List.ofArray)
         |> List.exists (fun p -> 
             try

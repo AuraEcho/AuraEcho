@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Data.Entities;
 using AuraEcho.Core.Events;
@@ -177,7 +178,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
             return String.Empty;
         }
 
-        var pluginInstallerFilePath = Path.Combine(ApplicationPaths.Temp, $"{_plugin.PluginInfo.Id}.plix");
+        var pluginInstallerFilePath = Path.Combine(ApplicationPaths.Temp, $"{_plugin.PluginInfo.Id}.{FileExtensionNames.PluginFile}");
         Progress<double> progressHandler = new Progress<double>(p => Progress = p);
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 

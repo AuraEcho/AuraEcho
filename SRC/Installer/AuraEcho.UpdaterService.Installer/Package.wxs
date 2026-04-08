@@ -5,6 +5,8 @@
 			 Codepage="65001"
 			 Scope="perMachine"
 			 UpgradeCode="FDE1BB05-00BD-4250-88B0-08E3A3E1AC0B">
+		<MediaTemplate EmbedCab="yes" />
+		
 		<MajorUpgrade DowngradeErrorMessage="不允许降级安装" />
 
 		<Feature Id="Main">

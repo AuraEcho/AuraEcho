@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <gdiplus.h>
 #include <string>
 #include <dwmapi.h>
@@ -9,6 +9,7 @@
 #include <fstream>
 #include <chrono>
 #include <iomanip>
+#include <tlhelp32.h>
 
 #include "resource.h"
 #pragma comment(lib, "gdiplus.lib")
@@ -195,35 +196,82 @@ void CenterWindow(HWND hwnd) {
     SetWindowPos(hwnd, 0, xPos, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 }
 
+// 根据路径获取进程 PID
+static DWORD GetPidByPath(const std::string& targetPath) {
+    DWORD pid = 0;
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnapshot == INVALID_HANDLE_VALUE) return 0;
 
+    PROCESSENTRY32W pe;
+    pe.dwSize = sizeof(pe);
+
+    if (Process32FirstW(hSnapshot, &pe)) {
+        do {
+            // 获取进程的全路径进行比对
+            HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pe.th32ProcessID);
+            if (hProcess) {
+                wchar_t path[MAX_PATH];
+                DWORD size = MAX_PATH;
+                if (QueryFullProcessImageNameW(hProcess, 0, path, &size)) {
+                    std::wstring wTargetPath(targetPath.begin(), targetPath.end());
+                    if (_wcsicmp(path, wTargetPath.c_str()) == 0) {
+                        pid = pe.th32ProcessID;
+                    }
+                }
+                CloseHandle(hProcess);
+            }
+            if (pid != 0) break;
+        } while (Process32NextW(hSnapshot, &pe));
+    }
+    CloseHandle(hSnapshot);
+    return pid;
+}
+
+// 查找属于特定 PID 的可见主窗口
+struct EnumData { DWORD pid; HWND hwnd; };
+BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam) {
+    EnumData* data = (EnumData*)lParam;
+    DWORD windowPid;
+    GetWindowThreadProcessId(hwnd, &windowPid);
+    if (windowPid == data->pid && IsWindowVisible(hwnd) && GetParent(hwnd) == NULL) {
+        data->hwnd = hwnd;
+        return FALSE;
+    }
+    return TRUE;
+}
 static void StartApp(HWND hwndTarget) {
-    LPCWSTR TARGET_WINDOW_TITLE = L"灵光回声";
-
-    std::string message = GetAppInstallPath();
-    bool sendResult = SendPipeMessage(LAUNCHER_SERVICE_PIPE_NAME, message);
+    std::string appPath = GetAppInstallPath();
+    bool sendResult = SendPipeMessage(LAUNCHER_SERVICE_PIPE_NAME, appPath);
 
     if (!sendResult) {
         PostMessage(hwndTarget, WM_CLOSE, 0, 0);
         return;
     }
 
-    int attempts = 0;
-    while (attempts < 100) {
-        HWND targetHwnd = FindWindow(NULL, TARGET_WINDOW_TITLE);
+    // 等待启动并获取启动路径对应的 PID
+    DWORD targetPid = 0;
+    for (int i = 0; i < 100 && targetPid == 0; i++) {
+        targetPid = GetPidByPath(appPath);
+        if (targetPid == 0) Sleep(50);
+    }
 
-        if (targetHwnd != NULL && IsWindowVisible(targetHwnd)) {
-            OutputDebugString(L"Target window found! Closing launcher...\n");
+    if (targetPid == 0) {
+        WriteLog("Error：未找到进程");
+        PostMessage(hwndTarget, WM_CLOSE, 0, 0);
+        return;
+    }
 
-            // 激活窗口(防止主程序窗口不在最前)
-            SetForegroundWindow(targetHwnd);
-            SetFocus(targetHwnd);
-
-            PostMessage(hwndTarget, WM_CLOSE, 0, 0);
-            return;
+    // 等待主窗口显示
+    EnumData ed = { targetPid, NULL };
+    for (int i = 0; i < 100; i++) {
+        EnumWindows(EnumProc, (LPARAM)&ed);
+        if (ed.hwnd) {
+            WriteLog("已激活 App 主窗口");
+            SetForegroundWindow(ed.hwnd);
+            SetFocus(ed.hwnd);
+            break;
         }
-
-        Sleep(200);
-        attempts++;
+        Sleep(50);
     }
 
     PostMessage(hwndTarget, WM_CLOSE, 0, 0);
@@ -261,38 +309,33 @@ static bool AppInstallerIsRunning() {
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
-    WriteLog("--- Application Starting ---");
+    WriteLog("程序已启动");
 
     std::string cmdLine(pCmdLine);
     bool isHideRunning = cmdLine.find("-hide") != std::string::npos;
 
     if (AppIsRunning()) {
-        WriteLog("Info: App is already running. Sending APP_SHOW to pipe and exiting.");
+        WriteLog("正在退出：App 正在运行");
         SendPipeMessage(AURAECHO_PIPE_NAME, APP_SHOW);
         return 0;
     }
 
     if (AppInstallerIsRunning()) {
         if (isHideRunning) {
-            WriteLog("Info: Installer is running and '-hide' flag detected. Sending LaunchAppWhenInstalled to pipe.");
             SendPipeMessage(INSTALLER_PIPE_NAME, LAUNCH_APP_WHEN_INSTALLED);
+            WriteLog("正在退出：安装程序正在运行，已向安装程序发送启动信号");
             return 0;
         }
 
-        WriteLog("Warning: Installer is currently running. Exiting process.");
+        WriteLog("正在退出：安装程序正在运行");
         return 0;
     }
 
-    WriteLog("CmdLine received: " + cmdLine);
-
     if (isHideRunning) {
-        std::string message = GetAppInstallPath() += " -hide";
-        WriteLog("Info: Found '-hide' flag. Sending message to Launcher Service: " + message);
+        std::string message = GetAppInstallPath() + " -hide";
         SendPipeMessage(LAUNCHER_SERVICE_PIPE_NAME, message);
         return 0;
     }
-
-    WriteLog("Success: Proceeding to main application initialization.");
 
     GdiplusStartupInput gdiplusStartupInput;
     ULONG_PTR gdiplusToken;

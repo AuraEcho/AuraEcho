@@ -58,6 +58,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
                     Status = MarketPluginStatus.Installed,
                 };
                 mp.InstallContext = MarketPluginInstallTask.CreateAsCompleted(mp);
+                return mp;
             }
 
             var marketPlugin = new MarketPlugin

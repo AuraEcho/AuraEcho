@@ -159,7 +159,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     // 获取
     private async Task AcquireAsync()
     {
-        Task<bool> acquireTask = _remotePluginRepository.AcquireAsync(_clientSession.CurrentUser.Id, _plugin.PluginInfo.Id);
+        Task<bool> acquireTask = _remotePluginRepository.AcquireAsync(_plugin.PluginInfo.Id);
         await Task.WhenAll(Task.Delay(TimeSpan.FromSeconds(1)), acquireTask);
         bool isSuccess = await acquireTask;
 

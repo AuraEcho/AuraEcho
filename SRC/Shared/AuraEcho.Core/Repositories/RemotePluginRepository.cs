@@ -165,7 +165,7 @@ public class RemotePluginRepository : IRemotePluginRepository
         return pluginVersions;
     }
 
-    public async Task<bool> AcquireAsync(Guid userId, Guid pluginId)
+    public async Task<bool> AcquireAsync(Guid pluginId)
     {
         var result = await _httpHelper.PostAsync<ResponseResult<string>>(Urls.AcquirePlugin(pluginId), null);
         return result is not null;

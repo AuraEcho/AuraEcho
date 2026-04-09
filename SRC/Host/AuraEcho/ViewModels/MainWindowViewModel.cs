@@ -1,18 +1,19 @@
-using System.ComponentModel;
-using System.Threading.Tasks;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
-using AuraEcho.Core.Models;
 using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Constants;
+using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
-using AuraEcho.Views;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
 
@@ -22,15 +23,28 @@ public class MainWindowViewModel : BindableBase
     private readonly IAuthRepository _authRepository;
     private readonly IClientSession _clientSession;
     public IAuraToastService ToastService { get; }
+    private readonly Task _autoSignInTask;
+    private Version _currentVersion;
     #endregion
 
-    private Task _autoSignInTask;
+    public bool NewVersionIsInstalled
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
     public INavigationService NavigationService
     {
         get;
         private set => SetProperty(ref field, value);
     }
     private readonly IEventAggregator _eventAggregator;
+
+    public DelegateCommand RequestRestartAppCommand { get; }
+    private void RequestRestartApp()
+    {
+        _eventAggregator.GetEvent<AppRestartEvent>().Publish();
+    }
 
     public DelegateCommand GoBackCommand { get; }
     public bool CanGoBack() => NavigationService.CanGoBack;
@@ -61,9 +75,9 @@ public class MainWindowViewModel : BindableBase
     }
 
     public MainWindowViewModel(
-        INavigationService navigationService, 
-        IEventAggregator eventAggregator, 
-        IAuthRepository authRepository, 
+        INavigationService navigationService,
+        IEventAggregator eventAggregator,
+        IAuthRepository authRepository,
         IClientSession clientSession,
         IAuraToastService auraToastService)
     {
@@ -74,9 +88,11 @@ public class MainWindowViewModel : BindableBase
         _clientSession = clientSession;
 
         GoBackCommand = new DelegateCommand(GoBack, CanGoBack);
+        RequestRestartAppCommand = new DelegateCommand(RequestRestartApp);
 
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
+        _eventAggregator.GetEvent<NewVersionInstalledEvent>().Subscribe(NewVersionInstalled, ThreadOption.UIThread);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
 
         if (NavigationService is INotifyPropertyChanged npc)
@@ -89,6 +105,25 @@ public class MainWindowViewModel : BindableBase
         }
 
         _autoSignInTask = AutoSignInAsync();
+        _currentVersion = GetCurrentVersion();
+    }
+
+    private static Version GetCurrentVersion()
+    {
+        try
+        {
+            using var key = Registry.LocalMachine.OpenSubKey(@"Software\AuraEcho");
+            if (key is null) return new Version(0, 0, 0, 0);
+
+            string? currentVersionStr = key.GetValue("CurrentVersion")?.ToString();
+            if (String.IsNullOrWhiteSpace(currentVersionStr)) return new Version(0, 0, 0, 0);
+
+            return Version.TryParse(currentVersionStr, out Version version) ? version : new Version(0, 0, 0, 0);
+        }
+        catch 
+        {
+            return new Version(0, 0, 0, 0);
+        }
     }
 
     private async Task AutoSignInAsync()
@@ -108,5 +143,10 @@ public class MainWindowViewModel : BindableBase
         }
 
         _clientSession.SignIn(result.Data);
+    }
+
+    private void NewVersionInstalled(Version newVersion)
+    {
+        NewVersionIsInstalled = newVersion > _currentVersion;
     }
 }

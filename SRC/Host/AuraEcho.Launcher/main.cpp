@@ -19,7 +19,7 @@ using namespace Gdiplus;
 namespace fs = std::filesystem;
 
 LPCTSTR LAUNCHER_SERVICE_PIPE_NAME = L"\\\\.\\pipe\\AURAECHO_LAUNCHER_SERVICE_PIPE";
-LPCTSTR AURAECHO_PIPE_NAME = L"\\\\.\\pipe\\AuraEcho_SingleInstance_Pipe";
+LPCTSTR AURAECHO_PIPE_NAME = L"\\\\.\\pipe\\AURAECHO_APP_PIPE";
 LPCTSTR INSTALLER_PIPE_NAME = L"\\\\.\\pipe\\AuraEcho_Installer_Pipe";
 
 LPCTSTR AURAECHO_MUTEX_ID = TEXT("E2A4C483-C59D-4856-BE14-F9B4AF07042C");

@@ -46,7 +46,7 @@ namespace AuraEcho;
 /// </summary>
 public partial class App
 {
-    private const string PIPE_NAME = "AuraEcho_SingleInstance_Pipe";
+    private const string PIPE_NAME = "AURAECHO_APP_PIPE";
     private static Mutex _instanceMutex;
     private string[] _startupArgs;
     private TaskbarIcon _notifyIcon;
@@ -231,18 +231,40 @@ public partial class App
                 using var reader = new StreamReader(server);
                 string? cmd = await reader.ReadLineAsync();
 
-                if (cmd == NamedPipeMessages.ShowWindow)
-                {
-                    _ = Task.Run(RequestShowApp);
-                }
+                if (String.IsNullOrWhiteSpace(cmd)) continue;
+
+                _ = Task.Run(() => HandlePipeMessage(cmd));
             }
         });
-    }
 
-    private static void RequestShowApp()
-    {
-        IEventAggregator eventAggregator = (Current as App)!.Container.Resolve<IEventAggregator>();
-        eventAggregator.GetEvent<RequestShowAppEvent>().Publish();
+        static void HandlePipeMessage(string pipeMessage) 
+        {
+            switch (pipeMessage)
+            {
+                case NamedPipeMessages.ShowWindow:
+                    RequestShowApp(); 
+                    return;
+                case var _ when pipeMessage.StartsWith("NewVersion:"):
+                    var newVersionStr = pipeMessage["NewVersion:".Length..];
+                    if (Version.TryParse(newVersionStr, out var newVersion))
+                    {
+                        NewVersionInstalled(newVersion);
+                    }
+                    return;
+            }
+        }
+
+        static void RequestShowApp()
+        {
+            IEventAggregator eventAggregator = (Current as App)!.Container.Resolve<IEventAggregator>();
+            eventAggregator.GetEvent<RequestShowAppEvent>().Publish();
+        }
+
+        static void NewVersionInstalled(Version newVersion)
+        {
+            IEventAggregator eventAggregator = (Current as App)!.Container.Resolve<IEventAggregator>();
+            eventAggregator.GetEvent<NewVersionInstalledEvent>().Publish(newVersion);
+        }
     }
 
     private static void RestartApp() => ExitInternal(true);

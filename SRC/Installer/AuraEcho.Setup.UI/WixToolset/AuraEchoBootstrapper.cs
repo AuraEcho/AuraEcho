@@ -29,6 +29,7 @@ namespace AuraEcho.Setup.UI.WixToolset
         public static bool IsLauchAppWhenInstalled { get; set; }
 
         private const string PIPE_NAME = "AuraEcho_Installer_Pipe";
+        private const string APP_PIPE_NAME = "AURAECHO_APP_PIPE";
         private Dispatcher _dispatcher;
         private bool _isAutoPlan;
         private bool _isCurrentBundleRegistered;
@@ -340,11 +341,35 @@ namespace AuraEcho.Setup.UI.WixToolset
 
             if (!_isAutoPlan) return;
 
+            if (args.Status == 0 && Command.Action == LaunchAction.Install)
+                NotifyAppNewVersionInstalled();
+
             if (IsLauchAppWhenInstalled)
                 LaunchExecutedExe(AppLauncherFullName, "-hide");
 
             _dispatcher.InvokeShutdown();
             return;
+
+            // 通知 App 新版本已安装完成
+            void NotifyAppNewVersionInstalled()
+            {
+                try
+                {
+                    using (var client = new NamedPipeClientStream(".", APP_PIPE_NAME, PipeDirection.Out))
+                    {
+                        client.Connect(200);
+                        using (var writer = new StreamWriter(client))
+                        {
+                            writer.WriteLine($"NewVersion:{Version}");
+                            writer.Flush();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Engine.Log(LogLevel.Error, $"Failed to notify the app about the new version: {ex}");
+                }
+            }
         }
 
         /// <inheritdoc/>

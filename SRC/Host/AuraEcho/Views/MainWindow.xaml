@@ -147,6 +147,23 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
 
+                    <Button Margin="0,0,4,0"
+                            Padding="8,6"
+                            VerticalAlignment="Center"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Command="{Binding RequestRestartAppCommand}"
+                            auraecho:ControlHelper.CornerRadius="4"
+                            Content="重启以更新">
+                        <Button.Visibility>
+                            <Binding Path="NewVersionIsInstalled">
+                                <Binding.Converter>
+                                    <BooleanToVisibilityConverter />
+                                </Binding.Converter>
+                            </Binding>
+                        </Button.Visibility>
+                    </Button>
+
+
                     <Button Width="47"
                             auraecho:ControlHelper.CornerRadius="0"
                             FontSize="15"
@@ -262,8 +279,8 @@
                             Height="36"
                             prism:RegionManager.RegionName="{x:Static constants:HostRegionNames.ErrorRegion}" />
             <!--#endregion-->
-            
-            <!-- Toast 区域-->
+
+            <!-- Toast 区域 -->
             <ItemsControl Grid.Row="1"
                           Margin="0,24,24,0"
                           HorizontalAlignment="Right"

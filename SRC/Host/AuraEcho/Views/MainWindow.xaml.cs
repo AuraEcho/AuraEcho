@@ -121,4 +121,9 @@ public partial class MainWindow : Window
             return;
         }
     }
+
+    private void RestartTipsButton_Click(object sender, RoutedEventArgs e)
+    {
+        PendingRestartPopup.IsOpen = true;
+    }
 }

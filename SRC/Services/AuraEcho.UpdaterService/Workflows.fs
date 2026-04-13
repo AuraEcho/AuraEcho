@@ -7,6 +7,9 @@ open AuraEcho.Core.Contracts
 open AuraEcho.PluginContracts.Interfaces
 open AuraEcho.UpdaterService.Utils
 open Microsoft.Data.Sqlite
+open System.IO.Pipes
+
+let private APP_PIPE_NAME = "AURAECHO_APP_PIPE"
 
 // --- 客户端更新 ---
 let updateAppAsync (logger: IAppLogger) (repo: IAppPackageRepository) cachePath = task {
@@ -42,6 +45,20 @@ let updateAppAsync (logger: IAppLogger) (repo: IAppPackageRepository) cachePath 
         logger.Error($"客户端更新流程发生异常{ex}")
 }
 
+// 插件更新完成，通知 app
+let notifyAppPluginUpdateAsync (logger: IAppLogger) pluginId newVersion = task {
+    logger.Information("正在通知客户端插件更新完成...")
+    try
+        use client = new NamedPipeClientStream(".", APP_PIPE_NAME, PipeDirection.Out)
+        do! client.ConnectAsync(200)
+        use writer = new StreamWriter(client)
+        do! writer.WriteLineAsync($"PluginNewVersion:{pluginId}:{newVersion}")
+        do! writer.FlushAsync()
+        logger.Information("已完成通知")
+    with ex -> 
+        logger.Error($"通知客户端插件更新完成发生异常{ex}")
+}
+
 // --- 插件更新 ---
 let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) (remoteRepo: IRemotePluginRepository) (installer: IPluginInstallService) cachePath = task {
     logger.Information("开始检测插件版本...")
@@ -67,6 +84,7 @@ let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) 
                         let! _ = installer.InstallAsync(targetPath)
                         File.Delete(targetPath)
                         logger.Information($"插件 {pluginName} 更新成功")
+                        do! notifyAppPluginUpdateAsync logger plugin.Manifest.Id remotePackage.Version
                     with ex ->
                         logger.Error($"安装插件 {pluginName} 时失败 {ex}")
                 else

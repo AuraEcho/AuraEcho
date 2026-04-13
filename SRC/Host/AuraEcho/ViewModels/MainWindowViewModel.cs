@@ -2,6 +2,7 @@ using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
+using AuraEcho.Core.Models;
 using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Constants;
@@ -12,7 +13,9 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
@@ -27,11 +30,11 @@ public class MainWindowViewModel : BindableBase
     private Version _currentVersion;
     #endregion
 
-    public bool NewVersionIsInstalled
+    public ObservableCollection<PendingRestartItem> PendingRestartItems
     {
         get;
         set => SetProperty(ref field, value);
-    }
+    } = [];
 
     public INavigationService NavigationService
     {
@@ -92,7 +95,7 @@ public class MainWindowViewModel : BindableBase
 
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
-        _eventAggregator.GetEvent<NewVersionInstalledEvent>().Subscribe(NewVersionInstalled, ThreadOption.UIThread);
+        _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
 
         if (NavigationService is INotifyPropertyChanged npc)
@@ -120,7 +123,7 @@ public class MainWindowViewModel : BindableBase
 
             return Version.TryParse(currentVersionStr, out Version version) ? version : new Version(0, 0, 0, 0);
         }
-        catch 
+        catch
         {
             return new Version(0, 0, 0, 0);
         }
@@ -145,8 +148,16 @@ public class MainWindowViewModel : BindableBase
         _clientSession.SignIn(result.Data);
     }
 
-    private void NewVersionInstalled(Version newVersion)
+    private void NewPendingRestartItem(PendingRestartItem newItem)
     {
-        NewVersionIsInstalled = newVersion > _currentVersion;
+        var existingItem = PendingRestartItems.FirstOrDefault(item => item.Id == newItem.Id);
+        if (existingItem is null)
+        {
+            PendingRestartItems.Add(newItem);
+            return;
+        }
+
+        existingItem.Name = newItem.Name;
+        existingItem.Description = newItem.Description;
     }
 }

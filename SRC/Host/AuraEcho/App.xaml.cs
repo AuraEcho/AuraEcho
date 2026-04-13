@@ -1,32 +1,9 @@
-using DryIoc;
-using Hardcodet.Wpf.TaskbarNotification;
-using Microsoft.EntityFrameworkCore;
-using AuraEcho.Constants;
-using AuraEcho.Core.Attributes;
-using AuraEcho.Core.Constants;
-using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Data;
-using AuraEcho.Core.Events;
-using AuraEcho.Core.Repositories;
-using AuraEcho.Core.Services;
-using AuraEcho.Core.Tools;
-using AuraEcho.Core.Tools.HttpClientPipelines;
-using AuraEcho.Interfaces;
-using AuraEcho.PluginContracts.Constants;
-using AuraEcho.PluginContracts.Interfaces;
-using AuraEcho.PluginContracts.Models;
-using AuraEcho.Services;
-using AuraEcho.UIToolkit.RegionDialog;
-using AuraEcho.ViewModels;
-using AuraEcho.Views;
-using Prism.Events;
-using Prism.Ioc;
-using Prism.Modularity;
-using Prism.Regions;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Net.Http;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -36,8 +13,30 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using AuraEcho.Constants;
+using AuraEcho.Core.Attributes;
+using AuraEcho.Core.Constants;
+using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Data;
+using AuraEcho.Core.Events;
+using AuraEcho.Core.Models;
+using AuraEcho.Core.Repositories;
+using AuraEcho.Core.Services;
+using AuraEcho.Core.Tools;
+using AuraEcho.Core.Tools.HttpClientPipelines;
+using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Events;
-using System.Diagnostics;
+using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
+using AuraEcho.Services;
+using AuraEcho.UIToolkit.RegionDialog;
+using AuraEcho.ViewModels;
+using AuraEcho.Views;
+using DryIoc;
+using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.EntityFrameworkCore;
+using Prism.Events;
+using Prism.Ioc;
 
 namespace AuraEcho;
 
@@ -242,16 +241,31 @@ public partial class App
             switch (pipeMessage)
             {
                 case NamedPipeMessages.ShowWindow:
+                    {
                     RequestShowApp(); 
                     return;
+                    }
                 case var _ when pipeMessage.StartsWith("NewVersion:"):
+                    {
                     var newVersionStr = pipeMessage["NewVersion:".Length..];
                     if (Version.TryParse(newVersionStr, out var newVersion))
                     {
                         NewVersionInstalled(newVersion);
                     }
+                        return;
+                    }
+                case var _ when pipeMessage.StartsWith("PluginNewVersion:"):
+                    {
+                        var data = pipeMessage["PluginNewVersion:".Length..].Split(":");
+                        if (data.Length < 2) return;
+
+                        if (!Guid.TryParse(data[0], out Guid pluginId)) return;
+                        if (!Version.TryParse(data[1], out Version? newVersion)) return;
+
+                        PluginNewVersionInstalled(pluginId, newVersion);
                     return;
             }
+        }
         }
 
         static void RequestShowApp()
@@ -263,7 +277,31 @@ public partial class App
         static void NewVersionInstalled(Version newVersion)
         {
             IEventAggregator eventAggregator = (Current as App)!.Container.Resolve<IEventAggregator>();
-            eventAggregator.GetEvent<NewVersionInstalledEvent>().Publish(newVersion);
+            eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PendingRestartItem
+            {
+                Id = "App",
+                Name = "灵光回声主程序",
+                Description = newVersion.ToString() 
+            });
+        }
+
+        static void PluginNewVersionInstalled(Guid pluginId, Version newVersion)
+        {
+            IEventAggregator eventAggregator = (Current as App)!.Container.Resolve<IEventAggregator>();
+            IPluginManager pluginManager = (Current as App)!.Container.Resolve<IPluginManager>();
+
+            UserPluginModel? targetPlugin = pluginManager.Plugins.FirstOrDefault(p => p.LocalPlugin.Id == pluginId);
+            if (targetPlugin is null) return;
+
+            var targetPluginVersion = Version.Parse(targetPlugin.LocalPlugin.Manifest.Version);
+            if (newVersion <= targetPluginVersion) return;
+
+            eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PendingRestartItem
+            {
+                Id = pluginId.ToString("N"),
+                Name = targetPlugin.LocalPlugin.Manifest.PluginName,
+                Description = newVersion.ToString()
+            });
         }
     }
 

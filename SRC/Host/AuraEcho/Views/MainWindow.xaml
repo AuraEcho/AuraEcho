@@ -23,6 +23,7 @@
         mc:Ignorable="d">
 
     <Window.Resources>
+        <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <Storyboard x:Key="ShowMask">
             <DoubleAnimation Storyboard.TargetName="AppContainer"
                              Storyboard.TargetProperty="(Grid.Effect).Progress"
@@ -147,22 +148,25 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
 
-                    <Button Margin="0,0,4,0"
+                    <Button x:Name="RestartTipsButton"
+                            Margin="0,0,4,0"
                             Padding="8,6"
                             VerticalAlignment="Center"
-                            WindowChrome.IsHitTestVisibleInChrome="True"
-                            Command="{Binding RequestRestartAppCommand}"
                             auraecho:ControlHelper.CornerRadius="4"
-                            Content="重启以更新">
-                        <Button.Visibility>
-                            <Binding Path="NewVersionIsInstalled">
-                                <Binding.Converter>
-                                    <BooleanToVisibilityConverter />
-                                </Binding.Converter>
-                            </Binding>
-                        </Button.Visibility>
+                            Click="RestartTipsButton_Click"
+                            Content="等待重启"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding PendingRestartItems.Count}" Value="0">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding PendingRestartItems.Count}"
+                                           Comparison="NotEqual"
+                                           Value="0">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
                     </Button>
-
 
                     <Button Width="47"
                             auraecho:ControlHelper.CornerRadius="0"
@@ -266,6 +270,38 @@
                             <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
                         </Canvas>
                     </Button>
+
+                    <Popup x:Name="PendingRestartPopup"
+                           AllowsTransparency="True"
+                           HorizontalOffset="-64"
+                           Placement="Bottom"
+                           PlacementTarget="{Binding ElementName=RestartTipsButton}"
+                           StaysOpen="False"
+                           VerticalOffset="4">
+                        <Border Width="200"
+                                Padding="8"
+                                Background="#212121"
+                                CornerRadius="4">
+
+                            <StackPanel Width="180" Background="#212121">
+                                <ItemsControl Margin="0,0,0,8" ItemsSource="{Binding PendingRestartItems}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="8" FontSize="14">
+                                                <Run Text="{Binding Name}" />
+                                                |<Run Text="{Binding Description}" />
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Button Padding="0,8"
+                                        Command="{Binding Source={StaticResource BindingProxy}, Path=Data.RequestRestartAppCommand}"
+                                        Content="现在重启"
+                                        Style="{DynamicResource PrimaryButtonStyle}" />
+
+                            </StackPanel>
+                        </Border>
+                    </Popup>
                 </StackPanel>
             </Grid>
             <!--#endregion-->

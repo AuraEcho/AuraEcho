@@ -166,7 +166,7 @@ public partial class App
     /// 程序入口函数
     /// </summary>
     [STAThread]
-    static void Main()
+    static void Main(string[] args)
     {
         _logger = new Serilogger(ApplicationPaths.Logs);
         _logger.Debug("程序已启动");
@@ -180,11 +180,14 @@ public partial class App
         _instanceMutex = new(true, MutexNames.AURAECHO_MUTEX_ID, out bool createdNew);
         if (!createdNew)
         {
-            using var client = new NamedPipeClientStream(".", PIPE_NAME, PipeDirection.Out);
-            client.Connect(200);
-            using var writer = new StreamWriter(client);
-            writer.WriteLine(NamedPipeMessages.ShowWindow);
-            writer.Flush();
+            if (!args.Contains("-hide"))
+            {
+                using var client = new NamedPipeClientStream(".", PIPE_NAME, PipeDirection.Out);
+                client.Connect(200);
+                using var writer = new StreamWriter(client);
+                writer.WriteLine(NamedPipeMessages.ShowWindow);
+                writer.Flush();
+            }
 
             _logger.Debug("已有实例正在运行，正在退出程序。");
             return;
@@ -269,7 +272,7 @@ public partial class App
                         if (!Version.TryParse(data[1], out Version? newVersion)) return;
 
                         PluginNewVersionInstalled(pluginId, newVersion);
-                    return;
+                        return;
                     }
             }
         }
@@ -287,7 +290,7 @@ public partial class App
             {
                 Id = "App",
                 Name = "灵光回声主程序",
-                Description = newVersion.ToString() 
+                Description = newVersion.ToString()
             });
         }
 

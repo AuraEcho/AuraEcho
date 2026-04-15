@@ -1,14 +1,3 @@
-using AuraEcho.Constants;
-using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
-using AuraEcho.Core.Models.Api.Auth;
-using AuraEcho.PluginContracts.Constants;
-using AuraEcho.PluginContracts.Interfaces;
-using AuraEcho.PluginContracts.Models;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +6,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AuraEcho.Constants;
+using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Enums;
+using AuraEcho.Core.Models.Api;
+using AuraEcho.Core.Models.Api.Auth;
+using AuraEcho.PluginContracts.Constants;
+using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace AuraEcho.ViewModels;
 

@@ -1,5 +1,6 @@
 using System;
 using AuraEcho.PluginContracts.Models;
+using Prism.Regions;
 
 namespace AuraEcho.UIToolkit.RegionDialog
 {
@@ -7,6 +8,6 @@ namespace AuraEcho.UIToolkit.RegionDialog
     {
         event Action<RegionDialogResult> RequestClose;
 
-        void OnDialogOpened(RegionDialogParameter parameters);
+        void OnDialogOpened(NavigationParameters parameters);
     }
 }

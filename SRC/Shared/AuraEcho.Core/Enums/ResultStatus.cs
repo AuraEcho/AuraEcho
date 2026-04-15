@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace AuraEcho.Core.Models.Api;
+namespace AuraEcho.Core.Enums;
 
 public enum ResultStatus
 {

@@ -1,10 +1,14 @@
-using AuraEcho.PluginContracts.Interfaces;
-using AuraEcho.PluginContracts.Models;
-using Prism.Ioc;
-using Prism.Regions;
 using System;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
+using Prism;
+using Prism.Ioc;
+using Prism.Regions;
+using Prism.Services.Dialogs;
 
 namespace AuraEcho.UIToolkit.RegionDialog
 {
@@ -19,7 +23,7 @@ namespace AuraEcho.UIToolkit.RegionDialog
             _container = container;
         }
 
-        public Task<RegionDialogResult> ShowDialogAsync(string regionName, string target, RegionDialogParameter parameter)
+        public Task<RegionDialogResult> ShowDialogAsync(string regionName, string target, NavigationParameters parameters)
         {
             var tcs = new TaskCompletionSource<RegionDialogResult>();
             var dialog = _container.Resolve<object>(target);
@@ -27,23 +31,53 @@ namespace AuraEcho.UIToolkit.RegionDialog
             if (!_regionManager.Regions.ContainsRegionWithName(regionName))
                 throw new InvalidOperationException($"{regionName} not found in Shell.");
             var region = _regionManager.Regions[regionName];
+
+            if (!(dialog is FrameworkElement fe))
+                throw new InvalidOperationException($"{target} must be a FrameworkElement.");
+
+            if (!(fe.DataContext is IRegionDialogAware dialogAware))
+                throw new InvalidOperationException($"{target} must have a DataContext that implements IRegionDialogAware.");
+
+            dialogAware.RequestClose += FinalizeResult;
             region.Add(dialog, null, true);
             region.Activate(dialog);
+            dialogAware.OnDialogOpened(parameters);
 
-            var aware = dialog as IRegionDialogAware ?? (dialog as FrameworkElement)?.DataContext as IRegionDialogAware;
-            aware?.OnDialogOpened(parameter);
 
-            var host = dialog as IRegionDialogAware ?? (dialog as FrameworkElement)?.DataContext as IRegionDialogAware;
-            if (host != null)
-            {
-                host.RequestClose += CloseDialog;
-            }
+            _regionManager.Regions[regionName].NavigationService.Navigated -= OnRegionNavigated;
+            _regionManager.Regions[regionName].NavigationService.Navigated += OnRegionNavigated;
+            region.Views.CollectionChanged -= OnViewsCollectionChanged;
+            region.Views.CollectionChanged += OnViewsCollectionChanged;
+
             return tcs.Task;
 
-            void CloseDialog(RegionDialogResult result)
+            void FinalizeResult(RegionDialogResult result)
             {
-                region.Remove(dialog);
-                tcs.SetResult(result);
+                _regionManager.Regions[regionName].NavigationService.Navigated -= OnRegionNavigated;
+                region.Views.CollectionChanged -= OnViewsCollectionChanged;
+
+                if (region.Views.Contains(dialog))
+                    region.Remove(dialog);
+
+                tcs.TrySetResult(result);
+            }
+
+            // Remove
+            void OnViewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                if (region.Views.Contains(dialog)) return;
+                if (tcs.Task.IsCompleted) return;
+
+                FinalizeResult(RegionDialogResult.Cancel);
+            }
+
+            // Navigate
+            void OnRegionNavigated(object sender, RegionNavigationEventArgs e)
+            {
+                if (e.Uri.ToString() != target && !tcs.Task.IsCompleted)
+                {
+                    FinalizeResult(RegionDialogResult.Cancel);
+                }
             }
         }
     }

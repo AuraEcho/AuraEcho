@@ -2,6 +2,7 @@ using System;
 using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace AuraEcho.UIToolkit.RegionDialog
 {
@@ -40,9 +41,9 @@ namespace AuraEcho.UIToolkit.RegionDialog
             CloseCommand = new DelegateCommand(Close);
         }
 
-        public void OnDialogOpened(RegionDialogParameter parameters)
+        public void OnDialogOpened(NavigationParameters parameters)
         {
-            Parameter = parameters;
+            Parameter = parameters.GetValue<RegionDialogParameter>("DialogArgs");
         }
     }
 }

@@ -17,12 +17,13 @@ using System.Text.Json;
 
 namespace AuraEcho.FishyTime.ViewModels;
 
-public class FishyTimeHomeViewModel : BindableBase
+public class FishyTimeHomeViewModel : BindableBase, INavigationAware
 {
     #region private members
     private readonly IPathProvider _pathProvider;
     private readonly IEventAggregator _eventAggregator;
-
+    private readonly ILicenseService _licenseService;
+    private readonly IPurchaseCoordinator _purchaseCoordinator;
     private FishyTimeConfig _fishyTimeConfig;
     private const string FishyTimeConfigFileName = "FishyTimeConfig.json";
     private ObservableCollection<Win32Window> _win32Windows = [];
@@ -32,7 +33,14 @@ public class FishyTimeHomeViewModel : BindableBase
         WindowMaskMode.HotZone,
         WindowMaskMode.Spotlight
     ];
+    private Guid _pluginId;
     #endregion
+
+    public ResourceLicense LicenseInfo
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
 
     public ObservableCollection<Win32Window> Win32Windows
     {
@@ -71,6 +79,17 @@ public class FishyTimeHomeViewModel : BindableBase
         if (win32Window is null) return;
 
         RemoveWin32Window(win32Window);
+    }
+
+    public DelegateCommand NavigationToPurchaseCommand { get; }
+    private async void NavigationToPurchase()
+    {
+        var result = await _purchaseCoordinator.RequestPurchaseAsync(_pluginId);
+        if (result)
+        {
+            var licenseInfo = await _licenseService.GetResourceLicenseAsync(_pluginId);
+            LicenseInfo = licenseInfo.IsValid ? licenseInfo : null;
+        }
     }
 
     public DelegateCommand<Win32Window> RemoveWin32WindowCommand { get; }
@@ -124,10 +143,12 @@ public class FishyTimeHomeViewModel : BindableBase
         File.WriteAllText(FishyTimeConfigFilePath, configJson);
     }
 
-    public FishyTimeHomeViewModel(IPathProvider pathProvider, IEventAggregator eventAggregator)
+    public FishyTimeHomeViewModel(IPathProvider pathProvider, IEventAggregator eventAggregator, ILicenseService licenseService, IPurchaseCoordinator purchaseCoordinator)
     {
         _pathProvider = pathProvider ?? throw new ArgumentNullException(nameof(pathProvider));
         _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
+        _licenseService = licenseService ?? throw new ArgumentNullException(nameof(licenseService));
+        _purchaseCoordinator = purchaseCoordinator ?? throw new ArgumentNullException(nameof(purchaseCoordinator));
         _eventAggregator.GetEvent<AppLanguageChangedEvent>().Subscribe(AppLanguageChanged);
 
         Win32Windows = [];
@@ -136,6 +157,7 @@ public class FishyTimeHomeViewModel : BindableBase
 
         LoadDataCommand = new DelegateCommand(LoadData);
         SaveDataCommand = new DelegateCommand(SaveData);
+        NavigationToPurchaseCommand = new DelegateCommand(NavigationToPurchase);
     }
 
     private void AppLanguageChanged(AppLanguage language)
@@ -149,4 +171,19 @@ public class FishyTimeHomeViewModel : BindableBase
 
         FishyTimeResources.ChangeCulture(targetCultureInfo);
     }
+
+    public async void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        _pluginId = navigationContext.Parameters.GetValue<Guid>("PluginId");
+
+        var licenseInfo = await _licenseService.GetResourceLicenseAsync(_pluginId);
+        if (licenseInfo.IsValid)
+        {
+            LicenseInfo = licenseInfo;
+        }
+    }
+
+    public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+    public void OnNavigatedFrom(NavigationContext navigationContext) { }
 }

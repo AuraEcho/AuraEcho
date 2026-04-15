@@ -78,7 +78,10 @@ namespace AuraEcho.Setup.UI.ViewModels
                     await _regionDialogService.ShowDialogAsync(
                         InstallerRegionNames.MessageRegion,
                         HostRegionDialogTypes.ConfirmDialog,
-                        regionDialogParameter);
+                        new NavigationParameters
+                        {
+                            { "DialogArgs", regionDialogParameter}
+                        });
 
                 if (dialogResult != RegionDialogResult.Cancel)
                     return;

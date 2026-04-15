@@ -94,6 +94,11 @@ public partial class App
         containerRegistry.RegisterSingleton<IAuthRepository, AuthRepository>();
         containerRegistry.RegisterSingleton<IAppPackageRepository, AppPackageRepository>();
         containerRegistry.RegisterSingleton<IRemotePluginRepository, RemotePluginRepository>();
+        containerRegistry.RegisterSingleton<ISkuRepository, SkuRepository>();
+        containerRegistry.RegisterSingleton<ILicenseRepository, LicenseRepository>();
+        containerRegistry.RegisterSingleton<ILicenseService, LicenseRepository>();
+        containerRegistry.RegisterSingleton<IPurchaseCoordinator, PurchaseCoordinator>();
+        containerRegistry.RegisterSingleton<IOrderRepository, OrderRepository>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
@@ -106,6 +111,7 @@ public partial class App
         containerRegistry.RegisterForNavigation<PasswordResetCompleted>();
         containerRegistry.RegisterForNavigation<SignInExpired>();
         containerRegistry.RegisterForNavigation<ImageViewer>();
+        containerRegistry.RegisterForNavigation<Purchase>();
     }
 
     protected override void OnInitialized()
@@ -236,22 +242,22 @@ public partial class App
             }
         });
 
-        static void HandlePipeMessage(string pipeMessage) 
+        static void HandlePipeMessage(string pipeMessage)
         {
             switch (pipeMessage)
             {
                 case NamedPipeMessages.ShowWindow:
                     {
-                    RequestShowApp(); 
-                    return;
+                        RequestShowApp();
+                        return;
                     }
                 case var _ when pipeMessage.StartsWith("NewVersion:"):
                     {
-                    var newVersionStr = pipeMessage["NewVersion:".Length..];
-                    if (Version.TryParse(newVersionStr, out var newVersion))
-                    {
-                        NewVersionInstalled(newVersion);
-                    }
+                        var newVersionStr = pipeMessage["NewVersion:".Length..];
+                        if (Version.TryParse(newVersionStr, out var newVersion))
+                        {
+                            NewVersionInstalled(newVersion);
+                        }
                         return;
                     }
                 case var _ when pipeMessage.StartsWith("PluginNewVersion:"):
@@ -264,8 +270,8 @@ public partial class App
 
                         PluginNewVersionInstalled(pluginId, newVersion);
                     return;
+                    }
             }
-        }
         }
 
         static void RequestShowApp()

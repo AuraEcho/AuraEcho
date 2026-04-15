@@ -1,3 +1,5 @@
+using AuraEcho.Core.Models.Api.Order;
+
 namespace AuraEcho.Core.Constants;
 
 public static class Urls
@@ -45,5 +47,20 @@ public static class Urls
     public static string DeletePluginVersion(Guid versionId) => $"{ServerUrl}/api/v1/plugin/deleteVersion/{versionId}";
     public static string AcquirePlugin(Guid pluginId) => $"{ServerUrl}/api/v1/plugin/{pluginId}/acquire";
     public static string GetPluginScreenshots(Guid pluginId) => $"{ServerUrl}/api/v1/plugin/{pluginId}/screenshots";
+    #endregion
+
+    #region Sku
+    public static string GetResourceSkus(Guid resourceId) => $"{ServerUrl}/api/v1/sku/resource/{resourceId}";
+    #endregion
+
+    #region License
+    public static string GetResourceLicense(Guid resourceId) => $"{ServerUrl}/api/v1/license/{resourceId}";
+    public static string GetUserLicenses() => $"{ServerUrl}/api/v1/license/my-licenses";
+    #endregion
+
+    #region Order
+    public static string CreateOrderAsync() => $"{ServerUrl}/api/v1/order/create";
+    public static string GetOrderPaymentCredential(Guid orderId, PaymentChannel channel) => $"{ServerUrl}/api/v1/order/{orderId}/payment-credential?channel={channel}";
+    public static string GetOrderStatus(Guid orderId) => $"{ServerUrl}/api/v1/order/status/{orderId}";
     #endregion
 }

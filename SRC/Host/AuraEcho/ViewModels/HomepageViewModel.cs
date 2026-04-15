@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
@@ -8,6 +9,7 @@ using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -19,6 +21,7 @@ public class HomepageViewModel : BindableBase
     private string _title = "AuraEcho";
     private readonly ILocalPluginRepository _localPluginRepository;
     private readonly INavigationService _navigationService;
+    private readonly IRegionDialogService _regionDialogService;
     private readonly IEventAggregator _eventAggregator;
     private readonly IThemeManager _themeManager;
     private readonly IAppLogger _logger;
@@ -40,7 +43,7 @@ public class HomepageViewModel : BindableBase
     }
 
     public DelegateCommand NavigationToPluginsMarketplaceCommand { get; }
-    private void NavigationToPluginsMarketplace()
+    private async void NavigationToPluginsMarketplace()
     {
         _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.PluginsMarketplace);
     }
@@ -67,7 +70,7 @@ public class HomepageViewModel : BindableBase
     {
         plugin.Status = PluginPlanStatus.UninstallPending;
         _localPluginRepository.UpdateUserPluginStatusAsync(
-            _clientSession.CurrentUser.Id, 
+            _clientSession.CurrentUser.Id,
             plugin.LocalPlugin.Id,
             plugin.Status);
     }
@@ -93,16 +96,21 @@ public class HomepageViewModel : BindableBase
 
         _navigationService.RequestNavigate(
             HostRegionNames.MainRegion,
-            userPlugin.LocalPlugin.Manifest.DefaultViewName);
+            userPlugin.LocalPlugin.Manifest.DefaultViewName,
+            new NavigationParameters
+            {
+                {  "PluginId", userPlugin.LocalPlugin.Id  },
+            });
     }
 
     public HomepageViewModel(
-        INavigationService navigationService, 
+        INavigationService navigationService,
         ILocalPluginRepository localPluginRepository,
         IEventAggregator eventAggregator,
-        IPluginManager pluginManager, 
-        IThemeManager themeManager, 
+        IPluginManager pluginManager,
+        IThemeManager themeManager,
         IAppLogger logger,
+        IRegionDialogService regionDialogService,
         IClientSession clientSession)
     {
         _clientSession = clientSession;
@@ -112,6 +120,7 @@ public class HomepageViewModel : BindableBase
         _themeManager = themeManager;
         _logger = logger;
         _pluginManager = pluginManager;
+        _regionDialogService = regionDialogService;
 
         LoadPluginsCommand = new DelegateCommand(LoadPlugins);
         SwitchPluginCommand = new DelegateCommand<UserPluginModel>(SwitchPlugin);

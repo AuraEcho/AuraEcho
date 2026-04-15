@@ -51,4 +51,14 @@ public static class ViewNames
     /// 图片查看
     /// </summary>
     public const string ImageViewer = nameof(Views.ImageViewer);
+
+    /// <summary>
+    /// 对话框
+    /// </summary>
+    public const string ConfirmDialog = nameof(UIToolkit.RegionDialog.ConfirmDialog);
+
+    /// <summary>
+    /// 购买
+    /// </summary>
+    public const string Purchase = nameof(Views.Purchase);
 }

@@ -216,8 +216,13 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0, 12" >
                     <TextBlock FontSize="24"
-                               Foreground="Red"
                                Text="{Binding Source={x:Static utils:FishyTimeResources.Current}, Path=Strings.PluginName}" />
+                    <Button Command="{Binding NavigationToPurchaseCommand}" Content="Purchase" Margin="8, 0, 0, 0" VerticalAlignment="Center" Padding="16, 4"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="License:"/>
+                    <TextBlock Text="{Binding LicenseInfo.LicenseType, StringFormat=订阅类型：{0}}"/>
+                    <TextBlock Text="{Binding LicenseInfo.ExpiredAt, StringFormat=有效期至：{0:yyyy/MM/dd}, TargetNullValue=有效期至：永久}"/>
                 </StackPanel>
                 <Line Margin="0,0,0,12"
                       Stretch="Fill"

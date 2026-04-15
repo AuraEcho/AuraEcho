@@ -1,3 +1,5 @@
+using AuraEcho.Core.Enums;
+
 namespace AuraEcho.Core.Models.Api;
 
 public class ResponseResult<T>

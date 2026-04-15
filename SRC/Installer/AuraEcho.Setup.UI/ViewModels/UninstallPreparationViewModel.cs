@@ -63,12 +63,15 @@ namespace AuraEcho.Setup.UI.ViewModels
                 await _regionDialogService.ShowDialogAsync(
                     InstallerRegionNames.MessageRegion,
                     HostRegionDialogTypes.ConfirmDialog,
-                    new RegionDialogParameter
+                    new NavigationParameters
                     {
-                        CancelText = "重试",
-                        ConfirmText = "继续",
-                        Message = @"AuraEcho 仍在运行，正在等待 AuraEcho 退出，选择 ""继续"" 以退出 AuraEcho 继续安装。",
-                        Title = "AuraEcho 仍在运行"
+                        { "DialogArgs", new RegionDialogParameter
+                        {
+                            CancelText = "重试",
+                            ConfirmText = "继续",
+                            Message = @"AuraEcho 仍在运行，正在等待 AuraEcho 退出，选择 ""继续"" 以退出 AuraEcho 继续安装。",
+                            Title = "AuraEcho 仍在运行"
+                        }}
                     });
 
             if (dialogResult == RegionDialogResult.Close) return false;

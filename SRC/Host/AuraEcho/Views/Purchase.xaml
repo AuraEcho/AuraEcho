@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="AuraEcho.Views.Purchase"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:AuraEcho.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:order="clr-namespace:AuraEcho.Core.Models.Api.Order;assembly=AuraEcho.Core"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
+             xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:PurchaseViewModel}"
+             d:DesignHeight="640"
+             d:DesignWidth="982"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+        <converters:PayUrlToQRCodeConverter x:Key="PayUrlToQRCode" />
+        <ui:EnumToBooleanConverter x:Key="EnumToBoolean" />
+        <DataTemplate x:Key="SkuTemplate" DataType="{x:Type models:Sku}">
+            <RadioButton Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectSkuCommand}"
+                         CommandParameter="{Binding}"
+                         GroupName="SkuGroup">
+                <i:Interaction.Triggers>
+                    <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedSku}"
+                                   Value="{Binding}">
+                        <i:ChangePropertyAction PropertyName="IsChecked"
+                                                Value="True"/>
+                    </i:DataTrigger>
+                </i:Interaction.Triggers>
+                <Border Background="#10000000" CornerRadius="4">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock Margin="0,0,8,0"
+                                   FontSize="16"
+                                   Text="{Binding Type}" />
+                        <TextBlock Margin="0,0,8,0"
+                                   VerticalAlignment="Center"
+                                   d:Text="￥2.00"
+                                   FontSize="14"
+                                   Foreground="#8c8c8c"
+                                   Text="{Binding OriginalPrice, StringFormat=￥{0:N2}}"
+                                   TextDecorations="Strikethrough" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   d:Text="￥2.00"
+                                   FontSize="18"
+                                   Text="{Binding SalePrice, StringFormat=￥{0:N2}}" />
+
+                    </StackPanel>
+                </Border>
+            </RadioButton>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Background="#90000000">
+        <Border Width="500"
+                Height="250"
+                Background="#212121"
+                CornerRadius="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Margin="8,8,0,0"
+                           Text="订阅" />
+                <Button Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0,8,8,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding CloseCommand}"
+                        Content="Close" />
+                <StackPanel Grid.Row="1" Margin="16" VerticalAlignment="Center">
+                    <ItemsControl d:ItemsSource="{d:SampleData ItemCount=3}"
+                                  ItemTemplate="{StaticResource SkuTemplate}"
+                                  Margin="0, 0, 0, 16"
+                                  ItemsSource="{Binding Skus}">
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="{x:Type ContentPresenter}">
+                                <Setter Property="Margin" Value="8" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                    <StackPanel Margin="16, 0, 16, 0" Orientation="Horizontal">
+                        <RadioButton Content="Alipay"
+                                     GroupName="PaymentChannelGroup"
+                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static order:PaymentChannel.Alipay}}" />
+                        <RadioButton Content="Wxpay"
+                                     GroupName="PaymentChannelGroup"
+                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static order:PaymentChannel.Wxpay}}" />
+                    </StackPanel>
+                </StackPanel>
+                <Border Grid.Row="1"
+                        Grid.Column="1"
+                        Padding="16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="150"
+                                Height="150"
+                                Padding="8"
+                                Background="White">
+                            <Image Source="{Binding PayUrl, Converter={StaticResource PayUrlToQRCode}}" />
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

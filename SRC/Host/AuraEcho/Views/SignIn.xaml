@@ -202,7 +202,7 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="14"
                                                            Visibility="Hidden">
-                                                    <Hyperlink Focusable="False" Command="{Binding SendEmailCodeCommand}" Cursor="Hand">
+                                                    <Hyperlink KeyboardNavigation.IsTabStop="False" Command="{Binding SendEmailCodeCommand}" Cursor="Hand">
                                                         获取验证码
                                                     </Hyperlink>
                                                 </TextBlock>

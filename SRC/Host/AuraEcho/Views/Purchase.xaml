@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:AuraEcho.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:order="clr-namespace:AuraEcho.Core.Models.Api.Order;assembly=AuraEcho.Core"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="http://ui.auraecho.com/"
@@ -24,10 +24,8 @@
                          CommandParameter="{Binding}"
                          GroupName="SkuGroup">
                 <i:Interaction.Triggers>
-                    <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedSku}"
-                                   Value="{Binding}">
-                        <i:ChangePropertyAction PropertyName="IsChecked"
-                                                Value="True"/>
+                    <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedSku}" Value="{Binding}">
+                        <i:ChangePropertyAction PropertyName="IsChecked" Value="True" />
                     </i:DataTrigger>
                 </i:Interaction.Triggers>
                 <Border Background="#10000000" CornerRadius="4">
@@ -68,18 +66,33 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Margin="8,8,0,0"
+                           FontSize="16"
+                           Margin="16, 16, 0, 0"
                            Text="订阅" />
+
                 <Button Grid.Row="0"
                         Grid.Column="1"
+                        Width="45"
+                        Height="36"
                         Margin="0,8,8,0"
                         HorizontalAlignment="Right"
+                        BorderThickness="0"
                         Command="{Binding CloseCommand}"
-                        Content="Close" />
-                <StackPanel Grid.Row="1" Margin="16" VerticalAlignment="Center">
-                    <ItemsControl d:ItemsSource="{d:SampleData ItemCount=3}"
+                        FontSize="15"
+                        IsTabStop="False"
+                        Style="{DynamicResource IconButtonStyle}"
+                        ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
+                    <Canvas Width="16" Height="16">
+                        <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                    </Canvas>
+                </Button>
+                <StackPanel Grid.Row="1"
+                            Margin="16"
+                            VerticalAlignment="Center">
+                    <ItemsControl Margin="0,0,0,16"
+                                  d:ItemsSource="{d:SampleData ItemCount=3}"
                                   ItemTemplate="{StaticResource SkuTemplate}"
-                                  Margin="0, 0, 0, 16"
                                   ItemsSource="{Binding Skus}">
                         <ItemsControl.ItemContainerStyle>
                             <Style TargetType="{x:Type ContentPresenter}">
@@ -87,7 +100,7 @@
                             </Style>
                         </ItemsControl.ItemContainerStyle>
                     </ItemsControl>
-                    <StackPanel Margin="16, 0, 16, 0" Orientation="Horizontal">
+                    <StackPanel Margin="16,0,16,0" Orientation="Horizontal">
                         <RadioButton Content="Alipay"
                                      GroupName="PaymentChannelGroup"
                                      IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static order:PaymentChannel.Alipay}}" />

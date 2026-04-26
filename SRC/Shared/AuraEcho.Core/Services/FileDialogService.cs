@@ -1,5 +1,5 @@
-using Microsoft.WindowsAPICodePack.Dialogs;
 using AuraEcho.Core.Contracts;
+using Microsoft.Win32;
 
 namespace AuraEcho.Core.Services;
 
@@ -16,7 +16,7 @@ public class FileDialogService : IFileDialogService
     /// <returns></returns>
     public string? OpenFile(string dialogTitle, string filter = "All Files|*.*")
     {
-        var dialog = new Microsoft.Win32.OpenFileDialog
+        var dialog = new OpenFileDialog
         {
             Title = dialogTitle,
             Filter = filter,
@@ -32,13 +32,13 @@ public class FileDialogService : IFileDialogService
     /// <returns></returns>
     public string[] OpenFiles(string dialogTitle, string filter = "All Files|*.*")
     {
-        var dialog = new Microsoft.Win32.OpenFileDialog
+        var dialog = new OpenFileDialog
         {
             Title = dialogTitle,
             Filter = filter,
             Multiselect = true
         };
-        return dialog.ShowDialog() == true ? dialog.FileNames : null;
+        return dialog.ShowDialog() == true ? dialog.FileNames : [];
     }
 
     /// <summary>
@@ -48,16 +48,14 @@ public class FileDialogService : IFileDialogService
     /// <returns></returns>
     public string? SelectFolder(string dialogTitle)
     {
-        var dialog = new CommonOpenFileDialog
+        var dialog = new OpenFolderDialog
         {
-            IsFolderPicker = true,
             Title = dialogTitle,
             InitialDirectory = "C:\\"
         };
-
-        if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+        if (dialog.ShowDialog() == true)
         {
-            return dialog.FileName;
+            return dialog.FolderName;
         }
 
         return null;
@@ -65,19 +63,13 @@ public class FileDialogService : IFileDialogService
 
     public string[] SelectFolders(string dialogTitle)
     {
-        var dialog = new CommonOpenFileDialog
+        var dialog = new OpenFolderDialog
         {
-            IsFolderPicker = true,
             Title = dialogTitle,
             Multiselect = true,
             InitialDirectory = "C:\\"
         };
 
-        if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-        {
-            return [.. dialog.FileNames];
-        }
-
-        return null;
+        return dialog.ShowDialog() == true ? dialog.FolderNames : [];
     }
 }

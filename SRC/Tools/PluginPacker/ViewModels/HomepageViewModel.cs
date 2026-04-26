@@ -138,7 +138,7 @@ public class HomepageViewModel : BindableBase
     {
         var filePaths = _fileDialogService.OpenFiles("选择插件文件", "所有文件 (*.*)|*.*");
 
-        if (filePaths is null || !filePaths.Any()) return;
+        if (filePaths is null || filePaths.Length == 0) return;
 
         foreach (string filePath in filePaths)
         {

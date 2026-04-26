@@ -14,32 +14,39 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:SignInViewModel}"
              d:DesignHeight="640"
              d:DesignWidth="960"
-             d:Foreground="{DynamicResource Themes.Brushes.OnBackground}"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Background="Black"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              mc:Ignorable="d">
-    <Grid Background="{DynamicResource Themes.Background}">
+    <Grid Background="{DynamicResource Brushes.Special.Background}">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
                 <Grid>
                     <Border Width="80"
                             Height="80"
+                            Visibility="Visible"
                             Margin="0,0,0,12"
-                            Background="#FF9A3BFF"
+                            Background="#7F9A3BFF"
                             CornerRadius="8">
                         <Border.Effect>
-                            <BlurEffect Radius="40" />
+                            <BlurEffect Radius="100" />
                         </Border.Effect>
                     </Border>
                     <Border Width="80"
                             Height="80"
                             Margin="0,0,0,12"
-                            BorderBrush="{DynamicResource Themes.BorderBrush}"
-                            BorderThickness="1"
                             CornerRadius="8">
                         <Border.Background>
                             <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
                         </Border.Background>
+                        <Border BorderThickness="1" CornerRadius="8">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0.5, 0.5" EndPoint="1, 0">
+                                    <GradientStop Offset="0" Color="#00FFFFFF"/>
+                                    <GradientStop Offset="1" Color="#FFFFFFFF"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                        </Border>
                     </Border>
                 </Grid>
                 <TextBlock Margin="0,0,0,40"
@@ -47,18 +54,13 @@
                            FontFamily="Microsoft YaHei UI"
                            FontSize="52"
                            FontWeight="Bold"
-                           Text="灵光回声">
-                    <TextBlock.Foreground>
-                        <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
-                            <GradientStop Offset="0.2" Color="White" />
-                            <GradientStop Offset="1" Color="#00FFFFFF" />
-                        </LinearGradientBrush>
-                    </TextBlock.Foreground>
-                </TextBlock>
+                           Text="灵光回声"
+                           Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"/>
+
                 <Border Width="400"
                         Height="320"
-                        Background="#33000000"
-                        BorderBrush="{DynamicResource Themes.BorderBrush}"
+                        Background="{DynamicResource Brushes.Special.OnSpecialBackground}"
+                        BorderBrush="{DynamicResource Brushes.Special.HighlightOutline}"
                         BorderThickness="1"
                         CornerRadius="8">
                     <Grid Margin="24">
@@ -91,7 +93,7 @@
                                            Height="12"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Bottom"
-                                           Fill="#FF9A3BFF"
+                                           Fill="#BF76FF"
                                            RadiusX="2"
                                            RadiusY="2">
                                     <Rectangle.RenderTransform>
@@ -140,11 +142,13 @@
                                 <Grid x:Name="CodeSignInLayout" Visibility="Visible">
                                     <StackPanel>
                                         <TextBox Height="40"
-                                                 Margin="0,0,0,20"
+                                                 Margin="0,0,0,24"
                                                  Padding="8,0"
-                                                 ui:ControlHelper.PlaceHolder="请输入邮箱"
+                                                 ui:ControlHelper.PlaceHolder="邮箱"
+                                                 ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                  FontSize="16"
                                                  MaxLength="40"
+                                                 Style="{DynamicResource FloatingLabelTextBoxStyle}"
                                                  Text="{Binding Email}">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="GotFocus">
@@ -152,7 +156,7 @@
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </TextBox>
-                                        <Grid Height="84">
+                                        <Grid Height="80">
                                             <Grid VerticalAlignment="Top">
                                                 <i:Interaction.Triggers>
                                                     <i:DataTrigger Binding="{Binding SendEmailCodeCooldown}" Value="0">
@@ -177,10 +181,12 @@
                                                 <TextBox Height="40"
                                                          Margin="0,0,0,2"
                                                          Padding="8,0"
-                                                         ui:ControlHelper.PlaceHolder="请输入验证码"
+                                                         ui:ControlHelper.PlaceHolder="验证码"
+                                                         ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                          FontSize="16"
                                                          InputMethod.IsInputMethodEnabled="False"
                                                          MaxLength="10"
+                                                         Style="{DynamicResource FloatingLabelTextBoxStyle}"
                                                          Text="{Binding EmailCode, UpdateSourceTrigger=PropertyChanged}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="GotFocus">
@@ -202,7 +208,9 @@
                                                            VerticalAlignment="Center"
                                                            FontSize="14"
                                                            Visibility="Hidden">
-                                                    <Hyperlink KeyboardNavigation.IsTabStop="False" Command="{Binding SendEmailCodeCommand}" Cursor="Hand">
+                                                    <Hyperlink Command="{Binding SendEmailCodeCommand}"
+                                                               Cursor="Hand"
+                                                               KeyboardNavigation.IsTabStop="False">
                                                         获取验证码
                                                     </Hyperlink>
                                                 </TextBlock>
@@ -211,6 +219,7 @@
                                         <Button Height="45"
                                                 Command="{Binding SignInByCodeCommand}"
                                                 Content="登录 / 注册"
+                                                IsDefault="True"
                                                 FontSize="18"
                                                 Style="{DynamicResource PrimaryButtonStyle}">
                                             <Button.IsEnabled>
@@ -227,10 +236,12 @@
                                 <Grid x:Name="PasswordSignInLayout" Visibility="Hidden">
                                     <StackPanel>
                                         <TextBox Height="40"
-                                                 Margin="0,0,0,20"
+                                                 Margin="0,0,0,24"
                                                  Padding="8,0"
-                                                 ui:ControlHelper.PlaceHolder="请输入邮箱"
+                                                 ui:ControlHelper.PlaceHolder="邮箱"
+                                                 ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                  FontSize="16"
+                                                 Style="{DynamicResource FloatingLabelTextBoxStyle}"
                                                  Text="{Binding Email}">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="GotFocus">
@@ -238,15 +249,17 @@
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </TextBox>
-                                        <StackPanel Height="84">
+                                        <StackPanel Height="80">
                                             <PasswordBox Height="40"
                                                          Margin="0,0,0,2"
                                                          Padding="8,0"
                                                          VerticalAlignment="Top"
-                                                         ui:ControlHelper.PlaceHolder="请输入密码"
+                                                         ui:ControlHelper.PlaceHolder="密码"
+                                                         ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                          ui:PasswordBoxHelper.Attach="True"
                                                          ui:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         FontSize="16">
+                                                         FontSize="16"
+                                                         Style="{DynamicResource FloatingLabelPasswordBoxStyle}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="GotFocus">
                                                         <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Password" />
@@ -264,6 +277,7 @@
                                                 Command="{Binding SignInByPasswordCommand}"
                                                 Content="登录"
                                                 FontSize="18"
+                                                IsDefault="True"
                                                 Style="{DynamicResource PrimaryButtonStyle}">
                                             <Button.IsEnabled>
                                                 <Binding Path="IsSigningInByPassword">
@@ -280,10 +294,10 @@
                         <StackPanel VerticalAlignment="Bottom">
                             <TextBlock Margin="0,0,0,2"
                                        FontSize="14"
-                                       Foreground="#8C8C8C"
+                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Text="未注册邮箱验证后系统将自动注册账号" />
                             <TextBlock FontSize="14" TextWrapping="Wrap">
-                                <Run Foreground="#8C8C8C" Text="登录或完成注册即代表您同意" />
+                                <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="登录或完成注册即代表您同意" />
                                 <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
                                     最终用户许可协议
                                 </Hyperlink>

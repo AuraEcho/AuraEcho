@@ -4,16 +4,83 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:ui="clr-namespace:AuraEcho.Themes.AttachedProperties"
                     mc:Ignorable="d">
-
-    <!--  主要按钮样式  -->
+    <!-- 主要按钮样式 -->
     <Style x:Key="PrimaryButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="5" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
-        <Setter Property="Background" Value="{DynamicResource Themes.Brushes.Primary}" />
-        <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnPrimary}" />
+        <Setter Property="Background" Value="{DynamicResource Brushes.Primary}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnPrimary}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="LayoutRoot"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="{TemplateBinding ClipToBounds}"
+                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            TextBlock.Foreground="{TemplateBinding Foreground}"
+                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                        <Grid>
+                            <Border x:Name="StateLayer"
+                                    Background="Transparent"
+                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}"
+                                    IsHitTestVisible="False">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Focusable="False"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="StateLayer"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource Colors.Overlay.Level4}"
+                                                        Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="StateLayer"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource Colors.InverseOverlay.Level4}"
+                                                        Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="LayoutRoot"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0.5"
+                                                         Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+     <!--图标按钮样式--> 
+    <Style x:Key="IconButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
+        <Setter Property="Background" Value="#00000000" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -38,7 +105,7 @@
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="LayoutRoot"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource Themes.Colors.PrimaryFixed}"
+                                                        To="{DynamicResource Colors.Overlay.Level3}"
                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
@@ -47,12 +114,20 @@
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="LayoutRoot"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource Themes.Colors.PrimaryFixedDim}"
+                                                        To="{DynamicResource Colors.Overlay.Level2}"
                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
 
-                                <VisualState x:Name="Disabled" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="LayoutRoot"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0.5"
+                                                         Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>
@@ -60,68 +135,13 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--  图标按钮样式  -->
-    <Style x:Key="IconButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Padding" Value="5" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnSecondary}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="LayoutRoot"
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            ClipToBounds="{TemplateBinding ClipToBounds}"
-                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                            TextBlock.Foreground="{TemplateBinding Foreground}"
-                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                        <ContentPresenter Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="LayoutRoot"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource Themes.Colors.SecondaryFixed}"
-                                                        Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </VisualState>
-
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="LayoutRoot"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="#05FFFFFF"
-                                                        Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </VisualState>
-
-                                <VisualState x:Name="Disabled" />
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <!--  标题栏按钮样式  -->
+     <!--标题栏按钮样式--> 
     <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="5" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnSurface}" />
+        <Setter Property="Background" Value="#00000000" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
@@ -136,28 +156,33 @@
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                             TextBlock.Foreground="{TemplateBinding Foreground}"
                             UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                        <ContentPresenter Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Grid>
+                            <Border x:Name="StateLayer"
+                                    Background="Transparent"
+                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Focusable="False"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="LayoutRoot"
+                                        <ColorAnimation Storyboard.TargetName="StateLayer"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="#20FFFFFF"
+                                                        To="{DynamicResource Colors.Overlay.Level4}"
                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="LayoutRoot"
+                                        <ColorAnimation Storyboard.TargetName="StateLayer"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="#10FFFFFF"
+                                                        To="{DynamicResource Colors.Overlay.Level3}"
                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
@@ -170,15 +195,20 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--  默认按钮样式  -->
+     <!--默认按钮样式--> 
     <Style TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="5" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brushes.OutlineInner}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
-        <Setter Property="Background" Value="{DynamicResource Themes.Brushes.Secondary}" />
-        <Setter Property="Foreground" Value="{DynamicResource Themes.Brushes.OnSecondary}" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -191,33 +221,45 @@
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                             TextBlock.Foreground="{TemplateBinding Foreground}"
                             UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
-                        <ContentPresenter Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Grid>
+                            <Border x:Name="StateLayer"
+                                    Background="Transparent"
+                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Focusable="False"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="LayoutRoot"
+                                        <ColorAnimation Storyboard.TargetName="StateLayer"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource Themes.Colors.SecondaryFixed}"
+                                                        To="{DynamicResource Colors.Overlay.Level3}"
                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="LayoutRoot"
+                                        <ColorAnimation Storyboard.TargetName="StateLayer"
                                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource Themes.Colors.SecondaryFixedDim}"
+                                                        To="{DynamicResource Colors.InverseOverlay.Level3}"
                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
 
-                                <VisualState x:Name="Disabled" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="LayoutRoot"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0.5"
+                                                         Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>

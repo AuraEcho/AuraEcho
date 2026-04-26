@@ -12,7 +12,8 @@
              av:DataContext="{av:DesignInstance Type=viewmodels:FishyTimeHomeViewModel}"
              av:DesignHeight="610"
              av:DesignWidth="495"
-             Background="{DynamicResource Themes.Brushes.Background}"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+             Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Loaded="UserControl_Loaded"
              mc:Ignorable="av">
@@ -27,12 +28,11 @@
                             Data="{Binding}" />
         <DataTemplate x:Key="Win32WindowTemplate"
                       DataType="{x:Type models:Win32Window}">
-            <Border BorderBrush="#333333"
-                    BorderThickness="1">
+            <Border Background="{DynamicResource Brushes.SurfaceContainer}">
                 <StackPanel>
                     <Border Margin="4"
                             Padding="4"
-                            BorderBrush="#333333"
+                            BorderBrush="{DynamicResource Brushes.Outline}"
                             BorderThickness="1">
                         <DockPanel LastChildFill="True">
                             <Button Padding="8,2"
@@ -163,7 +163,7 @@
                         </Grid>
                         <Line Margin="4"
                               Stretch="Fill"
-                              Stroke="#333333"
+                              Stroke="{DynamicResource Brushes.OutlineVariant}"
                               StrokeThickness="1"
                               UseLayoutRounding="True"
                               X1="0"
@@ -179,7 +179,7 @@
                                     IsEnabled="{Binding IsEnabledMask}">
                             <Border Height="32"
                                     Margin="4"
-                                    BorderBrush="#333333"
+                                    BorderBrush="{DynamicResource Brushes.OutlineVariant}"
                                     BorderThickness="1">
                                 <DockPanel LastChildFill="True">
                                     <ComboBox x:Name="WindowMaskModeComboBox"
@@ -226,7 +226,7 @@
                 </StackPanel>
                 <Line Margin="0,0,0,12"
                       Stretch="Fill"
-                      Stroke="#333333"
+                      Stroke="{DynamicResource Brushes.OutlineVariant}"
                       StrokeThickness="1"
                       UseLayoutRounding="True"
                       X1="0"
@@ -239,8 +239,7 @@
                 <Border Height="40"
                         Margin="0,0,0,8"
                         Padding="8"
-                        BorderBrush="#333333"
-                        BorderThickness="1">
+                        Background="{DynamicResource Brushes.SurfaceContainer}">
                     <DockPanel LastChildFill="True">
                         <Button Padding="16,0"
                                 Click="OpenWindowsUpdateWindowButton_Click"
@@ -257,8 +256,7 @@
                            Text="BOSS, I'M WORKING." />
                 <Border Margin="0,0,0,8"
                         Padding="8,4"
-                        BorderBrush="#333333"
-                        BorderThickness="1">
+                        Background="{DynamicResource Brushes.SurfaceContainer}">
                     <DockPanel LastChildFill="True">
                         <Button Width="24"
                                 Height="24"

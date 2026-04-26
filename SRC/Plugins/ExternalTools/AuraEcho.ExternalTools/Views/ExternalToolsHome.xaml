@@ -8,12 +8,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:model="clr-namespace:AuraEcho.ExternalTools.Models"
              xmlns:prism="http://prismlibrary.com/"
-             Background="{DynamicResource Themes.Brushes.Background}"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              xmlns:utils="clr-namespace:AuraEcho.ExternalTools.Utils"
              xmlns:viewmodels="clr-namespace:AuraEcho.ExternalTools.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:ExternalToolsHomeViewModel}"
              d:DesignHeight="520"
              d:DesignWidth="645"
+             Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <i:Interaction.Triggers>
@@ -26,7 +27,7 @@
         <DataTemplate x:Key="ExternalToolDataTemplate" DataType="{x:Type model:ExternalTool}">
             <Border Height="48"
                     Padding="4"
-                    Background="#30000000"
+                    Background="{DynamicResource Brushes.SurfaceContainer}"
                     CornerRadius="4">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -60,7 +61,7 @@
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
                                    FontSize="14"
-                                   Foreground="#4c4c4c"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                    Text="{Binding Command}" />
                     </Grid>
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
@@ -108,11 +109,10 @@
             <TextBlock Margin="0,0,0,12"
                        HorizontalAlignment="Left"
                        FontSize="24"
-                       Foreground="Red"
                        Text="{Binding Source={x:Static utils:ExternalToolsResources.Current}, Path=Strings.PluginName}" />
             <Line Margin="0,0,0,12"
                   Stretch="Fill"
-                  Stroke="#333333"
+                  Stroke="{DynamicResource Brushes.OutlineVariant}"
                   StrokeThickness="1"
                   UseLayoutRounding="True"
                   X1="0"
@@ -121,7 +121,7 @@
                   Y2="0" />
             <Border Height="48"
                     Padding="4"
-                    Background="#30000000"
+                    Background="{DynamicResource Brushes.SurfaceContainer}"
                     CornerRadius="4">
                 <Grid>
                     <TextBlock Margin="8,0,0,0"

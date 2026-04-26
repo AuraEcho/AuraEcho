@@ -73,7 +73,7 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="RootBorder" Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
+                                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}" />
                                 </Setter.Value>
                             </Setter>
                         </MultiTrigger>
@@ -110,7 +110,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <!--<Setter TargetName="RootBorder" Property="BorderBrush" Value="#49454E" />-->
                             <!--<Setter TargetName="InnerCircle" Property="Fill" Value="#49454E" />-->
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -122,5 +122,4 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
 </ResourceDictionary>

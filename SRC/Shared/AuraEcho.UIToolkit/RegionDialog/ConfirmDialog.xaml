@@ -8,16 +8,23 @@
              d:DataContext="{d:DesignInstance Type=local:ConfirmDialogViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             Background="#60000000"
-             Foreground="#EFEFEF"
+             Background="{DynamicResource Brushes.Scrim}"
+             Foreground="{DynamicResource Brushes.OnSurface}"
              mc:Ignorable="d">
     <Border Width="360"
             MinHeight="220"
             VerticalAlignment="Center"
-            Background="#161616"
-            BorderBrush="#4A4A4A"
+            Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+            BorderBrush="{DynamicResource Brushes.OutlineVariant}"
             BorderThickness="1"
-            CornerRadius="4">
+            CornerRadius="4"
+            UseLayoutRounding="True">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="40"
+                              Direction="270"
+                              Opacity="0.15"
+                              Color="Black" />
+        </Border.Effect>
         <Grid>
             <Grid Margin="24">
                 <Grid.RowDefinitions>
@@ -25,7 +32,7 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="0, 0, 0, 20">
+                <Grid Grid.Row="0" Margin="0,0,0,20">
                     <TextBlock VerticalAlignment="Top"
                                d:Text="灵光回声仍在运行"
                                FontSize="18"
@@ -35,7 +42,7 @@
                 <TextBlock Grid.Row="1"
                            d:Text="灵光回声仍在运行，正在等待灵光回声退出，选择继续以退出灵光回声继续安装。"
                            FontSize="14"
-                           Foreground="#D9D9D9"
+                           Foreground="{DynamicResource Brushes.OnSurface}"
                            Text="{Binding Parameter.Message}"
                            TextWrapping="Wrap" />
                 <UniformGrid Grid.Row="2" Columns="2">
@@ -57,10 +64,10 @@
 
             </Grid>
             <Button Grid.Row="0"
-                    Margin="8"
                     Grid.RowSpan="3"
-                    Height="40"
                     Width="40"
+                    Height="40"
+                    Margin="8"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Command="{Binding CloseCommand}"

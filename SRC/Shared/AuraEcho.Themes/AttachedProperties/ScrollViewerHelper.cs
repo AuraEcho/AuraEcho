@@ -5,6 +5,20 @@ namespace AuraEcho.Themes.AttachedProperties
 {
     public static class ScrollViewerHelper
     {
+        public static readonly DependencyProperty VerticalScrollBarMarginProperty
+            = DependencyProperty.RegisterAttached("VerticalScrollBarMargin", typeof(Thickness), typeof(ScrollViewerHelper), new UIPropertyMetadata(new Thickness(0)));
+        public static void SetVerticalScrollBarMargin(FrameworkElement target, Thickness value)
+            => target.SetValue(VerticalScrollBarMarginProperty, value);
+        public static Thickness GetVerticalScrollBarMargin(FrameworkElement target)
+            => (Thickness)target.GetValue(VerticalScrollBarMarginProperty);
+
+        public static readonly DependencyProperty HorizontalScrollBarMarginProperty
+            = DependencyProperty.RegisterAttached("HorizontalScrollBarMargin", typeof(Thickness), typeof(ScrollViewerHelper), new UIPropertyMetadata(new Thickness(0)));
+        public static void SetHorizontalScrollBarMargin(FrameworkElement target, Thickness value)
+            => target.SetValue(HorizontalScrollBarMarginProperty, value);
+        public static Thickness GetHorizontalScrollBarMargin(FrameworkElement target)
+            => (Thickness)target.GetValue(HorizontalScrollBarMarginProperty);
+
         public static readonly DependencyProperty HorizontalOffsetProperty 
             = DependencyProperty.RegisterAttached("HorizontalOffset", typeof(double), typeof(ScrollViewerHelper), new UIPropertyMetadata(0.0, OnHorizontalOffsetChanged));
         public static void SetHorizontalOffset(FrameworkElement target, double value) 

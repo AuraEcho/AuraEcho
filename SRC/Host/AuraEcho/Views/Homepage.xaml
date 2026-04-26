@@ -11,7 +11,7 @@
              xmlns:auraecho="http://ui.auraecho.com/"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
-             d:Background="{DynamicResource Themes.Brushes.Background}"
+             d:Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              d:DataContext="{d:DesignInstance Type=viewmodels:HomepageViewModel}"
              d:DesignHeight="355"
              d:DesignWidth="535"
@@ -88,7 +88,7 @@
                     <Label Padding="4,2"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Top"
-                           Background="Orange"
+                           Background="{DynamicResource Brushes.Warning}"
                            Content="Pending">
                         <i:Interaction.Triggers>
                             <i:DataTrigger Binding="{Binding Status}" Value="{x:Static models:PluginPlanStatus.None}">

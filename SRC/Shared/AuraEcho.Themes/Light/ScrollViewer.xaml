@@ -165,7 +165,7 @@
                                                          To="12"
                                                          Duration="0:0:0.1" />
                                         <ColorAnimation Storyboard.TargetProperty="(ScrollBar.Background).(SolidColorBrush.Color)"
-                                                        To="#19FFFFFF"
+                                                        To="#F9F9F9"
                                                         Duration="0:0:0" />
                                         <!--<ColorAnimation Storyboard.TargetName="InnerThumb"
                                                         Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
@@ -253,8 +253,8 @@
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
                             <Border x:Name="LayoutRoot"
                                     Height="{TemplateBinding Height}"
-                                    Padding="{TemplateBinding Padding}"
                                     Margin="{TemplateBinding Margin}"
+                                    Padding="{TemplateBinding Padding}"
                                     Background="{TemplateBinding Background}"
                                     CornerRadius="4">
                                 <Grid x:Name="Bg" SnapsToDevicePixels="true">
@@ -327,7 +327,7 @@
                                                                  To="12"
                                                                  Duration="0:0:0.1" />
                                                 <ColorAnimation Storyboard.TargetProperty="(ScrollBar.Background).(SolidColorBrush.Color)"
-                                                                To="#19FFFFFF"
+                                                                To="#F9F9F9"
                                                                 Duration="0:0:0" />
                                                 <!--<ColorAnimation Storyboard.TargetName="InnerThumb"
                                                                 Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
@@ -424,10 +424,10 @@
                                                     Cursor="{TemplateBinding Cursor}" />
                             <ScrollBar x:Name="PART_VerticalScrollBar"
                                        Width="8"
+                                       ui:ScrollViewerHelper.VerticalScrollBarMargin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
                                        HorizontalAlignment="Right"
                                        Maximum="{TemplateBinding ScrollableHeight}"
                                        Orientation="Vertical"
-                                       ui:ScrollViewerHelper.VerticalScrollBarMargin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
                                        ViewportSize="{TemplateBinding ViewportHeight}"
                                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                        Value="{TemplateBinding VerticalOffset}" />

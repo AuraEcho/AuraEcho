@@ -1,62 +1,284 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!--  Primary 系列  -->
-    <Color x:Key="Themes.Colors.PrimaryFixed">#4F52B2</Color>
-    <Color x:Key="Themes.Colors.PrimaryFixedDim">#383966</Color>
+    <Color x:Key="Colors.Primary-0">#000000</Color>
+    <Color x:Key="Colors.Primary-5">#0a0513</Color>
+    <Color x:Key="Colors.Primary-10">#150b28</Color>
+    <Color x:Key="Colors.Primary-15">#1f113c</Color>
+    <Color x:Key="Colors.Primary-20">#2a1750</Color>
+    <Color x:Key="Colors.Primary-25">#351d64</Color>
+    <Color x:Key="Colors.Primary-30">#402477</Color>
+    <Color x:Key="Colors.Primary-35">#4a298c</Color>
+    <Color x:Key="Colors.Primary-40">#552fa0</Color>
+    <Color x:Key="Colors.Primary-45">#6035b4</Color>
+    <Color x:Key="Colors.Primary-50">#6b3bc8</Color>
+    <Color x:Key="Colors.Primary-60">#8761d2</Color>
+    <Color x:Key="Colors.Primary-70">#a488dd</Color>
+    <Color x:Key="Colors.Primary-80">#c2afe9</Color>
+    <Color x:Key="Colors.Primary-90">#e0d7f4</Color>
+    <Color x:Key="Colors.Primary-95">#f0ebf9</Color>
+    <Color x:Key="Colors.Primary-98">#f9f7fd</Color>
+    <Color x:Key="Colors.Primary-99">#fcfbfe</Color>
+    <Color x:Key="Colors.Primary-100">#FFFFFF</Color>
+    <Color x:Key="Colors.Secondary-0">#000000</Color>
+    <Color x:Key="Colors.Secondary-5">#140C26</Color>
+    <Color x:Key="Colors.Secondary-10">#1F1732</Color>
+    <Color x:Key="Colors.Secondary-15">#2A213D</Color>
+    <Color x:Key="Colors.Secondary-20">#352C48</Color>
+    <Color x:Key="Colors.Secondary-25">#403753</Color>
+    <Color x:Key="Colors.Secondary-30">#4B425F</Color>
+    <Color x:Key="Colors.Secondary-35">#574E6C</Color>
+    <Color x:Key="Colors.Secondary-40">#645978</Color>
+    <Color x:Key="Colors.Secondary-50">#7D7292</Color>
+    <Color x:Key="Colors.Secondary-60">#978BAD</Color>
+    <Color x:Key="Colors.Secondary-70">#B2A6C8</Color>
+    <Color x:Key="Colors.Secondary-80">#CEC1E4</Color>
+    <Color x:Key="Colors.Secondary-90">#EADDFF</Color>
+    <Color x:Key="Colors.Secondary-95">#F6EDFF</Color>
+    <Color x:Key="Colors.Secondary-98">#FEF7FF</Color>
+    <Color x:Key="Colors.Secondary-99">#FFFBFF</Color>
+    <Color x:Key="Colors.Secondary-100">#FFFFFF</Color>
+    <Color x:Key="Colors.Tertiary-0">#000000</Color>
+    <Color x:Key="Colors.Tertiary-5">#2A0111</Color>
+    <Color x:Key="Colors.Tertiary-10">#380A1C</Color>
+    <Color x:Key="Colors.Tertiary-15">#451526</Color>
+    <Color x:Key="Colors.Tertiary-20">#521F31</Color>
+    <Color x:Key="Colors.Tertiary-25">#5F2A3C</Color>
+    <Color x:Key="Colors.Tertiary-30">#6D3547</Color>
+    <Color x:Key="Colors.Tertiary-35">#7A4053</Color>
+    <Color x:Key="Colors.Tertiary-40">#884C5F</Color>
+    <Color x:Key="Colors.Tertiary-50">#A56477</Color>
+    <Color x:Key="Colors.Tertiary-60">#C27D91</Color>
+    <Color x:Key="Colors.Tertiary-70">#DF97AB</Color>
+    <Color x:Key="Colors.Tertiary-80">#FEB1C7</Color>
+    <Color x:Key="Colors.Tertiary-90">#FFD9E2</Color>
+    <Color x:Key="Colors.Tertiary-95">#FFECEF</Color>
+    <Color x:Key="Colors.Tertiary-98">#FFF8F8</Color>
+    <Color x:Key="Colors.Tertiary-99">#FFFBFF</Color>
+    <Color x:Key="Colors.Tertiary-100">#FFFFFF</Color>
+    <Color x:Key="Colors.Error-0">#000000</Color>
+    <Color x:Key="Colors.Error-5">#270402</Color>
+    <Color x:Key="Colors.Error-10">#390804</Color>
+    <Color x:Key="Colors.Error-15">#4A0D06</Color>
+    <Color x:Key="Colors.Error-20">#5D1309</Color>
+    <Color x:Key="Colors.Error-25">#70190D</Color>
+    <Color x:Key="Colors.Error-30">#831E12</Color>
+    <Color x:Key="Colors.Error-35">#962718</Color>
+    <Color x:Key="Colors.Error-40">#A63221</Color>
+    <Color x:Key="Colors.Error-50">#C84B36</Color>
+    <Color x:Key="Colors.Error-60">#E6654E</Color>
+    <Color x:Key="Colors.Error-70">#EB9180</Color>
+    <Color x:Key="Colors.Error-80">#F1B8AD</Color>
+    <Color x:Key="Colors.Error-90">#F7DCD7</Color>
+    <Color x:Key="Colors.Error-95">#FBEEEA</Color>
+    <Color x:Key="Colors.Error-98">#FDF8F7</Color>
+    <Color x:Key="Colors.Error-99">#FEFBFF</Color>
+    <Color x:Key="Colors.Error-100">#FFFFFF</Color>
+    <Color x:Key="Colors.Neutral-0">#000000</Color>
+    <Color x:Key="Colors.Neutral-5">#0d0d0d</Color>
+    <Color x:Key="Colors.Neutral-10">#1a1a1a</Color>
+    <Color x:Key="Colors.Neutral-15">#262626</Color>
+    <Color x:Key="Colors.Neutral-20">#333333</Color>
+    <Color x:Key="Colors.Neutral-25">#404040</Color>
+    <Color x:Key="Colors.Neutral-30">#4c4c4c</Color>
+    <Color x:Key="Colors.Neutral-35">#595959</Color>
+    <Color x:Key="Colors.Neutral-40">#666666</Color>
+    <Color x:Key="Colors.Neutral-50">#818181</Color>
+    <Color x:Key="Colors.Neutral-60">#999999</Color>
+    <Color x:Key="Colors.Neutral-70">#b3b3b3</Color>
+    <Color x:Key="Colors.Neutral-80">#cccccc</Color>
+    <Color x:Key="Colors.Neutral-90">#e6e6e6</Color>
+    <Color x:Key="Colors.Neutral-95">#f3f3f3</Color>
+    <Color x:Key="Colors.Neutral-98">#FAFAFA</Color>
+    <Color x:Key="Colors.Neutral-99">#fEfEfE</Color>
+    <Color x:Key="Colors.Neutral-100">#ffffff</Color>
+    <Color x:Key="Colors.Neutral-variant-0">#000000</Color>
+    <Color x:Key="Colors.Neutral-variant-5">#121017</Color>
+    <Color x:Key="Colors.Neutral-variant-10">#1D1A22</Color>
+    <Color x:Key="Colors.Neutral-variant-15">#27242D</Color>
+    <Color x:Key="Colors.Neutral-variant-20">#322F37</Color>
+    <Color x:Key="Colors.Neutral-variant-25">#3D3A43</Color>
+    <Color x:Key="Colors.Neutral-variant-30">#49454E</Color>
+    <Color x:Key="Colors.Neutral-variant-35">#55515A</Color>
+    <Color x:Key="Colors.Neutral-variant-40">#615D66</Color>
+    <Color x:Key="Colors.Neutral-variant-50">#7A757F</Color>
+    <Color x:Key="Colors.Neutral-variant-60">#948F99</Color>
+    <Color x:Key="Colors.Neutral-variant-70">#AFA9B4</Color>
+    <Color x:Key="Colors.Neutral-variant-80">#CBC4CF</Color>
+    <Color x:Key="Colors.Neutral-variant-90">#E7E0EB</Color>
+    <Color x:Key="Colors.Neutral-variant-95">#F5EEFA</Color>
+    <Color x:Key="Colors.Neutral-variant-98">#FEF7FF</Color>
+    <Color x:Key="Colors.Neutral-variant-99">#FFFBFF</Color>
+    <Color x:Key="Colors.Neutral-variant-100">#FFFFFF</Color>
+    <Color x:Key="Colors.Black-0">#00000000</Color>
+    <Color x:Key="Colors.Black-3">#08000000</Color>
+    <Color x:Key="Colors.Black-5">#0D000000</Color>
+    <Color x:Key="Colors.Black-10">#19000000</Color>
+    <Color x:Key="Colors.Black-15">#26000000</Color>
+    <Color x:Key="Colors.Black-20">#33000000</Color>
+    <Color x:Key="Colors.Black-25">#40000000</Color>
+    <Color x:Key="Colors.Black-30">#4C000000</Color>
+    <Color x:Key="Colors.Black-35">#5A000000</Color>
+    <Color x:Key="Colors.White-0">#00FFFFFF</Color>
+    <Color x:Key="Colors.White-3">#08FFFFFF</Color>
+    <Color x:Key="Colors.White-5">#0DFFFFFF</Color>
+    <Color x:Key="Colors.White-10">#19FFFFFF</Color>
+    <Color x:Key="Colors.White-15">#26FFFFFF</Color>
+    <Color x:Key="Colors.White-20">#33FFFFFF</Color>
+    <Color x:Key="Colors.White-25">#40FFFFFF</Color>
+    <Color x:Key="Colors.White-30">#4CFFFFFF</Color>
+    <Color x:Key="Colors.White-35">#5AFFFFFF</Color>
 
-    <SolidColorBrush x:Key="Themes.Brushes.Primary">#5255B7</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnPrimary">White</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.PrimaryContainer">#FF4F378B</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnPrimaryContainer">#FFEADDFF</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.PrimaryFixed" Color="{StaticResource Themes.Colors.PrimaryFixed}" />
-    <SolidColorBrush x:Key="Themes.Brushes.OnPrimaryFixed">#FFFFFF</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.PrimaryFixedDim" Color="{StaticResource Themes.Colors.PrimaryFixedDim}" />
-    <SolidColorBrush x:Key="Themes.Brushes.OnPrimaryFixedVariant">#FF381E72</SolidColorBrush>
+    <Color x:Key="Colors.Overlay.Level1">#08000000</Color>
+    <Color x:Key="Colors.Overlay.Level2">#0D000000</Color>
+    <Color x:Key="Colors.Overlay.Level3">#19000000</Color>
+    <Color x:Key="Colors.Overlay.Level4">#26000000</Color>
+    <Color x:Key="Colors.Overlay.Level5">#33000000</Color>
+    <Color x:Key="Colors.Overlay.Level6">#40000000</Color>
+    <Color x:Key="Colors.InverseOverlay.Level1">#08FFFFFF</Color>
+    <Color x:Key="Colors.InverseOverlay.Level2">#0DFFFFFF</Color>
+    <Color x:Key="Colors.InverseOverlay.Level3">#19FFFFFF</Color>
+    <Color x:Key="Colors.InverseOverlay.Level4">#26FFFFFF</Color>
+    <Color x:Key="Colors.InverseOverlay.Level5">#33FFFFFF</Color>
+    <Color x:Key="Colors.InverseOverlay.Level6">#40FFFFFF</Color>
+    <Color x:Key="Colors.IdentityColor">White</Color>
 
-    <!--  Secondary 系列  -->
-    <Color x:Key="Themes.Colors.SecondaryFixed">#20000000</Color>
-    <Color x:Key="Themes.Colors.SecondaryFixedDim">#10000000</Color>
+    <!-- 主色（品牌色），用于按钮、强调元素 -->
+    <SolidColorBrush x:Key="Brushes.Primary" Color="{StaticResource Colors.Primary-45}" />
+    <!-- 主色上的前景色（文字/图标），保证对比度 -->
+    <SolidColorBrush x:Key="Brushes.OnPrimary" Color="{StaticResource Colors.Primary-100}" />
+    <!-- 主色容器（较浅背景），用于卡片/块状区域 -->
+    <SolidColorBrush x:Key="Brushes.PrimaryContainer" Color="{StaticResource Colors.Primary-90}" />
+    <!-- 主色容器上的内容颜色 -->
+    <SolidColorBrush x:Key="Brushes.OnPrimaryContainer" Color="{StaticResource Colors.Primary-30}" />
 
-    <SolidColorBrush x:Key="Themes.Brushes.Secondary">#10000000</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnSecondary">Black</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.SecondaryContainer">#FF4A4458</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnSecondaryContainer">#FFE8DEF8</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.SecondaryFixed" Color="{StaticResource Themes.Colors.SecondaryFixed}" />
-    <SolidColorBrush x:Key="Themes.Brushes.OnSecondaryFixed">#FF1E192B</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.SecondaryFixedDim" Color="{StaticResource Themes.Colors.SecondaryFixedDim}" />
-    <SolidColorBrush x:Key="Themes.Brushes.OnSecondaryFixedVariant">#FF332D41</SolidColorBrush>
+    <!-- 次要色，用于辅助强调 -->
+    <SolidColorBrush x:Key="Brushes.Secondary" Color="{StaticResource Colors.Secondary-40}" />
+    <!-- 次要色上的内容颜色 -->
+    <SolidColorBrush x:Key="Brushes.OnSecondary" Color="{StaticResource Colors.Secondary-100}" />
+    <!-- 次要色容器背景 -->
+    <SolidColorBrush x:Key="Brushes.SecondaryContainer" Color="{StaticResource Colors.Secondary-90}" />
+    <!-- 次要容器上的内容颜色 -->
+    <SolidColorBrush x:Key="Brushes.OnSecondaryContainer" Color="{StaticResource Colors.Secondary-30}" />
 
-    <!--  Tertiary 系列  -->
-    <SolidColorBrush x:Key="Themes.Brushes.Tertiary">#FF7D5260</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnTertiary">#FFFFFFFF</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.TertiaryContainer">#FFFFD8E4</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnTertiaryContainer">#FF31111D</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.TertiaryFixed">#FF7D5260</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnTertiaryFixed">#FFFFFFFF</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.TertiaryFixedDim">#FF69414E</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnTertiaryFixedVariant">#FFFFD8E4</SolidColorBrush>
+    <!-- 第三级强调色（用于区分不同类型信息） -->
+    <SolidColorBrush x:Key="Brushes.Tertiary" Color="{StaticResource Colors.Tertiary-40}" />
+    <!-- 第三级强调色上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnTertiary" Color="{StaticResource Colors.Tertiary-100}" />
+    <!-- 第三级容器背景 -->
+    <SolidColorBrush x:Key="Brushes.TertiaryContainer" Color="{StaticResource Colors.Tertiary-90}" />
+    <!-- 第三级容器上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnTertiaryContainer" Color="{StaticResource Colors.Tertiary-30}" />
 
-    <!--  Error 系列  -->
-    <SolidColorBrush x:Key="Themes.Brushes.Error">#FFB3261E</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnError">#FFFFFFFF</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.ErrorContainer">#FFF9DEDC</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnErrorContainer">#FF410E0B</SolidColorBrush>
+    <!-- 错误色（警告/错误提示） -->
+    <SolidColorBrush x:Key="Brushes.Error" Color="{StaticResource Colors.Error-40}" />
+    <!-- 错误色上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnError" Color="{StaticResource Colors.Error-100}" />
+    <!-- 错误背景（浅色提示框） -->
+    <SolidColorBrush x:Key="Brushes.ErrorContainer" Color="{StaticResource Colors.Error-90}" />
+    <!-- 错误背景上的文字 -->
+    <SolidColorBrush x:Key="Brushes.OnErrorContainer" Color="{StaticResource Colors.Error-30}" />
 
-    <!--  Background / Surface  -->
-    <SolidColorBrush x:Key="Themes.Brushes.Background">#FFFFFBFE</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnBackground">#FF1C1B1F</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.Surface">#FFFFFBFE</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnSurface">#FF1C1B1F</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.SurfaceVariant">#FFE7E0EC</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OnSurfaceVariant">#FF49454F</SolidColorBrush>
+    <!-- 应用整体背景 -->
+    <!--<SolidColorBrush x:Key="Brushes.Background" Color="{StaticResource Colors.Neutral-98}" />-->
+    <!-- 背景上的默认文本颜色 -->
+    <!--<SolidColorBrush x:Key="Brushes.OnBackground" Color="{StaticResource Colors.Neutral-10}" />-->
+    <!-- 表面颜色（卡片/面板） -->
+    <!--<SolidColorBrush x:Key="Brushes.Surface" Color="{StaticResource Colors.Neutral-99}" />-->
+    <!-- 表面上的内容颜色 -->
+    <SolidColorBrush x:Key="Brushes.OnSurface" Color="{StaticResource Colors.Neutral-10}" />
 
-    <!--  Outline / Shadow  -->
-    <SolidColorBrush x:Key="Themes.Brushes.Outline">#FF79747E</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.OutlineVariant">#FFC4C7C5</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.Shadow">#FF000000</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.Scrim">#FF000000</SolidColorBrush>
+    <!-- 表面变体（用于分层） -->
+    <!--<SolidColorBrush x:Key="Brushes.SurfaceVariant" Color="{StaticResource Colors.Neutral-variant-90}" />-->
+    <!-- 表面变体上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnSurfaceVariant" Color="{StaticResource Colors.Neutral-40}" />
+    <!-- 轮廓线（边框） -->
+    <SolidColorBrush x:Key="Brushes.Outline" Color="{StaticResource Colors.Neutral-variant-50}" />
+    <!-- 弱化轮廓线 -->
+    <SolidColorBrush x:Key="Brushes.OutlineVariant" Color="{StaticResource Colors.Overlay.Level3}" />
+    <SolidColorBrush x:Key="Brushes.OutlineInner" Color="{StaticResource Colors.Overlay.Level3}" />
+    <SolidColorBrush x:Key="Brushes.OutlineShadow" Color="{StaticResource Colors.Overlay.Level3}" />
 
-    <!--  Inverse Colors  -->
-    <SolidColorBrush x:Key="Themes.Brushes.InverseSurface">#FF313033</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.InverseOnSurface">#FFF4EFF4</SolidColorBrush>
-    <SolidColorBrush x:Key="Themes.Brushes.InversePrimary">#FFD0BCFF</SolidColorBrush>
+    <!-- 较暗的表面（用于层级） -->
+    <SolidColorBrush x:Key="Brushes.SurfaceDim" Color="{StaticResource Colors.Neutral-90}" />
+    <!-- 较亮的表面 -->
+    <SolidColorBrush x:Key="Brushes.SurfaceBright" Color="{StaticResource Colors.Neutral-98}" />
+    <!-- 最低层容器（最接近背景） -->
+    <SolidColorBrush x:Key="Brushes.SurfaceContainerLowest" Color="{StaticResource Colors.Neutral-95}" />
+    <!-- 低层容器 -->
+    <SolidColorBrush x:Key="Brushes.SurfaceContainerLow" Color="{StaticResource Colors.Neutral-95}" />
+    <!-- 默认容器 -->
+    <SolidColorBrush x:Key="Brushes.SurfaceContainer" Color="{StaticResource Colors.Neutral-99}" />
+    <!-- 高层容器 -->
+    <SolidColorBrush x:Key="Brushes.SurfaceContainerHigh" Color="{StaticResource Colors.Neutral-99}" />
+    <!-- 最高层容器（强调层） -->
+    <SolidColorBrush x:Key="Brushes.SurfaceContainerHighest" Color="{StaticResource Colors.Neutral-98}" />
+    <!-- 弹窗遮罩 -->
+    <SolidColorBrush x:Key="Brushes.Scrim" Color="{StaticResource Colors.White-35}" />
+    <!-- 阴影 -->
+    <SolidColorBrush x:Key="Brushes.Shadow" Color="{StaticResource Colors.Neutral-20}" />
+
+    <!-- 反色表面（用于深色模式或反转区域） -->
+    <SolidColorBrush x:Key="Brushes.InverseSurface" Color="{StaticResource Colors.Neutral-20}" />
+    <!-- 反色表面上的内容 -->
+    <SolidColorBrush x:Key="Brushes.InverseOnSurface" Color="{StaticResource Colors.Neutral-95}" />
+    <!-- 反色主色（强调） -->
+    <SolidColorBrush x:Key="Brushes.InversePrimary" Color="{StaticResource Colors.Primary-80}" />
+
+    <!-- 固定主色（不随主题变化） -->
+    <SolidColorBrush x:Key="Brushes.PrimaryFixed" Color="{StaticResource Colors.Primary-90}" />
+    <!-- 固定主色上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnPrimaryFixed" Color="{StaticResource Colors.Primary-10}" />
+    <!-- 固定主色（较深版本） -->
+    <SolidColorBrush x:Key="Brushes.PrimaryFixedDim" Color="{StaticResource Colors.Primary-80}" />
+    <!-- 固定主色变体上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnPrimaryFixedVariant" Color="{StaticResource Colors.Primary-30}" />
+
+    <!-- 固定次要色 -->
+    <SolidColorBrush x:Key="Brushes.SecondaryFixed" Color="{StaticResource Colors.Secondary-90}" />
+    <!-- 固定次要色上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnSecondaryFixed" Color="{StaticResource Colors.Secondary-10}" />
+    <!-- 固定次要色（深） -->
+    <SolidColorBrush x:Key="Brushes.SecondaryFixedDim" Color="{StaticResource Colors.Secondary-80}" />
+    <!-- 固定次要色变体上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnSecondaryFixedVariant" Color="{StaticResource Colors.Secondary-30}" />
+
+    <!-- 固定第三级色 -->
+    <SolidColorBrush x:Key="Brushes.TertiaryFixed" Color="{StaticResource Colors.Tertiary-90}" />
+    <!-- 固定第三级色上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnTertiaryFixed" Color="{StaticResource Colors.Tertiary-10}" />
+    <!-- 固定第三级色（深） -->
+    <SolidColorBrush x:Key="Brushes.TertiaryFixedDim" Color="{StaticResource Colors.Tertiary-80}" />
+    <!-- 固定第三级色变体上的内容 -->
+    <SolidColorBrush x:Key="Brushes.OnTertiaryFixedVariant" Color="{StaticResource Colors.Tertiary-30}" />
+
+    <SolidColorBrush x:Key="Brushes.Success" Color="#009D05" />
+    <SolidColorBrush x:Key="Brushes.Warning" Color="#FF9D00" />
+
+    <!--#region Special-->
+    <!-- 背景 -->
+    <LinearGradientBrush x:Key="Brushes.Special.Background" StartPoint="0, 0" EndPoint="0, 1">
+        <GradientStop Offset="0" Color="#DED5FF" />
+        <GradientStop Offset="1" Color="#FAF8FF" />
+    </LinearGradientBrush>
+    <!-- 高光边框 -->
+    <DrawingBrush x:Key="Brushes.Special.HighlightOutline">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#33FFFFFF" Geometry="M0,0 H1 V1 H0 Z" />
+                <GeometryDrawing Geometry="M0,0 H1 V1 H0 Z">
+                    <GeometryDrawing.Brush>
+                        <LinearGradientBrush StartPoint="0.7, 0" EndPoint="0.5, 0.4">
+                            <GradientStop Offset="0" Color="#99FFFFFF" />
+                            <GradientStop Offset="1" Color="#00FFFFFF" />
+                        </LinearGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+    <SolidColorBrush x:Key="Brushes.Special.OnSpecialBackground" Color="{StaticResource Colors.Neutral-99}" />
+    <!-- 面板上的渐变文本 -->
+    <SolidColorBrush x:Key="Brushes.Special.OnSurfaceLinear" Color="{StaticResource Colors.Neutral-10}" />
+
+    <SolidColorBrush x:Key="Brushes.Special.FloatingBackground" Color="{StaticResource Colors.Neutral-99}" />
+    <!--#endregion-->
 </ResourceDictionary>

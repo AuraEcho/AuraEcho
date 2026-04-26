@@ -7,6 +7,7 @@
         Title="Windows Update"
         d:DesignHeight="965"
         d:DesignWidth="1565"
+        d:Background="{DynamicResource Brushes.SurfaceContainerLowest}"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d">
     <Grid>

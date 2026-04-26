@@ -15,9 +15,9 @@
         Height="640"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Background="{DynamicResource Themes.Brushes.Background}"
+        Background="{DynamicResource Brushes.SurfaceContainerLowest}"
         Closing="Window_Closing"
-        Foreground="{DynamicResource Themes.Brushes.OnBackground}"
+        Foreground="{DynamicResource Brushes.OnSurface}"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
@@ -143,18 +143,19 @@
                     <Image Margin="8" Source="/Assets/Icons/AuraEcho.ico" />
                     <TextBlock VerticalAlignment="Center"
                                FontSize="12"
-                               Foreground="{DynamicResource Themes.Brushes.OnSurface}"
+                               Foreground="{DynamicResource Brushes.OnSurface}"
                                Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
 
                     <Button x:Name="RestartTipsButton"
                             Margin="0,0,4,0"
-                            Padding="8,6"
+                            Padding="16,6"
                             VerticalAlignment="Center"
                             auraecho:ControlHelper.CornerRadius="4"
                             Click="RestartTipsButton_Click"
-                            Content="等待重启"
+                            Content="更新"
+                            Visibility="Visible"
                             WindowChrome.IsHitTestVisibleInChrome="True">
                         <i:Interaction.Triggers>
                             <i:DataTrigger Binding="{Binding PendingRestartItems.Count}" Value="0">
@@ -192,20 +193,24 @@
                                        RadiusY="0.5" />
                         </Canvas>
                     </Button>
-                    <Button Width="47"
+                    <Button x:Name="MinMaxWindowButton"
+                            Width="47"
                             auraecho:ControlHelper.CornerRadius="0"
                             Click="MaxWin_MouseClick"
                             FontSize="15"
                             IsTabStop="False"
                             Style="{DynamicResource IconButtonStyle}"
-                            ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Minimize}"
                             WindowChrome.IsHitTestVisibleInChrome="True">
+
                         <Grid>
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}" Value="{x:Static WindowState.Normal}">
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="MaxWindowIcon"
                                                             Value="{x:Static Visibility.Visible}" />
+                                    <i:ChangePropertyAction PropertyName="ToolTip"
+                                                            TargetName="MinMaxWindowButton"
+                                                            Value="{Binding Source={StaticResource R}, Path=Labels.Window_Maximize}" />
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="RestoreWindowIcon"
                                                             Value="{x:Static Visibility.Hidden}" />
@@ -216,14 +221,17 @@
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="MaxWindowIcon"
                                                             Value="{x:Static Visibility.Hidden}" />
+                                    <i:ChangePropertyAction PropertyName="ToolTip"
+                                                            TargetName="MinMaxWindowButton"
+                                                            Value="{Binding Source={StaticResource R}, Path=Labels.Window_Reduction}" />
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="RestoreWindowIcon"
                                                             Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
                             <Viewbox x:Name="MaxWindowIcon"
-                                     Width="10"
-                                     Height="10"
+                                     Width="12"
+                                     Height="12"
                                      Visibility="Hidden">
                                 <Canvas Width="10" Height="10">
                                     <Path Data="M 10 1 C 10 0.45 9.55 0 9 0 H 1 C 0.45 0 0 0.45 0 1 V 9 C 0 9.55 0.45 10 1 10 H 9 C 9.55 10 10 9.55 10 9 V 1 Z M 1 1 H 9 V 9 H 1 V 1 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
@@ -260,7 +268,6 @@
                             auraecho:ControlHelper.CornerRadius="0"
                             BorderThickness="0"
                             Click="CloseWindowButton_Click"
-                            FontFamily="Segoe MDL2 Assets"
                             FontSize="15"
                             IsTabStop="False"
                             Style="{DynamicResource IconButtonStyle}"
@@ -279,27 +286,40 @@
                            StaysOpen="False"
                            VerticalOffset="4">
                         <Border Width="200"
-                                Padding="8"
-                                Background="#212121"
+                                Margin="16"
+                                Padding="16"
+                                UseLayoutRounding="True"
+                                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                                BorderBrush="{DynamicResource Brushes.OutlineVariant}"
+                                BorderThickness="1"
                                 CornerRadius="4">
-
-                            <StackPanel Width="180" Background="#212121">
-                                <ItemsControl Margin="0,0,0,8" ItemsSource="{Binding PendingRestartItems}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="20"
+                                                  Direction="270"
+                                                  Opacity="0.15"
+                                                  ShadowDepth="6" />
+                            </Border.Effect>
+                            <Grid RowDefinitions="Auto, *, Auto">
+                                <TextBlock FontSize="14" Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="重启以更新" Margin="0, 0, 0, 8"/>
+                                <ItemsControl Grid.Row="1"
+                                              Margin="0, 0, 0, 8"
+                                              ItemsSource="{Binding PendingRestartItems}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Margin="8" FontSize="14">
+                                            <TextBlock FontSize="14">
                                                 <Run Text="{Binding Name}" />
                                                 |<Run Text="{Binding Description}" />
                                             </TextBlock>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Button Padding="0,8"
+                                <Button Grid.Row="2"
+                                        Padding="0,8"
+                                        FontSize="14"
+                                        Style="{DynamicResource PrimaryButtonStyle}"
                                         Command="{Binding Source={StaticResource BindingProxy}, Path=Data.RequestRestartAppCommand}"
-                                        Content="现在重启"
-                                        Style="{DynamicResource PrimaryButtonStyle}" />
-
-                            </StackPanel>
+                                        Content="现在重启"/>
+                            </Grid>
                         </Border>
                     </Popup>
                 </StackPanel>
@@ -332,11 +352,17 @@
                                 Margin="0,0,0,10"
                                 Padding="20,12"
                                 HorizontalAlignment="Right"
-                                Background="#77000000"
+                                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                                BorderBrush="{DynamicResource Brushes.OutlineShadow}"
                                 BorderThickness="1"
                                 CornerRadius="4"
                                 RenderTransformOrigin="0.5,0.5">
-
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="20"
+                                                  Direction="270"
+                                                  Opacity="0.15"
+                                                  ShadowDepth="6" />
+                            </Border.Effect>
                             <Border.LayoutTransform>
                                 <ScaleTransform x:Name="LayoutScale" ScaleY="1" />
                             </Border.LayoutTransform>
@@ -344,24 +370,26 @@
                             <Border.RenderTransform>
                                 <TranslateTransform x:Name="RenderMove" Y="0" />
                             </Border.RenderTransform>
-                            <TextBlock FontSize="12"
-                                       Foreground="White"
+                            <TextBlock x:Name="MessageTextBlock"
+                                       d:Foreground="{DynamicResource Brushes.OnSurface}"
+                                       d:Text="验证码已发送至 example@domain.com"
+                                       FontSize="12"
                                        Text="{Binding Message}"
                                        TextWrapping="Wrap" />
                         </Border>
 
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Level}" Value="Info">
-                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#9A3BFF" />
+                                <Setter TargetName="MessageTextBlock" Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Level}" Value="Success">
-                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#34C759" />
+                                <Setter TargetName="MessageTextBlock" Property="Foreground" Value="{DynamicResource Brushes.Success}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Level}" Value="Warning">
-                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#FFC402" />
+                                <Setter TargetName="MessageTextBlock" Property="Foreground" Value="{DynamicResource Brushes.Warning}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Level}" Value="Error">
-                                <Setter TargetName="ToastBorder" Property="BorderBrush" Value="#FF4A4A" />
+                                <Setter TargetName="MessageTextBlock" Property="Foreground" Value="{DynamicResource Brushes.Error}" />
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding IsClosing}" Value="False">

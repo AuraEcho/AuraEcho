@@ -16,5 +16,6 @@
         <ResourceDictionary Source="Dark/Menu.xaml" />
         <ResourceDictionary Source="Dark/ContextMenu.xaml" />
         <ResourceDictionary Source="Dark/Hyperlink.xaml" />
+        <ResourceDictionary Source="Dark/ToolTip.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

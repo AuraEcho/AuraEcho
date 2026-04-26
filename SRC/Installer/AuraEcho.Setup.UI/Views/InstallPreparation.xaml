@@ -8,14 +8,13 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:InstallPreparationViewModel}"
              d:DesignHeight="500"
              d:DesignWidth="750"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Foreground="White"
-             mc:Ignorable="d"> 
+             mc:Ignorable="d">
     <Grid Margin="24">
-        <StackPanel Grid.Row="0" 
+        <StackPanel Grid.Row="0"
                     Margin="0,60,0,0"
                     VerticalAlignment="Bottom">
-
             <StackPanel x:Name="CustomInstallationLayout"
                         d:Visibility="Visible"
                         Visibility="Hidden">
@@ -33,20 +32,21 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock x:Name="TargetInstallFolderTextBlock"
-                                       Grid.Column="0"
+                            <TextBlock Grid.Column="0"
+                                       MaxWidth="500"
                                        Margin="0,0,8,0"
                                        VerticalAlignment="Center"
-                                       d:Text="C:\Program Files(x86)\Lenovo\AuraEcho"
+                                       d:Text="C:\Program Files\AuraEcho"
                                        FontSize="14"
-                                       Text="{Binding TargetInstallFolder, Mode=TwoWay}" />
+                                       Text="{Binding TargetInstallFolder}"
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTip="{Binding TargetInstallFolder}" />
                             <Button Grid.Column="1"
                                     Margin="0,0,8,0"
                                     VerticalAlignment="Center"
                                     Click="SelectFolderButton_Click"
                                     Style="{DynamicResource IconButtonStyle}">
-                                <Viewbox Width="16"
-                                         Height="16">
+                                <Viewbox Width="16" Height="16">
                                     <Canvas Width="16"
                                             Height="16"
                                             UseLayoutRounding="False">
@@ -67,35 +67,32 @@
                     <CheckBox Margin="0,0,48,0"
                               Content="创建桌面图标"
                               IsChecked="{Binding IsCreateDesktopFolderShortcut}" />
-                    <CheckBox Content="开机默认启动 "
-                              IsChecked="{Binding IsRunAtBoot}" />
+                    <CheckBox Content="开机默认启动 " IsChecked="{Binding IsRunAtBoot}" />
                 </StackPanel>
             </StackPanel>
             <Button Width="200"
                     Height="48"
-                    Margin="0, 0, 0, 52"
+                    Margin="0,0,0,52"
                     HorizontalAlignment="Center"
                     Command="{Binding InstallCommand}"
                     Content="开始安装"
                     FontSize="16"
-                    Foreground="White"
                     Style="{DynamicResource PrimaryButtonStyle}"
                     TextOptions.TextFormattingMode="Display" />
             <Grid>
-                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <TextBlock FontSize="14">
-                        <TextBlock Text="点击开始安装，即代表您已同意" Foreground="#8C8C8C"/>
-                    <Hyperlink Command="{Binding OpenEULACommand}">
-                        最终用户许可协议
-                    </Hyperlink>
+                        <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="点击开始安装，即代表您已同意" />
+                        <Hyperlink Command="{Binding OpenEULACommand}">
+                            最终用户许可协议
+                        </Hyperlink>
                     </TextBlock>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock FontSize="14">
-                    <Hyperlink x:Name="CustomInstallationHyperLink"
-                               Click="CustomInstallationHyperLink_Click">
-                        <Run x:Name="CustomInstallationRun">自定义安装</Run>
-                    </Hyperlink>
+                        <Hyperlink x:Name="CustomInstallationHyperLink" Click="CustomInstallationHyperLink_Click">
+                            <Run x:Name="CustomInstallationRun">自定义安装</Run>
+                        </Hyperlink>
                     </TextBlock>
                 </StackPanel>
             </Grid>

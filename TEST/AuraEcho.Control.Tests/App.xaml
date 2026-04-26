@@ -7,8 +7,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/AuraEcho.Themes;component/DarkTheme.xaml" />
-                <!--<ResourceDictionary Source="/AuraEcho.Themes;component/LightTheme.xaml" />-->
+                <!--<ResourceDictionary Source="/AuraEcho.Themes;component/DarkTheme.xaml" />-->
+                <ResourceDictionary Source="/AuraEcho.Themes;component/LightTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -3,60 +3,6 @@
                     xmlns:ap="clr-namespace:AuraEcho.Themes.AttachedProperties">
     <!-- 浮动水印 TextBox 模板 -->
     <ControlTemplate x:Key="FloatingLabelTextBoxTemplate" TargetType="{x:Type TextBox}">
-        <ControlTemplate.Resources>
-            <Storyboard x:Key="PlaceholderToUp">
-                <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
-                                 Storyboard.TargetProperty="ScaleX"
-                                 To="0.75"
-                                 Duration="0:0:0.1">
-                    <DoubleAnimation.EasingFunction>
-                        <CircleEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
-                                 Storyboard.TargetProperty="ScaleY"
-                                 To="0.75"
-                                 Duration="0:0:0.1">
-                    <DoubleAnimation.EasingFunction>
-                        <CircleEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="PlaceHolderTranslateTransform"
-                                 Storyboard.TargetProperty="Y"
-                                 To="-20"
-                                 Duration="0:0:0.1">
-                    <DoubleAnimation.EasingFunction>
-                        <CircleEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-            </Storyboard>
-            <Storyboard x:Key="PlaceholderToDown">
-                <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
-                                 Storyboard.TargetProperty="ScaleX"
-                                 To="1"
-                                 Duration="0:0:0.1">
-                    <DoubleAnimation.EasingFunction>
-                        <CircleEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
-                                 Storyboard.TargetProperty="ScaleY"
-                                 To="1"
-                                 Duration="0:0:0.1">
-                    <DoubleAnimation.EasingFunction>
-                        <CircleEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="PlaceHolderTranslateTransform"
-                                 Storyboard.TargetProperty="Y"
-                                 To="0"
-                                 Duration="0:0:0.1">
-                    <DoubleAnimation.EasingFunction>
-                        <CircleEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-            </Storyboard>
-        </ControlTemplate.Resources>  
         <Grid>
             <Border x:Name="LayoutRoot"
                     Background="{TemplateBinding Background}"
@@ -79,7 +25,7 @@
                            Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:InputBoxHelper.FloatingBackground)}"
                            Focusable="False"
                            FontSize="{TemplateBinding FontSize}"
-                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                           Foreground="#49454E"
                            IsHitTestVisible="False"
                            RenderTransformOrigin="0, 0.5"
                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.PlaceHolder)}">
@@ -94,11 +40,38 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="LayoutRoot" Property="BorderBrush" Value="{DynamicResource Brushes.OnSurface}" />
+                <Setter TargetName="LayoutRoot" Property="BorderBrush" Value="#49454E" />
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Trigger.EnterActions>
-                    <BeginStoryboard Storyboard="{StaticResource PlaceholderToUp}"/>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
+                                             Storyboard.TargetProperty="ScaleX"
+                                             To="0.75"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
+                                             Storyboard.TargetProperty="ScaleY"
+                                             To="0.75"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderTranslateTransform"
+                                             Storyboard.TargetProperty="Y"
+                                             To="-20"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
                 </Trigger.EnterActions>
                 <Setter TargetName="LayoutRoot" Property="BorderThickness" Value="2" />
                 <Setter TargetName="LayoutRoot" Property="BorderBrush" Value="{DynamicResource Brushes.Primary}" />
@@ -110,10 +83,64 @@
                     <Condition Property="Text" Value="" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.EnterActions>
-                    <BeginStoryboard Storyboard="{StaticResource PlaceholderToDown}"/>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
+                                             Storyboard.TargetProperty="ScaleX"
+                                             To="1"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
+                                             Storyboard.TargetProperty="ScaleY"
+                                             To="1"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderTranslateTransform"
+                                             Storyboard.TargetProperty="Y"
+                                             To="0"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
                 </MultiTrigger.EnterActions>
                 <MultiTrigger.ExitActions>
-                    <BeginStoryboard Storyboard="{StaticResource PlaceholderToUp}"/>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
+                                             Storyboard.TargetProperty="ScaleX"
+                                             To="0.75"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderScaleTransform"
+                                             Storyboard.TargetProperty="ScaleY"
+                                             To="0.75"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="PlaceHolderTranslateTransform"
+                                             Storyboard.TargetProperty="Y"
+                                             To="-20"
+                                             Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
                 </MultiTrigger.ExitActions>
             </MultiTrigger>
         </ControlTemplate.Triggers>
@@ -139,7 +166,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ap:ControlHelper.CornerRadius" Value="2" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Brushes.Primary}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource Brushes.OnSurface}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource Brushes.Primary}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
         <Setter Property="Template" Value="{StaticResource FloatingLabelTextBoxTemplate}" />
@@ -179,7 +206,7 @@
                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                            Focusable="False"
                            FontSize="{TemplateBinding FontSize}"
-                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                           Foreground="#49454E"
                            IsHitTestVisible="False"
                            RenderTransformOrigin="0, 0.5"
                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.PlaceHolder)}"
@@ -188,11 +215,13 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="LayoutRoot" Property="BorderBrush" Value="{DynamicResource Brushes.OnSurface}" />
+                <Setter TargetName="LayoutRoot" Property="BorderBrush" Value="#49454E" />
             </Trigger>
+
             <Trigger Property="Text" Value="">
                 <Setter TargetName="PlaceHolderTextBlock" Property="Visibility" Value="Visible" />
             </Trigger>
+
             <Trigger Property="IsFocused" Value="True">
                 <Setter TargetName="LayoutRoot" Property="BorderThickness" Value="2" />
                 <Setter TargetName="LayoutRoot" Property="BorderBrush" Value="{DynamicResource Brushes.Primary}" />
@@ -208,7 +237,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ap:ControlHelper.CornerRadius" Value="2" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Brushes.Primary}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource Brushes.OnSurface}" />
+        <Setter Property="CaretBrush" Value="Black" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
         <Setter Property="Template" Value="{StaticResource PlaceHolderTextBoxTemplate}" />

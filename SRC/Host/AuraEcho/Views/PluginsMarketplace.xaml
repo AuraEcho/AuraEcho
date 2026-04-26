@@ -16,7 +16,7 @@
              d:DesignWidth="935"
              d:Foreground="#EFEFEF"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Background="{DynamicResource Themes.Brushes.Background}"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
@@ -102,12 +102,13 @@
                                         <TextBlock VerticalAlignment="Top"
                                                    d:Text="PLUGIN DISPLAY NAME"
                                                    FontSize="12"
+                                                   Foreground="{DynamicResource Brushes.OnSurface}"
                                                    FontWeight="SemiBold"
                                                    Text="{Binding PluginInfo.Name}"
                                                    TextWrapping="Wrap" />
                                         <TextBlock VerticalAlignment="Bottom"
                                                    FontSize="10"
-                                                   Foreground="#8C8C8C"
+                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                                    TextTrimming="CharacterEllipsis"
                                                    Text="{Binding PluginInfo.Summary}" />
                                     </Grid>
@@ -173,9 +174,11 @@
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                         <TextBlock FontSize="32"
                                    FontWeight="SemiBold"
+                                   Foreground="White"
                                    Text="扩展商店" />
                         <TextBlock Margin="0,16,0,0"
                                    FontSize="16"
+                                   Foreground="White"
                                    Text="各色功能模块，让灵光回声成为你手中最得心应手的全能利器。"
                                    TextWrapping="Wrap">
                             <i:Interaction.Triggers>

@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:auraecho="http://ui.auraecho.com/">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/AuraEcho.Themes;component/DarkTheme.xaml"/>
-        <!--<ResourceDictionary Source="/AuraEcho.Themes;component/LightTheme.xaml"/>-->
+        <ResourceDictionary Source="/Dark/Brushes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

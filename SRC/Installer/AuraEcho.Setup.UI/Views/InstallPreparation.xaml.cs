@@ -1,3 +1,4 @@
+using AuraEcho.Setup.UI.ViewModels;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,7 @@ namespace AuraEcho.Setup.UI.Views
             };
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                TargetInstallFolderTextBlock.Text = dialog.FileName;
+                (DataContext as InstallPreparationViewModel)?.SetInstallFolderCommand.Execute(dialog.FileName);
             }
         }
 

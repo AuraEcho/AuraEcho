@@ -42,6 +42,12 @@ namespace AuraEcho.Setup.UI.ViewModels
                 }));
         }
 
+        public DelegateCommand<string> SetInstallFolderCommand { get; }
+        private void SetInstallFolder(string folderPath)
+        {
+            TargetInstallFolder = folderPath;
+        }
+
         /// <summary>
         /// 执行安装命令
         /// </summary>
@@ -149,6 +155,7 @@ namespace AuraEcho.Setup.UI.ViewModels
                     targetFolder = Path.Combine(targetFolder, "AuraEcho");
                 }
                 _ba.InstallDirectory = targetFolder;
+                RaisePropertyChanged(nameof(TargetInstallFolder));
             }
         }
         #endregion 
@@ -172,6 +179,7 @@ namespace AuraEcho.Setup.UI.ViewModels
 
             InstallCommand = new DelegateCommand(Install);
             OpenEULACommand = new DelegateCommand(OpenEULA);
+            SetInstallFolderCommand = new DelegateCommand<string>(SetInstallFolder);
         }
         #endregion
     }

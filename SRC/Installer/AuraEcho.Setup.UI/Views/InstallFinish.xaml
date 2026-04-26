@@ -8,6 +8,7 @@
              av:DataContext="{av:DesignInstance Type=viewmodels:InstallFinishViewModel}"
              av:DesignHeight="500"
              av:DesignWidth="750"
+             
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="av">
     <Grid>

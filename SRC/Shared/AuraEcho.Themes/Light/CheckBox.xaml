@@ -152,7 +152,7 @@
                             </DoubleAnimation>
                             <ColorAnimation Storyboard.TargetName="InnerCircle"
                                             Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
-                                            To="Black"
+                                            To="White"
                                             Duration="0:0:0.2" />
                         </Storyboard>
                         <Storyboard x:Key="InnerCircleToLeft">
@@ -166,7 +166,7 @@
                             </DoubleAnimation>
                             <ColorAnimation Storyboard.TargetName="InnerCircle"
                                             Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
-                                            To="#948F99"
+                                            To="#7A757F"
                                             Duration="0:0:0.2" />
                         </Storyboard>
                     </ControlTemplate.Resources>
@@ -245,7 +245,7 @@
                                     <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}" />
                                 </Setter.Value>
                             </Setter>-->
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

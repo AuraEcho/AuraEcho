@@ -9,6 +9,8 @@
         Title="Plugin packer"
         Width="800"
         Height="480"
+        Foreground="{DynamicResource Brushes.OnSurface}"
+        Background="{DynamicResource Brushes.SurfaceContainerLowest}"
         av:DataContext="{av:DesignInstance Type=viewmodels:MainWindowViewModel}"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="av">

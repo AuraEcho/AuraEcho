@@ -79,8 +79,12 @@
                      Width="20"
                      Height="20"
                      VerticalAlignment="Center"
-                     Fill="{DynamicResource Brushes.SurfaceContainerHigh}"
-                     StrokeThickness="0" />
+                     Fill="{DynamicResource Brushes.SurfaceContainerHighest}"
+                     StrokeThickness="1">
+                <Ellipse.Stroke>
+                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}"/>
+                </Ellipse.Stroke>
+            </Ellipse>
             <Ellipse x:Name="InnerCircle"
                      Width="10"
                      Height="10"
@@ -109,7 +113,9 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <!--  水平时的样式  -->
+
+    <!-- 水平时的样式 -->
+
     <ControlTemplate x:Key="SliderHorizontal" TargetType="{x:Type Slider}">
         <Border x:Name="border"
                 Background="{TemplateBinding Background}"
@@ -152,7 +158,9 @@
                 </Border>
                 <Track x:Name="PART_Track" Grid.Row="1">
                     <Track.DecreaseRepeatButton>
-                        <!--  比当前值小的部分的颜色  -->
+
+                        <!-- 比当前值小的部分的颜色 -->
+
                         <RepeatButton Height="4"
                                       Margin="0,0,-2,0"
                                       Background="{DynamicResource Brushes.Primary}"
@@ -160,7 +168,9 @@
                                       Style="{StaticResource RepeatButtonTransparent}" />
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
-                        <!--  比当前值大的部分的颜色  -->
+                        
+                        <!-- 比当前值大的部分的颜色 -->
+
                         <RepeatButton Height="4"
                                       Background="{DynamicResource Brushes.Outline}"
                                       Command="{x:Static Slider.IncreaseLarge}"
@@ -193,7 +203,9 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <!--  竖直时的样式  -->
+    
+    <!-- 竖直时的样式 -->
+
     <ControlTemplate x:Key="SliderVertical" TargetType="{x:Type Slider}">
         <Border x:Name="border"
                 Background="{TemplateBinding Background}"
@@ -225,7 +237,7 @@
                         Width="3"
                         Margin="0,5"
                         HorizontalAlignment="center"
-                        Background="{DynamicResource Brushes.SurfaceContainerHigh}"
+                        Background="{DynamicResource Brushes.SurfaceContainerHighest}"
                         BorderThickness="0">
                     <Canvas Margin="-1,-6">
                         <Rectangle x:Name="PART_SelectionRange"
@@ -274,7 +286,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <Style TargetType="{x:Type Slider}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Background" Value="Transparent" />
@@ -286,7 +298,7 @@
                 <Setter Property="Template" Value="{StaticResource SliderVertical}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.5"/>
+                <Setter Property="Opacity" Value="0.5" />
             </Trigger>
         </Style.Triggers>
     </Style>

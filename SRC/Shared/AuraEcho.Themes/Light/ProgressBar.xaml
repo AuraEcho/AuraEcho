@@ -10,7 +10,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ProgressBar}">
                     <Grid x:Name="TemplateRoot">
-                        <Line x:Name="BgLine" Stretch="Fill"
+                        <Line x:Name="BgLine"
+                              Stretch="Fill"
                               Stroke="{TemplateBinding Background}"
                               StrokeThickness="1"
                               UseLayoutRounding="True"
@@ -20,9 +21,9 @@
                               Y2="0" />
                         <Rectangle x:Name="PART_Track" />
                         <Grid x:Name="PART_Indicator"
-                              ClipToBounds="True"
                               HorizontalAlignment="Left"
-                              Background="{TemplateBinding BorderBrush}">
+                              Background="{TemplateBinding BorderBrush}"
+                              ClipToBounds="True">
                             <Rectangle x:Name="Indicator"
                                        Fill="{TemplateBinding Foreground}"
                                        RadiusX="3"

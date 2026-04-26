@@ -13,9 +13,9 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:SettingsViewModel}"
              d:DesignHeight="425"
              d:DesignWidth="495"
-             d:Foreground="{DynamicResource Themes.Brushes.OnBackground}"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Background="{DynamicResource Themes.Brushes.Background}"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

@@ -3,5 +3,6 @@
                     xmlns:auraecho="http://ui.auraecho.com/">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/AuraEcho.ExternalTools.Themes;component/ExternalToolsDarkTheme.xaml"/>
+        <ResourceDictionary Source="/AuraEcho.Themes;component/DarkTheme.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

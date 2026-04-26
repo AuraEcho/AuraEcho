@@ -7,16 +7,19 @@
              xmlns:viewmodels="clr-namespace:AuraEcho.ExternalTools.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:AddExternalToolViewModel}"
              d:DesignHeight="600"
-             d:Foreground="#EFEFEF"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
              d:DesignWidth="855"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Background="#80000000"
+             Background="{DynamicResource Brushes.Scrim}"
+             Foreground="{DynamicResource Brushes.OnSurface}"
              mc:Ignorable="d">
     <Grid>
         <Border Width="400"
                 Height="300"
-                CornerRadius="8"
-                Background="{DynamicResource Themes.Brushes.Background}">
+                CornerRadius="4"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource Brushes.OutlineShadow}"
+                Background="{DynamicResource Brushes.SurfaceContainerHighest}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -29,7 +32,7 @@
                                Text="ADD EXTERNAL TOOL" />
                     <Line Margin="0,0,0,12"
                           Stretch="Fill"
-                          Stroke="#333333"
+                          Stroke="{DynamicResource Brushes.OutlineVariant}"
                           StrokeThickness="1"
                           UseLayoutRounding="True"
                           X1="0"

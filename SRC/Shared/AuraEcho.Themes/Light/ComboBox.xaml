@@ -91,7 +91,7 @@
             <Trigger Property="IsSelected" Value="True">
                 <Setter TargetName="StateLayer" Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
+                        <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="FocusedLine" Property="Visibility" Value="Visible" />
@@ -99,7 +99,7 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="StateLayer" Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
+                        <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -119,13 +119,13 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ap:ControlHelper.CornerRadius" Value="4" />
         <!--<Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#1DFFFFFF" />
-            </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#1DFFFFFF" />
-            </Trigger>
-        </Style.Triggers>-->
+        <Trigger Property="IsSelected" Value="True">
+            <Setter Property="Background" Value="#1DFFFFFF" />
+        </Trigger>
+        <Trigger Property="IsMouseOver" Value="True">
+            <Setter Property="Background" Value="#1DFFFFFF" />
+        </Trigger>
+    </Style.Triggers>-->
     </Style>
 
     <!-- ComboBox 模板 -->
@@ -209,9 +209,10 @@
                        VerticalOffset="2">
                     <Border x:Name="DropDownBorder"
                             MinWidth="{TemplateBinding ActualWidth}"
-                            Background="{DynamicResource Brushes.SurfaceContainerHigh}"
+                            Background="{DynamicResource Brushes.SurfaceContainerHighest}"
                             BorderBrush="{DynamicResource Brushes.OutlineShadow}"
                             BorderThickness="1"
+                            Margin="16"
                             CornerRadius="4">
                         <Border.OpacityMask>
                             <LinearGradientBrush x:Name="DropDownBorderMask" StartPoint="0, 0" EndPoint="0, 1">
@@ -326,19 +327,15 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}"/>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="{DynamicResource Brushes.SurfaceContainer}" />
         <Setter Property="Padding" Value="8,0" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
         <Setter Property="ap:ControlHelper.CornerRadius" Value="4" />
         <Style.Triggers>
             <!--<Trigger Property="IsDropDownOpen" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Button.Focus}" />
-            </Trigger>-->
+            <Setter Property="BorderBrush" Value="{DynamicResource Button.Focus}" />
+        </Trigger>-->
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Opacity" Value="0.5" />
             </Trigger>

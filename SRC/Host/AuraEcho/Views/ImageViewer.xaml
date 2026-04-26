@@ -11,7 +11,7 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:ImageViewerViewModel}"
              d:DesignHeight="640"
              d:DesignWidth="960"
-             d:Foreground="{DynamicResource Themes.Brushes.OnBackground}"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -78,7 +78,7 @@
     </i:Interaction.Triggers>
     <Grid x:Name="LayoutRoot"
           d:Opacity="1"
-          Background="#C0000000"
+          Background="{DynamicResource Brushes.Scrim}"
           Opacity="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="48" Width="Auto"/>

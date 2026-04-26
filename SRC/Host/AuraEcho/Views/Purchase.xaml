@@ -10,6 +10,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
              d:DataContext="{d:DesignInstance Type=viewmodels:PurchaseViewModel}"
              d:DesignHeight="640"
              d:DesignWidth="982"
@@ -28,7 +29,7 @@
                         <i:ChangePropertyAction PropertyName="IsChecked" Value="True" />
                     </i:DataTrigger>
                 </i:Interaction.Triggers>
-                <Border Background="#10000000" CornerRadius="4">
+                <Border CornerRadius="4">
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                         <TextBlock Margin="0,0,8,0"
                                    FontSize="16"
@@ -37,7 +38,7 @@
                                    VerticalAlignment="Center"
                                    d:Text="￥2.00"
                                    FontSize="14"
-                                   Foreground="#8c8c8c"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                    Text="{Binding OriginalPrice, StringFormat=￥{0:N2}}"
                                    TextDecorations="Strikethrough" />
                         <TextBlock HorizontalAlignment="Center"
@@ -50,10 +51,12 @@
             </RadioButton>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid Background="#90000000">
+    <Grid Background="{DynamicResource Brushes.Scrim}">
         <Border Width="500"
                 Height="250"
-                Background="#212121"
+                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                BorderBrush="{DynamicResource Brushes.OutlineShadow}"
+                BorderThickness="1"
                 CornerRadius="4">
             <Grid>
                 <Grid.ColumnDefinitions>

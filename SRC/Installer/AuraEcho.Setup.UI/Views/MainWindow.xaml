@@ -7,8 +7,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:ui="http://ui.auraecho.com/"
-        xmlns:views="clr-namespace:AuraEcho.Setup.UI.Views"
         xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
+        xmlns:views="clr-namespace:AuraEcho.Setup.UI.Views"
         Title="AuraEcho 安装向导"
         Width="1157"
         Height="768"
@@ -16,8 +16,8 @@
         d:DesignHeight="768"
         d:DesignWidth="1157"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Background="Black"
-        Foreground="White"
+        Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+        Foreground="{DynamicResource Brushes.OnSurface}"
         Loaded="Window_Loaded"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -40,54 +40,62 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Grid Background="{DynamicResource Themes.Background}">
+        <Grid Background="{DynamicResource Brushes.Special.Background}">
             <StackPanel Margin="0,-152,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                 <Grid>
-                <Border Width="128"
-                        Height="128"
-                        Margin="0,0,0,24"
-                            Background="#FF9A3BFF"
+                    <Border Width="128"
+                            Height="128"
+                            Margin="0,0,0,24"
+                            Background="#7F9A3BFF"
                             CornerRadius="8">
                         <Border.Effect>
-                            <BlurEffect Radius="40" />
+                            <BlurEffect Radius="100" />
                         </Border.Effect>
                     </Border>
                     <Border Width="128"
                             Height="128"
                             Margin="0,0,0,24"
-                            BorderBrush="{DynamicResource Themes.BorderBrush}"
-                        BorderThickness="2"
-                        CornerRadius="8">
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
-                    </Border.Background>
-                </Border>
+                            BorderThickness="2"
+                            CornerRadius="8">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
+                        </Border.Background>
+                        <Border BorderThickness="1" CornerRadius="8">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0.5, 0.5" EndPoint="1, 0">
+                                    <GradientStop Offset="0" Color="#00FFFFFF" />
+                                    <GradientStop Offset="1" Color="#FFFFFFFF" />
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                    </Border>
                 </Grid>
                 <TextBlock FontSize="64"
                            FontWeight="Bold"
-                           Text="灵光回声" />
+                           Text="灵光回声"
+                           Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"/>
                 <TextBlock HorizontalAlignment="Center"
                            d:Text="版本 1.2.0"
                            FontSize="16"
                            FontWeight="Bold"
-                           Foreground="#B7B7B7"
+                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                            Text="{Binding Version, StringFormat=版本 {0}}" />
             </StackPanel>
 
         </Grid>
         <d:ContentControl>
-            <views:InstallPreparation />
+            <views:InstallPreparation Background="Transparent" />
         </d:ContentControl>
         <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MainRegion}" />
         <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MessageRegion}" />
-        <Grid Height="30"
+        <Grid Height="36"
               VerticalAlignment="Top"
               Background="Transparent"
               MouseLeftButtonDown="Grid_MouseLeftButtonDown">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Width="45"
+                <Button Width="47"
                         ui:ControlHelper.CornerRadius="0"
                         Click="Button_Click"
                         IsTabStop="False"
@@ -100,7 +108,7 @@
                         </Viewbox>
                     </Button.Content>
                 </Button>
-                <Button Width="45"
+                <Button Width="47"
                         ui:ControlHelper.CornerRadius="0"
                         Command="{Binding ExitCommand}"
                         IsTabStop="False"

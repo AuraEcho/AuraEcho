@@ -265,6 +265,9 @@
                                                         <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="Password" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
+                                                <i:Interaction.Behaviors>
+                                                    <ui:IgnoreKeyBehavior Key="Space"/>
+                                                </i:Interaction.Behaviors>
                                             </PasswordBox>
 
                                             <TextBlock HorizontalAlignment="Right" FontSize="14">

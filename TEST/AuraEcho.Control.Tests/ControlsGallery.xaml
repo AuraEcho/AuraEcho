@@ -18,12 +18,8 @@
               Height="36"
               VerticalAlignment="Top"
               Background="Transparent"
+              ColumnDefinitions="Auto, *, Auto"
               UseLayoutRounding="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
                     <i:CallMethodAction MethodName="DragMove" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
@@ -138,11 +134,7 @@
             </StackPanel>
         </Grid>
         <ScrollViewer Margin="0,36,0,0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <Grid RowDefinitions="Auto, *">
                 <!-- Menu -->
                 <Menu Background="Transparent"
                       ContextMenuService.Placement="Bottom"

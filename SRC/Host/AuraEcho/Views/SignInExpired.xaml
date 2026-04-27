@@ -14,12 +14,7 @@
             CornerRadius="4"
             Padding="8"
             Background="#212121">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid RowDefinitions="Auto, *, Auto">
             <Grid Grid.Row="0"
                   Height="24">
                 <TextBlock Margin="4"

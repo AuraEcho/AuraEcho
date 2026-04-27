@@ -139,11 +139,7 @@
     </UserControl.Resources>
     <Grid>
         <!-- 封面羽化遮罩 -->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
+        <Grid ColumnDefinitions="*, 2*">
             <Image x:Name="MakeShape"
                    Grid.Column="1"
                    Height="400"
@@ -195,11 +191,7 @@
                         </i:DataTrigger>
                     </i:Interaction.Triggers>
                     <Grid x:Name="BannerLayoutRoot" Height="400">
-                        <Grid x:Name="BannerGrid">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
+                        <Grid x:Name="BannerGrid" ColumnDefinitions="*, 2*">
                             <!-- 平均色背景 -->
                             <Border x:Name="OptimizedBrush"
                                     Grid.Column="0"

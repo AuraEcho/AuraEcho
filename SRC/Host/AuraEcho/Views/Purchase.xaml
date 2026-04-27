@@ -58,15 +58,7 @@
                 BorderBrush="{DynamicResource Brushes.OutlineShadow}"
                 BorderThickness="1"
                 CornerRadius="4">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
                            FontSize="16"

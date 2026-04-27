@@ -106,11 +106,7 @@
         </DataTemplate>
         <CollectionViewSource x:Key="PluginsSource" Source="{Binding Plugins}" />
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="36" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <Grid RowDefinitions="36, *">
         <ItemsControl Grid.Row="1"
                       Margin="24,12,24,24"
                       ItemTemplate="{StaticResource PluginTemplate}">

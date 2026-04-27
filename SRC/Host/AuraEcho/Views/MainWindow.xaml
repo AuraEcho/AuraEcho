@@ -87,11 +87,9 @@
             </i:DataTrigger>
         </i:Interaction.Triggers>
 
-        <Grid x:Name="HomeContainer" Background="Transparent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <Grid x:Name="HomeContainer"
+              Background="Transparent"
+              RowDefinitions="Auto, *">
 
             <!-- 首页区域 -->
             <ContentControl Grid.Row="0"
@@ -108,12 +106,8 @@
                   Grid.RowSpan="2"
                   Height="36"
                   VerticalAlignment="Top"
-                  Background="Transparent">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                  Background="Transparent"
+                  ColumnDefinitions="Auto, *, Auto">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
                         <i:CallMethodAction MethodName="DragMove" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />

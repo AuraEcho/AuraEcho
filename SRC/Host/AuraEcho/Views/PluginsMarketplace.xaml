@@ -67,11 +67,7 @@
                                 Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToPluginDetailsCommand}"
                                 CommandParameter="{Binding}"
                                 RenderTransformOrigin=".5, .5">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="105" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                            <Grid RowDefinitions="105, *">
                                 <Border Grid.Row="0" CornerRadius="4, 4, 0, 0">
                                     <Border.Background>
                                         <VisualBrush AlignmentY="Top" Stretch="UniformToFill">

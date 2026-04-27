@@ -17,11 +17,11 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="{DynamicResource Brushes.SurfaceContainerLowest}"
         Closing="Window_Closing"
+        MouseDown="MainWindow_MouseDown"
         Foreground="{DynamicResource Brushes.OnSurface}"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
-
     <Window.Resources>
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <Storyboard x:Key="ShowMask">
@@ -51,9 +51,6 @@
             </DoubleAnimation>
         </Storyboard>
     </Window.Resources>
-    <i:Interaction.Behaviors>
-        <auraecho:ClearFocusOnClickBehavior />
-    </i:Interaction.Behaviors>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding AutoSignInCommand}" />

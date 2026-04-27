@@ -126,4 +126,11 @@ public partial class MainWindow : Window
     {
         PendingRestartPopup.IsOpen = true;
     }
+
+    private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        AppContainer.Focusable = true;
+        AppContainer.Focus();
+        AppContainer.Focusable = false;
+    }
 }

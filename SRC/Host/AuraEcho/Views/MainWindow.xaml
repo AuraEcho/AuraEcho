@@ -142,8 +142,8 @@
                     </Button>
                     <Image Margin="8" Source="/Assets/Icons/AuraEcho.ico" />
                     <TextBlock VerticalAlignment="Center"
-                               FontSize="12"
                                Foreground="{DynamicResource Brushes.OnSurface}"
+                               Style="{DynamicResource BodySmallTextBlockStyle}"
                                Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
@@ -155,6 +155,7 @@
                             auraecho:ControlHelper.CornerRadius="4"
                             Click="RestartTipsButton_Click"
                             Content="更新"
+                            FontSize="{DynamicResource FontSize.Label.Small}"
                             Visibility="Visible"
                             WindowChrome.IsHitTestVisibleInChrome="True">
                         <i:Interaction.Triggers>
@@ -171,7 +172,6 @@
 
                     <Button Width="47"
                             auraecho:ControlHelper.CornerRadius="0"
-                            FontSize="15"
                             IsTabStop="False"
                             Style="{DynamicResource IconButtonStyle}"
                             ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Minimize}"
@@ -197,7 +197,6 @@
                             Width="47"
                             auraecho:ControlHelper.CornerRadius="0"
                             Click="MaxWin_MouseClick"
-                            FontSize="15"
                             IsTabStop="False"
                             Style="{DynamicResource IconButtonStyle}"
                             WindowChrome.IsHitTestVisibleInChrome="True">
@@ -268,7 +267,6 @@
                             auraecho:ControlHelper.CornerRadius="0"
                             BorderThickness="0"
                             Click="CloseWindowButton_Click"
-                            FontSize="15"
                             IsTabStop="False"
                             Style="{DynamicResource IconButtonStyle}"
                             ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
@@ -288,11 +286,11 @@
                         <Border Width="200"
                                 Margin="16"
                                 Padding="16"
-                                UseLayoutRounding="True"
                                 Background="{DynamicResource Brushes.SurfaceContainerHighest}"
                                 BorderBrush="{DynamicResource Brushes.OutlineVariant}"
                                 BorderThickness="1"
-                                CornerRadius="4">
+                                CornerRadius="4"
+                                UseLayoutRounding="True">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="20"
                                                   Direction="270"
@@ -300,13 +298,16 @@
                                                   ShadowDepth="6" />
                             </Border.Effect>
                             <Grid RowDefinitions="Auto, *, Auto">
-                                <TextBlock FontSize="14" Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="重启以更新" Margin="0, 0, 0, 8"/>
+                                <TextBlock Margin="0,0,0,8"
+                                           FontSize="{DynamicResource FontSize.Body.Medium}"
+                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                           Text="重启以更新" />
                                 <ItemsControl Grid.Row="1"
-                                              Margin="0, 0, 0, 8"
+                                              Margin="0,0,0,8"
                                               ItemsSource="{Binding PendingRestartItems}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock FontSize="14">
+                                            <TextBlock FontSize="{DynamicResource FontSize.Body.Medium}">
                                                 <Run Text="{Binding Name}" />
                                                 |<Run Text="{Binding Description}" />
                                             </TextBlock>
@@ -315,10 +316,10 @@
                                 </ItemsControl>
                                 <Button Grid.Row="2"
                                         Padding="0,8"
-                                        FontSize="14"
-                                        Style="{DynamicResource PrimaryButtonStyle}"
                                         Command="{Binding Source={StaticResource BindingProxy}, Path=Data.RequestRestartAppCommand}"
-                                        Content="现在重启"/>
+                                        Content="现在重启"
+                                        FontSize="{DynamicResource FontSize.Label.Medium}"
+                                        Style="{DynamicResource PrimaryButtonStyle}" />
                             </Grid>
                         </Border>
                     </Popup>
@@ -353,7 +354,7 @@
                                 Padding="20,12"
                                 HorizontalAlignment="Right"
                                 Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-                                BorderBrush="{DynamicResource Brushes.OutlineShadow}"
+                                BorderBrush="{DynamicResource Brushes.OutlineVariant}"
                                 BorderThickness="1"
                                 CornerRadius="4"
                                 RenderTransformOrigin="0.5,0.5">
@@ -373,7 +374,7 @@
                             <TextBlock x:Name="MessageTextBlock"
                                        d:Foreground="{DynamicResource Brushes.OnSurface}"
                                        d:Text="验证码已发送至 example@domain.com"
-                                       FontSize="12"
+                                       Style="{DynamicResource BodySmallTextBlockStyle}"
                                        Text="{Binding Message}"
                                        TextWrapping="Wrap" />
                         </Border>

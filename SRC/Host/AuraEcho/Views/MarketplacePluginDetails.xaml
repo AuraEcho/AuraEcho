@@ -17,9 +17,9 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:MarketplacePluginDetailsViewModel}"
              d:DesignHeight="1235"
              d:DesignWidth="820"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="{DynamicResource Brushes.SurfaceContainerLowest}"
-             d:Foreground="{DynamicResource Brushes.OnSurface}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
@@ -31,7 +31,7 @@
                     HorizontalContentAlignment="Left"
                     d:Content="INSTALL"
                     Command="{Binding Source={StaticResource BindingProxy}, Path=Data.InstallCommand}"
-                    FontSize="16"
+                    FontSize="{DynamicResource FontSize.Label.Large}"
                     Style="{DynamicResource PrimaryButtonStyle}">
                 <i:Interaction.Triggers>
                     <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.Status}" Value="{x:Static enums:MarketPluginStatus.Acquired}">
@@ -48,7 +48,7 @@
                     Height="52"
                     CornerRadius="4">
                 <Border.Background>
-                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}"/>
+                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
                 </Border.Background>
                 <DockPanel LastChildFill="True">
                     <ProgressBar d:Value="80"
@@ -58,7 +58,7 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                d:Text="正在下载(87.23%)"
-                               FontSize="14"
+                               FontSize="{DynamicResource FontSize.Label.Medium}"
                                Text="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.InstallContext.Progress, StringFormat=正在下载({0:F2}%)}" />
                 </DockPanel>
             </Border>
@@ -68,14 +68,14 @@
                     Height="52"
                     CornerRadius="4">
                 <Border.Background>
-                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}"/>
+                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
                 </Border.Background>
                 <DockPanel LastChildFill="True">
                     <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" />
                     <TextBlock Margin="16,0,0,0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="14"
+                               Style="{DynamicResource LabelMediumTextBlockStyle}"
                                Text="正在安装..." />
                 </DockPanel>
             </Border>
@@ -85,14 +85,14 @@
                     Height="52"
                     CornerRadius="4">
                 <Border.Background>
-                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}"/>
+                    <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
                 </Border.Background>
                 <DockPanel LastChildFill="True">
                     <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" />
                     <TextBlock Margin="16,0,0,0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="14"
+                               Style="{DynamicResource LabelMediumTextBlockStyle}"
                                Text="正在获取..." />
                 </DockPanel>
             </Border>
@@ -104,7 +104,7 @@
                     HorizontalContentAlignment="Left"
                     Command="{Binding Source={StaticResource BindingProxy}, Path=Data.OpenPluginCommand}"
                     Content="打开"
-                    FontSize="16"
+                    FontSize="{DynamicResource FontSize.Label.Large}"
                     Style="{DynamicResource PrimaryButtonStyle}" />
         </DataTemplate>
         <Storyboard x:Key="ScreenshotStoryboard">
@@ -161,7 +161,7 @@
                 </Image.OpacityMask>
             </Image>
         </Grid>
-        <ScrollViewer Background="{DynamicResource Brushes.SurfaceContainerLowest}" ui:ScrollViewerHelper.VerticalScrollBarMargin="0, 36, 0, 0">
+        <ScrollViewer ui:ScrollViewerHelper.VerticalScrollBarMargin="0, 36, 0, 0" Background="{DynamicResource Brushes.SurfaceContainerLowest}">
             <StackPanel x:Name="ContentContainerStackPanel">
                 <Grid>
                     <i:Interaction.Triggers>
@@ -231,9 +231,9 @@
                             </Border>
                         </Grid>
                         <Grid x:Name="BlurBannerContainer" Opacity="0">
-                            <Rectangle x:Name="BlurBannerClipShape" >
+                            <Rectangle x:Name="BlurBannerClipShape">
                                 <Rectangle.Fill>
-                                    <SolidColorBrush Color="{DynamicResource Colors.IdentityColor}"/>
+                                    <SolidColorBrush Color="{DynamicResource Colors.IdentityColor}" />
                                 </Rectangle.Fill>
                             </Rectangle>
                             <Border>
@@ -254,7 +254,7 @@
                             </Border>
                             <Rectangle>
                                 <Rectangle.Fill>
-                                    <SolidColorBrush Color="{DynamicResource Colors.InverseOverlay.Level6}"/>
+                                    <SolidColorBrush Color="{DynamicResource Colors.InverseOverlay.Level6}" />
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Grid>
@@ -281,12 +281,13 @@
                             </Border>
                             <StackPanel>
                                 <TextBlock Margin="0,0,0,4"
-                                           d:Text="Plugin Name"
-                                           FontSize="36"
+                                           d:Text="窗口管理器"
+                                           FontSize="{DynamicResource FontSize.Display.Small}"
+                                           FontWeight="SemiBold"
                                            Text="{Binding MarketPlugin.PluginInfo.Name}" />
                                 <TextBlock Margin="0,0,0,4"
                                            d:Text="Plugin author"
-                                           FontSize="16"
+                                           FontSize="{DynamicResource FontSize.Label.Large}"
                                            Text="{Binding MarketPlugin.PluginInfo.Author}" />
                                 <StackPanel HorizontalAlignment="Left"
                                             Background="Transparent"
@@ -295,7 +296,7 @@
                                     <TextBlock Margin="0,0,4,0"
                                                VerticalAlignment="Center"
                                                d:Text="100,221"
-                                               FontSize="16"
+                                               Style="{DynamicResource LabelLargeTextBlockStyle}"
                                                Text="{Binding MarketPlugin.PluginInfo.UserCount, StringFormat={}{0:N0}}" />
                                     <Viewbox Width="24" Height="24">
                                         <Canvas Width="24" Height="24">
@@ -312,7 +313,8 @@
                             </StackPanel>
                         </DockPanel>
                         <TextBlock Margin="0,0,0,16"
-                                   FontSize="16"
+                                   d:Text="扩展说明文本"
+                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
                                    Text="{Binding MarketPlugin.PluginInfo.Summary}" />
                         <ContentControl Margin="0,0,0,24"
                                         HorizontalAlignment="Left"
@@ -336,7 +338,7 @@
                             CornerRadius="4">
                         <StackPanel>
                             <TextBlock Margin="16"
-                                       FontSize="14"
+                                       Style="{DynamicResource BodyLargeTextBlockStyle}"
                                        Text="屏幕截图" />
                             <Line Stretch="Fill"
                                   Stroke="{DynamicResource Brushes.OutlineVariant}"
@@ -446,16 +448,16 @@
                                 </ScrollViewer>
                                 <Button x:Name="ScrollLeftButton"
                                         Margin="8"
-                                        Opacity="0"
-                                        d:Opacity="1"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
+                                        d:Opacity="1"
                                         ui:ControlHelper.CornerRadius="24"
                                         Click="ScrollLeft_Click"
+                                        Opacity="0"
                                         RenderTransformOrigin="0.5, 0.5"
                                         Style="{DynamicResource PrimaryButtonStyle}">
                                     <Button.RenderTransform>
-                                        <TranslateTransform X="-48" d:X="0" />
+                                        <TranslateTransform d:X="0" X="-48" />
                                     </Button.RenderTransform>
                                     <Viewbox Width="24" Height="24">
                                         <Canvas Width="24.0" Height="24.0">
@@ -476,14 +478,14 @@
                                         Margin="8"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Opacity="0"
                                         d:Opacity="1"
                                         ui:ControlHelper.CornerRadius="24"
                                         Click="ScrollRight_Click"
+                                        Opacity="0"
                                         RenderTransformOrigin=".5, .5"
                                         Style="{DynamicResource PrimaryButtonStyle}">
                                     <Button.RenderTransform>
-                                        <TranslateTransform X="48" d:X="0"/>
+                                        <TranslateTransform d:X="0" X="48" />
                                     </Button.RenderTransform>
                                     <Viewbox Width="24" Height="24">
                                         <Canvas Width="24.0" Height="24.0">
@@ -508,7 +510,7 @@
                             CornerRadius="4">
                         <StackPanel>
                             <TextBlock Margin="16"
-                                       FontSize="14"
+                                       Style="{DynamicResource BodyLargeTextBlockStyle}"
                                        Text="描述" />
                             <Line Stretch="Fill"
                                   Stroke="{DynamicResource Brushes.OutlineVariant}"
@@ -518,7 +520,7 @@
                                   Y2="0" />
                             <TextBlock Margin="16"
                                        d:Text="这是此扩展的描述文本"
-                                       FontSize="14"
+                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
                                        Text="{Binding MarketPlugin.PluginInfo.Description}"
                                        TextWrapping="Wrap" />
                         </StackPanel>
@@ -528,7 +530,7 @@
                             CornerRadius="4">
                         <StackPanel>
                             <TextBlock Margin="16"
-                                       FontSize="14"
+                                       Style="{DynamicResource BodyLargeTextBlockStyle}"
                                        Text="此版本的更新内容" />
                             <Line Stretch="Fill"
                                   Stroke="{DynamicResource Brushes.OutlineVariant}"
@@ -538,7 +540,7 @@
                                   Y2="0" />
                             <TextBlock Margin="16"
                                        d:Text="这是显示此版本中的更新内容。"
-                                       FontSize="14"
+                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
                                        Text="{Binding LatestVersionInfo.ReleaseNotes}"
                                        TextWrapping="Wrap" />
                         </StackPanel>
@@ -548,7 +550,7 @@
                             TextBlock.FontSize="14">
                         <StackPanel>
                             <TextBlock Margin="16"
-                                       FontSize="14"
+                                       Style="{DynamicResource BodyLargeTextBlockStyle}"
                                        Text="其他信息" />
                             <Line Stretch="Fill"
                                   Stroke="{DynamicResource Brushes.OutlineVariant}"
@@ -586,7 +588,8 @@
                                             Height="24"
                                             Margin="0,0,12,0"
                                             VerticalAlignment="Top"
-                                            DockPanel.Dock="Left">
+                                            DockPanel.Dock="Left"
+                                            TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
                                         <Path Data="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L10.11,5.22L16,8.61L17.96,7.5L12,4.15M6.04,7.5L12,10.85L13.96,9.75L8.08,6.35L6.04,7.5M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V9.21L13,12.58V19.29L19,15.91Z" Fill="{DynamicResource Brushes.OnSurface}" />
                                     </Canvas>
                                     <StackPanel>

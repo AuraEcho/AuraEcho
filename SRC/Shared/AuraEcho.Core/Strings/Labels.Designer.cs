@@ -97,7 +97,7 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 插件市场 的本地化字符串。
+        ///   查找类似 扩展商店 的本地化字符串。
         /// </summary>
         public static string PluginsMarketplace {
             get {

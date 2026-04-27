@@ -85,8 +85,8 @@
                                            Margin="8"
                                            VerticalAlignment="Center"
                                            LastChildFill="True">
-                                    <Border Width="28"
-                                            Height="28"
+                                    <Border Width="32"
+                                            Height="32"
                                             Margin="0,0,8,0"
                                             CornerRadius="4"
                                             DockPanel.Dock="Left">
@@ -101,13 +101,13 @@
                                     <Grid>
                                         <TextBlock VerticalAlignment="Top"
                                                    d:Text="PLUGIN DISPLAY NAME"
-                                                   FontSize="12"
+                                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
                                                    Foreground="{DynamicResource Brushes.OnSurface}"
                                                    FontWeight="SemiBold"
                                                    Text="{Binding PluginInfo.Name}"
                                                    TextWrapping="Wrap" />
                                         <TextBlock VerticalAlignment="Bottom"
-                                                   FontSize="10"
+                                                   Style="{DynamicResource BodySmallTextBlockStyle}"
                                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                                    TextTrimming="CharacterEllipsis"
                                                    Text="{Binding PluginInfo.Summary}" />
@@ -172,12 +172,12 @@
                 </Viewbox>
                 <UniformGrid Margin="32,0,0,0" Columns="3">
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock FontSize="32"
+                        <TextBlock FontSize="{DynamicResource FontSize.Headline.Large}"
                                    FontWeight="SemiBold"
                                    Foreground="White"
                                    Text="扩展商店" />
                         <TextBlock Margin="0,16,0,0"
-                                   FontSize="16"
+                                   FontSize="{DynamicResource FontSize.Body.Large}"
                                    Foreground="White"
                                    Text="各色功能模块，让灵光回声成为你手中最得心应手的全能利器。"
                                    TextWrapping="Wrap">

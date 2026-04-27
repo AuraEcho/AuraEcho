@@ -3,6 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Dark/Brushes.xaml" />
+        <ResourceDictionary Source="Dark/Typography.xaml" />
+        <ResourceDictionary Source="Dark/TextBlock.xaml" />
         <ResourceDictionary Source="Dark/Button.xaml" />
         <ResourceDictionary Source="Dark/RadioButton.xaml" />
         <ResourceDictionary Source="Dark/CheckBox.xaml" />

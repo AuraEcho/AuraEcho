@@ -191,7 +191,7 @@
     <!-- 表面变体：用于分区背景（例如 List、Panel） -->
     <!--<SolidColorBrush x:Key="Brushes.SurfaceVariant" Color="{StaticResource Colors.Neutral-variant-30}" />-->
     <!-- 表面变体上的内容 -->
-    <SolidColorBrush x:Key="Brushes.OnSurfaceVariant" Color="#7D7D7D" />
+    <SolidColorBrush x:Key="Brushes.OnSurfaceVariant" Color="#8C8C8C" />
     <!-- 描边颜色：用于边框、分割线 -->
     <SolidColorBrush x:Key="Brushes.Outline" Color="{StaticResource Colors.Neutral-variant-50}" />
     <!-- 次级描边：更弱的边框/分割线 -->

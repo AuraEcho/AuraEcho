@@ -52,8 +52,7 @@
                 <TextBlock Margin="0,0,0,40"
                            HorizontalAlignment="Center"
                            FontFamily="Microsoft YaHei UI"
-                           FontSize="52"
-                           FontWeight="Bold"
+                           Style="{DynamicResource DisplayLargeTextBlockStyle}"
                            Text="灵光回声"
                            Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"/>
 
@@ -220,7 +219,7 @@
                                                 Command="{Binding SignInByCodeCommand}"
                                                 Content="登录 / 注册"
                                                 IsDefault="True"
-                                                FontSize="18"
+                                                FontSize="14"
                                                 Style="{DynamicResource PrimaryButtonStyle}">
                                             <Button.IsEnabled>
                                                 <Binding Path="IsSigningInByCode">
@@ -296,10 +295,10 @@
                         </StackPanel>
                         <StackPanel VerticalAlignment="Bottom">
                             <TextBlock Margin="0,0,0,2"
-                                       FontSize="14"
+                                       FontSize="12"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Text="未注册邮箱验证后系统将自动注册账号" />
-                            <TextBlock FontSize="14" TextWrapping="Wrap">
+                            <TextBlock FontSize="12" TextWrapping="Wrap">
                                 <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="登录或完成注册即代表您同意" />
                                 <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
                                     最终用户许可协议

@@ -3,6 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Light/Brushes.xaml" />
+        <ResourceDictionary Source="Light/Typography.xaml" />
+        <ResourceDictionary Source="Light/TextBlock.xaml" />
         <ResourceDictionary Source="Light/Button.xaml" />
         <ResourceDictionary Source="Light/CheckBox.xaml" />
         <ResourceDictionary Source="Light/Combobox.xaml" />

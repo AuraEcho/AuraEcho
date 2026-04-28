@@ -7,7 +7,7 @@ public interface IAuthRepository
 {
     Task<ResponseResult<CodeSignInResponse>> SignInByCodeAsync(CodeSignInRequest request);
     Task<ResponseResult<AuthResponse>> SignInByPasswordAsync(PasswordSignInRequest request);
-    Task<bool> SendEmailVerificationCodeAsync(SendEmailCodeRequest request);
+    Task<ResponseResult<string>> SendEmailVerificationCodeAsync(SendEmailCodeRequest request);
     Task<AppUserDto> GetCurrentUserAsync();
     Task<ResponseResult<AuthResponse>> RefreshTokenAsync(RefreshTokenRequest request);
     Task<ResponseResult<string>> ResetPasswordAsync(ResetPasswordRequest request);

@@ -70,13 +70,19 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         }
 
         SendEmailCodeCooldown = 60;
-        bool requestResult = 
+        ResponseResult<string> requestResult =
             await _authRepository.SendEmailVerificationCodeAsync(
                 new SendEmailCodeRequest(
                     Email.Trim(), 
                     EmailCodeScene.ResetPassword));
+        if (requestResult.Status == ResultStatus.UserNotFound)
+        {
+            SendEmailCodeCooldown = 0;
+            _toastService.Show($"用户不存在，请检查邮箱地址是否正确。", ToastLevel.Error);
+            return;
+        }
 
-        if (!requestResult)
+        if (requestResult.Status != ResultStatus.Success)
         {
             SendEmailCodeCooldown = 0;
             _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);

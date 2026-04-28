@@ -78,13 +78,13 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         }
 
         SendEmailCodeCooldown = 60;
-        bool requestResult = 
+        ResponseResult<string> requestResult =
             await _authRepository.SendEmailVerificationCodeAsync(
                 new SendEmailCodeRequest(
                     Email.Trim(),
                     EmailCodeScene.SignIn));
 
-        if (!requestResult)
+        if (requestResult.Status != ResultStatus.Success)
         {
             SendEmailCodeCooldown = 0;
             _toastService.Show($"发送验证码时遇到了错误", ToastLevel.Error);

@@ -219,7 +219,7 @@
                                                 Command="{Binding SignInByCodeCommand}"
                                                 Content="登录 / 注册"
                                                 IsDefault="True"
-                                                FontSize="14"
+                                                FontSize="{DynamicResource FontSize.Label.Large}"
                                                 Style="{DynamicResource PrimaryButtonStyle}">
                                             <Button.IsEnabled>
                                                 <Binding Path="IsSigningInByCode">
@@ -278,7 +278,7 @@
                                         <Button Height="45"
                                                 Command="{Binding SignInByPasswordCommand}"
                                                 Content="登录"
-                                                FontSize="18"
+                                                FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
                                                 Style="{DynamicResource PrimaryButtonStyle}">
                                             <Button.IsEnabled>

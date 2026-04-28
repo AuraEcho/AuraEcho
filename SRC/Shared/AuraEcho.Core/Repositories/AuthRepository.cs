@@ -29,9 +29,9 @@ public class AuthRepository : IAuthRepository
         return result;
     }
 
-    public async Task<bool> SendEmailVerificationCodeAsync(SendEmailCodeRequest request)
+    public async Task<ResponseResult<string>> SendEmailVerificationCodeAsync(SendEmailCodeRequest request)
     {
-        var result = await _httpHelper.PostAsync(Urls.SendEmailVerificationCode(), request);
+        var result = await _httpHelper.PostAsync<ResponseResult<string>>(Urls.SendEmailVerificationCode(), request);
 
         return result;
     }

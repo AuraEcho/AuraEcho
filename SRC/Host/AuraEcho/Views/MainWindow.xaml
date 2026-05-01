@@ -111,12 +111,38 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Button Width="32"
-                            Height="32"
-                            Padding="0"
+                    <Button x:Name="BackButton"
+                            Width="44"
+                            Margin="4,4,4,0"
+                            Padding="0,0,4,0"
+                            auraecho:ControlHelper.CornerRadius="2"
                             Command="{Binding GoBackCommand}"
                             Style="{DynamicResource IconButtonStyle}"
                             WindowChrome.IsHitTestVisibleInChrome="True">
+                        <Button.Resources>
+                            <Storyboard x:Key="BackButtonPressStoryboard">
+                                <DoubleAnimation Storyboard.TargetName="BackIconViewBox"
+                                                 Storyboard.TargetProperty="(Viewbox.RenderTransform).(TranslateTransform.X)"
+                                                 From="0"
+                                                 To="5"
+                                                 Duration="0:0:0.2">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                            <Storyboard x:Key="BackButtonReleaseStoryboard">
+                                <DoubleAnimation Storyboard.TargetName="BackIconViewBox"
+                                                 Storyboard.TargetProperty="(Viewbox.RenderTransform).(TranslateTransform.X)"
+                                                 From="5"
+                                                 To="0"
+                                                 Duration="0:0:0.2">
+                                    <DoubleAnimation.EasingFunction>
+                                        <BackEase />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </Button.Resources>
                         <i:Interaction.Triggers>
                             <i:DataTrigger Binding="{Binding NavigationService.CanGoBack}" Value="True">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
@@ -124,18 +150,61 @@
                             <i:DataTrigger Binding="{Binding NavigationService.CanGoBack}" Value="False">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                             </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=BackButton, Path=IsPressed}" Value="True">
+                                <i:ControlStoryboardAction Storyboard="{StaticResource BackButtonPressStoryboard}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=BackButton, Path=IsPressed}" Value="False">
+                                <i:ControlStoryboardAction Storyboard="{StaticResource BackButtonReleaseStoryboard}" />
+                            </i:DataTrigger>
                         </i:Interaction.Triggers>
-                        <Viewbox Width="16" Height="16">
-                            <Canvas Width="24" Height="24">
-                                <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                            </Canvas>
-                        </Viewbox>
+                        <Border Padding="4,4,0,4" ClipToBounds="True">
+                            <Viewbox x:Name="BackIconViewBox"
+                                     Width="14"
+                                     Height="14">
+                                <Viewbox.RenderTransform>
+                                    <TranslateTransform X="0" />
+                                </Viewbox.RenderTransform>
+                                <Canvas Width="14" Height="14">
+                                    <Path Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                                          StrokeDashCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeStartLineCap="Round"
+                                          StrokeThickness="1.2">
+                                        <Path.Data>
+                                            <PathGeometry Figures="M 6.5 0.65 L 0.8 6.29 C 0.6 6.49 0.6 6.81 0.8 7 L 6.5 12.65 M 1.41 6.7 H 12.44" FillRule="Nonzero" />
+                                        </Path.Data>
+                                    </Path>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
                     </Button>
-                    <Image Margin="8" Source="/Assets/Icons/AuraEcho.ico" />
-                    <TextBlock VerticalAlignment="Center"
-                               Foreground="{DynamicResource Brushes.OnSurface}"
-                               Style="{DynamicResource BodySmallTextBlockStyle}"
-                               Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
+                    <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+
+                        <Image Height="20"
+                               VerticalAlignment="Center"
+                               Source="/Assets/Icons/AuraEcho.ico">
+                            <i:Interaction.Triggers>
+                                <i:DataTrigger Binding="{Binding NavigationService.CanGoBack}" Value="True">
+                                    <i:ChangePropertyAction PropertyName="Margin">
+                                        <i:ChangePropertyAction.Value>
+                                            <Thickness>2, 0, 8, 0</Thickness>
+                                        </i:ChangePropertyAction.Value>
+                                    </i:ChangePropertyAction>
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding NavigationService.CanGoBack}" Value="False">
+                                    <i:ChangePropertyAction PropertyName="Margin">
+                                        <i:ChangePropertyAction.Value>
+                                            <Thickness>8, 0</Thickness>
+                                        </i:ChangePropertyAction.Value>
+                                    </i:ChangePropertyAction>
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                        </Image>
+                        <TextBlock VerticalAlignment="Center"
+                                   Foreground="{DynamicResource Brushes.OnSurface}"
+                                   Style="{DynamicResource BodySmallTextBlockStyle}"
+                                   Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
+                    </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
 
@@ -208,12 +277,12 @@
                                 </i:Interaction.Triggers>-->
                                 <Border.Background>
                                     <ImageBrush>
-                                        <ImageBrush.ImageSource>                                
+                                        <ImageBrush.ImageSource>
                                             <BitmapImage x:Name="AvatarBitmap"
                                                          DecodePixelHeight="56"
                                                          DecodePixelWidth="56"
                                                          UriSource="/Assets/Images/auraecho.png" />
-                                            </ImageBrush.ImageSource>
+                                        </ImageBrush.ImageSource>
                                     </ImageBrush>
                                 </Border.Background>
                             </Border>

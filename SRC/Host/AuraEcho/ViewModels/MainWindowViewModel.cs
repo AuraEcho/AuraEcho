@@ -41,6 +41,8 @@ public class MainWindowViewModel : BindableBase
         get;
         private set => SetProperty(ref field, value);
     }
+
+    public UserProfile CurrentUser => _clientSession.CurrentUser;
     private readonly IEventAggregator _eventAggregator;
 
     public DelegateCommand RequestRestartAppCommand { get; }
@@ -49,13 +51,27 @@ public class MainWindowViewModel : BindableBase
         _eventAggregator.GetEvent<AppRestartEvent>().Publish();
     }
 
+    public DelegateCommand SignOutCommand { get; }
+    private void SignOut()
+    {
+        _clientSession.SignOut();
+
+        _eventAggregator.GetEvent<AppRestartEvent>().Publish();
+    }
+
+    public DelegateCommand NavigationToSettingsCommand { get; }
+    private void NavigationToSettings()
+    {
+        NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Settings);
+    }
+
     public DelegateCommand GoBackCommand { get; }
     public bool CanGoBack() => NavigationService.CanGoBack;
     private void GoBack()
     {
         NavigationService.GoBack();
     }
-
+     
     private void SignInExpired()
     {
         NavigationService.RequestNavigate(HostRegionNames.ContentDialogRegion, ViewNames.SignInExpired);
@@ -95,9 +111,11 @@ public class MainWindowViewModel : BindableBase
 
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
+        _eventAggregator.GetEvent<SignedInEvent>().Subscribe(SigneddIn);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
-
+        SignOutCommand = new DelegateCommand(SignOut);
+        NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
         if (NavigationService is INotifyPropertyChanged npc)
         {
             npc.PropertyChanged += (s, e) =>
@@ -109,6 +127,11 @@ public class MainWindowViewModel : BindableBase
 
         _autoSignInTask = AutoSignInAsync();
         _currentVersion = GetCurrentVersion();
+    }
+
+    private void SigneddIn()
+    {
+        RaisePropertyChanged(nameof(CurrentUser));
     }
 
     private static Version GetCurrentVersion()

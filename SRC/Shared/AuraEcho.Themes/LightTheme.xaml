@@ -6,6 +6,7 @@
         <ResourceDictionary Source="Light/Typography.xaml" />
         <ResourceDictionary Source="Light/TextBlock.xaml" />
         <ResourceDictionary Source="Light/Button.xaml" />
+        <ResourceDictionary Source="Light/ToggleButton.xaml" />
         <ResourceDictionary Source="Light/CheckBox.xaml" />
         <ResourceDictionary Source="Light/Combobox.xaml" />
         <ResourceDictionary Source="Light/MenuItem.xaml" />

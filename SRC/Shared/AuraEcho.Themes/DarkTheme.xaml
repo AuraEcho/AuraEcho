@@ -6,6 +6,7 @@
         <ResourceDictionary Source="Dark/Typography.xaml" />
         <ResourceDictionary Source="Dark/TextBlock.xaml" />
         <ResourceDictionary Source="Dark/Button.xaml" />
+        <ResourceDictionary Source="Dark/ToggleButton.xaml" />
         <ResourceDictionary Source="Dark/RadioButton.xaml" />
         <ResourceDictionary Source="Dark/CheckBox.xaml" />
         <ResourceDictionary Source="Dark/ScrollViewer.xaml" />

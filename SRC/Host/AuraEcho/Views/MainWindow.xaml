@@ -17,9 +17,9 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="{DynamicResource Brushes.SurfaceContainerLowest}"
         Closing="Window_Closing"
-        MouseDown="MainWindow_MouseDown"
         Foreground="{DynamicResource Brushes.OnSurface}"
         Loaded="Window_Loaded"
+        MouseDown="MainWindow_MouseDown"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
@@ -161,6 +161,64 @@
                         </i:Interaction.Triggers>
                     </Button>
 
+                    <ToggleButton x:Name="OptionsToggleButton"
+                                  Width="47"
+                                  Padding="0"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Foreground="{DynamicResource Brushes.OnSurface}"
+                                  Style="{DynamicResource NoAppearanceToggleButton}"
+                                  WindowChrome.IsHitTestVisibleInChrome="True">
+                        <ToggleButton.IsHitTestVisible>
+                            <Binding Delay="10"
+                                     ElementName="OptionsPopup"
+                                     Path="IsOpen">
+                                <Binding.Converter>
+                                    <auraecho:ReverseBooleanConverter />
+                                </Binding.Converter>
+                            </Binding>
+                        </ToggleButton.IsHitTestVisible>
+                        <Border x:Name="AvatarContainer">
+                            <i:Interaction.Triggers>
+                                <i:DataTrigger Binding="{Binding CurrentUser}" Value="{x:Null}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding CurrentUser}"
+                                               Comparison="NotEqual"
+                                               Value="{x:Null}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                            <Border x:Name="AvatarBorder"
+                                    Width="28"
+                                    Height="28"
+                                    BorderBrush="{DynamicResource Brushes.OutlineInner}"
+                                    BorderThickness="1"
+                                    CornerRadius="20"
+                                    Visibility="Visible">
+                                <Border.RenderTransform>
+                                    <TranslateTransform Y="0" />
+                                </Border.RenderTransform>
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="DownloadCompleted" SourceName="AvatarBitmap">
+                                        <i:ChangePropertyAction PropertyName="Visibility"
+                                                                TargetName="AvatarBorder"
+                                                                Value="{x:Static Visibility.Visible}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                                <Border.Background>
+                                    <ImageBrush>
+                                        <ImageBrush.ImageSource>                                
+                                            <BitmapImage x:Name="AvatarBitmap"
+                                                         DecodePixelHeight="56"
+                                                         DecodePixelWidth="56"
+                                                         UriSource="/Assets/Images/auraecho.png" />
+                                            </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Border.Background>
+                            </Border>
+                        </Border>
+                    </ToggleButton>
                     <Button Width="47"
                             auraecho:ControlHelper.CornerRadius="0"
                             IsTabStop="False"
@@ -312,6 +370,138 @@
                                         FontSize="{DynamicResource FontSize.Label.Medium}"
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                             </Grid>
+                        </Border>
+                    </Popup>
+
+                    <Popup x:Name="OptionsPopup"
+                           AllowsTransparency="True"
+                           ClipToBounds="True"
+                           HorizontalOffset="-253"
+                           IsOpen="{Binding ElementName=OptionsToggleButton, Path=IsChecked}"
+                           Placement="Bottom"
+                           PlacementTarget="{Binding ElementName=OptionsToggleButton}"
+                           StaysOpen="False"
+                           UseLayoutRounding="True"
+                           VerticalOffset="4">
+                        <Popup.Resources>
+                            <Storyboard x:Key="ShowOptionsStoryboard">
+                                <DoubleAnimation Storyboard.TargetName="OptionsLayout"
+                                                 Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                                 From="-100"
+                                                 To="0"
+                                                 Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </Popup.Resources>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Popup}}, Path=IsOpen}" Value="True">
+                                <i:ControlStoryboardAction Storyboard="{StaticResource ShowOptionsStoryboard}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Border x:Name="OptionsLayout"
+                                Width="300"
+                                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                                BorderBrush="{DynamicResource Brushes.OutlineShadow}"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="20"
+                                                  Direction="270"
+                                                  Opacity="0.15"
+                                                  ShadowDepth="6" />
+                            </Border.Effect>
+                            <Border.RenderTransform>
+                                <TranslateTransform />
+                            </Border.RenderTransform>
+                            <StackPanel>
+                                <Grid Margin="12" ColumnDefinitions="Auto, *">
+                                    <Border x:Name="PopupAvatarBorder"
+                                            Width="48"
+                                            Height="48"
+                                            VerticalAlignment="Top"
+                                            BorderBrush="{DynamicResource Brushes.OutlineInner}"
+                                            BorderThickness="1"
+                                            CornerRadius="40">
+                                        <Border.Background>
+                                            <ImageBrush>
+                                                <ImageBrush.ImageSource>
+                                                    <BitmapImage DecodePixelHeight="96"
+                                                                 DecodePixelWidth="96"
+                                                                 UriSource="/Assets/Images/auraecho.png" />
+                                                </ImageBrush.ImageSource>
+                                            </ImageBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Margin="12,0,0,4"
+                                                   FontSize="{DynamicResource FontSize.Body.Large}"
+                                                   Foreground="{DynamicResource Brushes.OnSurface}"
+                                                   Text="{Binding CurrentUser.UserName}" />
+                                        <TextBlock Margin="12,0,0,4"
+                                                   FontSize="{DynamicResource FontSize.Body.Small}"
+                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                   Text="{Binding CurrentUser.Email}" />
+                                        <Button Margin="8,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                Command="{Binding SignOutCommand}"
+                                                Content="退出登录"
+                                                FontSize="{DynamicResource FontSize.Label.Medium}"
+                                                Foreground="{DynamicResource Brushes.Primary}"
+                                                Style="{DynamicResource IconButtonStyle}" />
+                                    </StackPanel>
+                                </Grid>
+                                <Line Stretch="Fill"
+                                      Stroke="{DynamicResource Brushes.OutlineVariant}"
+                                      X1="0"
+                                      X2="1"
+                                      Y1="0"
+                                      Y2="0" />
+                                <StackPanel Margin="4">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click" SourceName="SettginsButton">
+                                            <i:ChangePropertyAction PropertyName="IsOpen"
+                                                                    TargetName="OptionsPopup"
+                                                                    Value="False" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Button x:Name="SettginsButton"
+                                            Height="36"
+                                            Padding="8,0"
+                                            HorizontalContentAlignment="Left"
+                                            BorderThickness="0"
+                                            Command="{Binding NavigationToSettingsCommand}"
+                                            FontSize="{DynamicResource FontSize.Label.Medium}"
+                                            Style="{DynamicResource IconButtonStyle}">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Viewbox Width="24"
+                                                     Height="24"
+                                                     Margin="0,0,8,0">
+                                                <Canvas Width="24.0" Height="24.0">
+                                                    <Path Data="M 12 14.25 C 13.24 14.25 14.25 13.24 14.25 12 C 14.25 10.76 13.24 9.75 12 9.75 C 10.76 9.75 9.75 10.76 9.75 12 C 9.75 13.24 10.76 14.25 12 14.25 Z"
+                                                          Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                                                          StrokeDashCap="Round"
+                                                          StrokeEndLineCap="Round"
+                                                          StrokeLineJoin="Round"
+                                                          StrokeStartLineCap="Round"
+                                                          StrokeThickness="1.5" />
+                                                    <Path Data="M 17.55 14.25 C 17.45 14.48 17.42 14.73 17.46 14.97 C 17.51 15.21 17.62 15.44 17.8 15.62 L 17.84 15.66 C 17.98 15.8 18.09 15.96 18.17 16.15 C 18.24 16.33 18.28 16.52 18.28 16.72 C 18.28 16.92 18.24 17.11 18.17 17.3 C 18.09 17.48 17.98 17.64 17.84 17.78 C 17.7 17.92 17.54 18.03 17.36 18.11 C 17.17 18.18 16.98 18.22 16.78 18.22 C 16.58 18.22 16.39 18.18 16.21 18.11 C 16.02 18.03 15.86 17.92 15.72 17.78 L 15.68 17.74 C 15.5 17.56 15.27 17.45 15.03 17.4 C 14.79 17.36 14.54 17.39 14.31 17.49 C 14.09 17.59 13.9 17.74 13.77 17.94 C 13.63 18.15 13.56 18.38 13.56 18.62 V 18.75 C 13.56 19.15 13.4 19.53 13.12 19.81 C 12.84 20.09 12.46 20.25 12.06 20.25 C 11.66 20.25 11.28 20.09 11 19.81 C 10.72 19.53 10.56 19.15 10.56 18.75 V 18.68 C 10.55 18.43 10.47 18.19 10.33 17.99 C 10.18 17.79 9.98 17.64 9.75 17.55 C 9.52 17.45 9.27 17.42 9.03 17.46 C 8.79 17.51 8.56 17.62 8.38 17.8 L 8.34 17.84 C 8.2 17.98 8.04 18.09 7.85 18.17 C 7.67 18.24 7.48 18.28 7.28 18.28 C 7.08 18.28 6.89 18.24 6.7 18.17 C 6.52 18.09 6.36 17.98 6.22 17.84 C 6.08 17.7 5.97 17.54 5.89 17.36 C 5.82 17.17 5.78 16.98 5.78 16.78 C 5.78 16.58 5.82 16.39 5.89 16.21 C 5.97 16.02 6.08 15.86 6.22 15.72 L 6.26 15.68 C 6.44 15.5 6.55 15.27 6.6 15.03 C 6.64 14.79 6.61 14.54 6.51 14.31 C 6.41 14.09 6.26 13.9 6.06 13.77 C 5.85 13.63 5.62 13.56 5.38 13.56 H 5.25 C 4.85 13.56 4.47 13.4 4.19 13.12 C 3.91 12.84 3.75 12.46 3.75 12.06 C 3.75 11.66 3.91 11.28 4.19 11 C 4.47 10.72 4.85 10.56 5.25 10.56 H 5.32 C 5.57 10.55 5.81 10.47 6.01 10.33 C 6.21 10.18 6.36 9.98 6.45 9.75 C 6.55 9.52 6.58 9.27 6.54 9.03 C 6.49 8.79 6.38 8.56 6.2 8.38 L 6.16 8.34 C 6.02 8.2 5.91 8.04 5.83 7.85 C 5.76 7.67 5.72 7.48 5.72 7.28 C 5.72 7.08 5.76 6.89 5.83 6.7 C 5.91 6.52 6.02 6.36 6.16 6.22 C 6.3 6.08 6.46 5.97 6.64 5.89 C 6.83 5.82 7.02 5.78 7.22 5.78 C 7.42 5.78 7.61 5.82 7.79 5.89 C 7.98 5.97 8.14 6.08 8.28 6.22 L 8.32 6.26 C 8.5 6.44 8.73 6.55 8.97 6.6 C 9.21 6.64 9.46 6.61 9.69 6.51 H 9.75 C 9.97 6.41 10.16 6.26 10.29 6.06 C 10.43 5.85 10.5 5.62 10.5 5.38 V 5.25 C 10.5 4.85 10.66 4.47 10.94 4.19 C 11.22 3.91 11.6 3.75 12 3.75 C 12.4 3.75 12.78 3.91 13.06 4.19 C 13.34 4.47 13.5 4.85 13.5 5.25 V 5.32 C 13.5 5.56 13.57 5.79 13.71 6 C 13.84 6.2 14.03 6.35 14.25 6.45 C 14.48 6.55 14.73 6.58 14.97 6.54 C 15.21 6.49 15.44 6.38 15.62 6.2 L 15.66 6.16 C 15.8 6.02 15.96 5.91 16.15 5.83 C 16.33 5.76 16.52 5.72 16.72 5.72 C 16.92 5.72 17.11 5.76 17.3 5.83 C 17.48 5.91 17.64 6.02 17.78 6.16 C 17.92 6.3 18.03 6.46 18.11 6.64 C 18.18 6.83 18.22 7.02 18.22 7.22 C 18.22 7.42 18.18 7.61 18.11 7.79 C 18.03 7.98 17.92 8.14 17.78 8.28 L 17.74 8.32 C 17.56 8.5 17.45 8.73 17.4 8.97 C 17.36 9.21 17.39 9.46 17.49 9.69 V 9.75 C 17.59 9.97 17.74 10.16 17.94 10.29 C 18.15 10.43 18.38 10.5 18.62 10.5 H 18.75 C 19.15 10.5 19.53 10.66 19.81 10.94 C 20.09 11.22 20.25 11.6 20.25 12 C 20.25 12.4 20.09 12.78 19.81 13.06 C 19.53 13.34 19.15 13.5 18.75 13.5 H 18.68 C 18.44 13.5 18.21 13.57 18 13.71 C 17.8 13.84 17.65 14.03 17.55 14.25 Z"
+                                                          Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                                                          StrokeDashCap="Round"
+                                                          StrokeEndLineCap="Round"
+                                                          StrokeLineJoin="Round"
+                                                          StrokeStartLineCap="Round"
+                                                          StrokeThickness="1.5" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock VerticalAlignment="Center" Text="设置" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
                         </Border>
                     </Popup>
                 </StackPanel>

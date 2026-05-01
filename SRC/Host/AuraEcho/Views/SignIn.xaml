@@ -14,6 +14,7 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:SignInViewModel}"
              d:DesignHeight="640"
              d:DesignWidth="960"
+             UseLayoutRounding="True"
              d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="{DynamicResource Brushes.SurfaceContainerLowest}"

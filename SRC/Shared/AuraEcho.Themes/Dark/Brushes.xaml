@@ -196,7 +196,7 @@
     <SolidColorBrush x:Key="Brushes.Outline" Color="{StaticResource Colors.Neutral-variant-50}" />
     <!-- 次级描边：更弱的边框/分割线 -->
     <SolidColorBrush x:Key="Brushes.OutlineVariant" Color="#3b3b3b" />
-    <SolidColorBrush x:Key="Brushes.OutlineInner" Color="{StaticResource Colors.Overlay.Level4}" />
+    <SolidColorBrush x:Key="Brushes.OutlineInner" Color="{StaticResource Colors.Overlay.Level3}" />
     <SolidColorBrush x:Key="Brushes.OutlineShadow" Color="{StaticResource Colors.Black-35}" />
 
     

@@ -13,6 +13,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
@@ -36,6 +37,12 @@ public class SettingsViewModel : BindableBase
         set => SetProperty(ref _settingsItems, value);
     }
 
+    public AppSettingsItem CurrentSettingItem
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
     public UserProfile CurrentUser
     {
         get;
@@ -49,7 +56,7 @@ public class SettingsViewModel : BindableBase
         [
             new()
             {
-                Name = "General",
+                Name = "常规",
                 ViewName = ViewNames.GeneralSettings
             }
         ];
@@ -61,8 +68,7 @@ public class SettingsViewModel : BindableBase
 
             SettingsItems.Add(pluginSettingsItem);
         }
-
-        NavigationToSettingsItem(ViewNames.GeneralSettings);
+        CurrentSettingItem = SettingsItems.First();
     }
 
     public DelegateCommand BackToHomeCommand { get; }

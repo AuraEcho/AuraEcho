@@ -1,12 +1,12 @@
 <UserControl x:Class="AuraEcho.Views.Settings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:auraecho="http://ui.auraecho.com/"
              xmlns:cc="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
-             xmlns:auraecho="http://ui.auraecho.com/"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              Padding="0,36,0,0"
@@ -26,46 +26,44 @@
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
 
         <DataTemplate x:Key="SettingsItemTemplate" DataType="{x:Type pm:AppSettingsItem}">
-            <Button Margin="0,0,0,1"
-                    Padding="8"
-                    HorizontalContentAlignment="Stretch"
-                    d:Content="Plugin"
-                    BorderThickness="0"
-                    Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToSettingsItemCommand}"
-                    CommandParameter="{Binding ViewName}">
-                <TextBlock VerticalAlignment="Center"
-                           d:Text="Plugin Name"
-                           Text="{Binding Name}" />
-            </Button>
+            <Grid>
+                <RadioButton Height="36"
+                             Margin="0,2"
+                             Padding="12,0"
+                             HorizontalContentAlignment="Left"
+                             Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToSettingsItemCommand}"
+                             CommandParameter="{Binding ViewName}"
+                             Content="{Binding Name}"
+                             FontSize="{DynamicResource FontSize.Label.Large}"
+                             GroupName="SettingsGroup"
+                             Style="{StaticResource NavigationRadioButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToSettingsItemCommand}"
+                                                   CommandParameter="{Binding ViewName}"/>
+                        </i:EventTrigger>
+                        <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.CurrentSettingItem}" Value="{Binding}">
+                            <i:ChangePropertyAction PropertyName="IsChecked" Value="True" />
+                        </i:DataTrigger>
+                        <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.CurrentSettingItem}"
+                                       Comparison="NotEqual"
+                                       Value="{Binding}">
+                            <i:ChangePropertyAction PropertyName="IsChecked" Value="False" />
+                        </i:DataTrigger>
+                    </i:Interaction.Triggers>
+                </RadioButton>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid RowDefinitions="Auto, *">
-        <Grid Grid.Row="0" Margin="0,16">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="8,0"
+    <Grid ColumnDefinitions="Auto, *">
+        <ScrollViewer Grid.Column="0">
+            <StackPanel Grid.Column="0"
+                        Width="200"
+                        Margin="24">
+                <TextBlock Margin="0,0,0,16"
                            HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           FontSize="20"
+                           Style="{DynamicResource TitleLargeTextBlockStyle}"
                            Text="{Binding Source={StaticResource R}, Path=Labels.Settings}" />
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="1" ColumnDefinitions="Auto, *">
-            <StackPanel Grid.Column="0" Width="200">
-                <Border Margin="0,0,0,8"
-                        Padding="8"
-                        Background="#10FFFFFF"
-                        CornerRadius="4">
-                    <StackPanel Grid.Column="1">
-                        <Grid>
-                            
-                        <TextBlock FontSize="18"
-                                   FontWeight="Bold"
-                                   Text="{Binding CurrentUser.UserName}" />
-                            <Button Content="SIGN OUT" HorizontalAlignment="Right" Command="{Binding SignOutCommand}"/>
-                        </Grid>
-                        <TextBlock Text="{Binding CurrentUser.Id}" />
-                    </StackPanel>
-                </Border>
                 <ItemsControl ItemTemplate="{StaticResource SettingsItemTemplate}" ItemsSource="{Binding SettingsItems}">
                     <d:ItemsControl.ItemsSource>
                         <x:Array Type="{x:Type pm:AppSettingsItem}">
@@ -76,9 +74,7 @@
                     </d:ItemsControl.ItemsSource>
                 </ItemsControl>
             </StackPanel>
-
-
-            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="{x:Static cc:HostRegionNames.SettingsContentRegion}" />
-        </Grid>
+        </ScrollViewer>
+        <ContentControl Grid.Column="1" MaxWidth="1000" prism:RegionManager.RegionName="{x:Static cc:HostRegionNames.SettingsContentRegion}" />
     </Grid>
 </UserControl>

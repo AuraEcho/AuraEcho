@@ -12,4 +12,5 @@ public interface IAuthRepository
     Task<ResponseResult<AuthResponse>> RefreshTokenAsync(RefreshTokenRequest request);
     Task<ResponseResult<string>> ResetPasswordAsync(ResetPasswordRequest request);
     Task<ResponseResult<string>> UpdatePasswordAsync(UpdatePasswordRequest request);
+    Task<ResponseResult<string>> UpdateProfileAsync(UpdateProfileRequest request);
 }

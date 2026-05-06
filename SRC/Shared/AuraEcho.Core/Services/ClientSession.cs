@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
@@ -34,7 +35,7 @@ public class ClientSession : BindableBase, IClientSession
     public bool IsSignedIn => AppToken is not null;
 
     public AppToken? AppToken { get; private set; }
-    
+
     public UserProfile? CurrentUser
     {
         get;
@@ -60,6 +61,10 @@ public class ClientSession : BindableBase, IClientSession
         _eventAggregator.GetEvent<SignedInEvent>().Publish();
     }
 
+    public void UpdateUserProfile(UserProfile userProfile)
+    {
+        CurrentUser = userProfile;
+    }
     public void SignOut()
     {
         CurrentUser = null;

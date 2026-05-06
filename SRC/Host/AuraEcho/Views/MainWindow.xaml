@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:auraecho="http://ui.auraecho.com/"
         xmlns:constants="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
+        xmlns:cv="clr-namespace:AuraEcho.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -23,6 +24,8 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
+        <cv:FileIdToUrlConverter x:Key="FileIdToUrl" />
+        <cv:FileIdToBitmapImageConverter x:Key="FileIdToBitmapImage" />
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <Storyboard x:Key="ShowMask">
             <DoubleAnimation Storyboard.TargetName="AppContainer"
@@ -249,43 +252,58 @@
                         </ToggleButton.IsHitTestVisible>
                         <Border x:Name="AvatarContainer">
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding CurrentUser}" Value="{x:Null}">
+                                <i:DataTrigger Binding="{Binding ClientSession.CurrentUser}" Value="{x:Null}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding CurrentUser}"
+                                <i:DataTrigger Binding="{Binding ClientSession.CurrentUser}"
                                                Comparison="NotEqual"
                                                Value="{x:Null}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
-                            <Border x:Name="AvatarBorder"
-                                    Width="28"
-                                    Height="28"
-                                    BorderBrush="{DynamicResource Brushes.OutlineInner}"
-                                    BorderThickness="1"
-                                    CornerRadius="20"
-                                    Visibility="Visible">
-                                <Border.RenderTransform>
-                                    <TranslateTransform Y="0" />
-                                </Border.RenderTransform>
-                                <!--<i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="DownloadCompleted" SourceName="AvatarBitmap">
-                                        <i:ChangePropertyAction PropertyName="Visibility"
-                                                                TargetName="AvatarBorder"
-                                                                Value="{x:Static Visibility.Visible}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>-->
-                                <Border.Background>
-                                    <ImageBrush>
-                                        <ImageBrush.ImageSource>
-                                            <BitmapImage x:Name="AvatarBitmap"
-                                                         DecodePixelHeight="56"
-                                                         DecodePixelWidth="56"
-                                                         UriSource="/Assets/Images/auraecho.png" />
-                                        </ImageBrush.ImageSource>
-                                    </ImageBrush>
-                                </Border.Background>
-                            </Border>
+                            <Grid>
+                                <Border x:Name="TitleDefaultAvatarBorder"
+                                        Width="28"
+                                        Height="28"
+                                        BorderBrush="{DynamicResource Brushes.OutlineInner}"
+                                        BorderThickness="1"
+                                        CornerRadius="20"
+                                        Visibility="Visible">
+                                    <Border.RenderTransform>
+                                        <TranslateTransform Y="0" />
+                                    </Border.RenderTransform>
+                                    <Border.Background>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>
+                                                <BitmapImage DecodePixelHeight="56"
+                                                             DecodePixelWidth="56"
+                                                             UriSource="/Assets/Images/auraecho.png" />
+                                            </ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border x:Name="TitleAvatarBorder"
+                                        Width="28"
+                                        Height="28"
+                                        BorderBrush="{DynamicResource Brushes.OutlineInner}"
+                                        BorderThickness="1"
+                                        CornerRadius="20">
+                                    <Border.RenderTransform>
+                                        <TranslateTransform Y="0" />
+                                    </Border.RenderTransform>
+                                    <Border.Background>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>
+                                                <Binding Path="ClientSession.CurrentUser.AvatarFileId">
+                                                    <Binding.Converter>
+                                                        <cv:FileIdToBitmapImageConverter DecodePixelHeight="56" DecodePixelWidth="56" />
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
                         </Border>
                     </ToggleButton>
                     <Button Width="47"
@@ -487,7 +505,7 @@
                             </Border.RenderTransform>
                             <StackPanel>
                                 <Grid Margin="12" ColumnDefinitions="Auto, *">
-                                    <Border x:Name="PopupAvatarBorder"
+                                    <Border x:Name="PopupDefaultAvatarBorder"
                                             Width="48"
                                             Height="48"
                                             VerticalAlignment="Top"
@@ -504,15 +522,34 @@
                                             </ImageBrush>
                                         </Border.Background>
                                     </Border>
+                                    <Border x:Name="PopupAvatarBorder"
+                                            Width="48"
+                                            Height="48"
+                                            VerticalAlignment="Top"
+                                            BorderBrush="{DynamicResource Brushes.OutlineInner}"
+                                            BorderThickness="1"
+                                            CornerRadius="40">
+                                        <Border.Background>
+                                            <ImageBrush>
+                                                <ImageBrush.ImageSource>
+                                                    <Binding Path="ClientSession.CurrentUser.AvatarFileId">
+                                                        <Binding.Converter>
+                                                            <cv:FileIdToBitmapImageConverter DecodePixelHeight="96" DecodePixelWidth="96" />
+                                                        </Binding.Converter>
+                                                    </Binding>
+                                                </ImageBrush.ImageSource>
+                                            </ImageBrush>
+                                        </Border.Background>
+                                    </Border>
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Margin="12,0,0,4"
                                                    FontSize="{DynamicResource FontSize.Body.Large}"
                                                    Foreground="{DynamicResource Brushes.OnSurface}"
-                                                   Text="{Binding CurrentUser.UserName}" />
+                                                   Text="{Binding ClientSession.CurrentUser.UserName}" />
                                         <TextBlock Margin="12,0,0,4"
                                                    FontSize="{DynamicResource FontSize.Body.Small}"
                                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                   Text="{Binding CurrentUser.Email}" />
+                                                   Text="{Binding ClientSession.CurrentUser.Email}" />
                                         <Button Margin="8,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 Command="{Binding SignOutCommand}"

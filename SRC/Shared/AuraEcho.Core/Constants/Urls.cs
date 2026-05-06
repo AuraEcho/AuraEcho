@@ -22,6 +22,7 @@ public static class Urls
     public static string SignInByPassword() => $"{ServerUrl}/api/v1/auth/signInByPassword";
     public static string ResetPassword() => $"{ServerUrl}/api/v1/auth/resetPassword";
     public static string UpdatePassword() => $"{ServerUrl}/api/v1/auth/updatePassword";
+    public static string UpdateProfile() => $"{ServerUrl}/api/v1/auth/me";
     #endregion
 
     #region File

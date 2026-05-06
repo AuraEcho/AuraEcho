@@ -61,4 +61,9 @@ public static class ViewNames
     /// 购买
     /// </summary>
     public const string Purchase = nameof(Views.Purchase);
+
+    /// <summary>
+    /// 账号设置
+    /// </summary>
+    public const string AccountSettings = nameof(Views.AccountSettings);
 }

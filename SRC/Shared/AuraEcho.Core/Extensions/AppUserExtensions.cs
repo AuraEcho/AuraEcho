@@ -11,6 +11,7 @@ public static class AppUserExtensions
             Email = @this.Email,
             UserId = @this.Id,
             UserName = @this.UserName,
+            AvatarFileId = @this.AvatarFileId
         };
 
     public static UserProfile ToUserProfile(this AppUserDto @this)
@@ -19,5 +20,6 @@ public static class AppUserExtensions
             UserName = @this.UserName,
             Email = @this.Email,
             Id = @this.UserId,
+            AvatarFileId = @this.AvatarFileId
         };
 }

@@ -63,4 +63,10 @@ public class AuthRepository : IAuthRepository
 
         return result;
     }
+
+    public async Task<ResponseResult<string>> UpdateProfileAsync(UpdateProfileRequest request)
+    {
+        var result = await _httpHelper.PutAsync<ResponseResult<string>>(Urls.UpdateProfile(), request);
+        return result;
+    }
 }

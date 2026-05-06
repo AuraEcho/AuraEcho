@@ -56,6 +56,11 @@ public class SettingsViewModel : BindableBase
         [
             new()
             {
+                Name = "账户",
+                ViewName = ViewNames.AccountSettings
+            },
+            new()
+            {
                 Name = "常规",
                 ViewName = ViewNames.GeneralSettings
             }

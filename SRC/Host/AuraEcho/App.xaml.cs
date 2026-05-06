@@ -112,6 +112,7 @@ public partial class App
         containerRegistry.RegisterForNavigation<SignInExpired>();
         containerRegistry.RegisterForNavigation<ImageViewer>();
         containerRegistry.RegisterForNavigation<Purchase>();
+        containerRegistry.RegisterForNavigation<AccountSettings>();
     }
 
     protected override void OnInitialized()

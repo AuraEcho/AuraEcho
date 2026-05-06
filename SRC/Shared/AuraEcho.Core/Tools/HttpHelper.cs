@@ -147,6 +147,23 @@ public class HttpHelper
         }
     }
 
+    /// <summary>
+    /// 统一 POST JSON 请求
+    /// </summary>
+    public async Task<T?> PutAsync<T>(string url, object data)
+    {
+        try
+        {
+            var response = await _client.PutAsJsonAsync(url, data, _jsonOptions);
+            return await HandleResponse<T>(response);
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+            return default;
+        }
+    }
+
     public async Task<bool> DeleteAsync(string url)
     {
         try

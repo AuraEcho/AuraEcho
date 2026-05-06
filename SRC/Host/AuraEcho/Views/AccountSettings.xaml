@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="AuraEcho.Views.AccountSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:AuraEcho.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             d:Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AccountSettingsViewModel}"
+             d:DesignHeight="425"
+             d:DesignWidth="495"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             UseLayoutRounding="True"
+             mc:Ignorable="d">
+    <Grid Margin="12,0,12,24">
+        <StackPanel Margin="0,0">
+            <TextBlock Margin="0,0,0,24"
+                       HorizontalAlignment="Left"
+                       Style="{DynamicResource HeadlineLargeTextBlockStyle}"
+                       Text="账户" />
+            <Grid ColumnDefinitions="*, Auto">
+                <StackPanel UseLayoutRounding="True">
+                    <TextBlock Margin="0,0,0,8"
+                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                               Text="用户名" />
+                    <TextBox Height="40"
+                             Margin="0,0,0,24"
+                             Padding="8,0"
+                             FontSize="{DynamicResource FontSize.Body.Large}"
+                             Text="{Binding NewUserProfile.UserName}" />
+                    <Button Padding="24,8"
+                            HorizontalAlignment="Left"
+                            Command="{Binding UpdateProfileCommand}"
+                            Content="保存修改"
+                            FontSize="{DynamicResource FontSize.Label.Medium}"
+                            Style="{DynamicResource PrimaryButtonStyle}" />
+                </StackPanel>
+                <Grid Grid.Column="1" Margin="24,0">
+                    <StackPanel>
+                        <TextBlock Margin="0,0,0,8"
+                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                   Text="头像" />
+                        <Grid Width="150" Height="150">
+                            <Border d:Background="DarkMagenta"
+                                    BorderBrush="{DynamicResource Brushes.Outline}"
+                                    BorderThickness="1"
+                                    CornerRadius="100">
+                                <Border.Background>
+                                    <ImageBrush Stretch="UniformToFill">
+                                        <ImageBrush.ImageSource>
+                                            <Binding Path="NewUserProfile.AvatarFileId">
+                                                <Binding.Converter>
+                                                    <converters:FileIdToBitmapImageConverter DecodePixelHeight="300" DecodePixelWidth="300" />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Border.Background>
+                            </Border>
+                            <Border Margin="8"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+                                    CornerRadius="4">
+                                <Button x:Name="SelectAvatarFileButton"
+                                        Padding="12,4"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Click="SelectAvatarFileButton_Click"
+                                        Content="修改" />
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

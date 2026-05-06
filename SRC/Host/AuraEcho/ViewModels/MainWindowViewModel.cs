@@ -24,7 +24,6 @@ public class MainWindowViewModel : BindableBase
 {
     #region private members
     private readonly IAuthRepository _authRepository;
-    private readonly IClientSession _clientSession;
     public IAuraToastService ToastService { get; }
     private readonly Task _autoSignInTask;
     private Version _currentVersion;
@@ -36,13 +35,14 @@ public class MainWindowViewModel : BindableBase
         set => SetProperty(ref field, value);
     } = [];
 
+    public IClientSession ClientSession { get; }
+
     public INavigationService NavigationService
     {
         get;
         private set => SetProperty(ref field, value);
     }
 
-    public UserProfile CurrentUser => _clientSession.CurrentUser;
     private readonly IEventAggregator _eventAggregator;
 
     public DelegateCommand RequestRestartAppCommand { get; }
@@ -54,7 +54,7 @@ public class MainWindowViewModel : BindableBase
     public DelegateCommand SignOutCommand { get; }
     private void SignOut()
     {
-        _clientSession.SignOut();
+        ClientSession.SignOut();
 
         _eventAggregator.GetEvent<AppRestartEvent>().Publish();
     }
@@ -85,7 +85,7 @@ public class MainWindowViewModel : BindableBase
     private async void AutoSignIn()
     {
         await _autoSignInTask;
-        if (_clientSession.IsSignedIn)
+        if (ClientSession.IsSignedIn)
         {
             NavigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
             return;
@@ -104,14 +104,13 @@ public class MainWindowViewModel : BindableBase
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
         _authRepository = authRepository;
-        _clientSession = clientSession;
+        ClientSession = clientSession;
 
         GoBackCommand = new DelegateCommand(GoBack, CanGoBack);
         RequestRestartAppCommand = new DelegateCommand(RequestRestartApp);
 
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
-        _eventAggregator.GetEvent<SignedInEvent>().Subscribe(SigneddIn);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
         SignOutCommand = new DelegateCommand(SignOut);
@@ -127,11 +126,6 @@ public class MainWindowViewModel : BindableBase
 
         _autoSignInTask = AutoSignInAsync();
         _currentVersion = GetCurrentVersion();
-    }
-
-    private void SigneddIn()
-    {
-        RaisePropertyChanged(nameof(CurrentUser));
     }
 
     private static Version GetCurrentVersion()
@@ -168,7 +162,7 @@ public class MainWindowViewModel : BindableBase
             return;
         }
 
-        _clientSession.SignIn(result.Data);
+        ClientSession.SignIn(result.Data);
     }
 
     private void NewPendingRestartItem(PendingRestartItem newItem)

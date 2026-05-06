@@ -11,5 +11,6 @@ public interface IClientSession
     UserProfile? CurrentUser { get; }
     Task<bool> TryRefreshTokenAsync();
     void SignIn(AuthResponse appToken);
+    void UpdateUserProfile(UserProfile userProfile);
     void SignOut();
 }

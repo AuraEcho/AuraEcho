@@ -46,11 +46,10 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         set => SetProperty(ref field, value);
     }
 
-    private string _password;
     public string Password
     {
-        get => _password;
-        set => SetProperty(ref _password, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public string EmailCode
@@ -103,7 +102,6 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             }
         });
     }
-
 
     public DelegateCommand SignInByCodeCommand { get; }
     private async void SignInByCode()
@@ -262,7 +260,6 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
     #endregion 
     public bool KeepAlive => false;
-
 
     public SignInViewModel(
         INavigationService navigationService,

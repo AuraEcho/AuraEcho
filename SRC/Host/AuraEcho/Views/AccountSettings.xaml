@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="AuraEcho.Views.AccountSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:AuraEcho.Converters"
+             xmlns:cv="clr-namespace:AuraEcho.Converters"
+             xmlns:ui="http://ui.auraecho.com/"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,22 +17,106 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              UseLayoutRounding="True"
              mc:Ignorable="d">
-    <Grid Margin="12,0,12,24">
+    <Grid Margin="24,0,24,24">
         <StackPanel Margin="0,0">
             <TextBlock Margin="0,0,0,24"
                        HorizontalAlignment="Left"
                        Style="{DynamicResource HeadlineLargeTextBlockStyle}"
                        Text="账户" />
-            <Grid ColumnDefinitions="*, Auto">
-                <StackPanel UseLayoutRounding="True">
+            <WrapPanel>
+                <StackPanel Margin="0,0,0,24">
+                    <TextBlock Margin="0,0,0,8"
+                               Style="{DynamicResource BodyLargeTextBlockStyle}"
+                               Text="头像" />
+                    <Grid Width="150" Height="150">
+                        <Border BorderBrush="{DynamicResource Brushes.Outline}"
+                                BorderThickness="1"
+                                CornerRadius="100">
+                            <Border.Background>
+                                <ImageBrush Stretch="UniformToFill">
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage DecodePixelHeight="300"
+                                                     DecodePixelWidth="300"
+                                                     UriSource="/Assets/Images/auraecho.png" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Border.Background>
+                        </Border>
+                        <Border BorderBrush="{DynamicResource Brushes.Outline}"
+                                BorderThickness="1"
+                                CornerRadius="100">
+                            <Border.Background>
+                                <ImageBrush Stretch="UniformToFill">
+                                    <ImageBrush.ImageSource>
+                                        <Binding Path="NewAvatarFileId">
+                                            <Binding.Converter>
+                                                <cv:FileIdToBitmapImageConverter DecodePixelHeight="300" DecodePixelWidth="300" />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Border.Background>
+                        </Border>
+                        <Border Margin="8"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+                                CornerRadius="2">
+                            <Button x:Name="SelectAvatarFileButton"
+                                    Padding="8,4"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Click="SelectAvatarFileButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Width="20"
+                                             Height="20"
+                                             Margin="0,0,4,0">
+                                        <Canvas Width="24" Height="24">
+                                            <Path Data="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <Label Height="20"
+                                           Padding="0"
+                                           VerticalAlignment="Center"
+                                           VerticalContentAlignment="Center"
+                                           Content="更改"
+                                           FontSize="{DynamicResource FontSize.Label.Small}"
+                                           Foreground="{DynamicResource Brushes.OnSurface}" />
+                                </StackPanel>
+                            </Button>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+                <Border Width="48" />
+                <StackPanel Width="200" UseLayoutRounding="True">
                     <TextBlock Margin="0,0,0,8"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
                                Text="用户名" />
-                    <TextBox Height="40"
-                             Margin="0,0,0,24"
+                    <TextBox x:Name="NewUserNameTextBox" Height="40"
                              Padding="8,0"
+                             Margin="0, 0, 0, 2"
+                             d:Text="UserName"
+                             MaxLength="30" 
                              FontSize="{DynamicResource FontSize.Body.Large}"
-                             Text="{Binding NewUserProfile.UserName}" />
+                             Text="{Binding NewUserName, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="GotFocus">
+                                <i:InvokeCommandAction Command="{Binding ClearErrorsCommand}" CommandParameter="NewUserName" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                    <TextBlock Margin="0,0,0,24"
+                               Style="{DynamicResource BodySmallTextBlockStyle}"
+                               Text="用户名长度应在4到16个字符之间"
+                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}">
+                        <TextBlock.Visibility>
+                            <Binding ElementName="NewUserNameTextBox" Path="(Validation.HasError)">
+                                <Binding.Converter>
+                                    <ui:BooleanToObjectConverter FalseValue="{x:Static Visibility.Visible}" TrueValue="{x:Static Visibility.Hidden}" />
+                                </Binding.Converter>
+                            </Binding>
+                        </TextBlock.Visibility>
+                    </TextBlock>
                     <Button Padding="24,8"
                             HorizontalAlignment="Left"
                             Command="{Binding UpdateProfileCommand}"
@@ -39,44 +124,7 @@
                             FontSize="{DynamicResource FontSize.Label.Medium}"
                             Style="{DynamicResource PrimaryButtonStyle}" />
                 </StackPanel>
-                <Grid Grid.Column="1" Margin="24,0">
-                    <StackPanel>
-                        <TextBlock Margin="0,0,0,8"
-                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                   Text="头像" />
-                        <Grid Width="150" Height="150">
-                            <Border d:Background="DarkMagenta"
-                                    BorderBrush="{DynamicResource Brushes.Outline}"
-                                    BorderThickness="1"
-                                    CornerRadius="100">
-                                <Border.Background>
-                                    <ImageBrush Stretch="UniformToFill">
-                                        <ImageBrush.ImageSource>
-                                            <Binding Path="NewUserProfile.AvatarFileId">
-                                                <Binding.Converter>
-                                                    <converters:FileIdToBitmapImageConverter DecodePixelHeight="300" DecodePixelWidth="300" />
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </ImageBrush.ImageSource>
-                                    </ImageBrush>
-                                </Border.Background>
-                            </Border>
-                            <Border Margin="8"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
-                                    Background="{DynamicResource Brushes.SurfaceContainerLowest}"
-                                    CornerRadius="4">
-                                <Button x:Name="SelectAvatarFileButton"
-                                        Padding="12,4"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Bottom"
-                                        Click="SelectAvatarFileButton_Click"
-                                        Content="修改" />
-                            </Border>
-                        </Grid>
-                    </StackPanel>
-                </Grid>
-            </Grid>
+            </WrapPanel>
         </StackPanel>
 
     </Grid>

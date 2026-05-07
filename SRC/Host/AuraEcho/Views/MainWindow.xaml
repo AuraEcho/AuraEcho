@@ -545,7 +545,13 @@
                                         <TextBlock Margin="12,0,0,4"
                                                    FontSize="{DynamicResource FontSize.Body.Large}"
                                                    Foreground="{DynamicResource Brushes.OnSurface}"
-                                                   Text="{Binding ClientSession.CurrentUser.UserName}" />
+                                                   Text="{Binding ClientSession.CurrentUser.UserName}"
+                                                   TextTrimming="CharacterEllipsis">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Placement="Top" HorizontalOffset="-10" Content="{Binding ClientSession.CurrentUser.UserName}"
+                                                         FontSize="{DynamicResource FontSize.Label.Small}"/>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
                                         <TextBlock Margin="12,0,0,4"
                                                    FontSize="{DynamicResource FontSize.Body.Small}"
                                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"

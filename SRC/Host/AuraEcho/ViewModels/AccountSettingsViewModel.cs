@@ -18,7 +18,7 @@ using Prism.Mvvm;
 
 namespace AuraEcho.ViewModels;
 
-public class AccountSettingsViewModel : BindableBase, INotifyDataErrorInfo
+public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorInfo
 {
     #region private members
     private readonly IClientSession _clientSession;
@@ -47,11 +47,11 @@ public class AccountSettingsViewModel : BindableBase, INotifyDataErrorInfo
     }
 
     private bool HasChanges()
-        => NewUserName != _clientSession.CurrentUser.UserName || 
+        => NewUserName != _clientSession.CurrentUser.UserName ||
            NewAvatarFileId != _clientSession.CurrentUser.AvatarFileId;
 
     public DelegateCommand UpdateProfileCommand { get; }
-    public bool CanUpdateProfile() 
+    public bool CanUpdateProfile()
         => !IsBusy && HasChanges();
 
     private async void UpdateProfile()
@@ -111,19 +111,22 @@ public class AccountSettingsViewModel : BindableBase, INotifyDataErrorInfo
     public DelegateCommand<string> ClearErrorsCommand { get; }
     private void ClearErrors(string propertyName)
     {
-        if (_errors.ContainsKey(propertyName))
-        {
-            _errors.Remove(propertyName);
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-        }
+        if (!_errors.Remove(propertyName)) return;
+
+        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }
     private string ValidateCore(string propertyName) => propertyName switch
     {
         nameof(NewUserName) when String.IsNullOrWhiteSpace(NewUserName) => "用户名不能为空",
         nameof(NewUserName) when NewUserName.Contains(' ') => "用户名不能包含空格",
-        nameof(NewUserName) when NewUserName.Length < 4 || NewUserName.Length > 16 => "用户名长度应在4到16个字符之间",
+        nameof(NewUserName) when NewUserName.Length < 4 || NewUserName.Length > 16 => "用户名长度应在4-16个字符之间",
+        nameof(NewUserName) when !UsernameRegex().IsMatch(NewUserName) => "用户名不能包含特殊字符",
         _ => String.Empty
     };
+
+    [GeneratedRegex(@"^[\p{L}0-9]+$")]
+    private static partial Regex UsernameRegex();
+
     public IEnumerable GetErrors(string? propertyName)
     {
         return _errors.TryGetValue(propertyName, out List<string>? value) ? value : null;

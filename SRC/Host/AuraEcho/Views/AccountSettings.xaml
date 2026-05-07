@@ -88,13 +88,15 @@
                     </Grid>
                 </StackPanel>
                 <Border Width="48" />
-                <StackPanel Width="200" UseLayoutRounding="True">
+                <StackPanel UseLayoutRounding="True">
                     <TextBlock Margin="0,0,0,8"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
                                Text="用户名" />
                     <TextBox x:Name="NewUserNameTextBox" Height="40"
                              Padding="8,0"
                              Margin="0, 0, 0, 2"
+                             HorizontalAlignment="Left"
+                             Width="200"
                              d:Text="UserName"
                              MaxLength="30" 
                              FontSize="{DynamicResource FontSize.Body.Large}"
@@ -107,8 +109,10 @@
                     </TextBox>
                     <TextBlock Margin="0,0,0,24"
                                Style="{DynamicResource BodySmallTextBlockStyle}"
-                               Text="用户名长度应在4到16个字符之间"
                                Foreground="{DynamicResource Brushes.OnSurfaceVariant}">
+                        <Run Text="用户名长度应在4-16个字符之间"/>
+                        <LineBreak/>
+                        <Run Text="用户名不能包含特殊字符"/>
                         <TextBlock.Visibility>
                             <Binding ElementName="NewUserNameTextBox" Path="(Validation.HasError)">
                                 <Binding.Converter>

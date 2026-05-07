@@ -253,8 +253,8 @@
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
                             <Border x:Name="LayoutRoot"
                                     Height="{TemplateBinding Height}"
-                                    Padding="{TemplateBinding Padding}"
                                     Margin="{TemplateBinding Margin}"
+                                    Padding="{TemplateBinding Padding}"
                                     Background="{TemplateBinding Background}"
                                     CornerRadius="4">
                                 <Grid x:Name="Bg" SnapsToDevicePixels="true">
@@ -419,15 +419,17 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
                         <Grid Background="{TemplateBinding Background}">
-                            <ScrollContentPresenter Margin="{TemplateBinding Padding}"
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                    Margin="{TemplateBinding Padding}"
+                                                    CanContentScroll="{TemplateBinding CanContentScroll}"
                                                     ContentTemplate="{TemplateBinding ContentTemplate}"
                                                     Cursor="{TemplateBinding Cursor}" />
                             <ScrollBar x:Name="PART_VerticalScrollBar"
                                        Width="8"
                                        HorizontalAlignment="Right"
+                                       ui:ScrollViewerHelper.VerticalScrollBarMargin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
                                        Maximum="{TemplateBinding ScrollableHeight}"
                                        Orientation="Vertical"
-                                       ui:ScrollViewerHelper.VerticalScrollBarMargin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
                                        ViewportSize="{TemplateBinding ViewportHeight}"
                                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                        Value="{TemplateBinding VerticalOffset}" />

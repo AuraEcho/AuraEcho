@@ -241,6 +241,7 @@
                                                  ui:ControlHelper.PlaceHolder="邮箱"
                                                  ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                  FontSize="16"
+                                                 MaxLength="40"
                                                  Style="{DynamicResource FloatingLabelTextBoxStyle}"
                                                  Text="{Binding Email}">
                                             <i:Interaction.Triggers>

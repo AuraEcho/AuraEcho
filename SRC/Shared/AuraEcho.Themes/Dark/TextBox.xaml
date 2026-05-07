@@ -68,7 +68,7 @@
             <Grid>
                 <ScrollViewer x:Name="PART_ContentHost"
                               VerticalAlignment="Center"
-                              Focusable="False"
+                              IsTabStop="False"
                               HorizontalScrollBarVisibility="Hidden"
                               VerticalScrollBarVisibility="Hidden" />
                 <TextBlock x:Name="PlaceHolderTextBlock"
@@ -77,7 +77,6 @@
                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                            Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:InputBoxHelper.FloatingBackground)}"
-                           Focusable="False"
                            FontSize="{TemplateBinding FontSize}"
                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                            IsHitTestVisible="False"
@@ -169,7 +168,7 @@
             <Grid>
                 <ScrollViewer x:Name="PART_ContentHost"
                               VerticalAlignment="Center"
-                              Focusable="False"
+                              IsTabStop="False"
                               HorizontalScrollBarVisibility="Hidden"
                               VerticalScrollBarVisibility="Hidden" />
                 <TextBlock x:Name="PlaceHolderTextBlock"
@@ -177,7 +176,6 @@
                            Padding="2,0,0,0"
                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                           Focusable="False"
                            FontSize="{TemplateBinding FontSize}"
                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                            IsHitTestVisible="False"

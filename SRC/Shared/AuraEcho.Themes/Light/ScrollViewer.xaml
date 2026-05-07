@@ -419,13 +419,15 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
                         <Grid Background="{TemplateBinding Background}">
-                            <ScrollContentPresenter Margin="{TemplateBinding Padding}"
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                    Margin="{TemplateBinding Padding}"
+                                                    CanContentScroll="{TemplateBinding CanContentScroll}"
                                                     ContentTemplate="{TemplateBinding ContentTemplate}"
                                                     Cursor="{TemplateBinding Cursor}" />
                             <ScrollBar x:Name="PART_VerticalScrollBar"
                                        Width="8"
-                                       ui:ScrollViewerHelper.VerticalScrollBarMargin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
                                        HorizontalAlignment="Right"
+                                       ui:ScrollViewerHelper.VerticalScrollBarMargin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
                                        Maximum="{TemplateBinding ScrollableHeight}"
                                        Orientation="Vertical"
                                        ViewportSize="{TemplateBinding ViewportHeight}"

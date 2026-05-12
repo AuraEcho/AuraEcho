@@ -1,10 +1,7 @@
-﻿using System.Net.Http.Json;
+﻿using AuraEcho.Api.Models.V1.Common;
+using AuraEcho.Api.Models.V1.Order;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Enums;
-using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
-using AuraEcho.Core.Models.Api.Order;
 using AuraEcho.Core.Tools;
 
 namespace AuraEcho.Core.Repositories;

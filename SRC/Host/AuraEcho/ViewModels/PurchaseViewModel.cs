@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AuraEcho.Api.Models.V1.Common;
+using AuraEcho.Api.Models.V1.Order;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Enums;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
-using AuraEcho.Core.Models.Api.Order;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.UIToolkit.RegionDialog;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
 
@@ -93,7 +92,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             return;
         }
 
-        if (result.Status != Core.Enums.ResultStatus.Success)
+        if (result.Status != ResultStatus.Success)
         {
             _auraToastService.Show(result.Message, ToastLevel.Error);
             return;

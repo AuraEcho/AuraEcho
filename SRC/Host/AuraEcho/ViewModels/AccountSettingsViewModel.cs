@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using AuraEcho.Api.Models.V1.Auth;
+using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Enums;
 using AuraEcho.Core.Extensions;
-using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api.Auth;
-using AuraEcho.Core.Repositories;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Mvvm;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace AuraEcho.ViewModels;
 
@@ -23,7 +21,7 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
     #region private members
     private readonly IClientSession _clientSession;
     private readonly IAuthRepository _authRepository;
-    private readonly IFileRepository _fileRepository;
+    private readonly IStorageRepository _storageRepository;
     private readonly IAuraToastService _toastService;
     private readonly Dictionary<string, List<string>> _errors = [];
     #endregion
@@ -40,6 +38,11 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
         set => SetProperty(ref field, value);
     }
 
+    public string NewAvatarFileUrl
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
     public Guid? NewAvatarFileId
     {
         get;
@@ -94,16 +97,17 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
     {
         var fileInfo = new FileInfo(filePath);
 
-        if (fileInfo.Length > 5 * 1024 * 1024) throw new Exception("文件大小不能超过5MB");
+        if (fileInfo.Length > 2 * 1024 * 1024) throw new Exception("图像大小不能超过2MB");
 
-        var newAvatarFileId = await _fileRepository.UploadFileAsync(filePath, "image");
-        if (newAvatarFileId is null)
+        var uploadResult = await _storageRepository.UploadFileAsync(filePath);
+        if (uploadResult is null)
         {
             _toastService.Show("上传头像失败", ToastLevel.Error);
             return;
         }
 
-        NewAvatarFileId = newAvatarFileId;
+        NewAvatarFileUrl = uploadResult.FileUrl;
+        NewAvatarFileId = uploadResult.FileId;
     }
 
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
@@ -132,11 +136,11 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
         return _errors.TryGetValue(propertyName, out List<string>? value) ? value : null;
     }
 
-    public AccountSettingsViewModel(IClientSession clientSession, IAuthRepository authRepository, IFileRepository fileRepository, IAuraToastService toastService)
+    public AccountSettingsViewModel(IClientSession clientSession, IAuthRepository authRepository, IStorageRepository fileRepository, IAuraToastService toastService)
     {
         _clientSession = clientSession;
         _authRepository = authRepository;
-        _fileRepository = fileRepository;
+        _storageRepository = fileRepository;
         _toastService = toastService;
 
         UpdateProfileCommand =
@@ -149,5 +153,6 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
         ClearErrorsCommand = new DelegateCommand<string>(ClearErrors);
         NewUserName = _clientSession.CurrentUser.UserName;
         NewAvatarFileId = _clientSession.CurrentUser.AvatarFileId;
+        NewAvatarFileUrl = _clientSession.CurrentUser.AvatarFileUrl;
     }
 }

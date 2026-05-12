@@ -31,7 +31,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IFileDialogService, FileDialogService>();
         containerRegistry.RegisterSingleton<IRegionDialogService, RegionDialogService>();
 
-        containerRegistry.RegisterSingleton<IFileRepository, FileRepository>();
+        containerRegistry.RegisterSingleton<IStorageRepository, AlibabaCloudOssRepository>();
         containerRegistry.RegisterSingleton<IRemotePluginRepository, RemotePluginRepository>();
     }
 

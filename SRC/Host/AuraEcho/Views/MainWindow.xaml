@@ -25,7 +25,7 @@
         mc:Ignorable="d">
     <Window.Resources>
         <cv:FileIdToUrlConverter x:Key="FileIdToUrl" />
-        <cv:FileIdToBitmapImageConverter x:Key="FileIdToBitmapImage" />
+        <cv:FilePathToBitmapImageConverter x:Key="FileIdToBitmapImage" />
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <Storyboard x:Key="ShowMask">
             <DoubleAnimation Storyboard.TargetName="AppContainer"
@@ -294,9 +294,9 @@
                                     <Border.Background>
                                         <ImageBrush>
                                             <ImageBrush.ImageSource>
-                                                <Binding Path="ClientSession.CurrentUser.AvatarFileId">
+                                                <Binding Path="ClientSession.CurrentUser.AvatarFileUrl">
                                                     <Binding.Converter>
-                                                        <cv:FileIdToBitmapImageConverter DecodePixelHeight="56" DecodePixelWidth="56" />
+                                                        <cv:FilePathToBitmapImageConverter DecodePixelHeight="56" DecodePixelWidth="56" />
                                                     </Binding.Converter>
                                                 </Binding>
                                             </ImageBrush.ImageSource>
@@ -532,9 +532,9 @@
                                         <Border.Background>
                                             <ImageBrush>
                                                 <ImageBrush.ImageSource>
-                                                    <Binding Path="ClientSession.CurrentUser.AvatarFileId">
+                                                    <Binding Path="ClientSession.CurrentUser.AvatarFileUrl">
                                                         <Binding.Converter>
-                                                            <cv:FileIdToBitmapImageConverter DecodePixelHeight="96" DecodePixelWidth="96" />
+                                                            <cv:FilePathToBitmapImageConverter DecodePixelHeight="56" DecodePixelWidth="56" />
                                                         </Binding.Converter>
                                                     </Binding>
                                                 </ImageBrush.ImageSource>
@@ -548,8 +548,10 @@
                                                    Text="{Binding ClientSession.CurrentUser.UserName}"
                                                    TextTrimming="CharacterEllipsis">
                                             <TextBlock.ToolTip>
-                                                <ToolTip Placement="Top" HorizontalOffset="-10" Content="{Binding ClientSession.CurrentUser.UserName}"
-                                                         FontSize="{DynamicResource FontSize.Label.Small}"/>
+                                                <ToolTip Content="{Binding ClientSession.CurrentUser.UserName}"
+                                                         FontSize="{DynamicResource FontSize.Label.Small}"
+                                                         HorizontalOffset="-10"
+                                                         Placement="Top" />
                                             </TextBlock.ToolTip>
                                         </TextBlock>
                                         <TextBlock Margin="12,0,0,4"

@@ -29,6 +29,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     private readonly ITransferManager _transferManager;
     private readonly ILocalPluginRepository _localPluginRespository;
     private readonly IClientSession _clientSession;
+    private readonly IStorageRepository _storageRepository;
 
     public ObservableCollection<MarketPlugin> Plugins
     {
@@ -75,6 +76,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
                     _eventAggregator,
                     _localPluginRespository,
                     _clientSession,
+                    _storageRepository,
                     marketPlugin);
             return marketPlugin;
         }
@@ -118,12 +120,14 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         IEventAggregator eventAggregator,
         ITransferManager transferManager,
         ILocalPluginRepository localPluginRepository,
-        IClientSession clientSession)
+        IClientSession clientSession,
+        IStorageRepository storageRepository)
     {
         _clientSession = clientSession;
         _localPluginRespository = localPluginRepository;
         _transferManager = transferManager;
         _eventAggregator = eventAggregator;
+        _storageRepository = storageRepository;
         _pluginRespository = pluginRespository;
         _pluginInstallService = pluginInstallService;
         _navigationService = navigationService;

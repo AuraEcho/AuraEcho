@@ -16,6 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Shared\AuraEcho.Api.Models\AuraEcho.Api.Models\AuraEcho.Api.Models.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.Core\AuraEcho.Core.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.Themes\AuraEcho.Themes.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.UIToolkit\AuraEcho.UIToolkit.csproj" />

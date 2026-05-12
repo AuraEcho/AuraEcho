@@ -1,9 +1,8 @@
+using AuraEcho.Api.Models.V1.Auth;
+using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Models.Api;
-using AuraEcho.Core.Models.Api.Auth;
 using AuraEcho.Core.Tools;
-using System.Net.Http.Json;
 
 namespace AuraEcho.Core.Repositories;
 

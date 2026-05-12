@@ -27,6 +27,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     private readonly IEventAggregator _eventAggregator;
     private readonly IClientSession _clientSession;
     private readonly ILocalPluginRepository _localPluginRepository;
+    private readonly IStorageRepository _storageRepository;
     private readonly MarketPlugin _plugin;
     protected CancellationTokenSource _cts;
     private bool _inProgress;
@@ -145,6 +146,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         IEventAggregator eventAggregator,
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
+        IStorageRepository storageRepository,
         MarketPlugin plugin)
     {
         _plugin = plugin;
@@ -154,6 +156,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         _pluginInstallService = pluginInstallService;
         _pluginManager = pluginManager;
         _eventAggregator = eventAggregator;
+        _storageRepository = storageRepository;
     }
 
     // 获取
@@ -182,10 +185,11 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         Progress<double> progressHandler = new Progress<double>(p => Progress = p);
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
+        PluginPackage latestVersionPackInfo = await _remotePluginRepository.GetLatestAsync(_plugin.PluginInfo.Id);
+
         Task<bool> downloadTask =
-            _remotePluginRepository.DownloadLatestAsync(
-                _plugin.PluginInfo.Id,
-                "stable",
+            _storageRepository.DownloadFileAsync(
+                latestVersionPackInfo.FileUrl,
                 pluginInstallerFilePath,
                 progressHandler);
         await Task.WhenAll(downloadTask, Task.Delay(TimeSpan.FromSeconds(0.5), token));

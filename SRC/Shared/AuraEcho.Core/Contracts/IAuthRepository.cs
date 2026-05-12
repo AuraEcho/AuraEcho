@@ -1,5 +1,5 @@
-using AuraEcho.Core.Models.Api;
-using AuraEcho.Core.Models.Api.Auth;
+using AuraEcho.Api.Models.V1.Auth;
+using AuraEcho.Api.Models.V1.Common;
 
 namespace AuraEcho.Core.Contracts;
 

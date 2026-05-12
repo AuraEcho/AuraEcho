@@ -1,4 +1,4 @@
-using AuraEcho.Core.Models.Api.Order;
+using AuraEcho.Api.Models.V1.Order;
 
 namespace AuraEcho.Core.Constants;
 
@@ -26,6 +26,10 @@ public static class Urls
     #endregion
 
     #region File
+
+    public static string GetStsToken() => $"{ServerUrl}/api/v1/file/sts";
+    public static string FileCheck(string contentHash, string fileName) => $"{Urls.ServerUrl}/api/v1/file/check?contentHash={contentHash}&fileName={fileName}";
+
     public static string DownloadFile(Guid fileId) => $"{ServerUrl}/api/v1/file/download?fileId={fileId}";
     public static string GetFileById(Guid fileId) => $"{ServerUrl}/api/v1/file/{fileId}";
     public static string GetUploadedFiles() => $"{ServerUrl}/api/v1/file/UploadFileList";

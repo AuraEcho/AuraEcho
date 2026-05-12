@@ -25,7 +25,7 @@ public class HomepageViewModel : BindableBase
 {
     #region private members
     private readonly IFileDialogService _fileDialogService;
-    private readonly IFileRepository _fileRepository;
+    private readonly IStorageRepository _fileRepository;
     private readonly IRemotePluginRepository _remotePluginRepository;
     private readonly IAppLogger _logger;
     private PluginFolder _rootFolder;
@@ -310,7 +310,7 @@ public class HomepageViewModel : BindableBase
     /// <param name="fileDialogService"></param>
     /// <param name="logger"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public HomepageViewModel(IFileRepository fileRepository, IRemotePluginRepository remotePluginRepository, IFileDialogService fileDialogService, IAppLogger logger)
+    public HomepageViewModel(IStorageRepository fileRepository, IRemotePluginRepository remotePluginRepository, IFileDialogService fileDialogService, IAppLogger logger)
     {
         _fileDialogService = fileDialogService ?? throw new ArgumentNullException(nameof(fileDialogService));
         _fileRepository = fileRepository ?? throw new ArgumentNullException(nameof(fileRepository));

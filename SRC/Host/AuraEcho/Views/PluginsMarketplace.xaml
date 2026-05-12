@@ -20,7 +20,6 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
-        <converters:FileIdToUrlConverter x:Key="FileIdToUrl" />
         <DataTemplate x:Key="PluginTemplate" DataType="{x:Type models:MarketPlugin}">
             <Grid Background="Transparent">
                 <Grid.Resources>
@@ -72,7 +71,7 @@
                                     <Border.Background>
                                         <VisualBrush AlignmentY="Top" Stretch="UniformToFill">
                                             <VisualBrush.Visual>
-                                                <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}" />
+                                                <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.BannerFileUrl}" />
                                             </VisualBrush.Visual>
                                         </VisualBrush>
                                     </Border.Background>
@@ -89,7 +88,7 @@
                                         <Border.Background>
                                             <VisualBrush AlignmentY="Top" Stretch="UniformToFill">
                                                 <VisualBrush.Visual>
-                                                    <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.IconFileId, Converter={StaticResource FileIdToUrl}}" />
+                                                    <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.IconFileUrl}" />
                                                 </VisualBrush.Visual>
                                             </VisualBrush>
                                         </Border.Background>

@@ -1,5 +1,5 @@
+using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
 
 namespace AuraEcho.Core.Extensions;
 
@@ -11,7 +11,8 @@ public static class AppUserExtensions
             Email = @this.Email,
             UserId = @this.Id,
             UserName = @this.UserName,
-            AvatarFileId = @this.AvatarFileId
+            AvatarFileId = @this.AvatarFileId,
+            AvatarFileUrl = @this.AvatarFileUrl
         };
 
     public static UserProfile ToUserProfile(this AppUserDto @this)
@@ -20,6 +21,7 @@ public static class AppUserExtensions
             UserName = @this.UserName,
             Email = @this.Email,
             Id = @this.UserId,
-            AvatarFileId = @this.AvatarFileId
+            AvatarFileId = @this.AvatarFileId,
+            AvatarFileUrl = @this.AvatarFileUrl
         };
 }

@@ -1,6 +1,7 @@
-﻿using AuraEcho.Core.Constants;
+﻿using AuraEcho.Api.Models.V1.Common;
+using AuraEcho.Api.Models.V1.License;
+using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Models;
 
@@ -22,7 +23,7 @@ public class LicenseRepository : ILicenseRepository
         {
             ExpiredAt = result.ExpiredAt,
             IsValid = result.IsValid,
-            LicenseType = result.LicenseType
+            LicenseType = (PluginContracts.Models.LicenseType)(int)result.LicenseType
         };
         return license;
     }
@@ -30,13 +31,13 @@ public class LicenseRepository : ILicenseRepository
     public async Task<List<ResourceLicense>> GetUserLicensesAsync()
     {
         var result = await _httpHelper.GetAsync<ResponseResult<List<LicenseResponseItem>>>(Urls.GetUserLicenses());
-        if (result is null || result.Status != Enums.ResultStatus.Success) return [];
+        if (result is null || result.Status != ResultStatus.Success) return [];
 
         var licenses = result.Data.Select(item => new ResourceLicense
         {
             ExpiredAt = item.ExpiredAt,
             IsValid = item.IsValid,
-            LicenseType = item.LicenseType
+            LicenseType = (PluginContracts.Models.LicenseType)(int)item.LicenseType
         }).ToList();
         return licenses;
     }

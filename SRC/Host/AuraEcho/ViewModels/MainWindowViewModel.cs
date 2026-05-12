@@ -1,9 +1,9 @@
+using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Events;

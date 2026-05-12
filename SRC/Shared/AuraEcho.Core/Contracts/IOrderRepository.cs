@@ -1,6 +1,5 @@
-﻿using AuraEcho.Core.Enums;
-using AuraEcho.Core.Models.Api;
-using AuraEcho.Core.Models.Api.Order;
+﻿using AuraEcho.Api.Models.V1.Common;
+using AuraEcho.Api.Models.V1.Order;
 
 namespace AuraEcho.Core.Contracts;
 

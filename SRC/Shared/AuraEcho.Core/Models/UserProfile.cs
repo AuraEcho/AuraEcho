@@ -10,9 +10,14 @@ public class UserProfile : BindableBase
         get;
         set => SetProperty(ref field, value);
     }
-    
 
     public string Email { get; init; }
+
+    public string AvatarFileUrl
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
     public Guid? AvatarFileId
     {
         get;

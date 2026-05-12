@@ -6,7 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
-             xmlns:order="clr-namespace:AuraEcho.Core.Models.Api.Order;assembly=AuraEcho.Core"
+             xmlns:apiOrder="clr-namespace:AuraEcho.Api.Models.V1.Order;assembly=AuraEcho.Api.Models"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
@@ -98,10 +98,10 @@
                     <StackPanel Margin="16,0,16,0" Orientation="Horizontal">
                         <RadioButton Content="Alipay"
                                      GroupName="PaymentChannelGroup"
-                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static order:PaymentChannel.Alipay}}" />
+                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Alipay}}" />
                         <RadioButton Content="Wxpay"
                                      GroupName="PaymentChannelGroup"
-                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static order:PaymentChannel.Wxpay}}" />
+                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Wxpay}}" />
                     </StackPanel>
                 </StackPanel>
                 <Border Grid.Row="1"

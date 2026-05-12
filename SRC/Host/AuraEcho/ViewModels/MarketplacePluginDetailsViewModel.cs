@@ -31,12 +31,6 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
         set => SetProperty(ref field, value);
     }
 
-    public PluginPackage LatestVersionInfo
-    {
-        get => field;
-        set => SetProperty(ref field, value);
-    }
-
     public DelegateCommand InstallCommand { get; }
     private void Install()
     {
@@ -63,7 +57,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
             ViewNames.ImageViewer,
             new NavigationParameters
             {
-                { "ImageFilePath", Urls.DownloadFile(ss.FileId) }
+                { "ImageFilePath", ss.FileUrl }
             },
             canBack: false);
     }
@@ -73,13 +67,13 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
         var screenshots = await _pluginRepository.GetScreenshotsAsync(MarketPlugin.PluginInfo.Id);
         MarketPlugin.PluginInfo.Screenshots = screenshots;
     }
+
     private async Task LoadPluginDetails()
     {
         var result = await _pluginRepository.GetLatestAsync(MarketPlugin.PluginInfo.Id);
-        if (result is null) return;
-
-        LatestVersionInfo = result;
+        MarketPlugin.PluginInfo.LatestVersion = result;
     }
+
     public MarketplacePluginDetailsViewModel(
         IRemotePluginRepository pluginRepository,
         INavigationService navigationService,

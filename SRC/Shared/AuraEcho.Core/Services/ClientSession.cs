@@ -1,17 +1,17 @@
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
+using AuraEcho.Api.Models.V1.Auth;
+using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
 using AuraEcho.Core.Tools.HttpClientPipelines;
 using AuraEcho.PluginContracts.Interfaces;
 using Prism.Events;
 using Prism.Mvvm;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace AuraEcho.Core.Services;
 

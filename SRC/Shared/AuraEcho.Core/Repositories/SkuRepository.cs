@@ -1,8 +1,9 @@
-﻿using AuraEcho.Core.Constants;
+﻿using AuraEcho.Api.Models.V1.Sku;
+using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Models.Api;
 using AuraEcho.Core.Tools;
+using AuraEcho.PluginContracts.Models;
 
 namespace AuraEcho.Core.Repositories;
 
@@ -27,7 +28,7 @@ public class SkuRepository : ISkuRepository
                 OriginalPrice = p.OriginalPrice,
                 ResourceId = p.ResourceId,
                 ResourceType = p.ResourceType,
-                Type = p.Type,
+                Type = (LicenseType)(int)p.Type,
                 IsActive = p.IsActive
             })];
 

@@ -144,7 +144,7 @@
                    Grid.Column="1"
                    Height="400"
                    VerticalAlignment="Top"
-                   Source="{Binding MarketPlugin.PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}">
+                   Source="{Binding MarketPlugin.PluginInfo.BannerFileUrl}">
                 <Image.Effect>
                     <BlurEffect Radius="50" />
                 </Image.Effect>
@@ -207,7 +207,7 @@
                             <Image x:Name="BannerImage"
                                    Grid.Column="1"
                                    VerticalAlignment="Top"
-                                   Source="{Binding MarketPlugin.PluginInfo.BannerFileId, Converter={StaticResource FileIdToUrl}}">
+                                   Source="{Binding MarketPlugin.PluginInfo.BannerFileUrl}">
                                 <Image.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=MakeShape}" />
                                 </Image.OpacityMask>
@@ -268,7 +268,7 @@
                                     CornerRadius="8"
                                     DockPanel.Dock="Left">
                                 <Border.Background>
-                                    <ImageBrush d:ImageSource="/Assets/Icons/AuraEcho.ico" ImageSource="{Binding MarketPlugin.PluginInfo.IconFileId, Converter={StaticResource FileIdToUrl}}" />
+                                    <ImageBrush d:ImageSource="/Assets/Icons/AuraEcho.ico" ImageSource="{Binding MarketPlugin.PluginInfo.IconFileUrl}" />
                                 </Border.Background>
                             </Border>
                             <StackPanel>
@@ -424,7 +424,7 @@
                                                             Height="252"
                                                             CornerRadius="4">
                                                         <Border.Background>
-                                                            <ImageBrush ImageSource="{Binding FileId, Converter={StaticResource FileIdToUrl}}" Stretch="UniformToFill" />
+                                                            <ImageBrush ImageSource="{Binding FileUrl}" Stretch="UniformToFill" />
                                                         </Border.Background>
                                                     </Border>
 
@@ -533,7 +533,7 @@
                             <TextBlock Margin="16"
                                        d:Text="这是显示此版本中的更新内容。"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="{Binding LatestVersionInfo.ReleaseNotes}"
+                                       Text="{Binding MarketPlugin.PluginInfo.LatestVersion.ReleaseNotes}"
                                        TextWrapping="Wrap" />
                         </StackPanel>
                     </Border>
@@ -599,7 +599,7 @@
                                     </Canvas>
                                     <StackPanel>
                                         <TextBlock Margin="0,0,0,8" Text="上次更新日期" />
-                                        <TextBlock d:Text="1970/1/1" Text="{Binding LatestVersionInfo.CreateTime, StringFormat={}{0:yyyy/MM/dd}}" />
+                                        <TextBlock d:Text="1970/1/1" Text="{Binding MarketPlugin.PluginInfo.LatestVersion.CreateTime, StringFormat={}{0:yyyy/MM/dd}}" />
                                     </StackPanel>
                                 </DockPanel>
                                 <DockPanel LastChildFill="True">
@@ -612,7 +612,7 @@
                                     </Canvas>
                                     <StackPanel>
                                         <TextBlock Margin="0,0,0,8" Text="版本" />
-                                        <TextBlock d:Text="1.0.1" Text="{Binding LatestVersionInfo.Version}" />
+                                        <TextBlock d:Text="1.0.1" Text="{Binding MarketPlugin.PluginInfo.LatestVersion.Version}" />
                                     </StackPanel>
                                 </DockPanel>
                                 <DockPanel LastChildFill="True">
@@ -640,7 +640,7 @@
                                         <TextBlock Margin="0,0,0,8" Text="近似大小" />
                                         <TextBlock d:Text="2.3 MB">
                                             <TextBlock.Text>
-                                                <Binding Path="LatestVersionInfo.Size">
+                                                <Binding Path="MarketPlugin.PluginInfo.LatestVersion.Size">
                                                     <Binding.Converter>
                                                         <ui:FileLengthConverter />
                                                     </Binding.Converter>

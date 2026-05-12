@@ -51,6 +51,8 @@
     <Project Path="SRC/Services/AuraEcho.UpdaterService/AuraEcho.UpdaterService.fsproj" Id="f522eebc-7ca7-4b1c-94ee-57fb452206ea" />
   </Folder>
   <Folder Name="/SRC/Shared/">
+    <Project Path="SRC/Shared/alibabacloud-oss-csharp-sdk-v2/src/AlibabaCloud.OSS.V2/AlibabaCloud.OSS.V2.csproj" />
+    <Project Path="SRC/Shared/AuraEcho.Api.Models/AuraEcho.Api.Models/AuraEcho.Api.Models.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Controls/AuraEcho.Controls.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Core/AuraEcho.Core.csproj" />
     <Project Path="SRC/Shared/AuraEcho.PluginContracts/AuraEcho.PluginContracts.csproj" Id="88f69dd3-259f-4c4d-b8e2-f23f4baa8823" />

@@ -9,13 +9,15 @@ public class RemotePlugin : BindableBase
     public string Summary { get; set; }
     public string Description { get; set; }
     public string Author { get; set; }
+    public string IconFileUrl { get; set; }
     public Guid IconFileId { get; set; }
+    public string BannerFileUrl { get; set; }
     public Guid BannerFileId { get; set; }
     public bool IsAcquired { get; set; }
     public DateTime CreateTime { get; set; }
     public int UserCount { get; set; }
 
-    public List<PluginPackage> Versions
+    public PluginPackage LatestVersion
     {
         get;
         set => SetProperty(ref field, value);

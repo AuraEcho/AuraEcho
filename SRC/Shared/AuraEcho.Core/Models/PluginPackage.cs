@@ -10,6 +10,7 @@ public class PluginPackage : BindableBase
     public string Version { get; set; }
     public string ReleaseNotes { get; set; }
     public Guid? FileId { get; set; }
+    public string FileUrl { get; set; }
     public string FileName { get; set; }
     public long Size { get; set; }
     public DateTime? CreateTime { get; set; }

@@ -8,6 +8,7 @@ namespace AuraEcho.PluginContracts.Interfaces
 {
     public interface IPlugin : IModule
     {
+        string EntryViewName { get; }
         ResourceDictionary GetThemeResource(AppTheme theme);
         AppSettingsItem GetSettings();
         Task SetupAsync(IContainerProvider containerProvider);

@@ -14,4 +14,3 @@ using AuraEcho.PluginContracts.Attributes;
 // 如果此项目向 COM 公开，则下列 GUID 用于 typelib 的 ID。
 
 [assembly: Guid("abf06bfd-98cb-4e27-af0c-0463997192cc")]
-[assembly: PluginDefaultView(nameof(FishyTimeHome))]

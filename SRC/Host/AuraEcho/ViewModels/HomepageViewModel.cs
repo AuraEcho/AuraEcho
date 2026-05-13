@@ -96,7 +96,7 @@ public class HomepageViewModel : BindableBase
 
         _navigationService.RequestNavigate(
             HostRegionNames.MainRegion,
-            userPlugin.LocalPlugin.Manifest.DefaultViewName,
+            userPlugin.PluginContext.EntryViewName,
             new NavigationParameters
             {
                 {  "PluginId", userPlugin.LocalPlugin.Id  },

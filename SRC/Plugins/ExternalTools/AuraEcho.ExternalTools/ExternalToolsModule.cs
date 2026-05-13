@@ -19,6 +19,8 @@ public class ExternalToolsModule : IPlugin
     private readonly ResourceDictionary _lightTheme = new ExternalToolsLightTheme();
     private readonly ResourceDictionary _darkTheme = new ExternalToolsDarkTheme();
 
+    public string EntryViewName => nameof(ExternalToolsHome);
+
     public AppSettingsItem GetSettings()
     {
         return new()

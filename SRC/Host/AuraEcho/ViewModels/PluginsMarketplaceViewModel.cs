@@ -97,7 +97,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
 
         _navigationService.RequestNavigate(
             HostRegionNames.MainRegion,
-            targetRegistry.LocalPlugin.Manifest.DefaultViewName);
+            targetRegistry.PluginContext.EntryViewName);
     }
 
     public DelegateCommand<MarketPlugin> NavigationToPluginDetailsCommand { get; }

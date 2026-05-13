@@ -46,7 +46,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
 
         _navigationService.RequestNavigate(
             HostRegionNames.MainRegion,
-            targetRegistry.LocalPlugin.Manifest.DefaultViewName);
+            targetRegistry.PluginContext.EntryViewName);
     }
 
     public DelegateCommand<PluginScreenshot> NavigationToViewScreenshotCommand { get; }

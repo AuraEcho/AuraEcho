@@ -13,6 +13,8 @@ public class FishyTimeModule : IPlugin
     private readonly ResourceDictionary _lightTheme = new FishyTimeLightTheme();
     private readonly ResourceDictionary _darkTheme = new FishyTimeDarkTheme();
 
+    public string EntryViewName => nameof(FishyTimeHome);
+
     public AppSettingsItem GetSettings()
     {
         return new AppSettingsItem

@@ -69,13 +69,4 @@ public class PluginManifest : BindableBase
         get; 
         set => SetProperty(ref field, value);
     }
-
-    /// <summary>
-    /// 默认视图名称
-    /// </summary>
-    public string? DefaultViewName
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
 }

@@ -61,7 +61,6 @@
   </Folder>
   <Folder Name="/SRC/Tools/">
     <Project Path="SRC/Tools/AuraEcho.DataMigrator/AuraEcho.DataMigrator.fsproj" Id="cbb40445-b602-44f8-b27f-9a3ca89b7b21" />
-    <Project Path="SRC/Tools/PluginPacker/PluginPacker.csproj" />
   </Folder>
   <Folder Name="/TEST/">
     <Project Path="TEST/AuraEcho.Control.Tests/AuraEcho.Control.Tests.csproj" />

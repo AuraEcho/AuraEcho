@@ -36,7 +36,7 @@ module Program =
                 .AddSingleton<HttpHelper>(fun sp ->
                     let client = sp.GetRequiredService<HttpClient>()
                     HttpHelper(client))
-                .AddSingleton<IFileRepository, FileRepository>()
+                .AddSingleton<IStorageRepository, AlibabaCloudOssRepository>()
                 .AddSingleton<IAppPackageRepository, AppPackageRepository>()
                 .AddSingleton<IRemotePluginRepository, RemotePluginRepository>()
                 .AddScoped<ILocalPluginRepository, LocalPluginRepository>()

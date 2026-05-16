@@ -39,9 +39,10 @@ type Worker(logger: IAppLogger, scopeFactory: IServiceScopeFactory) =
                 let localPluginRepo = sp.GetRequiredService<ILocalPluginRepository>()
                 let remotePluginRepo = sp.GetRequiredService<IRemotePluginRepository>()
                 let pluginInstaller = sp.GetRequiredService<IPluginInstallService>()
+                let storageRepository = sp.GetRequiredService<IStorageRepository>()
 
-                do! updateAppAsync logger appRepo paths.AppCache
-                do! updatePluginsAsync logger localPluginRepo remotePluginRepo pluginInstaller paths.PluginCache
+                do! updateAppAsync logger appRepo storageRepository paths.AppCache
+                do! updatePluginsAsync logger localPluginRepo remotePluginRepo storageRepository pluginInstaller  paths.PluginCache
                 
             with
             | :? OperationCanceledException -> 

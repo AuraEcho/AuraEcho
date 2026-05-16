@@ -12,7 +12,7 @@ open System.IO.Pipes
 let private APP_PIPE_NAME = "AURAECHO_APP_PIPE"
 
 // --- 客户端更新 ---
-let updateAppAsync (logger: IAppLogger) (repo: IAppPackageRepository) cachePath = task {
+let updateAppAsync (logger: IAppLogger) (repo: IAppPackageRepository) (storageRepository: IStorageRepository) cachePath = task {
     logger.Information("开始检测客户端版本信息...")
     
     try
@@ -27,8 +27,8 @@ let updateAppAsync (logger: IAppLogger) (repo: IAppPackageRepository) cachePath 
         if latestVersion > currentVersion then
             logger.Information($"发现新版本 {latestVersion}，正在下载...")
             let targetPath = Path.Combine(cachePath, latestInfo.UpdateFileName)
-            
-            let! downloaded = repo.DownloadLatestAsync(false, targetPath, null)
+            let! latestPackage = repo.GetLatestAsync() |> Async.AwaitTask
+            let! downloaded = storageRepository.DownloadFileAsync(latestPackage.UpdateFileUrl, targetPath, null)
             if downloaded then
                 logger.Information("客户端下载完成，准备安装...")
                 match! ProcessHelper.runInstallerAsync targetPath with
@@ -60,7 +60,7 @@ let notifyAppPluginUpdateAsync (logger: IAppLogger) pluginId newVersion = task {
 }
 
 // --- 插件更新 ---
-let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) (remoteRepo: IRemotePluginRepository) (installer: IPluginInstallService) cachePath = task {
+let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) (remoteRepo: IRemotePluginRepository) (storageRepository: IStorageRepository) (installer: IPluginInstallService) cachePath = task {
     logger.Information("开始检测插件版本...")
     
     try
@@ -78,7 +78,8 @@ let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) 
                 logger.Information($"发现插件 {pluginName} 的新版本 {remoteVer}")
                 let targetPath = Path.Combine(cachePath, remotePackage.FileName)
                 
-                let! downloaded = remoteRepo.DownloadLatestAsync(plugin.Manifest.Id, "stable", targetPath, null)
+                let! latestPackage = remoteRepo.GetLatestAsync(plugin.Manifest.Id) |> Async.AwaitTask
+                let! downloaded = storageRepository.DownloadFileAsync(latestPackage.FileUrl, targetPath, null)
                 if downloaded then
                     try
                         let! _ = installer.InstallAsync(targetPath)

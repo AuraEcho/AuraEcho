@@ -117,121 +117,125 @@
     </UserControl.Resources>
     <Grid x:Name="ContentPanel"
           MaxWidth="1600"
+          Margin="0, 36, 0, 0"
           RowDefinitions="Auto, *">
-        <Grid Margin="48,56,48,24">
-            <Border Margin="0,0,0,8">
-                <TextBlock FontSize="28"
-                           FontWeight="SemiBold"
-                           Text="扩展商店" />
-            </Border>
-            <Grid>
-                <i:Interaction.Triggers>
-                    <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
-                                   Comparison="LessThan"
-                                   Value="450">
-                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                    </i:DataTrigger>
-                    <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
-                                   Comparison="GreaterThanOrEqual"
-                                   Value="450">
-                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                    </i:DataTrigger>
-                </i:Interaction.Triggers>
-                <Viewbox>
-                    <Grid Width="480"
-                          Height="100"
-                          UseLayoutRounding="True">
-                        <Border CornerRadius="4" UseLayoutRounding="False">
-                            <Border.Background>
-                                <ImageBrush x:Name="BannerImage"
-                                            ImageSource="/Assets/Images/market_banner.jpg"
-                                            Stretch="UniformToFill" />
-                            </Border.Background>
-                        </Border>
-                        <Border Background="#A43C2F" CornerRadius="4">
-                            <Border.OpacityMask>
-                                <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
-                                    <GradientStop Offset="0.2" Color="Black" />
-                                    <GradientStop Offset="0.7" Color="Transparent" />
-                                </LinearGradientBrush>
-                            </Border.OpacityMask>
-                        </Border>
-                    </Grid>
-                </Viewbox>
-                <UniformGrid Margin="32,0,0,0" Columns="2">
-                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock FontSize="{DynamicResource FontSize.Headline.Large}"
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <Grid Margin="48,16,48,24">
+                    <Border Margin="0,0,0,8">
+                        <TextBlock FontSize="28"
                                    FontWeight="SemiBold"
-                                   Foreground="White"
                                    Text="扩展商店" />
-                        <TextBlock Margin="0,16,0,0"
-                                   FontSize="{DynamicResource FontSize.Body.Large}"
-                                   Foreground="White"
-                                   Text="各色功能模块，让灵光回声成为你手中最得心应手的全能利器。"
-                                   TextWrapping="Wrap">
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
-                                               Comparison="LessThan"
-                                               Value="800">
-                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
-                                               Comparison="GreaterThanOrEqual"
-                                               Value="800">
-                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBlock>
-                    </StackPanel>
-                </UniformGrid>
-            </Grid>
-        </Grid>
-        <ScrollViewer Grid.Row="1" Padding="40,0,40,40">
-            <ItemsControl VerticalAlignment="Top"
-                          d:ItemsSource="{d:SampleData ItemCount=10}"
-                          ItemTemplate="{StaticResource PluginTemplate}"
-                          ItemsSource="{Binding Plugins}">
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="{x:Type ContentPresenter}">
-                        <Setter Property="Margin" Value="8" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid x:Name="PluginItemGrid"
-                                     Columns="4"
-                                     IsItemsHost="True">
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
-                                               Comparison="GreaterThanOrEqual"
-                                               Value="1300">
-                                    <i:ChangePropertyAction PropertyName="Columns" Value="5" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
-                                               Comparison="LessThan"
-                                               Value="1300">
-                                    <i:ChangePropertyAction PropertyName="Columns" Value="4" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
-                                               Comparison="LessThan"
-                                               Value="900">
-                                    <i:ChangePropertyAction PropertyName="Columns" Value="3" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
-                                               Comparison="LessThan"
-                                               Value="650">
-                                    <i:ChangePropertyAction PropertyName="Columns" Value="2" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
-                                               Comparison="LessThan"
-                                               Value="450">
-                                    <i:ChangePropertyAction PropertyName="Columns" Value="1" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
+                    </Border>
+                    <Grid>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                           Comparison="LessThan"
+                                           Value="450">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                           Comparison="GreaterThanOrEqual"
+                                           Value="450">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Viewbox>
+                            <Grid Width="480"
+                                  Height="100"
+                                  UseLayoutRounding="True">
+                                <Border CornerRadius="4" UseLayoutRounding="False">
+                                    <Border.Background>
+                                        <ImageBrush x:Name="BannerImage"
+                                                    ImageSource="/Assets/Images/market_banner.jpg"
+                                                    Stretch="UniformToFill" />
+                                    </Border.Background>
+                                </Border>
+                                <Border Background="#A43C2F" CornerRadius="4">
+                                    <Border.OpacityMask>
+                                        <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                            <GradientStop Offset="0.2" Color="Black" />
+                                            <GradientStop Offset="0.7" Color="Transparent" />
+                                        </LinearGradientBrush>
+                                    </Border.OpacityMask>
+                                </Border>
+                            </Grid>
+                        </Viewbox>
+                        <UniformGrid Margin="32,0,0,0" Columns="2">
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock FontSize="{DynamicResource FontSize.Headline.Large}"
+                                           FontWeight="SemiBold"
+                                           Foreground="White"
+                                           Text="扩展商店" />
+                                <TextBlock Margin="0,16,0,0"
+                                           FontSize="{DynamicResource FontSize.Body.Large}"
+                                           Foreground="White"
+                                           Text="各色功能模块，让灵光回声成为你手中最得心应手的全能利器。"
+                                           TextWrapping="Wrap">
+                                    <i:Interaction.Triggers>
+                                        <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                                       Comparison="LessThan"
+                                                       Value="800">
+                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                        </i:DataTrigger>
+                                        <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                                       Comparison="GreaterThanOrEqual"
+                                                       Value="800">
+                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                        </i:DataTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBlock>
+                            </StackPanel>
                         </UniformGrid>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+                    </Grid>
+                </Grid>
+                <ItemsControl VerticalAlignment="Top"
+                              Margin="40, 0, 40, 40"
+                              d:ItemsSource="{d:SampleData ItemCount=10}"
+                              ItemTemplate="{StaticResource PluginTemplate}"
+                              ItemsSource="{Binding Plugins}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type ContentPresenter}">
+                            <Setter Property="Margin" Value="8" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid x:Name="PluginItemGrid"
+                                         Columns="4"
+                                         IsItemsHost="True">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                                   Comparison="GreaterThanOrEqual"
+                                                   Value="1300">
+                                        <i:ChangePropertyAction PropertyName="Columns" Value="5" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                                   Comparison="LessThan"
+                                                   Value="1300">
+                                        <i:ChangePropertyAction PropertyName="Columns" Value="4" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                                   Comparison="LessThan"
+                                                   Value="900">
+                                        <i:ChangePropertyAction PropertyName="Columns" Value="3" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                                   Comparison="LessThan"
+                                                   Value="650">
+                                        <i:ChangePropertyAction PropertyName="Columns" Value="2" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
+                                                   Comparison="LessThan"
+                                                   Value="450">
+                                        <i:ChangePropertyAction PropertyName="Columns" Value="1" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                            </UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

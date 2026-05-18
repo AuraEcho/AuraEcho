@@ -10,9 +10,9 @@
     <sys:Double x:Key="FontSize.Headline.Medium">28</sys:Double>
     <sys:Double x:Key="FontSize.Headline.Small">24</sys:Double>
     <!-- Title -->
-    <sys:Double x:Key="FontSize.Title.Large">22</sys:Double>
-    <sys:Double x:Key="FontSize.Title.Medium">16</sys:Double>
-    <sys:Double x:Key="FontSize.Title.Small">14</sys:Double>
+    <sys:Double x:Key="FontSize.Title.Large">20</sys:Double>
+    <sys:Double x:Key="FontSize.Title.Medium">18</sys:Double>
+    <sys:Double x:Key="FontSize.Title.Small">16</sys:Double>
     <!-- Body -->
     <sys:Double x:Key="FontSize.Body.Large">16</sys:Double>
     <sys:Double x:Key="FontSize.Body.Medium">14</sys:Double>

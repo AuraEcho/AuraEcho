@@ -122,11 +122,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private void RestartTipsButton_Click(object sender, RoutedEventArgs e)
-    {
-        PendingRestartPopup.IsOpen = true;
-    }
-
     private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         AppContainer.Focusable = true;

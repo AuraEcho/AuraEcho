@@ -1,4 +1,6 @@
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AuraEcho.Constants;
@@ -6,7 +8,9 @@ using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
+using AuraEcho.Events;
 using AuraEcho.Interfaces;
+using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
@@ -66,25 +70,35 @@ public class HomepageViewModel : BindableBase
     }
 
     public DelegateCommand<UserPluginModel> PluginPlanUninstallCommand { get; }
-    private void PluginPlanUninstall(UserPluginModel plugin)
+    private async void PluginPlanUninstall(UserPluginModel plugin)
     {
         plugin.Status = PluginPlanStatus.UninstallPending;
-        _localPluginRepository.UpdateUserPluginStatusAsync(
+        await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
             plugin.LocalPlugin.Id,
             plugin.Status);
+
+        _eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PluginUninstallPendingRestart
+        {
+            Id = Guid.NewGuid(),
+            IconPath = Path.Combine(plugin.LocalPlugin.PluginFolder, plugin.LocalPlugin.Manifest.Icon),
+            PluginId = plugin.LocalPlugin.Id,
+            Title = plugin.LocalPlugin.Manifest.PluginName
+        });
     }
 
     public DelegateCommand<UserPluginModel> CancelPluginPlanUninstallCommand { get; }
-    private void CancelPluginPlanUninstall(UserPluginModel plugin)
+    private async void CancelPluginPlanUninstall(UserPluginModel plugin)
     {
         if (plugin.Status != PluginPlanStatus.UninstallPending) return;
 
         plugin.Status = PluginPlanStatus.None;
-        _localPluginRepository.UpdateUserPluginStatusAsync(
+        await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
             plugin.LocalPlugin.Id,
             plugin.Status);
+
+        _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Publish(plugin.LocalPlugin.Id);
     }
 
     public DelegateCommand<UserPluginModel> SwitchPluginCommand { get; }

@@ -1,5 +1,5 @@
 ﻿using Prism.Mvvm;
-
+using System;
 namespace AuraEcho.Models;
 
 /// <summary>
@@ -7,13 +7,13 @@ namespace AuraEcho.Models;
 /// </summary>
 public class PendingRestartItem : BindableBase
 {
-    public string Name
+    public Guid Id
     {
         get;
         set => SetProperty(ref field, value);
-    }
+    } = Guid.NewGuid();
 
-    public string Description
+    public string Title
     {
         get;
         set => SetProperty(ref field, value);

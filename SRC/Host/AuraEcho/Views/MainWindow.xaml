@@ -7,8 +7,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:AuraEcho.Models"
         xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:selectors="clr-namespace:AuraEcho.Selectors"
         xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
         xmlns:views="clr-namespace:AuraEcho.Views"
         Title="{Binding Source={StaticResource R}, Path=Labels.AppName}"
@@ -53,6 +55,93 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <DataTemplate x:Key="AppUpdatePendingRestartTemplate" DataType="{x:Type models:AppUpdatePendingRestart}">
+            <Grid Margin="8,6" ColumnDefinitions="Auto, *">
+                <Image Grid.Column="0"
+                       Width="64"
+                       Height="64"
+                       Margin="0,0,12,0">
+                    <Image.Source>
+                        <BitmapImage DecodePixelWidth="64" UriSource="/Assets/Images/auraecho.png" />
+                    </Image.Source>
+                </Image>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock FontWeight="Bold"
+                               Style="{DynamicResource TitleSmallTextBlockStyle}"
+                               Text="{Binding Title}" />
+                    <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                               Text="{Binding Source={StaticResource BindingProxy}, Path=Data.CurrentVersion, StringFormat=当前版本：{0}}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,8,0"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                   Text="{Binding LatestVersion, StringFormat=最新版本：{0}}" />
+                        <TextBlock Foreground="{DynamicResource Brushes.Primary}"
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                   Text="等待重启" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PluginUpdatePendingRestartTemplate" DataType="{x:Type models:PluginUpdatePendingRestart}">
+            <Grid Margin="8,6" ColumnDefinitions="Auto, *">
+                <Image Grid.Column="0"
+                       Width="64"
+                       Height="64"
+                       Margin="0,0,12,0">
+                    <Image.Source>
+                        <BitmapImage DecodePixelWidth="64" UriSource="{Binding IconPath}" />
+                    </Image.Source>
+                </Image>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock FontWeight="Bold"
+                               Style="{DynamicResource TitleSmallTextBlockStyle}"
+                               Text="{Binding Title}" />
+                    <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                               Text="当前版本：1.2.0" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,8,0"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                   Text="{Binding LatestVersion, StringFormat=最新版本：{0}}" />
+                        <TextBlock Foreground="{DynamicResource Brushes.Primary}"
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                   Text="等待重启" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PluginUninstallPendingRestartTemplate" DataType="{x:Type models:PluginUninstallPendingRestart}">
+            <Grid Margin="8,6" ColumnDefinitions="Auto, *">
+                <Image Grid.Column="0"
+                       Width="64"
+                       Height="64"
+                       Margin="0,0,12,0">
+                    <Image.Source>
+                        <BitmapImage DecodePixelWidth="64" UriSource="{Binding IconPath}" />
+                    </Image.Source>
+                </Image>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock FontWeight="Bold"
+                               Style="{DynamicResource TitleSmallTextBlockStyle}"
+                               Text="{Binding Title}" />
+                    <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                               Text="卸载已挂起" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,8,0"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                   Text="将在重启后应用" />
+                        <TextBlock Foreground="{DynamicResource Brushes.Primary}"
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                   Text="等待重启" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -210,17 +299,14 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
-
-                    <Button x:Name="RestartTipsButton"
-                            Margin="0,0,4,0"
-                            Padding="16,6"
-                            VerticalAlignment="Center"
-                            auraecho:ControlHelper.CornerRadius="4"
-                            Click="RestartTipsButton_Click"
-                            Content="更新"
-                            FontSize="{DynamicResource FontSize.Label.Small}"
-                            Visibility="Visible"
-                            WindowChrome.IsHitTestVisibleInChrome="True">
+                    <ToggleButton x:Name="RestartTipsButton"
+                                  Width="47"
+                                  Padding="0"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Foreground="{DynamicResource Brushes.Primary}"
+                                  ToolTip="等待重启"
+                                  WindowChrome.IsHitTestVisibleInChrome="True">
                         <i:Interaction.Triggers>
                             <i:DataTrigger Binding="{Binding PendingRestartItems.Count}" Value="0">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -231,15 +317,30 @@
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                             </i:DataTrigger>
                         </i:Interaction.Triggers>
-                    </Button>
-
+                        <ToggleButton.IsHitTestVisible>
+                            <Binding Delay="10"
+                                     ElementName="PendingRestartPopup"
+                                     Path="IsOpen">
+                                <Binding.Converter>
+                                    <auraecho:ReverseBooleanConverter />
+                                </Binding.Converter>
+                            </Binding>
+                        </ToggleButton.IsHitTestVisible>
+                        <Viewbox x:Name="RestartPendingIcon"
+                                 Width="24"
+                                 Height="24">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M10 4.03V.633L5 5.63L10 10.63V6.03C11.5 6.03 13.11 6.63 14.21 7.73C16.5 10.13 16.5 13.93 14.21 16.23C12.91 17.53 11.11 18.13 9.4 17.93L8.9 19.93C11.31 20.23 13.81 19.53 15.61 17.63C18.7 14.53 18.7 9.43 15.61 6.33C14.11 4.83 12.11 4.03 10 4.03M4.31 17.63C5.11 18.43 6 19.03 7 19.43L7.61 17.43C6.91 17.13 6.31 16.73 5.81 16.23C3.91 14.43 3.5 11.63 4.61 9.43L3.11 7.93C1.31 11.03 1.71 15.03 4.31 17.63M20 13H22V7H20V13M20 17H22V15H20V17Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}, Path=Foreground}" />
+                            </Canvas>
+                        </Viewbox>
+                    </ToggleButton>
                     <ToggleButton x:Name="OptionsToggleButton"
                                   Width="47"
                                   Padding="0"
                                   Background="Transparent"
                                   BorderThickness="0"
                                   Foreground="{DynamicResource Brushes.OnSurface}"
-                                  Style="{DynamicResource NoAppearanceToggleButton}"
+                                  ToolTip="{Binding ClientSession.CurrentUser.UserName}"
                                   WindowChrome.IsHitTestVisibleInChrome="True">
                         <ToggleButton.IsHitTestVisible>
                             <Binding Delay="10"
@@ -250,17 +351,17 @@
                                 </Binding.Converter>
                             </Binding>
                         </ToggleButton.IsHitTestVisible>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding ClientSession.CurrentUser}" Value="{x:Null}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding ClientSession.CurrentUser}"
+                                           Comparison="NotEqual"
+                                           Value="{x:Null}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
                         <Border x:Name="AvatarContainer">
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding ClientSession.CurrentUser}" Value="{x:Null}">
-                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding ClientSession.CurrentUser}"
-                                               Comparison="NotEqual"
-                                               Value="{x:Null}">
-                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
                             <Grid>
                                 <Border x:Name="TitleDefaultAvatarBorder"
                                         Width="28"
@@ -414,42 +515,63 @@
 
                     <Popup x:Name="PendingRestartPopup"
                            AllowsTransparency="True"
-                           HorizontalOffset="-64"
+                           HorizontalOffset="-240"
+                           IsOpen="{Binding ElementName=RestartTipsButton, Path=IsChecked}"
                            Placement="Bottom"
                            PlacementTarget="{Binding ElementName=RestartTipsButton}"
                            StaysOpen="False"
+                           UseLayoutRounding="True"
                            VerticalOffset="4">
-                        <Border Width="200"
-                                Margin="16"
-                                Padding="16"
+                        <Popup.Resources>
+                            <Storyboard x:Key="ShowPendingRestartItemsStoryboard">
+                                <DoubleAnimation Storyboard.TargetName="PendingRestartItemsLayout"
+                                                 Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                                 From="-100"
+                                                 To="0"
+                                                 Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </Popup.Resources>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Popup}}, Path=IsOpen}" Value="True">
+                                <i:ControlStoryboardAction Storyboard="{StaticResource ShowPendingRestartItemsStoryboard}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Border x:Name="PendingRestartItemsLayout"
+                                MinWidth="290"
+                                MaxHeight="480"
+                                Padding="8"
                                 Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-                                BorderBrush="{DynamicResource Brushes.OutlineVariant}"
+                                BorderBrush="{DynamicResource Brushes.OutlineShadow}"
                                 BorderThickness="1"
-                                CornerRadius="4"
-                                UseLayoutRounding="True">
+                                CornerRadius="4">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="20"
                                                   Direction="270"
                                                   Opacity="0.15"
                                                   ShadowDepth="6" />
                             </Border.Effect>
+                            <Border.RenderTransform>
+                                <TranslateTransform />
+                            </Border.RenderTransform>
                             <Grid RowDefinitions="Auto, *, Auto">
                                 <TextBlock Margin="0,0,0,8"
                                            FontSize="{DynamicResource FontSize.Body.Medium}"
                                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                            Text="重启以更新" />
-                                <ItemsControl Grid.Row="1"
-                                              Margin="0,0,0,8"
-                                              ItemsSource="{Binding PendingRestartItems}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock FontSize="{DynamicResource FontSize.Body.Medium}">
-                                                <Run Text="{Binding Name}" />
-                                                |<Run Text="{Binding Description}" />
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ScrollViewer Grid.Row="1" Margin="0,0,0,12">
+                                    <ItemsControl ItemsSource="{Binding PendingRestartItems}">
+                                        <ItemsControl.ItemTemplateSelector>
+                                            <selectors:PendingRestartItemTemplateSelector AppUpdateTemplate="{StaticResource AppUpdatePendingRestartTemplate}"
+                                                                                          PluginUninstallTemplate="{StaticResource PluginUninstallPendingRestartTemplate}"
+                                                                                          PluginUpdateTemplate="{StaticResource PluginUpdatePendingRestartTemplate}" />
+                                        </ItemsControl.ItemTemplateSelector>
+                                    </ItemsControl>
+                                </ScrollViewer>
+
                                 <Button Grid.Row="2"
                                         Padding="0,8"
                                         Command="{Binding Source={StaticResource BindingProxy}, Path=Data.RequestRestartAppCommand}"

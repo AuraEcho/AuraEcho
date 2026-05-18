@@ -24,7 +24,9 @@ using AuraEcho.Core.Repositories;
 using AuraEcho.Core.Services;
 using AuraEcho.Core.Tools;
 using AuraEcho.Core.Tools.HttpClientPipelines;
+using AuraEcho.Events;
 using AuraEcho.Interfaces;
+using AuraEcho.Models;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
@@ -287,11 +289,11 @@ public partial class App
         static void NewVersionInstalled(Version newVersion)
         {
             IEventAggregator eventAggregator = (Current as App)!.Container.Resolve<IEventAggregator>();
-            eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PendingRestartItem
+            eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new AppUpdatePendingRestart
             {
-                Id = "App",
-                Name = "灵光回声主程序",
-                Description = newVersion.ToString()
+                Id = Guid.NewGuid(),
+                Title = "灵光回声",
+                LatestVersion = newVersion
             });
         }
 
@@ -306,11 +308,14 @@ public partial class App
             var targetPluginVersion = Version.Parse(targetPlugin.LocalPlugin.Manifest.Version);
             if (newVersion <= targetPluginVersion) return;
 
-            eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PendingRestartItem
+            eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PluginUpdatePendingRestart
             {
-                Id = pluginId.ToString("N"),
-                Name = targetPlugin.LocalPlugin.Manifest.PluginName,
-                Description = newVersion.ToString()
+                Id = Guid.NewGuid(),
+                IconPath = Path.Combine(targetPlugin.LocalPlugin.PluginFolder, targetPlugin.LocalPlugin.Manifest.Icon),
+                PluginId = targetPlugin.LocalPlugin.Id,
+                Title = targetPlugin.LocalPlugin.Manifest.PluginName,
+                LatestVersion = newVersion,
+                CurrentVersion = Version.Parse(targetPlugin.LocalPlugin.Manifest.Version)
             });
         }
     }

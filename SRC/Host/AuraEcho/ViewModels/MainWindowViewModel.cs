@@ -1,10 +1,16 @@
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
-using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
+using AuraEcho.Events;
+using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
@@ -12,11 +18,6 @@ using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
 
@@ -26,8 +27,13 @@ public class MainWindowViewModel : BindableBase
     private readonly IAuthRepository _authRepository;
     public IAuraToastService ToastService { get; }
     private readonly Task _autoSignInTask;
-    private Version _currentVersion;
     #endregion
+
+    public Version CurrentVersion
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
 
     public ObservableCollection<PendingRestartItem> PendingRestartItems
     {
@@ -71,7 +77,7 @@ public class MainWindowViewModel : BindableBase
     {
         NavigationService.GoBack();
     }
-     
+
     private void SignInExpired()
     {
         NavigationService.RequestNavigate(HostRegionNames.ContentDialogRegion, ViewNames.SignInExpired);
@@ -112,6 +118,7 @@ public class MainWindowViewModel : BindableBase
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
+        _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Subscribe(PluginCancelUninstall, ThreadOption.UIThread);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
         SignOutCommand = new DelegateCommand(SignOut);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
@@ -125,7 +132,15 @@ public class MainWindowViewModel : BindableBase
         }
 
         _autoSignInTask = AutoSignInAsync();
-        _currentVersion = GetCurrentVersion();
+        CurrentVersion = GetCurrentVersion();
+    }
+
+    private void PluginCancelUninstall(Guid pluginId)
+    {
+        PluginUninstallPendingRestart? targetUninstallItem =
+            PendingRestartItems.OfType<PluginUninstallPendingRestart>()
+                               .FirstOrDefault(item => item.PluginId == pluginId);
+        PendingRestartItems.Remove(targetUninstallItem);
     }
 
     private static Version GetCurrentVersion()
@@ -167,14 +182,29 @@ public class MainWindowViewModel : BindableBase
 
     private void NewPendingRestartItem(PendingRestartItem newItem)
     {
-        var existingItem = PendingRestartItems.FirstOrDefault(item => item.Id == newItem.Id);
-        if (existingItem is null)
+        switch (newItem)
         {
-            PendingRestartItems.Add(newItem);
-            return;
+            case AppUpdatePendingRestart au:
+                PendingRestartItems.OfType<AppUpdatePendingRestart>()
+                                   .ToList()
+                                   .ForEach(item => PendingRestartItems.Remove(item));
+                break;
+            case PluginUpdatePendingRestart pu:
+                PluginUpdatePendingRestart? targetItem =
+                    PendingRestartItems.OfType<PluginUpdatePendingRestart>()
+                                       .FirstOrDefault(item => item.PluginId == pu.PluginId);
+                PendingRestartItems.Remove(targetItem);
+                break;
+            case PluginUninstallPendingRestart pup:
+                PluginUninstallPendingRestart? targetUninstallItem =
+                    PendingRestartItems.OfType<PluginUninstallPendingRestart>()
+                                       .FirstOrDefault(item => item.PluginId == pup.PluginId);
+                PendingRestartItems.Remove(targetUninstallItem);
+                break;
+            default:
+                break;
         }
 
-        existingItem.Name = newItem.Name;
-        existingItem.Description = newItem.Description;
+        PendingRestartItems.Add(newItem);
     }
 }

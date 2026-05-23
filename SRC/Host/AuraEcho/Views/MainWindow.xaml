@@ -8,6 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:AuraEcho.Models"
+        xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
         xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:selectors="clr-namespace:AuraEcho.Selectors"
@@ -26,8 +27,6 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
-        <cv:FileIdToUrlConverter x:Key="FileIdToUrl" />
-        <cv:FilePathToBitmapImageConverter x:Key="FileIdToBitmapImage" />
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <Storyboard x:Key="ShowMask">
             <DoubleAnimation Storyboard.TargetName="AppContainer"
@@ -393,15 +392,9 @@
                                         <TranslateTransform Y="0" />
                                     </Border.RenderTransform>
                                     <Border.Background>
-                                        <ImageBrush>
-                                            <ImageBrush.ImageSource>
-                                                <Binding Path="ClientSession.CurrentUser.AvatarFileUrl">
-                                                    <Binding.Converter>
-                                                        <cv:FilePathToBitmapImageConverter DecodePixelHeight="56" DecodePixelWidth="56" />
-                                                    </Binding.Converter>
-                                                </Binding>
-                                            </ImageBrush.ImageSource>
-                                        </ImageBrush>
+                                        <ImageBrush pcap:WebImageHelper.DecodePixelWidth="56"
+                                                    pcap:WebImageHelper.Url="{Binding ClientSession.CurrentUser.AvatarFileUrl}"
+                                                    Stretch="UniformToFill" />
                                     </Border.Background>
                                 </Border>
                             </Grid>
@@ -652,15 +645,9 @@
                                             BorderThickness="1"
                                             CornerRadius="40">
                                         <Border.Background>
-                                            <ImageBrush>
-                                                <ImageBrush.ImageSource>
-                                                    <Binding Path="ClientSession.CurrentUser.AvatarFileUrl">
-                                                        <Binding.Converter>
-                                                            <cv:FilePathToBitmapImageConverter DecodePixelHeight="56" DecodePixelWidth="56" />
-                                                        </Binding.Converter>
-                                                    </Binding>
-                                                </ImageBrush.ImageSource>
-                                            </ImageBrush>
+                                            <ImageBrush pcap:WebImageHelper.DecodePixelHeight="96"
+                                                        pcap:WebImageHelper.Url="{Binding ClientSession.CurrentUser.AvatarFileUrl}"
+                                                        Stretch="UniformToFill" />
                                         </Border.Background>
                                     </Border>
                                     <StackPanel Grid.Column="1">

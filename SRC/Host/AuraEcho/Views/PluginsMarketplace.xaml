@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Models"
+             xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:sv="clr-namespace:AuraEcho.Services"
              xmlns:ui="http://ui.auraecho.com/"
@@ -69,11 +70,9 @@
                             <Grid RowDefinitions="105, *">
                                 <Border Grid.Row="0" CornerRadius="4, 4, 0, 0">
                                     <Border.Background>
-                                        <VisualBrush AlignmentY="Top" Stretch="UniformToFill">
-                                            <VisualBrush.Visual>
-                                                <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.BannerFileUrl}" />
-                                            </VisualBrush.Visual>
-                                        </VisualBrush>
+                                        <ImageBrush pcap:WebImageHelper.DecodePixelHeight="210"
+                                                    pcap:WebImageHelper.Url="{Binding PluginInfo.BannerFileUrl}"
+                                                    Stretch="UniformToFill" />
                                     </Border.Background>
                                 </Border>
                                 <DockPanel Grid.Row="1"
@@ -86,11 +85,9 @@
                                             CornerRadius="4"
                                             DockPanel.Dock="Left">
                                         <Border.Background>
-                                            <VisualBrush AlignmentY="Top" Stretch="UniformToFill">
-                                                <VisualBrush.Visual>
-                                                    <Image RenderOptions.BitmapScalingMode="LowQuality" Source="{Binding PluginInfo.IconFileUrl}" />
-                                                </VisualBrush.Visual>
-                                            </VisualBrush>
+                                            <ImageBrush pcap:WebImageHelper.DecodePixelWidth="64"
+                                                        pcap:WebImageHelper.Url="{Binding PluginInfo.IconFileUrl}"
+                                                        Stretch="UniformToFill" />
                                         </Border.Background>
                                     </Border>
                                     <Grid>
@@ -117,7 +114,7 @@
     </UserControl.Resources>
     <Grid x:Name="ContentPanel"
           MaxWidth="1600"
-          Margin="0, 36, 0, 0"
+          Margin="0,36,0,0"
           RowDefinitions="Auto, *">
         <ScrollViewer Grid.Row="1">
             <StackPanel>
@@ -189,8 +186,8 @@
                         </UniformGrid>
                     </Grid>
                 </Grid>
-                <ItemsControl VerticalAlignment="Top"
-                              Margin="40, 0, 40, 40"
+                <ItemsControl Margin="40,0,40,40"
+                              VerticalAlignment="Top"
                               d:ItemsSource="{d:SampleData ItemCount=10}"
                               ItemTemplate="{StaticResource PluginTemplate}"
                               ItemsSource="{Binding Plugins}">

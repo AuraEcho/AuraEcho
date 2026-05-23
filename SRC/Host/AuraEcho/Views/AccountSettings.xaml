@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="http://ui.auraecho.com/"
@@ -46,15 +47,9 @@
                                 BorderThickness="1"
                                 CornerRadius="100">
                             <Border.Background>
-                                <ImageBrush Stretch="UniformToFill">
-                                    <ImageBrush.ImageSource>
-                                        <Binding Path="NewAvatarFileUrl">
-                                            <Binding.Converter>
-                                                <cv:FilePathToBitmapImageConverter DecodePixelHeight="300" DecodePixelWidth="300"/>
-                                            </Binding.Converter>
-                                        </Binding>
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
+                                <ImageBrush pcap:WebImageHelper.DecodePixelWidth="300"
+                                            pcap:WebImageHelper.Url="{Binding NewAvatarFileUrl}"
+                                            Stretch="UniformToFill"/>
                             </Border.Background>
                         </Border>
                         <Border Margin="8"

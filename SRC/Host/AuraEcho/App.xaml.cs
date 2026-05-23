@@ -30,6 +30,7 @@ using AuraEcho.Models;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
+using AuraEcho.PluginContracts.Services;
 using AuraEcho.Services;
 using AuraEcho.UIToolkit.RegionDialog;
 using AuraEcho.ViewModels;
@@ -101,6 +102,7 @@ public partial class App
         containerRegistry.RegisterSingleton<ILicenseService, LicenseRepository>();
         containerRegistry.RegisterSingleton<IPurchaseCoordinator, PurchaseCoordinator>();
         containerRegistry.RegisterSingleton<IOrderRepository, OrderRepository>();
+        containerRegistry.RegisterSingleton<IWebImageLoader, WebImageLoader>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
@@ -121,9 +123,9 @@ public partial class App
     {
         RegisterEvents();
         LoadConfig();
-
         if (_startupArgs.Contains("-hide")) return;
 
+        WebImageLoaderContext.Default = Container.Resolve<IWebImageLoader>();
         base.OnInitialized();
     }
 

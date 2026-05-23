@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Models"
+             xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:selectors="clr-namespace:AuraEcho.Selectors"
              xmlns:sv="clr-namespace:AuraEcho.Services"
@@ -23,7 +24,6 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
-        <converters:FileIdToUrlConverter x:Key="FileIdToUrl" />
         <DataTemplate x:Key="NotInstalledTemplate" DataType="{x:Type enums:MarketPluginInstallStatus}">
             <Button Width="200"
                     Height="52"
@@ -192,18 +192,21 @@
                                     <GradientStop Offset="1" Color="#00000000" />
                                 </LinearGradientBrush>
                             </Border.OpacityMask>
-                            <Image x:Name="BannerImage" Source="{Binding MarketPlugin.PluginInfo.BannerFileUrl}">
-                                <Image.OpacityMask>
+                            <Border>
+                                <Image x:Name="BannerImage"
+                                       pcap:WebImageHelper.DecodePixelHeight="800"
+                                       pcap:WebImageHelper.Url="{Binding MarketPlugin.PluginInfo.BannerFileUrl}" />
+                                <Border.OpacityMask>
                                     <RadialGradientBrush Center="0.5, 0.4" RadiusX="0.5" RadiusY="0.7">
                                         <GradientStop Offset="0" Color="#FF000000" />
                                         <GradientStop Offset="0.6" Color="#FF000000" />
                                         <GradientStop Offset="1" Color="#00000000" />
                                     </RadialGradientBrush>
-                                </Image.OpacityMask>
-                            </Image>
+                                </Border.OpacityMask>
+                            </Border>
                         </Border>
                         <!-- 圆形透明遮罩层 -->
-                        <Border Grid.Column="0" Grid.ColumnSpan="2" Opacity=".7">
+                        <Border Grid.Column="0" Grid.ColumnSpan="2">
                             <Border.Background>
                                 <RadialGradientBrush Center="0.5, 0.5" GradientOrigin="0.65, 0.5" RadiusX="0.5" RadiusY="2">
                                     <GradientStop Offset="0" Color="#00000000" />
@@ -259,7 +262,9 @@
                                 CornerRadius="8"
                                 DockPanel.Dock="Left">
                             <Border.Background>
-                                <ImageBrush d:ImageSource="/Assets/Icons/AuraEcho.ico" ImageSource="{Binding MarketPlugin.PluginInfo.IconFileUrl}" />
+                                <ImageBrush d:ImageSource="/Assets/Icons/AuraEcho.ico"
+                                            pcap:WebImageHelper.DecodePixelWidth="170"
+                                            pcap:WebImageHelper.Url="{Binding MarketPlugin.PluginInfo.IconFileUrl}" />
                             </Border.Background>
                         </Border>
                         <StackPanel>
@@ -415,7 +420,9 @@
                                                         Height="252"
                                                         CornerRadius="4">
                                                     <Border.Background>
-                                                        <ImageBrush ImageSource="{Binding FileUrl}" Stretch="UniformToFill" />
+                                                        <ImageBrush pcap:WebImageHelper.DecodePixelWidth="976"
+                                                                    pcap:WebImageHelper.Url="{Binding FileUrl}"
+                                                                    Stretch="UniformToFill" />
                                                     </Border.Background>
                                                 </Border>
 

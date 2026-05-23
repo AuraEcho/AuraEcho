@@ -15,6 +15,7 @@ public static class ApplicationPaths
     public static string Plugins => Path.Combine(BasePath, "Plugins");
     public static string Logs => Path.Combine(BasePath, "Logs");
     public static string Temp => Path.Combine(BasePath, "Temp");
+    public static string Cache => Path.Combine(BasePath, "Cache");
     public static string Data => Path.Combine(BasePath, "Data");
     public static string Config => Path.Combine(BasePath, "Config");
     public static string SecureStore => Path.Combine(BasePath, "SecureStore");
@@ -31,6 +32,7 @@ public static class ApplicationPaths
         Directory.CreateDirectory(Temp);
         Directory.CreateDirectory(Data);
         Directory.CreateDirectory(Config);
+        Directory.CreateDirectory(Cache);
         Directory.CreateDirectory(SecureStore);
 
         LauncherPath = GetLauncherPath();

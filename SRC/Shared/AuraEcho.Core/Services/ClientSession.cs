@@ -44,7 +44,7 @@ public class ClientSession : BindableBase, IClientSession
 
     private bool IsExpired()
     {
-        return _clock.UtcNow >= AppToken.ExpiresAt;
+        return _clock.UtcNow.AddSeconds(5) >= AppToken.ExpiresAt;
     }
 
     public void SignIn(AuthResponse authResponse)

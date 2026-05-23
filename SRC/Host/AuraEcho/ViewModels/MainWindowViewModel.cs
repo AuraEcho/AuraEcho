@@ -1,8 +1,3 @@
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
@@ -14,10 +9,17 @@ using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
 
@@ -25,6 +27,7 @@ public class MainWindowViewModel : BindableBase
 {
     #region private members
     private readonly IAuthRepository _authRepository;
+    private readonly IRegionDialogService _regionDialogService;
     public IAuraToastService ToastService { get; }
     private readonly Task _autoSignInTask;
     #endregion
@@ -104,8 +107,10 @@ public class MainWindowViewModel : BindableBase
         IEventAggregator eventAggregator,
         IAuthRepository authRepository,
         IClientSession clientSession,
-        IAuraToastService auraToastService)
+        IAuraToastService auraToastService,
+        IRegionDialogService regionDialogService)
     {
+        _regionDialogService = regionDialogService;
         ToastService = auraToastService;
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
@@ -117,6 +122,7 @@ public class MainWindowViewModel : BindableBase
 
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
+        _eventAggregator.GetEvent<KickedOutEvent>().Subscribe(KickedOut);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Subscribe(PluginCancelUninstall, ThreadOption.UIThread);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
@@ -133,6 +139,34 @@ public class MainWindowViewModel : BindableBase
 
         _autoSignInTask = AutoSignInAsync();
         CurrentVersion = GetCurrentVersion();
+    }
+
+    private async void KickedOut()
+    {
+        ClientSession.SignOut();
+
+        RegionDialogResult dialogResult =
+            await _regionDialogService.ShowDialogAsync(
+                HostRegionNames.ContentDialogRegion,
+                ViewNames.ConfirmDialog,
+                new NavigationParameters
+                {
+                    { "DialogArgs", new RegionDialogParameter
+                    {
+                        CancelText = "重新登录",
+                        ConfirmText = "退出",
+                        Message = "您的账号已在其他设备登录，当前设备已下线。如果这不是您本人的操作，那么您的密码可能已经泄露，请尽快修改密码。",
+                        Title = "账号在其他设备登录"
+                    }}
+                });
+
+        if (dialogResult != RegionDialogResult.Cancel)
+        {
+            _eventAggregator.GetEvent<AppShutdownEvent>().Publish();
+            return;
+        }
+
+        _eventAggregator.GetEvent<AppRestartEvent>().Publish();
     }
 
     private void PluginCancelUninstall(Guid pluginId)

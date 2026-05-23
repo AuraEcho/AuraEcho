@@ -202,7 +202,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Brushes.OutlineInner}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}"/>

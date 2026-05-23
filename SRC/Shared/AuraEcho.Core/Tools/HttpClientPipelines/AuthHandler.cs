@@ -32,6 +32,13 @@ public class AuthHandler : DelegatingHandler
         if (response.StatusCode != HttpStatusCode.Unauthorized)
             return response;
 
+        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+        if (responseBody.Contains("KICKED_OUT"))
+        {
+            _eventAggregator.GetEvent<KickedOutEvent>().Publish();
+            return response;
+        }
+
         if (_clientSession.AppToken is null) return response;
 
         if (!await _clientSession.TryRefreshTokenAsync())

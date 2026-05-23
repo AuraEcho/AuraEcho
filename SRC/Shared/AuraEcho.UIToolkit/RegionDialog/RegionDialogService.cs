@@ -43,7 +43,6 @@ namespace AuraEcho.UIToolkit.RegionDialog
             region.Activate(dialog);
             dialogAware.OnDialogOpened(parameters);
 
-
             _regionManager.Regions[regionName].NavigationService.Navigated -= OnRegionNavigated;
             _regionManager.Regions[regionName].NavigationService.Navigated += OnRegionNavigated;
             region.Views.CollectionChanged -= OnViewsCollectionChanged;

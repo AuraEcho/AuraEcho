@@ -182,6 +182,7 @@ public partial class App
             return;
         }
 
+#if !DEBUG
         _instanceMutex = new(true, MutexNames.AURAECHO_MUTEX_ID, out bool createdNew);
         if (!createdNew)
         {
@@ -197,7 +198,7 @@ public partial class App
             _logger.Debug("已有实例正在运行，正在退出程序。");
             return;
         }
-
+#endif
         CreateDatabaseIfNotExists();
 
         var app = new App();

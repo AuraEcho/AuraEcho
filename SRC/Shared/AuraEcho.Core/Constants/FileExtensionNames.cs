@@ -2,6 +2,6 @@
 
 public static class FileExtensionNames
 {
-    public const string PluginFile = "aex";
+    public const string PluginFile = "echo";
     public const string ConfigurationFile = "cfg";
 }

@@ -12,6 +12,16 @@
 							   KeyPath="yes"/>
 			</Component>
 
+			<!-- GPU 配置 -->
+			<Component Id="GpuComponent" Guid="*">
+				<RegistryValue Root="HKCU"
+							   Key="Software\Microsoft\DirectX\UserGpuPreferences"
+							   Name="[INSTALLFOLDER]AuraEcho.exe"
+							   Type="string"
+							   Value="GpuPreference=2;"
+							   KeyPath="yes"/>
+			</Component>
+			
 			<Files Include="$(var.AuraEcho.TargetDir)**">
 				<Exclude Files="*.pdb"/>
 				<Exclude Files="AuraEcho.exe"/>

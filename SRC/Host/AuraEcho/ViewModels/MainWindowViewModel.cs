@@ -81,10 +81,6 @@ public class MainWindowViewModel : BindableBase
         NavigationService.GoBack();
     }
 
-    private void SignInExpired()
-    {
-        NavigationService.RequestNavigate(HostRegionNames.ContentDialogRegion, ViewNames.SignInExpired);
-    }
     private void GoToTargetView(string viewName)
     {
         NavigationService.RequestNavigate(HostRegionNames.MainRegion, viewName);
@@ -167,6 +163,31 @@ public class MainWindowViewModel : BindableBase
         }
 
         _eventAggregator.GetEvent<AppRestartEvent>().Publish();
+    }
+
+    private async void SignInExpired()
+    {
+        RegionDialogResult dialogResult =
+            await _regionDialogService.ShowDialogAsync(
+                HostRegionNames.ContentDialogRegion,
+                ViewNames.ConfirmDialog,
+                new NavigationParameters
+                {
+                    { "DialogArgs", new RegionDialogParameter
+                    {
+                        CancelText = "取消",
+                        ConfirmText = "重新登录",
+                        Message = "您的登录状态已过期，您可以继续留在此界面，或者重新登录。",
+                        Title = "登录已过期"
+                    }}
+                });
+
+        if (dialogResult == RegionDialogResult.OK)
+        {
+            ClientSession.SignOut();
+            _eventAggregator.GetEvent<AppRestartEvent>().Publish();
+            return;
+        }
     }
 
     private void PluginCancelUninstall(Guid pluginId)

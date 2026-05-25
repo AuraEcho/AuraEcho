@@ -29,6 +29,7 @@ public static class Urls
 
     public static string GetStsToken() => $"{ServerUrl}/api/v1/file/sts";
     public static string FileCheck(string contentHash, string fileName) => $"{Urls.ServerUrl}/api/v1/file/check?contentHash={contentHash}&fileName={fileName}";
+    public static string FileCallback() => $"{ServerUrl}/api/v1/file-callback/oss";
 
     public static string DownloadFile(Guid fileId) => $"{ServerUrl}/api/v1/file/download?fileId={fileId}";
     public static string GetFileById(Guid fileId) => $"{ServerUrl}/api/v1/file/{fileId}";

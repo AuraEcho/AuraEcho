@@ -91,7 +91,8 @@ public partial class App
         containerRegistry.RegisterSingleton<IPluginInstallService, PluginInstallService>();
         containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
 
-        containerRegistry.RegisterSingleton<IStorageRepository, AlibabaCloudOssRepository>();
+        //containerRegistry.RegisterSingleton<IStorageRepository, AlibabaCloudOssRepository>();
+        containerRegistry.RegisterSingleton<IStorageRepository, DebugAlibabaCloudOssRepository>();
         containerRegistry.RegisterSingleton<ITransferManager, TransferManager>();
         containerRegistry.RegisterSingleton<IClientSession, ClientSession>();
         containerRegistry.RegisterSingleton<IAuthRepository, AuthRepository>();

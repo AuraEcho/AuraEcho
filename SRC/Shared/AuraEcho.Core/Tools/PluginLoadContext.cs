@@ -1,3 +1,4 @@
+using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -18,11 +19,20 @@ public class PluginLoadContext : AssemblyLoadContext
     protected override Assembly Load(AssemblyName assemblyName)
     {
         string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
-        if (assemblyPath != null)
-        {
-            return LoadFromAssemblyPath(assemblyPath);
-        }
+        if (assemblyPath == null)
+            return null;
 
-        return null;
+        return LoadAssemblyFromStream(assemblyPath);
+    }
+
+    public Assembly LoadEntryAssembly(string assemblyPath)
+    {
+        return LoadAssemblyFromStream(assemblyPath);
+    }
+
+    private Assembly LoadAssemblyFromStream(string assemblyPath)
+    {
+        using var ms = new MemoryStream(File.ReadAllBytes(assemblyPath));
+        return LoadFromStream(ms);
     }
 }

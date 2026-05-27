@@ -11,15 +11,12 @@ using AuraEcho.Core.Tools;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
 using Prism.Ioc;
-using Prism.Modularity;
 
 namespace AuraEcho.Services;
 
 public class PluginManager : IPluginManager
 {
     private bool _isInitialized;
-    private readonly IModuleManager _moduleManager;
-    private readonly IModuleCatalog _moduleCatalog;
     private readonly ILocalPluginRepository _pluginRepository;
     private readonly IAppLogger _logger;
     private readonly IClientSession _clientSession;
@@ -36,8 +33,6 @@ public class PluginManager : IPluginManager
     {
         _containerProvider = containerProvider;
         _clientSession = _containerProvider.Resolve<IClientSession>();
-        _moduleManager = _containerProvider.Resolve<IModuleManager>();
-        _moduleCatalog = _containerProvider.Resolve<IModuleCatalog>();
         _pluginRepository = _containerProvider.Resolve<ILocalPluginRepository>();
         _logger = _containerProvider.Resolve<IAppLogger>();
     }
@@ -91,7 +86,7 @@ public class PluginManager : IPluginManager
         Assembly pluginAssembly;
         try
         {
-            pluginAssembly = alc.LoadFromAssemblyPath(entryAssemblyPath);
+            pluginAssembly = alc.LoadEntryAssembly(entryAssemblyPath);
         }
         catch (Exception ex)
         {
@@ -124,37 +119,13 @@ public class PluginManager : IPluginManager
             .Where(t => !t.IsAbstract)
             .SingleOrDefault();
 
-        ModuleInfo moduleInfo = CreateModuleInfo(pluginType);
-        _moduleCatalog.AddModule(moduleInfo);
-        _moduleManager.LoadModule(moduleInfo.ModuleName);
+        if (pluginType == null)
+            return null;
 
-        return (IPlugin)Activator.CreateInstance(pluginType);
-    }
-
-    private static ModuleInfo CreateModuleInfo(Type type)
-    {
-        string moduleName = type.Name;
-
-        var moduleAttribute = CustomAttributeData.GetCustomAttributes(type)
-            .FirstOrDefault(cad => cad.Constructor.DeclaringType.FullName == typeof(ModuleAttribute).FullName);
-
-        if (moduleAttribute != null)
-        {
-            foreach (CustomAttributeNamedArgument argument in moduleAttribute.NamedArguments)
-            {
-                if (argument.MemberInfo.Name == "ModuleName")
-                {
-                    moduleName = (string)argument.TypedValue.Value;
-                    break;
-                }
-            }
-        }
-
-        return new ModuleInfo(moduleName, type.AssemblyQualifiedName)
-        {
-            InitializationMode = InitializationMode.OnDemand,
-            Ref = type.Assembly.CodeBase,
-        };
+        var plugin = (IPlugin)Activator.CreateInstance(pluginType);
+        plugin.RegisterTypes((IContainerRegistry)_containerProvider);
+        plugin.OnInitialized(_containerProvider);
+        return plugin;
     }
 
     /// <summary>

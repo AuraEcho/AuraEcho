@@ -13,7 +13,6 @@ namespace AuraEcho.Core.Services;
 public class WebImageLoader : IWebImageLoader
 {
     private static readonly MemoryCache _memoryCache;
-    private static readonly string DiskCacheFolder = ApplicationPaths.Cache;
     private static readonly HttpClient HttpClient = new();
 
     /// <summary>
@@ -24,8 +23,8 @@ public class WebImageLoader : IWebImageLoader
     static WebImageLoader()
     {
         _memoryCache = new MemoryCache(new MemoryCacheOptions());
-        if (!Directory.Exists(DiskCacheFolder))
-            Directory.CreateDirectory(DiskCacheFolder);
+        if (!Directory.Exists(ApplicationPaths.ImageCache))
+            Directory.CreateDirectory(ApplicationPaths.ImageCache);
     }
 
     /// <summary>
@@ -76,7 +75,7 @@ public class WebImageLoader : IWebImageLoader
         try
         {
             string fileName = GetMd5Hash(url);
-            string filePath = Path.Combine(DiskCacheFolder, fileName);
+            string filePath = Path.Combine(ApplicationPaths.ImageCache, fileName);
 
             // 磁盘缓存
             if (File.Exists(filePath))

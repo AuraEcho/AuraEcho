@@ -6,9 +6,17 @@ namespace AuraEcho.Core.Models;
 
 public class NativePlugin : AppPlugin
 {
-    public IPlugin PluginContext { get; set; }
-    public NativePlugin(PluginManifest manifest) : base(manifest)
+    public string EntryFileName
     {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public IPlugin PluginContext { get; set; }
+    
+    public NativePlugin(NativePluginManifest manifest) : base(manifest)
+    {
+        EntryFileName = manifest.EntryFileName;
     }
 
     public override ResourceDictionary? GetThemeResource(AppTheme theme)

@@ -66,4 +66,9 @@ public static class ViewNames
     /// 账号设置
     /// </summary>
     public const string AccountSettings = nameof(Views.AccountSettings);
+
+    /// <summary>
+    /// Web 浏览器
+    /// </summary>
+    public const string WebContainer = nameof(Views.WebContainer);
 }

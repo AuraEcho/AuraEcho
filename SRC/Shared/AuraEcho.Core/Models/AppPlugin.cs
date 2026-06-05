@@ -70,8 +70,6 @@ public abstract class AppPlugin : BindableBase
         set => SetProperty(ref field, value);
     }
 
-
-
     public abstract ResourceDictionary? GetThemeResource(AppTheme theme);
     public abstract AppSettingsItem? GetSettings();
 

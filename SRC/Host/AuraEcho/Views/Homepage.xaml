@@ -189,14 +189,98 @@
                 </Grid>
             </Button>
         </DataTemplate>
+        <DataTemplate x:Key="WebPluginTemplate" DataType="{x:Type cm:AppPlugin}">
+            <Button Width="120"
+                    Height="120"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
+                    CommandParameter="{Binding}"
+                    FontSize="12"
+                    Style="{DynamicResource IconButtonStyle}">
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
+                                  CommandParameter="{Binding}"
+                                  Header="OPEN" />
+                        <MenuItem x:Name="UninstallMenuItem"
+                                  Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PluginPlanUninstallCommand}"
+                                  CommandParameter="{Binding}"
+                                  Header="UNINSTALL">
+                            <i:Interaction.Triggers>
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding PlanStatus}"
+                                               Comparison="NotEqual"
+                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                        </MenuItem>
+                        <MenuItem x:Name="CancelUninstallMenuItem"
+                                  Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CancelPluginPlanUninstallCommand}"
+                                  CommandParameter="{Binding}"
+                                  Header="CANCEL UNINSTALL">
+                            <i:Interaction.Triggers>
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding PlanStatus}"
+                                               Comparison="NotEqual"
+                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                        </MenuItem>
+                    </ContextMenu>
+                </Button.ContextMenu>
+                <Grid>
+                    <DockPanel HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               LastChildFill="True">
+                        <Rectangle Width="60"
+                                   Height="60"
+                                   Margin="0,0,0,8"
+                                   DockPanel.Dock="Top"
+                                   RadiusX="4"
+                                   RadiusY="4">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="{Binding Path=., Converter={converters:PluginIconConverter}}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock VerticalAlignment="Center"
+                                   d:Text="Plugin Name"
+                                   FontSize="14"
+                                   Text="{Binding PluginName}" />
+                    </DockPanel>
+                    <Label Padding="4,2"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Background="{DynamicResource Brushes.Warning}"
+                           Content="Pending">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding PlanStatus}"
+                                           Comparison="NotEqual"
+                                           Value="{x:Static models:PluginPlanStatus.None}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                </Grid>
+            </Button>
+        </DataTemplate>
         <CollectionViewSource x:Key="PluginsSource" Source="{Binding Plugins}" />
     </UserControl.Resources>
     <Grid RowDefinitions="36, *">
         <ItemsControl Grid.Row="1" Margin="24,12,24,24">
             <ItemsControl.ItemTemplateSelector>
-                <selectors:AppPluginDataTemplateSelector LocalWebPluginTemplate="{x:Null}"
+                <selectors:AppPluginDataTemplateSelector LocalWebPluginTemplate="{StaticResource WebPluginTemplate}"
                                                          NativePluginTemplate="{StaticResource NativePluginTemplate}"
-                                                         RemoteWebPluginTemplate="{x:Null}"
+                                                         RemoteWebPluginTemplate="{StaticResource WebPluginTemplate}"
                                                          StandalonePluginTemplate="{StaticResource StandalonePluginTemplate}" />
             </ItemsControl.ItemTemplateSelector>
             <ItemsControl.ItemsPanel>

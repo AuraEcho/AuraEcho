@@ -58,13 +58,4 @@ public class PluginManifest : BindableBase
         get; 
         set => SetProperty(ref field, value);
     }
-
-    /// <summary>
-    /// 入口程序集
-    /// </summary>
-    public string? EntryFileName 
-    { 
-        get; 
-        set => SetProperty(ref field, value);
-    }
 }

@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="AuraEcho.Views.WebContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+             d:DataContext="{d:DesignInstance Type=viewmodels:WebContainerViewModel}"
+             d:DesignHeight="705.312"
+             d:DesignWidth="1170.656"
+             Loaded="UserControl_Loaded"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+             mc:Ignorable="d">
+    <Grid RowDefinitions="40, *">
+        <wv2:WebView2 x:Name="WebContentRoot"
+                      Grid.Row="1"
+                      d:Source="https://bbs.colg.cn" />
+    </Grid>
+</UserControl>

@@ -118,6 +118,16 @@ public class HomepageViewModel : BindableBase
             case PluginType.Standalone:
                 (plugin as StandalonePlugin).Open();
                 break;
+            case PluginType.LocalWeb:
+                var localWebPlugin = plugin as LocalWebPlugin;
+                _navigationService.RequestNavigate(
+                    HostRegionNames.MainRegion,
+                    ViewNames.WebContainer,
+                    new NavigationParameters
+                    {
+                        {  "SourceUri", Path.Combine(localWebPlugin.WorkingDirectory, localWebPlugin.EntryFileName)  },
+                    });
+                break;
             default: throw new NotImplementedException();
         }
     }

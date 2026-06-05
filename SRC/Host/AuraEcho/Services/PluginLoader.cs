@@ -42,6 +42,9 @@ public class PluginLoader : IPluginLoader
             case PluginType.Standalone:
                 var standalonePlugin = await LoadStandalonePluginAsync(userPluginModel);
                 return standalonePlugin;
+            case PluginType.LocalWeb:
+                var localWebPlugin = await LoadLocalWebPluginAsync(userPluginModel);
+                return localWebPlugin;
             default:
                 throw new NotSupportedException($"不支持的插件类型：{userPluginModel.LocalPlugin.PluginType}");
         }
@@ -49,13 +52,12 @@ public class PluginLoader : IPluginLoader
 
     public async Task<NativePlugin> LoadNativePluginAsync(UserPluginModel userPluginModel)
     {
-        // 读取 manifest.json 文件
         string manifestPath = Path.Combine(
             userPluginModel.LocalPlugin.InstallPath,
             "plugin.manifest.json");
 
-        PluginManifest pluginManifest =
-            JsonSerializer.Deserialize<PluginManifest>(File.ReadAllText(manifestPath))
+        NativePluginManifest pluginManifest =
+            JsonSerializer.Deserialize<NativePluginManifest>(File.ReadAllText(manifestPath))
             ?? throw new Exception("读取插件清单失败");
 
         string entryAssemblyPath = Path.Combine(
@@ -122,7 +124,6 @@ public class PluginLoader : IPluginLoader
     }
     public async Task<StandalonePlugin> LoadStandalonePluginAsync(UserPluginModel userPluginModel)
     {
-        // 读取 manifest.json 文件
         string manifestPath = Path.Combine(
             userPluginModel.LocalPlugin.InstallPath,
             "plugin.manifest.json");
@@ -149,5 +150,34 @@ public class PluginLoader : IPluginLoader
         };
 
         return standalonePlugin;
+    }
+    public async Task<LocalWebPlugin> LoadLocalWebPluginAsync(UserPluginModel userPluginModel)
+    {
+        string manifestPath = Path.Combine(
+            userPluginModel.LocalPlugin.InstallPath,
+            "plugin.manifest.json");
+
+        LocalWebPluginManifest pluginManifest =
+            JsonSerializer.Deserialize<LocalWebPluginManifest>(File.ReadAllText(manifestPath))
+            ?? throw new Exception("读取插件清单失败");
+
+        string entryAssemblyPath = Path.Combine(
+            userPluginModel.LocalPlugin.InstallPath,
+            pluginManifest.EntryFileName);
+
+        if (!File.Exists(entryAssemblyPath))
+        {
+            string errorMessage = $"插件 {userPluginModel.LocalPlugin.PluginId} 主程序集不存在：{entryAssemblyPath}";
+            _logger.Error(errorMessage);
+            throw new Exception(errorMessage);
+        }
+
+        var localWebPlugin = new LocalWebPlugin(pluginManifest)
+        {
+            WorkingDirectory = userPluginModel.LocalPlugin.InstallPath,
+            PlanStatus = userPluginModel.Status
+        };
+
+        return localWebPlugin;
     }
 }

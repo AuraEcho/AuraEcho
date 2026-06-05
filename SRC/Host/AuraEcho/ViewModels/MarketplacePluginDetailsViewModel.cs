@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AuraEcho.Api.Models.V1.Plugin;
@@ -54,6 +55,16 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
                 break;
             case PluginType.Standalone:
                 (targetPlugin as StandalonePlugin).Open();
+                break;
+            case PluginType.LocalWeb:
+                var localWebPlugin = targetPlugin as LocalWebPlugin;
+                _navigationService.RequestNavigate(
+                    HostRegionNames.MainRegion,
+                    ViewNames.WebContainer,
+                    new NavigationParameters
+                    {
+                        {  "SourceUri", Path.Combine(localWebPlugin.WorkingDirectory, localWebPlugin.EntryFileName)  },
+                    });
                 break;
             default: throw new NotImplementedException("TODO: 不同类型插件的打开方式不同，待实现");
         }

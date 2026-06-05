@@ -32,6 +32,7 @@ using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.PluginContracts.Services;
 using AuraEcho.Services;
+using AuraEcho.Tools;
 using AuraEcho.UIToolkit.RegionDialog;
 using AuraEcho.ViewModels;
 using AuraEcho.Views;
@@ -121,6 +122,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<ImageViewer>();
         containerRegistry.RegisterForNavigation<Purchase>();
         containerRegistry.RegisterForNavigation<AccountSettings>();
+        containerRegistry.RegisterForNavigation<WebContainer>();
     }
 
     protected override void OnInitialized()
@@ -157,6 +159,8 @@ public partial class App : PrismApplication
                 .Replace(".Views.", ".ViewModels.") + arg;
             return viewType.Assembly.GetType(viewModelName);
         });
+
+        _ = WebViewEnvironment.InitAllEnvironmentsAsync();
     }
 
 

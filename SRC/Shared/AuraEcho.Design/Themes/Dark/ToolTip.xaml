@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:AuraEcho.Design.AttachedProperties">
+
+    <ControlTemplate x:Key="DefaultToolTipTemplate" TargetType="{x:Type ToolTip}">
+        <Border Padding="{TemplateBinding Padding}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                ClipToBounds="{TemplateBinding ClipToBounds}"
+                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                TextBlock.Foreground="{TemplateBinding Foreground}"
+                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Focusable="False"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+        </Border>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
+        <Setter Property="Background" Value="{DynamicResource Brushes.SurfaceContainerHigh}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brushes.OutlineShadow}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="2" />
+        <Setter Property="Template" Value="{StaticResource DefaultToolTipTemplate}" />
+    </Style>
+</ResourceDictionary>

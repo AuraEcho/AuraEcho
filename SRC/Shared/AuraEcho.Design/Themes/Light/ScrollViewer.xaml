@@ -1,0 +1,450 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:ui="clr-namespace:AuraEcho.Design.AttachedProperties">
+    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
+
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Grid>
+                        <Border Width="{TemplateBinding Width}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{TemplateBinding Tag}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="HorizontalScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Opacity" Value="0.2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}"
+                               Fill="{TemplateBinding Background}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="VerticalScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Opacity" Value="0.2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}"
+                               Fill="{TemplateBinding Background}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VerticalScrollBarPageButton2" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.Outline}" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border x:Name="LayoutRoot"
+                            Background="{TemplateBinding Background}"
+                            RenderTransformOrigin=".5, .5">
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Border.RenderTransform>
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource Brushes.Outline}"/>
+                        </Trigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Border x:Name="LayoutRoot"
+                            Width="{TemplateBinding Width}"
+                            Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4">
+                        <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <RepeatButton x:Name="LineUpButton"
+                                          Grid.Row="0"
+                                          Margin="1"
+                                          Command="{x:Static ScrollBar.LineUpCommand}"
+                                          Opacity="0"
+                                          Style="{StaticResource VerticalScrollBarPageButton2}">
+                                <Viewbox>
+                                    <Canvas Width="16" Height="16">
+                                        <Path Width="16"
+                                              Height="16"
+                                              Data="M 7,6 A 2,2 0 0 1 9,6 L 12,10 A 2,2 0 0 1 10.5,12 L 5.5,12 A 2,2 0 0 1 4,10Z"
+                                              Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}, Path=Foreground}"
+                                              SnapsToDevicePixels="True"
+                                              Stretch="Uniform" />
+                                    </Canvas>
+                                </Viewbox>
+                            </RepeatButton>
+                            <Grid Grid.Row="1">
+
+                                <Track x:Name="PART_Track"
+                                       Grid.Row="1"
+                                       Margin="2"
+                                       IsDirectionReversed="true">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb x:Name="InnerThumb"
+                                               Background="{DynamicResource Brushes.Outline}"
+                                               Style="{StaticResource ScrollBarThumb}">
+                                            <Thumb.Tag>
+                                                <CornerRadius>1</CornerRadius>
+                                            </Thumb.Tag>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                            <RepeatButton x:Name="LineDownButton"
+                                          Grid.Row="2"
+                                          Margin="1"
+                                          Command="{x:Static ScrollBar.LineDownCommand}"
+                                          Opacity="0"
+                                          Style="{StaticResource VerticalScrollBarPageButton2}">
+                                <Viewbox>
+                                    <Canvas Width="16" Height="16">
+                                        <Path Width="16"
+                                              Height="16"
+                                              Data="M 7,12 A 2,2 0 0 0 9,12 L 12,8 A 2,2 0 0 0 10.5,6 L 5.5,6 A 2,2 0 0 0 4,8 Z"
+                                              Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}, Path=Foreground}"
+                                              SnapsToDevicePixels="True"
+                                              Stretch="Uniform" />
+                                    </Canvas>
+                                </Viewbox>
+                            </RepeatButton>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="0:0:0.4">
+                                        <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                         To="12"
+                                                         Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetProperty="(ScrollBar.Background).(SolidColorBrush.Color)"
+                                                        To="#F9F9F9"
+                                                        Duration="0:0:0" />
+                                        <!--<ColorAnimation Storyboard.TargetName="InnerThumb"
+                                                        Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                                        To="#9F9F9F"
+                                                        Duration="0:0:0.1" />-->
+                                        <DoubleAnimation Storyboard.TargetName="LineUpButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="LineDownButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="CornerRadius">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>6</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerThumb" Storyboard.TargetProperty="Tag">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>3</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="0:0:0.5">
+                                        <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                         To="8"
+                                                         Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="LineUpButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="LineDownButton"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.1" />
+                                        <!--<ColorAnimation Storyboard.TargetName="InnerThumb"
+                                                        Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                                        To="#9A9A9A"
+                                                        Duration="0:0:0.1" />-->
+                                        <ColorAnimation Storyboard.TargetProperty="(ScrollBar.Background).(SolidColorBrush.Color)"
+                                                        To="Transparent"
+                                                        Duration="0:0:0" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="CornerRadius">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>4</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerThumb" Storyboard.TargetProperty="Tag">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>1</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Padding" Value="1" />
+                <Setter Property="Height" Value="8" />
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="Margin" Value="0,0,12,0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Border x:Name="LayoutRoot"
+                                    Height="{TemplateBinding Height}"
+                                    Margin="{TemplateBinding Margin}"
+                                    Padding="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="4">
+                                <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <RepeatButton x:Name="LineLeftButton"
+                                                  Grid.Column="0"
+                                                  Margin="2,1,1,1"
+                                                  Command="{x:Static ScrollBar.LineLeftCommand}"
+                                                  Opacity="0"
+                                                  Style="{StaticResource VerticalScrollBarPageButton2}">
+                                        <Viewbox>
+                                            <Canvas Width="16" Height="16">
+                                                <Path Width="16"
+                                                      Height="16"
+                                                      Data="M 5,7 A 2,2 0 0 1 5,9 L 11,12 A 2,2 0 0 1 12.5,10.5L 12.5,5.5 A 2,2 0 0 1 11,4 Z"
+                                                      Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}, Path=Foreground}"
+                                                      SnapsToDevicePixels="True"
+                                                      Stretch="Uniform" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </RepeatButton>
+                                    <Track x:Name="PART_Track"
+                                           Grid.Column="1"
+                                           Margin="2">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                                        </Track.IncreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb x:Name="InnerThumb"
+                                                   Background="{DynamicResource Brushes.Outline}"
+                                                   Style="{StaticResource ScrollBarThumb}">
+                                                <Thumb.Tag>
+                                                    <CornerRadius>1</CornerRadius>
+                                                </Thumb.Tag>
+                                            </Thumb>
+                                        </Track.Thumb>
+                                    </Track>
+                                    <RepeatButton x:Name="LineRightButton"
+                                                  Grid.Column="2"
+                                                  Margin="1,1,2,1"
+                                                  Command="{x:Static ScrollBar.LineRightCommand}"
+                                                  Opacity="0"
+                                                  Style="{StaticResource VerticalScrollBarPageButton2}">
+                                        <Viewbox>
+                                            <Canvas Width="16" Height="16">
+                                                <Path Width="16"
+                                                      Height="16"
+                                                      Data="M 11,7 A 2,2 0 0 1 11,9 L 5,12 A 2,2 0 0 1 3.5,10.5 L 3.5,5.5 A 2,2 0 0 1 5,4 Z"
+                                                      Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}, Path=Foreground}"
+                                                      SnapsToDevicePixels="True"
+                                                      Stretch="Uniform" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </RepeatButton>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard BeginTime="0:0:0.4">
+                                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                                 To="12"
+                                                                 Duration="0:0:0.1" />
+                                                <ColorAnimation Storyboard.TargetProperty="(ScrollBar.Background).(SolidColorBrush.Color)"
+                                                                To="#F9F9F9"
+                                                                Duration="0:0:0" />
+                                                <!--<ColorAnimation Storyboard.TargetName="InnerThumb"
+                                                                Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                                                To="#9F9F9F"
+                                                                Duration="0:0:0.1" />-->
+                                                <DoubleAnimation Storyboard.TargetName="LineLeftButton"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1"
+                                                                 Duration="0:0:0.1" />
+                                                <DoubleAnimation Storyboard.TargetName="LineRightButton"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1"
+                                                                 Duration="0:0:0.1" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="CornerRadius">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <CornerRadius>6</CornerRadius>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerThumb" Storyboard.TargetProperty="Tag">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <CornerRadius>3</CornerRadius>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard BeginTime="0:0:0.5">
+                                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                                 To="8"
+                                                                 Duration="0:0:0.1" />
+                                                <DoubleAnimation Storyboard.TargetName="LineLeftButton"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.1" />
+                                                <DoubleAnimation Storyboard.TargetName="LineRightButton"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.1" />
+                                                <!--<ColorAnimation Storyboard.TargetName="InnerThumb"
+                                                                Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)"
+                                                                To="#9A9A9A"
+                                                                Duration="0:0:0.1" />-->
+                                                <ColorAnimation Storyboard.TargetProperty="(ScrollBar.Background).(SolidColorBrush.Color)"
+                                                                To="Transparent"
+                                                                Duration="0:0:0" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="CornerRadius">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <CornerRadius>4</CornerRadius>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerThumb" Storyboard.TargetProperty="Tag">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <CornerRadius>1</CornerRadius>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type ScrollViewer}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Border Padding="0"
+                            Background="Transparent"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                    Margin="{TemplateBinding Padding}"
+                                                    CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                    Cursor="{TemplateBinding Cursor}" />
+                            <ScrollBar x:Name="PART_VerticalScrollBar"
+                                       Width="8"
+                                       HorizontalAlignment="Right"
+                                       ui:ScrollViewerHelper.VerticalScrollBarMargin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ScrollViewerHelper.VerticalScrollBarMargin)}"
+                                       Maximum="{TemplateBinding ScrollableHeight}"
+                                       Orientation="Vertical"
+                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                       Value="{TemplateBinding VerticalOffset}" />
+                            <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                       VerticalAlignment="Bottom"
+                                       Maximum="{TemplateBinding ScrollableWidth}"
+                                       Orientation="Horizontal"
+                                       ViewportSize="{TemplateBinding ViewportWidth}"
+                                       Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                       Value="{TemplateBinding HorizontalOffset}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

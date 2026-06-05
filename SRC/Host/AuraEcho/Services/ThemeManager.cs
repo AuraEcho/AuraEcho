@@ -6,9 +6,10 @@ using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
-using AuraEcho.Themes;
+using AuraEcho.Design;
 using Microsoft.Win32;
 using Prism.Mvvm;
+using AuraEcho.Design.Themes;
 namespace AuraEcho.Services;
 
 public class ThemeManager : BindableBase, IThemeManager

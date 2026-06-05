@@ -1,0 +1,347 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ap="clr-namespace:AuraEcho.Design.AttachedProperties">
+    <ControlTemplate x:Key="RegularToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
+        <Border x:Name="LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.CornerRadius)}"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                TextBlock.Foreground="{TemplateBinding Foreground}">
+            <ContentPresenter Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Focusable="False"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="0:0:0.1">
+                            <VisualTransition.GeneratedEasingFunction>
+                                <CircleEase EasingMode="EaseOut" />
+                            </VisualTransition.GeneratedEasingFunction>
+                        </VisualTransition>
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                <DiscreteColorKeyFrame KeyTime="0" Value="{DynamicResource Colors.Overlay.Level2}" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                <DiscreteColorKeyFrame KeyTime="0" Value="{DynamicResource Colors.InverseOverlay.Level2}" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="CheckStates">
+                    <VisualState x:Name="Checked" />
+                    <VisualState x:Name="Unchecked" />
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Border>
+    </ControlTemplate>
+
+    <Style x:Key="ComboBoxToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template" Value="{StaticResource RegularToggleButtonTemplate}" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ClickMode" Value="Release" />
+    </Style>
+
+    <!-- ComboBoxItem 模板 -->
+    <ControlTemplate x:Key="RegularComboBoxItemTemplate" TargetType="{x:Type ComboBoxItem}">
+        <Border x:Name="LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.CornerRadius)}">
+            <Grid>
+                <Border x:Name="StateLayer"
+                        Background="Transparent"
+                        CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.CornerRadius)}" />
+                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Focusable="False" />
+                <Line x:Name="FocusedLine"
+                      Margin="0,4"
+                      HorizontalAlignment="Left"
+                      Stretch="Fill"
+                      Stroke="{DynamicResource Brushes.Primary}"
+                      StrokeEndLineCap="Round"
+                      StrokeStartLineCap="Round"
+                      StrokeThickness="4"
+                      UseLayoutRounding="True"
+                      Visibility="Hidden"
+                      X1="0"
+                      X2="0"
+                      Y1="0"
+                      Y2="1" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+
+            <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="StateLayer" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="FocusedLine" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="StateLayer" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- ComboBoxItem 样式 -->
+    <Style x:Key="RegularComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="Template" Value="{StaticResource RegularComboBoxItemTemplate}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Padding" Value="8,0" />
+        <Setter Property="Margin" Value="0,2" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ap:ControlHelper.CornerRadius" Value="4" />
+        <!--<Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#1DFFFFFF" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#1DFFFFFF" />
+            </Trigger>
+        </Style.Triggers>-->
+    </Style>
+
+    <!-- ComboBox 模板 -->
+    <ControlTemplate x:Key="RegularComboBoxTemplate" TargetType="{x:Type ComboBox}">
+        <Border x:Name="ComboBoxBorder"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.CornerRadius)}"
+                SnapsToDevicePixels="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ToggleButton x:Name="ToggleButton"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Center"
+                              Panel.ZIndex="3"
+                              ap:ControlHelper.CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.CornerRadius)}"
+                              Focusable="false"
+                              Foreground="{TemplateBinding Foreground}"
+                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              Style="{StaticResource ComboBoxToggleButtonStyle}">
+                    <DockPanel LastChildFill="True">
+                        <Canvas x:Name="DropIcon"
+                                Width="16"
+                                Height="17"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                RenderTransformOrigin=".5, .5"
+                                UseLayoutRounding="False">
+                            <Canvas.RenderTransform>
+                                <TranslateTransform Y="0" />
+                            </Canvas.RenderTransform>
+                            <Path Data="M 3.5 5.85 L 8 10.35 L 12.5 5.85"
+                                  Stroke="{DynamicResource Brushes.OnSurface}"
+                                  StrokeDashCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeThickness="1.0" />
+                        </Canvas>
+                        <Grid Margin="0,0,8,0">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              IsHitTestVisible="False" />
+                            <Label x:Name="PlaceHolderLabel"
+                                   Padding="0"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   VerticalContentAlignment="Center"
+                                   Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ap:ControlHelper.PlaceHolder)}"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Visibility="Hidden" />
+                        </Grid>
+                    </DockPanel>
+                </ToggleButton>
+                <!-- 必须将 TextBox 命名为 PART_EditableTextBox，否则 ComboBox 将无法识别它 -->
+                <TextBox x:Name="PART_EditableTextBox"
+                         Width="{TemplateBinding Width}"
+                         Margin="2,0,0,0"
+                         VerticalAlignment="Center"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Focusable="True"
+                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                         Visibility="Hidden" />
+
+                <Popup x:Name="Popup"
+                       AllowsTransparency="True"
+                       Focusable="False"
+                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                       Placement="Bottom"
+                       PopupAnimation="Fade"
+                       VerticalOffset="2">
+                    <Border x:Name="DropDownBorder"
+                            MinWidth="{TemplateBinding ActualWidth}"
+                            Background="{DynamicResource Brushes.SurfaceContainerHigh}"
+                            BorderBrush="{DynamicResource Brushes.OutlineShadow}"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush x:Name="DropDownBorderMask" StartPoint="0, 0" EndPoint="0, 1">
+                                <GradientStop x:Name="VisibleStop" Offset="0" Color="Black" />
+                                <GradientStop x:Name="TransparentStop" Offset="0" Color="Transparent" />
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="16"
+                                              Direction="120"
+                                              Opacity="0.15"
+                                              Color="Black" />
+                        </Border.Effect>
+                        <ScrollViewer MaxHeight="180"
+                                      Margin="4"
+                                      CanContentScroll="True"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      SnapsToDevicePixels="True"
+                                      VerticalScrollBarVisibility="Auto">
+                            <VirtualizingStackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                                    VirtualizingPanel.ScrollUnit="Pixel" />
+                        </ScrollViewer>
+                    </Border>
+                </Popup>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEditable" Value="true">
+                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="SelectedItem" Value="{x:Null}">
+                <Setter TargetName="PlaceHolderLabel" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger SourceName="ToggleButton" Property="IsPressed" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="DropIcon"
+                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                             To="3"
+                                             Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="DropIcon"
+                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                             To="0"
+                                             Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsDropDownOpen" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="TransparentStop"
+                                             Storyboard.TargetProperty="Offset"
+                                             To="1"
+                                             Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="VisibleStop"
+                                             Storyboard.TargetProperty="Offset"
+                                             To="1"
+                                             Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="TransparentStop"
+                                             Storyboard.TargetProperty="Offset"
+                                             To="0"
+                                             Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="VisibleStop"
+                                             Storyboard.TargetProperty="Offset"
+                                             To="0"
+                                             Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- ComboBox 样式 -->
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource RegularComboBoxItemStyle}" />
+        <Setter Property="Template" Value="{StaticResource RegularComboBoxTemplate}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Brushes.OutlineInner}"/>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="8,0" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
+        <Setter Property="ap:ControlHelper.CornerRadius" Value="4" />
+        <Style.Triggers>
+            <!--<Trigger Property="IsDropDownOpen" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource Button.Focus}" />
+            </Trigger>-->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

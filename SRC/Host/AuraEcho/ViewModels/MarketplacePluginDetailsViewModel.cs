@@ -1,17 +1,14 @@
 using System;
 using System.Linq;
-using System.Resources;
 using System.Threading.Tasks;
 using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Constants;
-using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
-using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

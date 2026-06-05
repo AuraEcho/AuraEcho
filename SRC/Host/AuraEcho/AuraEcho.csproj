@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net10.0-windows10.0.18362.0</TargetFramework>
@@ -34,9 +34,8 @@
 		<PackageReference Include="TaskScheduler" Version="2.12.2" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Shared\AuraEcho.Controls\AuraEcho.Controls.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
-		<ProjectReference Include="..\..\Shared\AuraEcho.Themes\AuraEcho.Themes.csproj" />
+		<ProjectReference Include="..\..\Shared\AuraEcho.Design\AuraEcho.Design.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.Core\AuraEcho.Core.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.UIToolkit\AuraEcho.UIToolkit.csproj" />
 	</ItemGroup>

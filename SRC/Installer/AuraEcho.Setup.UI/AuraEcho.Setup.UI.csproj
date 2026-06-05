@@ -38,8 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Shared\AuraEcho.Controls\AuraEcho.Controls.csproj" />
-		<ProjectReference Include="..\..\Shared\AuraEcho.Themes\AuraEcho.Themes.csproj" />
+		<ProjectReference Include="..\..\Shared\AuraEcho.Design\AuraEcho.Design.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.UIToolkit\AuraEcho.UIToolkit.csproj" />
 	</ItemGroup>
 

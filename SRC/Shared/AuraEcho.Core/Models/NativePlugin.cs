@@ -11,9 +11,9 @@ public class NativePlugin : AppPlugin
     {
     }
 
-    public override ResourceDictionary GetThemeResource(AppTheme theme)
+    public override ResourceDictionary? GetThemeResource(AppTheme theme)
         => PluginContext.GetThemeResource(theme);
 
-    public override AppSettingsItem GetSettings()
+    public override AppSettingsItem? GetSettings()
         => PluginContext.GetSettings();
 }

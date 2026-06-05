@@ -68,11 +68,11 @@ public class HomepageViewModel : BindableBase
     public DelegateCommand<AppPlugin> PluginPlanUninstallCommand { get; }
     private async void PluginPlanUninstall(AppPlugin plugin)
     {
-        plugin.Status = PluginPlanStatus.UninstallPending;
+        plugin.PlanStatus = PluginPlanStatus.UninstallPending;
         await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
             plugin.PluginId,
-            plugin.Status);
+            plugin.PlanStatus);
 
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PluginUninstallPendingRestart
         {
@@ -86,13 +86,13 @@ public class HomepageViewModel : BindableBase
     public DelegateCommand<AppPlugin> CancelPluginPlanUninstallCommand { get; }
     private async void CancelPluginPlanUninstall(AppPlugin plugin)
     {
-        if (plugin.Status != PluginPlanStatus.UninstallPending) return;
+        if (plugin.PlanStatus != PluginPlanStatus.UninstallPending) return;
 
-        plugin.Status = PluginPlanStatus.None;
+        plugin.PlanStatus = PluginPlanStatus.None;
         await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
             plugin.PluginId,
-            plugin.Status);
+            plugin.PlanStatus);
 
         _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Publish(plugin.PluginId);
     }
@@ -114,6 +114,9 @@ public class HomepageViewModel : BindableBase
                     {
                         {  "PluginId", plugin.PluginId  },
                     });
+                break;
+            case PluginType.Standalone:
+                (plugin as StandalonePlugin).Open();
                 break;
             default: throw new NotImplementedException();
         }

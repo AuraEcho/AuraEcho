@@ -52,6 +52,9 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
                     HostRegionNames.MainRegion,
                     nativePlugin.PluginContext.EntryViewName);
                 break;
+            case PluginType.Standalone:
+                (targetPlugin as StandalonePlugin).Open();
+                break;
             default: throw new NotImplementedException("TODO: 不同类型插件的打开方式不同，待实现");
         }
     }

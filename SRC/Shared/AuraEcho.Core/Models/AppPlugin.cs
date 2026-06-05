@@ -13,7 +13,7 @@ public abstract class AppPlugin : BindableBase
         set => SetProperty(ref field, value);
     }
 
-    public PluginPlanStatus Status
+    public PluginPlanStatus PlanStatus
     {
         get;
         set => SetProperty(ref field, value);
@@ -70,17 +70,10 @@ public abstract class AppPlugin : BindableBase
         set => SetProperty(ref field, value);
     }
 
-    /// <summary>
-    /// 入口文件
-    /// </summary>
-    public string? EntryFileName
-    {
-        get;
-        private set => SetProperty(ref field, value);
-    }
 
-    public abstract ResourceDictionary GetThemeResource(AppTheme theme);
-    public abstract AppSettingsItem GetSettings();
+
+    public abstract ResourceDictionary? GetThemeResource(AppTheme theme);
+    public abstract AppSettingsItem? GetSettings();
 
     protected AppPlugin(PluginManifest manifest)
     {
@@ -89,6 +82,6 @@ public abstract class AppPlugin : BindableBase
         Author = manifest.Author;
         PluginName = manifest.PluginName;
         Version = manifest.Version;
-        EntryFileName = manifest.EntryFileName;
+        PluginType = manifest.Type;
     }
 }

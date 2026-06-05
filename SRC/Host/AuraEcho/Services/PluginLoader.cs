@@ -21,7 +21,7 @@ public class PluginLoader : IPluginLoader
     private readonly IAppLogger _logger;
     private readonly IContainerProvider _containerProvider;
     private readonly ILocalPluginRepository _pluginRepository;
-    private readonly List<PluginLoadContext> _pluginLoadContexts = []; 
+    private readonly List<PluginLoadContext> _pluginLoadContexts = [];
     public PluginLoader(IContainerProvider containerProvider)
     {
         _containerProvider = containerProvider;
@@ -39,6 +39,9 @@ public class PluginLoader : IPluginLoader
             case PluginType.Native:
                 var nativePlugin = await LoadNativePluginAsync(userPluginModel);
                 return nativePlugin;
+            case PluginType.Standalone:
+                var standalonePlugin = await LoadStandalonePluginAsync(userPluginModel);
+                return standalonePlugin;
             default:
                 throw new NotSupportedException($"不支持的插件类型：{userPluginModel.LocalPlugin.PluginType}");
         }
@@ -86,7 +89,7 @@ public class PluginLoader : IPluginLoader
             PluginType = PluginType.Native,
             WorkingDirectory = userPluginModel.LocalPlugin.InstallPath,
             PluginContext = pluginContext,
-            Status = userPluginModel.Status
+            PlanStatus = userPluginModel.Status
         };
 
         _logger.Debug("执行插件环境初始化");
@@ -100,21 +103,51 @@ public class PluginLoader : IPluginLoader
         }
 
         return nativePlugin;
+ 
+        IPlugin LoadPluginByAssembly(Assembly pluginAssembly)
+        {
+            var pluginType = pluginAssembly.GetExportedTypes()
+                .Where(t => typeof(IPlugin).IsAssignableFrom(t))
+                .Where(t => t != typeof(IPlugin))
+                .SingleOrDefault(t => !t.IsAbstract);
+
+            if (pluginType == null)
+                return null;
+
+            var plugin = (IPlugin)Activator.CreateInstance(pluginType);
+            plugin.RegisterTypes((IContainerRegistry)_containerProvider);
+            plugin.OnInitialized(_containerProvider);
+            return plugin;
+        }
     }
-
-    private IPlugin LoadPluginByAssembly(Assembly pluginAssembly)
+    public async Task<StandalonePlugin> LoadStandalonePluginAsync(UserPluginModel userPluginModel)
     {
-        var pluginType = pluginAssembly.GetExportedTypes()
-            .Where(t => typeof(IPlugin).IsAssignableFrom(t))
-            .Where(t => t != typeof(IPlugin))
-            .SingleOrDefault(t => !t.IsAbstract);
+        // 读取 manifest.json 文件
+        string manifestPath = Path.Combine(
+            userPluginModel.LocalPlugin.InstallPath,
+            "plugin.manifest.json");
 
-        if (pluginType == null)
-            return null;
+        StandalonePluginManifest pluginManifest =
+            JsonSerializer.Deserialize<StandalonePluginManifest>(File.ReadAllText(manifestPath))
+            ?? throw new Exception("读取插件清单失败");
 
-        var plugin = (IPlugin)Activator.CreateInstance(pluginType);
-        plugin.RegisterTypes((IContainerRegistry)_containerProvider);
-        plugin.OnInitialized(_containerProvider);
-        return plugin;
+        string entryAssemblyPath = Path.Combine(
+            userPluginModel.LocalPlugin.InstallPath,
+            pluginManifest.EntryFileName);
+
+        if (!File.Exists(entryAssemblyPath))
+        {
+            string errorMessage = $"插件 {userPluginModel.LocalPlugin.PluginId} 主程序集不存在：{entryAssemblyPath}";
+            _logger.Error(errorMessage);
+            throw new Exception(errorMessage);
+        }
+
+        var standalonePlugin = new StandalonePlugin(pluginManifest)
+        {
+            WorkingDirectory = userPluginModel.LocalPlugin.InstallPath,
+            PlanStatus = userPluginModel.Status
+        };
+
+        return standalonePlugin;
     }
 }

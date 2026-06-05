@@ -24,6 +24,14 @@ public class LocalPluginRepository : ILocalPluginRepository
 
     public async Task<UserPluginModel> AddUserPluginAsync(Guid userId, Guid localPluginId)
     {
+        InstalledPlugin targetPlugin = 
+            await _dbContext.InstalledPlugin.FindAsync(localPluginId) 
+            ?? throw new ArgumentException($"插件({localPluginId}) 不存在");
+
+        var existingUserPlugin = await _dbContext.UserPlugin.FirstOrDefaultAsync(up => up.UserId == userId && up.LocalPluginId == localPluginId);
+        if (existingUserPlugin != null)
+            return existingUserPlugin.ToUserPluginModel();
+
         var newUserPlugin = new UserPlugin
         {
             Id = Guid.NewGuid(),

@@ -128,6 +128,16 @@ public class HomepageViewModel : BindableBase
                         {  "SourceUri", Path.Combine(localWebPlugin.WorkingDirectory, localWebPlugin.EntryFileName)  },
                     });
                 break;
+            case PluginType.RemoteWeb:
+                var remoteWebPlugin = plugin as RemoteWebPlugin;
+                _navigationService.RequestNavigate(
+                    HostRegionNames.MainRegion,
+                    ViewNames.WebContainer,
+                    new NavigationParameters
+                    {
+                        {  "SourceUri", remoteWebPlugin.RemoteUrl },
+                    });
+                break;
             default: throw new NotImplementedException();
         }
     }

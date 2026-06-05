@@ -41,8 +41,8 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     public DelegateCommand OpenPluginCommand { get; }
     private void OpenPlugin()
     {
-        AppPlugin? targetPlugin = 
-            _pluginManager.Plugins.FirstOrDefault(p => p.PluginId == MarketPlugin.PluginInfo.Id) 
+        AppPlugin? targetPlugin =
+            _pluginManager.Plugins.FirstOrDefault(p => p.PluginId == MarketPlugin.PluginInfo.Id)
             ?? throw new Exception();
 
         switch (targetPlugin.PluginType)
@@ -64,6 +64,16 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
                     new NavigationParameters
                     {
                         {  "SourceUri", Path.Combine(localWebPlugin.WorkingDirectory, localWebPlugin.EntryFileName)  },
+                    });
+                break;
+            case PluginType.RemoteWeb:
+                var remoteWebPlugin = targetPlugin as RemoteWebPlugin;
+                _navigationService.RequestNavigate(
+                    HostRegionNames.MainRegion,
+                    ViewNames.WebContainer,
+                    new NavigationParameters
+                    {
+                        {  "SourceUri", remoteWebPlugin.RemoteUrl },
                     });
                 break;
             default: throw new NotImplementedException("TODO: 不同类型插件的打开方式不同，待实现");
@@ -99,7 +109,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
         IRemotePluginRepository pluginRepository,
         INavigationService navigationService,
         IEventAggregator eventAggregator,
-        IPluginInstallService pluginInstallService, 
+        IPluginInstallService pluginInstallService,
         IPluginManager pluginManager,
         ITransferManager transferManager)
     {

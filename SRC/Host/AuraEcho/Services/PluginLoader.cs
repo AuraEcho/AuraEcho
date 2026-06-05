@@ -45,6 +45,9 @@ public class PluginLoader : IPluginLoader
             case PluginType.LocalWeb:
                 var localWebPlugin = await LoadLocalWebPluginAsync(userPluginModel);
                 return localWebPlugin;
+            case PluginType.RemoteWeb:
+                var remoteWebPlugin = await LoadRemoteWebPluginAsync(userPluginModel);
+                return remoteWebPlugin;
             default:
                 throw new NotSupportedException($"不支持的插件类型：{userPluginModel.LocalPlugin.PluginType}");
         }
@@ -105,7 +108,7 @@ public class PluginLoader : IPluginLoader
         }
 
         return nativePlugin;
- 
+
         IPlugin LoadPluginByAssembly(Assembly pluginAssembly)
         {
             var pluginType = pluginAssembly.GetExportedTypes()
@@ -179,5 +182,24 @@ public class PluginLoader : IPluginLoader
         };
 
         return localWebPlugin;
+    }
+
+    public async Task<RemoteWebPlugin> LoadRemoteWebPluginAsync(UserPluginModel userPluginModel)
+    {
+        string manifestPath = Path.Combine(
+            userPluginModel.LocalPlugin.InstallPath,
+            "plugin.manifest.json");
+
+        RemoteWebPluginManifest pluginManifest =
+            JsonSerializer.Deserialize<RemoteWebPluginManifest>(File.ReadAllText(manifestPath))
+            ?? throw new Exception("读取插件清单失败");
+
+        var remoteWebPlugin = new RemoteWebPlugin(pluginManifest)
+        {
+            WorkingDirectory = userPluginModel.LocalPlugin.InstallPath,
+            PlanStatus = userPluginModel.Status
+        };
+
+        return remoteWebPlugin;
     }
 }

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using Microsoft.Win32;
 using AuraEcho.Core.Extensions;
+using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.Themes;
+using Microsoft.Win32;
 using Prism.Mvvm;
 namespace AuraEcho.Services;
 
@@ -78,14 +79,11 @@ public class ThemeManager : BindableBase, IThemeManager
     private List<ResourceDictionary> GetPluginThemeResources(AppTheme appTheme)
     {
         var resources = new List<ResourceDictionary>();
-        foreach (var registry in _pluginManager.Plugins)
+        foreach (var plugin in _pluginManager.Plugins)
         {
-            if (registry.PluginContext is not IPlugin plugin) continue;
             var pluginResource = plugin.GetThemeResource(appTheme);
             if (pluginResource != null)
-            {
                 resources.Add(pluginResource);
-            }
         }
         return resources;
     }
@@ -117,22 +115,20 @@ public class ThemeManager : BindableBase, IThemeManager
         key.Close();
 
         // 0: 暗色 1：亮色
-        if (appsUseLightTheme == 0)
-        {
-            return AppTheme.Dark;
-        }
-        return AppTheme.Light;
+        return appsUseLightTheme == 0 ? AppTheme.Dark : AppTheme.Light;
     }
 
-    public void AttachPluginTheme(IPlugin plugin)
+    public void AttachPluginTheme(AppPlugin plugin)
     {
         AppTheme realTheme = CurrentTheme == AppTheme.FollowSystem ? GetSystemTheme() : CurrentTheme;
         var pluginThemeResource = plugin.GetThemeResource(realTheme);
+        if (pluginThemeResource is null) return;
+
         Application.Current.Resources.MergedDictionaries.Add(pluginThemeResource);
         _themeResources.Add(pluginThemeResource);
     }
 
-    public void AttachPluginThemes(IEnumerable<IPlugin> plugins)
+    public void AttachPluginThemes(IEnumerable<AppPlugin> plugins)
     {
         plugins.ForEach(AttachPluginTheme);
     }

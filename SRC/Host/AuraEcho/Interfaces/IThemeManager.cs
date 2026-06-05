@@ -1,6 +1,7 @@
+using System.Collections.Generic;
+using AuraEcho.Core.Models;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
-using System.Collections.Generic;
 
 namespace AuraEcho.Interfaces;
 
@@ -13,7 +14,7 @@ public interface IThemeManager
 
     void ApplyTheme(AppTheme appTheme);
 
-    void AttachPluginTheme(IPlugin plugin);
+    void AttachPluginTheme(AppPlugin plugin);
 
-    void AttachPluginThemes(IEnumerable<IPlugin> plugins);
+    void AttachPluginThemes(IEnumerable<AppPlugin> plugins);
 }

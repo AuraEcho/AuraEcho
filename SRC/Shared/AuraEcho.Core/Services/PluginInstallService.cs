@@ -26,7 +26,7 @@ public class PluginInstallService : IPluginInstallService
     /// <returns></returns>
     /// <exception cref="FileNotFoundException"></exception>
     /// <remarks>TODO: 优化升级逻辑</remarks>
-    public async Task<LocalPluginModel> InstallAsync(string filePath)
+    public async Task<InstalledPluginModel> InstallAsync(string filePath)
     {        
         // 解压插件到临时目录
         var extractPath = Path.Combine(ApplicationPaths.Temp, "PluginInstall_" + Guid.NewGuid());
@@ -51,29 +51,35 @@ public class PluginInstallService : IPluginInstallService
         DirectoryUtils.SafeMoveDirectory(extractPath, finalFolderPath);
 
         _logger.Error("查询已安装信息");
-        var localPluginModel = (await _localPluginRepository.GetLocalPluginsAsync()).FirstOrDefault(pr => pr.Manifest.Id == manifest.Id);
-        if (localPluginModel is not null)
+        var installedPlugin = (await _localPluginRepository.GetLocalPluginsAsync()).FirstOrDefault(pr => pr.Id == manifest.Id);
+        if (installedPlugin is not null)
         {
             _logger.Error("正在更新插件信息");
-            await _localPluginRepository.UpdateLocalPluginAsync(new LocalPluginModel
+            await _localPluginRepository.UpdateLocalPluginAsync(new InstalledPluginModel
             {
-                Id = localPluginModel.Id,
-                Manifest = manifest,
-                PluginFolder = finalFolderPath,
+                Id = installedPlugin.Id,
+                InstaledAt = DateTime.UtcNow,
+                PluginId = manifest.Id,
+                PluginType = manifest.Type,
+                Version = manifest.Version,
+                InstallPath = finalFolderPath,
             });
         }
         else
         {
-            localPluginModel = new LocalPluginModel
+            installedPlugin = new InstalledPluginModel
             {
                 Id = manifest.Id,
-                Manifest = manifest,
-                PluginFolder = finalFolderPath,
+                InstaledAt = DateTime.UtcNow,
+                PluginId = manifest.Id,
+                InstallPath = finalFolderPath,
+                PluginType = manifest.Type,
+                Version = manifest.Version,
             };
-            await _localPluginRepository.AddLocalPluginAsync(localPluginModel);
+            await _localPluginRepository.AddLocalPluginAsync(installedPlugin);
         }
 
         _logger.Debug("安装成功");
-        return localPluginModel;
+        return installedPlugin;
     }
 }

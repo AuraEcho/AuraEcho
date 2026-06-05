@@ -63,7 +63,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
 
     public MarketPluginInstallStatus Status
     {
-        get => field;
+        get;
         protected set => SetProperty(ref field, value);
     }
 
@@ -86,10 +86,10 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
             Status = MarketPluginInstallStatus.Installing;
             var localPlugin = await InstallAsync(packageFilePath, _cts.Token);
             var userPlugin = await RegisterUserPluginAsync(localPlugin);
-            await LoadPluginAsync(userPlugin, _cts.Token);
+            var loadedPlugin = await LoadPluginAsync(userPlugin, _cts.Token);
 
             Status = MarketPluginInstallStatus.Completed;
-            _eventAggregator.GetEvent<PluginInstalledEvent>().Publish(userPlugin);
+            _eventAggregator.GetEvent<PluginInstalledEvent>().Publish(loadedPlugin);
         }
         catch (OperationCanceledException)
         {
@@ -105,7 +105,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         }
     }
 
-    private async Task<(bool, LocalPluginModel?)> IsInstalled(MarketPlugin mp)
+    private async Task<(bool, InstalledPluginModel?)> IsInstalled(MarketPlugin mp)
     {
         var latestVersionPackInfo = await _remotePluginRepository.GetLatestAsync(mp.PluginInfo.Id);
         Version? marketPluginLatestVersion =
@@ -114,10 +114,10 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
             : Version.Parse(latestVersionPackInfo.Version);
 
         var localPlugins = await _localPluginRepository.GetLocalPluginsAsync();
-        LocalPluginModel? installedPlugin = 
+        InstalledPluginModel? installedPlugin = 
             localPlugins.FirstOrDefault(lp => 
                 lp.Id == mp.PluginInfo.Id && 
-                Version.Parse(lp.Manifest.Version!) == marketPluginLatestVersion);
+                Version.Parse(lp.Version!) == marketPluginLatestVersion);
 
         return (installedPlugin is not null, installedPlugin);
     }
@@ -206,14 +206,14 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     /// <param name="token"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    private async Task<LocalPluginModel> InstallAsync(string packageFilePath, CancellationToken token)
+    private async Task<InstalledPluginModel> InstallAsync(string packageFilePath, CancellationToken token)
     {
         if (await IsInstalled(_plugin) is (true, var installedPlugin))
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5), token);
             return installedPlugin!;
         }
-        Task<LocalPluginModel> installlTask = _pluginInstallService.InstallAsync(packageFilePath);
+        Task<InstalledPluginModel> installlTask = _pluginInstallService.InstallAsync(packageFilePath);
         await Task.WhenAll(installlTask, Task.Delay(TimeSpan.FromSeconds(0.5), token));
         var localPlugin = await installlTask;
         File.Delete(packageFilePath);
@@ -225,7 +225,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     /// 注册用户插件关系
     /// </summary>
     /// <returns></returns>
-    private async Task<UserPluginModel> RegisterUserPluginAsync(LocalPluginModel plugin)
+    private async Task<UserPluginModel> RegisterUserPluginAsync(InstalledPluginModel plugin)
     {
         var addUserPlugin = await _localPluginRepository.AddUserPluginAsync(_clientSession.CurrentUser.Id, plugin.Id);
         return addUserPlugin;
@@ -235,13 +235,12 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     /// 加载插件
     /// </summary>
     /// <returns></returns>
-    private async Task LoadPluginAsync(UserPluginModel up, CancellationToken token)
+    private async Task<AppPlugin> LoadPluginAsync(UserPluginModel up, CancellationToken token)
     {
         var loadPluginTask = _pluginManager.LoadPluginAsync(up);
         await Task.WhenAll(loadPluginTask, Task.Delay(TimeSpan.FromSeconds(0.5), token));
         var installResult = await loadPluginTask;
 
-        if (!installResult) 
-            throw new Exception("Plugin load failed");
+        return installResult ?? throw new Exception("Plugin load failed");
     }
 }

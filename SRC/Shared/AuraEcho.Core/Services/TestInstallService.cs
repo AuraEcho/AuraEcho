@@ -12,7 +12,7 @@ namespace AuraEcho.Core.Services
         {
 
         }
-        public Task<LocalPluginModel> InstallAsync(string filePath)
+        public Task<InstalledPluginModel> InstallAsync(string filePath)
         {
             throw new NotImplementedException();
         }

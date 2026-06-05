@@ -1,6 +1,7 @@
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Data;
 using AuraEcho.Core.Data.Entities;
+using AuraEcho.Core.Enums;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,13 +12,13 @@ public class LocalPluginRepository : ILocalPluginRepository
 {
     private readonly AuraEchoDbContext _dbContext;
     public LocalPluginRepository(AuraEchoDbContext dbContext)
-    { 
+    {
         _dbContext = dbContext;
     }
 
-    public async Task AddLocalPluginAsync(LocalPluginModel newPlugin)
+    public async Task AddLocalPluginAsync(InstalledPluginModel newPlugin)
     {
-        await _dbContext.LocalPlugins.AddAsync(newPlugin.ToLocalPlugin());
+        await _dbContext.InstalledPlugin.AddAsync(newPlugin.ToLocalPlugin());
         await _dbContext.SaveChangesAsync();
     }
 
@@ -29,27 +30,27 @@ public class LocalPluginRepository : ILocalPluginRepository
             UserId = userId,
             LocalPluginId = localPluginId,
         };
-        await _dbContext.UserPlugins.AddAsync(newUserPlugin);
+        await _dbContext.UserPlugin.AddAsync(newUserPlugin);
         await _dbContext.SaveChangesAsync();
 
-        UserPlugin userPlugin = 
-            await _dbContext.UserPlugins
+        UserPlugin userPlugin =
+            await _dbContext.UserPlugin
                             .Include(up => up.LocalPlugin)
                             .SingleAsync(up => up.Id == newUserPlugin.Id);
 
         return userPlugin.ToUserPluginModel();
     }
 
-    public async Task<List<LocalPluginModel>> GetLocalPluginsAsync()
+    public async Task<List<InstalledPluginModel>> GetLocalPluginsAsync()
     {
-        var plugins = await _dbContext.LocalPlugins.ToListAsync();
+        var plugins = await _dbContext.InstalledPlugin.ToListAsync();
         return plugins.Select(p => p.ToLocalPluginModel()).ToList();
     }
 
     public async Task<UserPluginModel> GetUserPluginAsync(Guid userPluginId)
     {
         UserPlugin userPlugin =
-            await _dbContext.UserPlugins
+            await _dbContext.UserPlugin
                             .Include(up => up.LocalPlugin)
                             .SingleAsync(up => up.Id == userPluginId);
 
@@ -59,7 +60,7 @@ public class LocalPluginRepository : ILocalPluginRepository
     public async Task<List<UserPluginModel>> GetUserPluginsAsync(Guid userId)
     {
         List<UserPlugin> userPlugins =
-            await _dbContext.UserPlugins
+            await _dbContext.UserPlugin
                             .Include(up => up.LocalPlugin)
                             .Where(up => up.UserId == userId)
                             .ToListAsync();
@@ -69,44 +70,52 @@ public class LocalPluginRepository : ILocalPluginRepository
 
     public async Task RemoveLocalPluginAsync(Guid localPluginId)
     {
-        LocalPlugin? plugin = await _dbContext.LocalPlugins.FindAsync(localPluginId);
+        InstalledPlugin? plugin = await _dbContext.InstalledPlugin.FindAsync(localPluginId);
         if (plugin is null) return;
 
-        _dbContext.LocalPlugins.Remove(plugin);
+        _dbContext.InstalledPlugin.Remove(plugin);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task RemoveUserPluginAsync(Guid userId, Guid localPluginId)
     {
-        UserPlugin? userPlugin = await _dbContext.UserPlugins.FirstOrDefaultAsync(up => up.UserId == userId && up.LocalPluginId == localPluginId);
+        UserPlugin? userPlugin = await _dbContext.UserPlugin.FirstOrDefaultAsync(up => up.UserId == userId && up.LocalPluginId == localPluginId);
         if (userPlugin is null) return;
 
-        _dbContext.UserPlugins.Remove(userPlugin);
+        _dbContext.UserPlugin.Remove(userPlugin);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task RemoveUserPluginAsync(Guid userPluginId)
     {
-        UserPlugin? userPlugin = await _dbContext.UserPlugins.FindAsync(userPluginId);
+        UserPlugin? userPlugin = await _dbContext.UserPlugin.FindAsync(userPluginId);
         if (userPlugin is null) return;
 
-        _dbContext.UserPlugins.Remove(userPlugin);
+        _dbContext.UserPlugin.Remove(userPlugin);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateLocalPluginAsync(LocalPluginModel plugin)
+    public async Task UpdateLocalPluginAsync(InstalledPluginModel plugin)
     {
-        var localPlugin = await _dbContext.LocalPlugins.FirstOrDefaultAsync(lp => lp.Id == plugin.Id);
+        if (plugin is null) throw new ArgumentNullException(nameof(plugin));
 
-        localPlugin.Manifest = plugin.Manifest;
-        localPlugin.PluginFolder = plugin.PluginFolder;
+        var localPlugin = await _dbContext.InstalledPlugin.FirstOrDefaultAsync(lp => lp.PluginId == plugin.Id);
+
+        if (localPlugin is null) return;
+
+        localPlugin.PluginId = plugin.Id;
+        localPlugin.PluginType = plugin.PluginType;
+        localPlugin.InstallPath = plugin.InstallPath;
+        localPlugin.InstaledAt = plugin.InstaledAt;
+        localPlugin.Version = plugin.Version;
         localPlugin.IsSetup = plugin.IsSetup;
+
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateUserPluginStatusAsync(Guid userId, Guid localPluginId, PluginPlanStatus newStatus)
     {
-        UserPlugin? userPlugin = await _dbContext.UserPlugins.FirstOrDefaultAsync(up => up.UserId == userId && up.LocalPluginId == localPluginId);
+        UserPlugin? userPlugin = await _dbContext.UserPlugin.FirstOrDefaultAsync(up => up.UserId == userId && up.LocalPluginId == localPluginId);
         if (userPlugin is null) return;
 
         userPlugin.Status = newStatus;

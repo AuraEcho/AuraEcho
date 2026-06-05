@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
@@ -30,11 +32,11 @@ public class HomepageViewModel : BindableBase
     private readonly IThemeManager _themeManager;
     private readonly IAppLogger _logger;
     private readonly IClientSession _clientSession;
-    private ObservableCollection<UserPluginModel> _plugins;
+    private ObservableCollection<AppPlugin> _plugins;
 
     private readonly IPluginManager _pluginManager;
 
-    public ObservableCollection<UserPluginModel> Plugins
+    public ObservableCollection<AppPlugin> Plugins
     {
         get => _plugins ??= [];
         set => SetProperty(ref _plugins, value);
@@ -61,60 +63,64 @@ public class HomepageViewModel : BindableBase
     public DelegateCommand LoadPluginsCommand { get; }
     private async void LoadPlugins()
     {
-        var pluginRegistries = await _pluginManager.LoadPluginsAsync();
-        Plugins = pluginRegistries.ToObservableCollection();
+        var plugins = await _pluginManager.LoadPluginsAsync();
+        Plugins = plugins.ToObservableCollection();
 
-        _themeManager.AttachPluginThemes(
-            pluginRegistries.Select(p => p.PluginContext)
-                            .Where(p => p is not null));
+        _themeManager.AttachPluginThemes(Plugins);
     }
 
-    public DelegateCommand<UserPluginModel> PluginPlanUninstallCommand { get; }
-    private async void PluginPlanUninstall(UserPluginModel plugin)
+    public DelegateCommand<AppPlugin> PluginPlanUninstallCommand { get; }
+    private async void PluginPlanUninstall(AppPlugin plugin)
     {
         plugin.Status = PluginPlanStatus.UninstallPending;
         await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
-            plugin.LocalPlugin.Id,
+            plugin.PluginId,
             plugin.Status);
 
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PluginUninstallPendingRestart
         {
             Id = Guid.NewGuid(),
-            IconPath = Path.Combine(plugin.LocalPlugin.PluginFolder, plugin.LocalPlugin.Manifest.Icon),
-            PluginId = plugin.LocalPlugin.Id,
-            Title = plugin.LocalPlugin.Manifest.PluginName
+            IconPath = Path.Combine(plugin.WorkingDirectory, plugin.Icon),
+            PluginId = plugin.PluginId,
+            Title = plugin.PluginName
         });
     }
 
-    public DelegateCommand<UserPluginModel> CancelPluginPlanUninstallCommand { get; }
-    private async void CancelPluginPlanUninstall(UserPluginModel plugin)
+    public DelegateCommand<AppPlugin> CancelPluginPlanUninstallCommand { get; }
+    private async void CancelPluginPlanUninstall(AppPlugin plugin)
     {
         if (plugin.Status != PluginPlanStatus.UninstallPending) return;
 
         plugin.Status = PluginPlanStatus.None;
         await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
-            plugin.LocalPlugin.Id,
+            plugin.PluginId,
             plugin.Status);
 
-        _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Publish(plugin.LocalPlugin.Id);
+        _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Publish(plugin.PluginId);
     }
 
-    public DelegateCommand<UserPluginModel> SwitchPluginCommand { get; }
+    public DelegateCommand<AppPlugin> SwitchPluginCommand { get; }
 
-    private void SwitchPlugin(UserPluginModel userPlugin)
+    private void SwitchPlugin(AppPlugin plugin)
     {
-        if (userPlugin is null)
+        if (plugin is null)
             return;
 
-        _navigationService.RequestNavigate(
-            HostRegionNames.MainRegion,
-            userPlugin.PluginContext.EntryViewName,
-            new NavigationParameters
-            {
-                {  "PluginId", userPlugin.LocalPlugin.Id  },
-            });
+        switch (plugin.PluginType)
+        {
+            case PluginType.Native:
+                _navigationService.RequestNavigate(
+                    HostRegionNames.MainRegion,
+                    (plugin as NativePlugin).PluginContext.EntryViewName,
+                    new NavigationParameters
+                    {
+                        {  "PluginId", plugin.PluginId  },
+                    });
+                break;
+            default: throw new NotImplementedException();
+        }
     }
 
     public HomepageViewModel(
@@ -137,19 +143,19 @@ public class HomepageViewModel : BindableBase
         _regionDialogService = regionDialogService;
 
         LoadPluginsCommand = new DelegateCommand(LoadPlugins);
-        SwitchPluginCommand = new DelegateCommand<UserPluginModel>(SwitchPlugin);
+        SwitchPluginCommand = new DelegateCommand<AppPlugin>(SwitchPlugin);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
         NavigationToPluginsMarketplaceCommand = new DelegateCommand(NavigationToPluginsMarketplace);
-        PluginPlanUninstallCommand = new DelegateCommand<UserPluginModel>(PluginPlanUninstall);
-        CancelPluginPlanUninstallCommand = new DelegateCommand<UserPluginModel>(CancelPluginPlanUninstall);
+        PluginPlanUninstallCommand = new DelegateCommand<AppPlugin>(PluginPlanUninstall);
+        CancelPluginPlanUninstallCommand = new DelegateCommand<AppPlugin>(CancelPluginPlanUninstall);
 
         _eventAggregator.GetEvent<PluginInstalledEvent>().Subscribe(AddNewPlugin);
 
         LoadPlugins();
     }
 
-    private void AddNewPlugin(UserPluginModel registry)
+    private void AddNewPlugin(AppPlugin newPlugin)
     {
-        Plugins.Add(registry);
+        Plugins.Add(newPlugin);
     }
 }

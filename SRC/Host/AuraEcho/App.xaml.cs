@@ -38,15 +38,17 @@ using AuraEcho.Views;
 using DryIoc;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.EntityFrameworkCore;
+using Prism.DryIoc;
 using Prism.Events;
 using Prism.Ioc;
+using Prism.Mvvm;
 
 namespace AuraEcho;
 
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App
+public partial class App : PrismApplication
 {
     private const string PIPE_NAME = "AURAECHO_APP_PIPE";
     private static Mutex _instanceMutex;
@@ -104,6 +106,7 @@ public partial class App
         containerRegistry.RegisterSingleton<IPurchaseCoordinator, PurchaseCoordinator>();
         containerRegistry.RegisterSingleton<IOrderRepository, OrderRepository>();
         containerRegistry.RegisterSingleton<IWebImageLoader, WebImageLoader>();
+        containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
@@ -124,9 +127,10 @@ public partial class App
     {
         RegisterEvents();
         LoadConfig();
+        WebImageLoaderContext.Default = Container.Resolve<IWebImageLoader>();
+
         if (_startupArgs.Contains("-hide")) return;
 
-        WebImageLoaderContext.Default = Container.Resolve<IWebImageLoader>();
         base.OnInitialized();
     }
 
@@ -145,6 +149,14 @@ public partial class App
         Container.Resolve<IEventAggregator>().GetEvent<AppShutdownEvent>().Subscribe(ShutdownApp);
 
         Container.Resolve<IPluginManager>().CleanOldPluginsAsync();
+
+        ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
+        {
+            string arg = (viewType.FullName.EndsWith("View") ? "Model" : "ViewModel");
+            var viewModelName = viewType.FullName?
+                .Replace(".Views.", ".ViewModels.") + arg;
+            return viewType.Assembly.GetType(viewModelName);
+        });
     }
 
 
@@ -306,20 +318,20 @@ public partial class App
             IEventAggregator eventAggregator = (Current as App)!.Container.Resolve<IEventAggregator>();
             IPluginManager pluginManager = (Current as App)!.Container.Resolve<IPluginManager>();
 
-            UserPluginModel? targetPlugin = pluginManager.Plugins.FirstOrDefault(p => p.LocalPlugin.Id == pluginId);
+            AppPlugin? targetPlugin = pluginManager.Plugins.FirstOrDefault(p => p.PluginId == pluginId);
             if (targetPlugin is null) return;
 
-            var targetPluginVersion = Version.Parse(targetPlugin.LocalPlugin.Manifest.Version);
+            var targetPluginVersion = Version.Parse(targetPlugin.Version);
             if (newVersion <= targetPluginVersion) return;
 
             eventAggregator.GetEvent<RequestRestartAppEvent>().Publish(new PluginUpdatePendingRestart
             {
                 Id = Guid.NewGuid(),
-                IconPath = Path.Combine(targetPlugin.LocalPlugin.PluginFolder, targetPlugin.LocalPlugin.Manifest.Icon),
-                PluginId = targetPlugin.LocalPlugin.Id,
-                Title = targetPlugin.LocalPlugin.Manifest.PluginName,
+                IconPath = Path.Combine(targetPlugin.WorkingDirectory, targetPlugin.Icon),
+                PluginId = targetPlugin.PluginId,
+                Title = targetPlugin.PluginName,
                 LatestVersion = newVersion,
-                CurrentVersion = Version.Parse(targetPlugin.LocalPlugin.Manifest.Version)
+                CurrentVersion = Version.Parse(targetPlugin.Version)
             });
         }
     }

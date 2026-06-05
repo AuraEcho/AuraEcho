@@ -20,11 +20,12 @@ public class PluginManager : IPluginManager
     private readonly ILocalPluginRepository _pluginRepository;
     private readonly IAppLogger _logger;
     private readonly IClientSession _clientSession;
+    private readonly IPluginLoader _pluginLoader;
     private readonly IContainerProvider _containerProvider;
     private readonly List<PluginLoadContext> _pluginLoadContexts = [];
 
-    private List<UserPluginModel> _plugins;
-    public List<UserPluginModel> Plugins
+    private List<AppPlugin> _plugins;
+    public List<AppPlugin> Plugins
     {
         get => _isInitialized ? _plugins : [];
     }
@@ -35,13 +36,15 @@ public class PluginManager : IPluginManager
         _clientSession = _containerProvider.Resolve<IClientSession>();
         _pluginRepository = _containerProvider.Resolve<ILocalPluginRepository>();
         _logger = _containerProvider.Resolve<IAppLogger>();
+        _pluginLoader = _containerProvider.Resolve<IPluginLoader>();
+
     }
 
     /// <summary>
     /// 加载所有插件并返回插件信息
     /// </summary>
     /// <returns></returns>
-    public async Task<List<UserPluginModel>> LoadPluginsAsync()
+    public async Task<List<AppPlugin>> LoadPluginsAsync()
     {
         // TODO: 线程安全
 
@@ -62,53 +65,19 @@ public class PluginManager : IPluginManager
         return _plugins;
     }
 
-    public async Task<bool> LoadPluginAsync(UserPluginModel pluginRegistryModel)
+    public async Task<AppPlugin> LoadPluginAsync(UserPluginModel pluginRegistryModel)
     {
         if (pluginRegistryModel.Status == PluginPlanStatus.UninstallPending)
         {
-            _pluginRepository.RemoveUserPluginAsync(pluginRegistryModel.Id);
-            _logger.Debug($"插件 {pluginRegistryModel.LocalPlugin.Manifest.PluginName} 已被卸载，跳过加载。");
-            return false;
+            await _pluginRepository.RemoveUserPluginAsync(pluginRegistryModel.Id);
+            _logger.Debug($"插件 {pluginRegistryModel.LocalPlugin.PluginId} 已被卸载，跳过加载。");
+            return null;
         }
 
-        string entryAssemblyPath = Path.Combine(
-            pluginRegistryModel.LocalPlugin.PluginFolder,
-            pluginRegistryModel.LocalPlugin.Manifest.EntryAssemblyName);
+        var plugin = await _pluginLoader.LoadPluginAsync(pluginRegistryModel);
 
-        if (!File.Exists(entryAssemblyPath))
-        {
-            _logger.Error($"插件 {pluginRegistryModel.LocalPlugin.Manifest.PluginName} 主程序集不存在：{entryAssemblyPath}");
-            return false;
-        }
-
-        var alc = new PluginLoadContext(entryAssemblyPath);
-        _pluginLoadContexts.Add(alc);
-        Assembly pluginAssembly;
-        try
-        {
-            pluginAssembly = alc.LoadEntryAssembly(entryAssemblyPath);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error($"加载插件程序集失败：{pluginRegistryModel.LocalPlugin.Manifest.PluginName}，异常：{ex.Message}");
-            return false;
-        }
-
-        IPlugin pluginContext = LoadPluginByAssembly(pluginAssembly);
-        pluginRegistryModel.PluginContext = pluginContext;
-
-        _logger.Debug("执行插件环境初始化");
-
-        if (!pluginRegistryModel.LocalPlugin.IsSetup)
-        {
-            await pluginContext.SetupAsync(_containerProvider);
-
-            pluginRegistryModel.LocalPlugin.IsSetup = true;
-            _pluginRepository.UpdateLocalPluginAsync(pluginRegistryModel.LocalPlugin);
-        }
-
-        _plugins.Add(pluginRegistryModel);
-        return true;
+        _plugins.Add(plugin);
+        return plugin;
     }
 
     private IPlugin LoadPluginByAssembly(Assembly pluginAssembly)
@@ -134,15 +103,15 @@ public class PluginManager : IPluginManager
     /// <returns></returns>
     public async Task CleanOldPluginsAsync()
     {
-        List<LocalPluginModel> plugins = await _pluginRepository.GetLocalPluginsAsync();
+        List<InstalledPluginModel> plugins = await _pluginRepository.GetLocalPluginsAsync();
 
         await Task.Run(() => plugins.ForEach(CleanOldPlugin));
 
-        void CleanOldPlugin(LocalPluginModel plugin)
+        void CleanOldPlugin(InstalledPluginModel plugin)
         {
-            DirectoryInfo? currentPluginRootPath = Directory.GetParent(plugin.PluginFolder);
+            DirectoryInfo? currentPluginRootPath = Directory.GetParent(plugin.InstallPath);
             currentPluginRootPath.GetDirectories()
-                                 .Where(d => !DirectoryUtils.AreDirectoriesEqual(d.FullName, plugin.PluginFolder))
+                                 .Where(d => !DirectoryUtils.AreDirectoriesEqual(d.FullName, plugin.InstallPath))
                                  .Where(d => Version.TryParse(d.Name, out var v))
                                  .ForEach(DeleteDirectorySafely);
         }

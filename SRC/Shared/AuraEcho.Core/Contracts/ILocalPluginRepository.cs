@@ -9,13 +9,13 @@ public interface ILocalPluginRepository
     /// 获取插件信息列表
     /// </summary>
     /// <returns></returns>
-    Task<List<LocalPluginModel>> GetLocalPluginsAsync();
+    Task<List<InstalledPluginModel>> GetLocalPluginsAsync();
 
     /// <summary>
     /// 添加插件信息
     /// </summary>
     /// <param name="pluginRegistryModel"></param>
-    Task AddLocalPluginAsync(LocalPluginModel newPlugin);
+    Task AddLocalPluginAsync(InstalledPluginModel newPlugin);
 
     /// <summary>
     /// 移除插件信息
@@ -27,7 +27,7 @@ public interface ILocalPluginRepository
     /// 更新插件信息
     /// </summary>
     /// <param name="plugin"></param>
-    Task UpdateLocalPluginAsync(LocalPluginModel plugin);
+    Task UpdateLocalPluginAsync(InstalledPluginModel plugin);
 
     /// <summary>
     /// 获取用户插件列表

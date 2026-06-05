@@ -5,21 +5,27 @@ namespace AuraEcho.Core.Extensions;
 
 public static class LocalPluginExtensions
 {
-    public static LocalPlugin ToLocalPlugin(this LocalPluginModel @this)
+    public static InstalledPlugin ToLocalPlugin(this InstalledPluginModel @this)
         => new()
         {
-            PluginFolder = @this.PluginFolder,
+            PluginId = @this.Id,
+            IsSetup = @this.IsSetup,
             Id = @this.Id,
-            Manifest = @this.Manifest,
-            IsSetup = @this.IsSetup
+            InstallPath = @this.InstallPath,
+            PluginType = @this.PluginType,
+            InstaledAt = @this.InstaledAt,
+            Version = @this.Version,
         };
 
-    public static LocalPluginModel ToLocalPluginModel(this LocalPlugin @this)
+    public static InstalledPluginModel ToLocalPluginModel(this InstalledPlugin @this)
         => new()
         {
-            PluginFolder = @this.PluginFolder,
+            PluginId = @this.Id,
+            IsSetup = @this.IsSetup,
             Id = @this.Id,
-            Manifest = @this.Manifest,
-            IsSetup = @this.IsSetup
+            InstallPath = @this.InstallPath,
+            PluginType = @this.PluginType,
+            InstaledAt = @this.InstaledAt,
+            Version = @this.Version
         };
 }

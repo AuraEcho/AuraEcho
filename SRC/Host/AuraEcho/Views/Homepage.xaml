@@ -4,6 +4,7 @@
              xmlns:cc="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
              xmlns:cm="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
              xmlns:converters="clr-namespace:AuraEcho.Converters"
+             xmlns:selectors="clr-namespace:AuraEcho.Selectors"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,7 +20,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
-        <DataTemplate x:Key="PluginTemplate" DataType="{x:Type cm:UserPluginModel}">
+        <DataTemplate x:Key="NativePluginTemplate" DataType="{x:Type cm:NativePlugin}">
 
             <Button Width="120"
                     Height="120"
@@ -83,7 +84,7 @@
                         <TextBlock VerticalAlignment="Center"
                                    d:Text="Plugin Name"
                                    FontSize="14"
-                                   Text="{Binding LocalPlugin.Manifest.PluginName}" />
+                                   Text="{Binding PluginName}" />
                     </DockPanel>
                     <Label Padding="4,2"
                            HorizontalAlignment="Right"
@@ -108,8 +109,13 @@
     </UserControl.Resources>
     <Grid RowDefinitions="36, *">
         <ItemsControl Grid.Row="1"
-                      Margin="24,12,24,24"
-                      ItemTemplate="{StaticResource PluginTemplate}">
+                      Margin="24,12,24,24">
+            <ItemsControl.ItemTemplateSelector>
+                <selectors:AppPluginDataTemplateSelector NativePluginTemplate="{StaticResource NativePluginTemplate}"
+                                                         StandalonePluginTemplate="{x:Null}"
+                                                         LocalWebPluginTemplate="{x:Null}"
+                                                         RemoteWebPluginTemplate="{x:Null}"/>
+            </ItemsControl.ItemTemplateSelector>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" Orientation="Horizontal" />

@@ -43,7 +43,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         var result = await _pluginRespository.GetPluginsAsync();
         if (result is null) return;
 
-        List<Guid> installedPluginIds = _pluginManager.Plugins.Select(p => p.LocalPlugin.Manifest.Id).ToList();
+        List<Guid> installedPluginIds = _pluginManager.Plugins.Select(p => p.PluginId).ToList();
         List<MarketPluginInstallTask> inProcessTasks = [.. _transferManager.AllTasks.OfType<MarketPluginInstallTask>()];
         ObservableCollection<MarketPlugin> marketPlugins = result.Select(ToMarketPlugin).ToObservableCollection();
 
@@ -82,24 +82,6 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         }
     }
 
-    public DelegateCommand<MarketPlugin> InstallPluginCommand { get; }
-    private void InstallPlugin(MarketPlugin plugin)
-    {
-        _transferManager.AddTask(plugin.InstallContext);
-    }
-
-    public DelegateCommand<MarketPlugin> OpenPluginCommand { get; }
-    private void OpenPlugin(MarketPlugin plugin)
-    {
-        UserPluginModel? targetRegistry =
-            _pluginManager.Plugins.FirstOrDefault(p => p.LocalPlugin.Manifest.Id == plugin.PluginInfo.Id)
-            ?? throw new Exception();
-
-        _navigationService.RequestNavigate(
-            HostRegionNames.MainRegion,
-            targetRegistry.PluginContext.EntryViewName);
-    }
-
     public DelegateCommand<MarketPlugin> NavigationToPluginDetailsCommand { get; }
     private void NavigationToPluginDetails(MarketPlugin plugin)
     {
@@ -134,8 +116,6 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         _pluginManager = pluginManager;
 
         LoadPluginsCommand = new DelegateCommand(LoadPlugins);
-        InstallPluginCommand = new DelegateCommand<MarketPlugin>(InstallPlugin);
-        OpenPluginCommand = new DelegateCommand<MarketPlugin>(OpenPlugin);
         NavigationToPluginDetailsCommand = new DelegateCommand<MarketPlugin>(NavigationToPluginDetails);
         LoadPlugins();
     }

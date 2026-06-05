@@ -1,3 +1,4 @@
+using AuraEcho.Api.Models.V1.Plugin;
 using Prism.Mvvm;
 
 namespace AuraEcho.Core.Models;
@@ -7,6 +8,12 @@ namespace AuraEcho.Core.Models;
 /// </summary>
 public class PluginManifest : BindableBase
 {
+    public PluginType Type
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
     /// <summary>
     /// Id
     /// </summary>
@@ -53,18 +60,9 @@ public class PluginManifest : BindableBase
     }
 
     /// <summary>
-    /// 描述
-    /// </summary>
-    public string? Description 
-    { 
-        get; 
-        set => SetProperty(ref field, value);
-    }
-
-    /// <summary>
     /// 入口程序集
     /// </summary>
-    public string? EntryAssemblyName 
+    public string? EntryFileName 
     { 
         get; 
         set => SetProperty(ref field, value);

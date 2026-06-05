@@ -6,14 +6,14 @@ namespace AuraEcho.Interfaces;
 
 public interface IPluginManager
 {
-    List<UserPluginModel> Plugins { get; }
+    List<AppPlugin> Plugins { get; }
 
     //List<UserPluginModel> LoadPlugins();
-    Task<bool> LoadPluginAsync(UserPluginModel pluginRegistryModel);
+    Task<AppPlugin> LoadPluginAsync(UserPluginModel pluginRegistryModel);
     /// <summary>
     /// 加载所有插件并返回插件注册表
     /// </summary>
-    Task<List<UserPluginModel>> LoadPluginsAsync();
+    Task<List<AppPlugin>> LoadPluginsAsync();
 
     /// <summary>
     /// 清理旧版本插件

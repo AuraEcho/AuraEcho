@@ -68,7 +68,8 @@ public class SettingsViewModel : BindableBase
 
         foreach (var plugin in _pluginManager.Plugins)
         {
-            var pluginSettingsItem = plugin.PluginContext.GetSettings();
+            var pluginSettingsItem = plugin.GetSettings();
+            if (pluginSettingsItem is null) continue;
             if (SettingsItems.Contains(pluginSettingsItem)) continue;
 
             SettingsItems.Add(pluginSettingsItem);

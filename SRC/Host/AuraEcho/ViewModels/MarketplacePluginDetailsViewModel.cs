@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using System.Resources;
 using System.Threading.Tasks;
+using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
@@ -9,6 +11,7 @@ using AuraEcho.Interfaces;
 using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -40,13 +43,20 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     public DelegateCommand OpenPluginCommand { get; }
     private void OpenPlugin()
     {
-        UserPluginModel? targetRegistry = 
-            _pluginManager.Plugins.FirstOrDefault(p => p.LocalPlugin.Manifest.Id == MarketPlugin.PluginInfo.Id) 
+        AppPlugin? targetPlugin = 
+            _pluginManager.Plugins.FirstOrDefault(p => p.PluginId == MarketPlugin.PluginInfo.Id) 
             ?? throw new Exception();
 
-        _navigationService.RequestNavigate(
-            HostRegionNames.MainRegion,
-            targetRegistry.PluginContext.EntryViewName);
+        switch (targetPlugin.PluginType)
+        {
+            case PluginType.Native:
+                if (targetPlugin is not NativePlugin nativePlugin) return;
+                _navigationService.RequestNavigate(
+                    HostRegionNames.MainRegion,
+                    nativePlugin.PluginContext.EntryViewName);
+                break;
+            default: throw new NotImplementedException("TODO: 不同类型插件的打开方式不同，待实现");
+        }
     }
 
     public DelegateCommand<PluginScreenshot> NavigationToViewScreenshotCommand { get; }

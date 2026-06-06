@@ -34,9 +34,8 @@ namespace AuraEcho.Views
             try
             {
                 await WebContentRoot.EnsureCoreWebView2Async(WebViewEnvironment.Default);
-
                 WebContentRoot.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
-
+                
                 if (DataContext is WebContainerViewModel vm)
                 {
                     WebContentRoot.Source = new Uri(vm.SourceUri);
@@ -46,6 +45,11 @@ namespace AuraEcho.Views
             {
                 Debug.WriteLine($"WebView2 初始化失败: {ex.Message}");
             }
+        }
+
+        private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

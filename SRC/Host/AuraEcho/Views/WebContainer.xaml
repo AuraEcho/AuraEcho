@@ -9,13 +9,13 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:WebContainerViewModel}"
              d:DesignHeight="705.312"
              d:DesignWidth="1170.656"
-             Loaded="UserControl_Loaded"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+             Loaded="UserControl_Loaded"
+             MouseDown="UserControl_MouseDown"
              mc:Ignorable="d">
-    <Grid RowDefinitions="40, *">
-        <wv2:WebView2 x:Name="WebContentRoot"
-                      Grid.Row="1"
-                      d:Source="https://bbs.colg.cn" />
-    </Grid>
+    <wv2:WebView2CompositionControl x:Name="WebContentRoot"
+                                    Margin="0,40,0,0"
+                                    d:Source="https://bbs.colg.cn" />
+
 </UserControl>

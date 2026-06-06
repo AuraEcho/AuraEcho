@@ -25,10 +25,8 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Shared\AuraEcho.Design\AuraEcho.Design.csproj" />
 		<ProjectReference Include="..\..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj">
-			<Private>false</Private>
-		</ProjectReference>
-		<ProjectReference Include="..\..\..\Shared\AuraEcho.Themes\AuraEcho.Themes.csproj" >
 			<Private>false</Private>
 		</ProjectReference>
 		<ProjectReference Include="..\AuraEcho.ExternalTools.Themes\AuraEcho.ExternalTools.Themes.csproj" />

@@ -9,11 +9,14 @@ namespace AuraEcho.Tools;
 
 public static class WebViewEnvironment
 {
+    private static bool _isInitialized;
     public static CoreWebView2Environment Default { get; set; }
-
     public static async Task InitAllEnvironmentsAsync()
     {
+        if (_isInitialized) return;
+
         await InitDefaultEnvironmentAsync();
+        _isInitialized = true;
     }
 
     private static async Task InitDefaultEnvironmentAsync()
@@ -32,10 +35,9 @@ public static class WebViewEnvironment
             "--enable-gpu-rasterization",  
             
             // 禁用 Edge 自带的反钓鱼检测以加快加载
-            "--disable-features=EdgeAntiPhishing" 
+            "--disable-features=EdgeAntiPhishing"
         };
 
-        // 3. 配置 Options
         var options = new CoreWebView2EnvironmentOptions
         {
             AdditionalBrowserArguments = String.Join(" ", args),

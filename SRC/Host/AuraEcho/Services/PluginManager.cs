@@ -22,7 +22,6 @@ public class PluginManager : IPluginManager
     private readonly IClientSession _clientSession;
     private readonly IPluginLoader _pluginLoader;
     private readonly IContainerProvider _containerProvider;
-    private readonly List<PluginLoadContext> _pluginLoadContexts = [];
 
     private List<AppPlugin> _plugins;
     public List<AppPlugin> Plugins
@@ -37,7 +36,6 @@ public class PluginManager : IPluginManager
         _pluginRepository = _containerProvider.Resolve<ILocalPluginRepository>();
         _logger = _containerProvider.Resolve<IAppLogger>();
         _pluginLoader = _containerProvider.Resolve<IPluginLoader>();
-
     }
 
     /// <summary>
@@ -47,6 +45,7 @@ public class PluginManager : IPluginManager
     public async Task<List<AppPlugin>> LoadPluginsAsync()
     {
         // TODO: 线程安全
+        // TODO: 使用异步流模式？
 
         if (_isInitialized)
         {
@@ -67,34 +66,25 @@ public class PluginManager : IPluginManager
 
     public async Task<AppPlugin> LoadPluginAsync(UserPluginModel pluginRegistryModel)
     {
-        if (pluginRegistryModel.Status == PluginPlanStatus.UninstallPending)
+        try
         {
-            await _pluginRepository.RemoveUserPluginAsync(pluginRegistryModel.Id);
-            _logger.Debug($"插件 {pluginRegistryModel.LocalPlugin.PluginId} 已被卸载，跳过加载。");
+            if (pluginRegistryModel.Status == PluginPlanStatus.UninstallPending)
+            {
+                await _pluginRepository.RemoveUserPluginAsync(pluginRegistryModel.Id);
+                _logger.Debug($"插件 {pluginRegistryModel.LocalPlugin.PluginId} 已被卸载，跳过加载。");
+                return null;
+            }
+
+            var plugin = await _pluginLoader.LoadPluginAsync(pluginRegistryModel);
+
+            _plugins.Add(plugin);
+            return plugin;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"加载插件 {pluginRegistryModel.LocalPlugin.PluginId} 失败: {ex.Message}");
             return null;
         }
-
-        var plugin = await _pluginLoader.LoadPluginAsync(pluginRegistryModel);
-
-        _plugins.Add(plugin);
-        return plugin;
-    }
-
-    private IPlugin LoadPluginByAssembly(Assembly pluginAssembly)
-    {
-        var pluginType = pluginAssembly.GetExportedTypes()
-            .Where(t => typeof(IPlugin).IsAssignableFrom(t))
-            .Where(t => t != typeof(IPlugin))
-            .Where(t => !t.IsAbstract)
-            .SingleOrDefault();
-
-        if (pluginType == null)
-            return null;
-
-        var plugin = (IPlugin)Activator.CreateInstance(pluginType);
-        plugin.RegisterTypes((IContainerRegistry)_containerProvider);
-        plugin.OnInitialized(_containerProvider);
-        return plugin;
     }
 
     /// <summary>

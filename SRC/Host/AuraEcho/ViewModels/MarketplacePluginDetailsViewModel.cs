@@ -51,7 +51,11 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
                 if (targetPlugin is not NativePlugin nativePlugin) return;
                 _navigationService.RequestNavigate(
                     HostRegionNames.MainRegion,
-                    nativePlugin.PluginContext.EntryViewName);
+                    nativePlugin.PluginContext.EntryViewName,
+                    new NavigationParameters
+                    {
+                        {  "PluginId", nativePlugin.PluginId  },
+                    });
                 break;
             case PluginType.Standalone:
                 (targetPlugin as StandalonePlugin).Open();

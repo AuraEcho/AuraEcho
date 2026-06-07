@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              d:DataContext="{d:DesignInstance Type=viewmodels:WebContainerViewModel}"
              d:DesignHeight="705.312"
@@ -14,8 +15,56 @@
              Loaded="UserControl_Loaded"
              MouseDown="UserControl_MouseDown"
              mc:Ignorable="d">
-    <wv2:WebView2CompositionControl x:Name="WebContentRoot"
-                                    Margin="0,40,0,0"
-                                    d:Source="https://bbs.colg.cn" />
-
+    <UserControl.Resources>
+        <Storyboard x:Key="LoadingAnimation">
+            <DoubleAnimation BeginTime="0:0:0.2" 
+                             Storyboard.TargetName="LoadingBrushTransform"
+                             Storyboard.TargetProperty="X"
+                             From="-1"
+                             To="1"
+                             Duration="0:0:1"
+                             RepeatBehavior="Forever">
+                <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:ControlStoryboardAction Storyboard="{StaticResource LoadingAnimation}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <TextBlock x:Name="LoadingText" HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="{DynamicResource FontSize.Headline.Small}"
+                   Text="正在加载..." >
+            <TextBlock.Foreground>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                    <GradientStop Color="Gray" Offset="0"/>
+                    <GradientStop Color="White" Offset="0.4"/>
+                    <GradientStop Color="White" Offset="0.6"/>
+                    <GradientStop Color="Gray" Offset="1"/>
+                    
+                    <LinearGradientBrush.RelativeTransform>
+                        <TranslateTransform x:Name="LoadingBrushTransform" X="-0.3"/>
+                    </LinearGradientBrush.RelativeTransform>
+                </LinearGradientBrush>
+            </TextBlock.Foreground>
+                
+        </TextBlock>
+                   
+                   
+        <wv2:WebView2CompositionControl x:Name="WebContentRoot"
+                                        Margin="0,40,0,0" 
+                                        MouseUp="WebContentRoot_MouseUp"
+                                        d:Source="https://bbs.colg.cn" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="NavigationCompleted">
+                    <i:ControlStoryboardAction Storyboard="{StaticResource LoadingAnimation}" ControlStoryboardOption="Stop"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </wv2:WebView2CompositionControl>
+    </Grid>
 </UserControl>

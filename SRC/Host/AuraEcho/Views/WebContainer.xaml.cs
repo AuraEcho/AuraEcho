@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace AuraEcho.Views
 {
@@ -35,7 +36,7 @@ namespace AuraEcho.Views
             {
                 await WebContentRoot.EnsureCoreWebView2Async(WebViewEnvironment.Default);
                 WebContentRoot.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
-                
+
                 if (DataContext is WebContainerViewModel vm)
                 {
                     WebContentRoot.Source = new Uri(vm.SourceUri);
@@ -47,9 +48,29 @@ namespace AuraEcho.Views
             }
         }
 
-        private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void WebContentRoot_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (WebContentRoot.CoreWebView2 is null) return;
+
+            // 鼠标返回
+            if (e.ChangedButton == MouseButton.XButton1 && WebContentRoot.CoreWebView2.CanGoBack)
+            {
+                WebContentRoot.CoreWebView2.GoBack();
+                e.Handled = true;
+                return;
+            }
+
+            // 鼠标前进
+            if (e.ChangedButton == MouseButton.XButton2 && WebContentRoot.CoreWebView2.CanGoForward)
+            {
+                WebContentRoot.CoreWebView2.GoForward();
+                e.Handled = true;
+            }
         }
     }
 }

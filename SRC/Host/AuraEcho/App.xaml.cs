@@ -165,6 +165,12 @@ public partial class App : PrismApplication
         _ = WebViewEnvironment.InitAllEnvironmentsAsync();
     }
 
+    protected override void OnExit(ExitEventArgs e)
+    {
+        ToastNotificationManagerCompat.Uninstall();
+        base.OnExit(e);
+    }
+
 
     private void LoadConfig()
     {

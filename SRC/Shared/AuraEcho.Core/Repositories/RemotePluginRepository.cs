@@ -59,6 +59,29 @@ public class RemotePluginRepository : IRemotePluginRepository
 
         return plugins;
     }
+    public async Task<RemotePlugin> GetPluginByIdAsync(Guid pluginId)
+    {
+        var result = await _httpHelper.GetAsync<GetPluginByIdResult>(Urls.GetPluginById(pluginId));
+        if (result is null) return null;
+
+        var plugin = new RemotePlugin
+        {
+            Author = result.Author,
+            Name = result.Name,
+            CreateTime = result.CreateTime,
+            Id = result.Id,
+            IconFileUrl = result.IconFileUrl,
+            BannerFileUrl = result.BannerFileUrl,
+            Description = result.Description,
+            Summary = result.Summary,
+            BannerFileId = result.BannerFileId,
+            IconFileId = result.IconFileId,
+            IsAcquired = result.IsAcquired,
+            UserCount = result.UserCount
+        };
+
+        return plugin;
+    }
     public async Task<List<RemotePlugin>> GetAllPluginsAsync()
     {
         var result = await _httpHelper.GetAsync<ListPluginsResponse>(Urls.GetAllPlugins());

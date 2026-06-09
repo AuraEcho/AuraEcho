@@ -6,6 +6,7 @@ public interface IRemotePluginRepository
 {
     Task<List<RemotePlugin>> GetPluginsAsync();
     Task<List<RemotePlugin>> GetAllPluginsAsync();
+    Task<RemotePlugin> GetPluginByIdAsync(Guid pluginId);
     Task<PluginPackage> GetLatestAsync(Guid pluginId);
     Task<bool> AcquireAsync(Guid pluginId);
     Task<List<PluginScreenshot>> GetScreenshotsAsync(Guid pluginId);

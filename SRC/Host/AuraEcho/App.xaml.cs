@@ -1,18 +1,3 @@
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.IO.Pipes;
-using System.Linq;
-using System.Net.Http;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
 using AuraEcho.Constants;
 using AuraEcho.Core.Attributes;
 using AuraEcho.Core.Constants;
@@ -39,10 +24,26 @@ using AuraEcho.Views;
 using DryIoc;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Prism.DryIoc;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
+using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.IO.Pipes;
+using System.Linq;
+using System.Net.Http;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace AuraEcho;
 
@@ -108,6 +109,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IOrderRepository, OrderRepository>();
         containerRegistry.RegisterSingleton<IWebImageLoader, WebImageLoader>();
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
+        containerRegistry.RegisterSingleton<ISkuOrderCacheService, SkuOrderCacheService>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();

@@ -45,6 +45,7 @@ public static class Urls
     public static string CreatePlugin() => $"{ServerUrl}/api/v1/plugin/create";
     public static string CreatePluginVersion() => $"{ServerUrl}/api/v1/plugin/createVersion";
     public static string GetPlugins() => $"{ServerUrl}/api/v1/plugin/list";
+    public static string GetPluginById(Guid pluginId) => $"{ServerUrl}/api/v1/plugin/{pluginId}";
     public static string GetAllPlugins() => $"{ServerUrl}/api/v1/plugin/listAll";
     public static string GetPluginVersions(Guid pluginId) => $"{ServerUrl}/api/v1/plugin/versions?pluginId={pluginId}";
     public static string GetLatestPluginVersion(Guid pluginId) => $"{ServerUrl}/api/v1/plugin/latest?pluginId={pluginId}";

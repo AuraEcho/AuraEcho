@@ -190,7 +190,7 @@
                                     <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="FocusedLine" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="FocusedLine" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -202,8 +202,53 @@
                                     <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level3}" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="FocusedLine" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="FocusedLine" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CardRadioButtonStyle" TargetType="{x:Type RadioButton}">
+        <Setter Property="BorderBrush" Value="{DynamicResource Brushes.OutlineVariant}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="LayoutRoot"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}">
+                        <Grid>
+                            <Border x:Name="StateLayer"
+                                    Background="{DynamicResource Brushes.Primary}"
+                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}"
+                                    Opacity="0" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Focusable="False" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brushes.Outline}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource Brushes.Primary}"></Setter>
+                            <Setter TargetName="StateLayer" Property="Opacity" Value="0.1"/>
+                            <Setter Property="BorderThickness" Value="2" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brushes.Primary}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

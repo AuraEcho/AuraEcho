@@ -17,6 +17,8 @@
         Title="{Binding Source={StaticResource R}, Path=Labels.AppName}"
         Width="960"
         Height="640"
+        MinWidth="480"
+        MinHeight="320"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Background="{DynamicResource Brushes.SurfaceContainerLowest}"

@@ -8,7 +8,7 @@ public static class QRCodeUtil
     public static BitmapSource GenerateQRCode(string url)
     {
         using QRCodeGenerator qrGenerator = new QRCodeGenerator();
-        using QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.M);
+        using QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
         using PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
         byte[] qrCodeAsPngByteArr = qrCode.GetGraphic(20, false);
         return ToBitmapImage(qrCodeAsPngByteArr);

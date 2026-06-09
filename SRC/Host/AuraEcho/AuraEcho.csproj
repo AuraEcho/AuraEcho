@@ -13,7 +13,11 @@
 		<ApplicationDefinition Remove="App.xaml" />
 		<None Remove="Assets\Icons\AuraEcho.ico" />
 		<None Remove="Assets\Images\market_banner.jpg" />
+		<None Remove="Assets\PDF\SubscriptionTerms.pdf" />
 		<Content Include="Assets\PDF\EULA.pdf">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\PDF\SubscriptionTerms.pdf">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 		<Page Include="App.xaml" />
@@ -26,6 +30,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.8" />
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3967.48" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
@@ -42,7 +47,9 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Assets\Icons\AuraEcho.ico" />
+	  <Resource Include="Assets\Images\alipay_logo.png" />
 	  <Resource Include="Assets\Images\auraecho.png" />
 	  <Resource Include="Assets\Images\market_banner.jpg" />
+	  <Resource Include="Assets\Images\wechat_logo.png" />
 	</ItemGroup>
 </Project>

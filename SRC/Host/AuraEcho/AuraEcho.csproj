@@ -7,6 +7,8 @@
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<SatelliteResourceLanguages>zh-Hans;en-us</SatelliteResourceLanguages>
 		<Nullable>enable</Nullable>
+		<AssemblyTitle>灵光回声</AssemblyTitle>
+		<Product>灵光回声</Product>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 	<ItemGroup>

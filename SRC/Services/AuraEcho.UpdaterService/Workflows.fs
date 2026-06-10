@@ -68,29 +68,28 @@ let updatePluginsAsync (logger: IAppLogger) (localRepo: ILocalPluginRepository) 
         SqliteConnection.ClearAllPools()
 
         for plugin in installedPlugins do
-            let pluginName = plugin.Manifest.PluginName
-            let! remotePackage = remoteRepo.GetLatestAsync(plugin.Manifest.Id)
+            let! remotePackage = remoteRepo.GetLatestAsync(plugin.PluginId)
             let remoteVer = if isNull remotePackage then Version("0.0.0") else Version(remotePackage.Version)
-            let localVer = Version(plugin.Manifest.Version)
+            let localVer = Version(plugin.Version)
 
             match remoteVer > localVer with
             | true ->
-                logger.Information($"发现插件 {pluginName} 的新版本 {remoteVer}")
+                logger.Information($"发现插件 {plugin.PluginId} 的新版本 {remoteVer}")
                 let targetPath = Path.Combine(cachePath, remotePackage.FileName)
                 
-                let! latestPackage = remoteRepo.GetLatestAsync(plugin.Manifest.Id) |> Async.AwaitTask
+                let! latestPackage = remoteRepo.GetLatestAsync(plugin.PluginId) |> Async.AwaitTask
                 let! downloaded = storageRepository.DownloadFileAsync(latestPackage.FileUrl, targetPath, null)
                 if downloaded then
                     try
                         let! _ = installer.InstallAsync(targetPath)
                         File.Delete(targetPath)
-                        logger.Information($"插件 {pluginName} 更新成功")
-                        do! notifyAppPluginUpdateAsync logger plugin.Manifest.Id remotePackage.Version
+                        logger.Information($"插件 {plugin.PluginId} 更新成功")
+                        do! notifyAppPluginUpdateAsync logger plugin.PluginId remotePackage.Version
                     with ex ->
-                        logger.Error($"安装插件 {pluginName} 时失败 {ex}")
+                        logger.Error($"安装插件 {plugin.PluginId} 时失败 {ex}")
                 else
-                    logger.Warning($"插件 {pluginName} 下载失败")
-            | false -> logger.Debug($"插件 {pluginName} 已是最新版本")
+                    logger.Warning($"插件 {plugin.PluginId} 下载失败")
+            | false -> logger.Debug($"插件 {plugin.PluginId} 已是最新版本")
 
     with ex ->
         logger.Error($"插件更新流程发生异常{ex}")

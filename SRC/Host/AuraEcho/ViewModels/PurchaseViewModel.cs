@@ -88,6 +88,8 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         set => SetProperty(ref field, value);
     }
 
+    public int _currentOrderCreatingTaskId;
+
     public DelegateCommand<Sku> SelectSkuCommand { get; }
     private void SelectSku(Sku sku)
     {
@@ -112,8 +114,10 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
                         SkuId = SelectedSku.Id,
                         Channel = PaymentChannel
                     }));
-
+        _currentOrderCreatingTaskId = createOrderTask.Id;
         await Task.WhenAll([ createOrderTask, Task.Delay(TimeSpan.FromSeconds(0.3))]);
+
+        if (_currentOrderCreatingTaskId != createOrderTask.Id) return;
 
         ResponseResult<CreateOrderResponse>? result = createOrderTask.Result;
 

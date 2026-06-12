@@ -2,6 +2,7 @@
 using AuraEcho.Api.Models.V1.Order;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
+using AuraEcho.Core.Repositories;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
@@ -24,12 +25,21 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
 {
     private Guid _resourceId;
     private readonly ISkuRepository _skuRepository;
+    private readonly ILicenseRepository _licenseRepository;
     private readonly IOrderRepository _orderRepository;
     private readonly IAuraToastService _auraToastService;
     private readonly IRemotePluginRepository _remotePluginRepository;
-    private readonly ISkuOrderCacheService _skuPayUrlCacheService;
+    private readonly ISkuOrderCacheService _skuOrderCacheService;
+    private readonly IClock _clock;
     private Guid? _newestOrderId;
+    public int _currentOrderCreatingTaskId;
     private readonly CancellationTokenSource _orderStatusTaskToken = new();
+
+    public ResourceLicense CurrentPluginLicense
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
 
     public RemotePlugin CurrentPlugin
     {
@@ -88,7 +98,12 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         set => SetProperty(ref field, value);
     }
 
-    public int _currentOrderCreatingTaskId;
+    public bool IsPaid
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
 
     public DelegateCommand<Sku> SelectSkuCommand { get; }
     private void SelectSku(Sku sku)
@@ -105,7 +120,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         PayUrlIsValid = true;
 
         Task<ResponseResult<CreateOrderResponse>?> createOrderTask = 
-            _skuPayUrlCacheService.GetOrFetchSkuOrderAsync(
+            _skuOrderCacheService.GetOrFetchSkuOrderAsync(
                 SelectedSku.Id,
                 PaymentChannel,
                 async (skuId, paymentChannel) =>
@@ -146,7 +161,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
     public DelegateCommand RefreshPayUrlCommand { get; }
     private void RefershPayUrl()
     {
-        _skuPayUrlCacheService.InvalidateCache(SelectedSku.Id, PaymentChannel);
+        _skuOrderCacheService.InvalidateCache(SelectedSku.Id, PaymentChannel);
         SubmitOrder();
     }
 
@@ -175,7 +190,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
             if (orderStatus == OrderStatus.Paid)
             {
                 _auraToastService.Show("订单支付成功！", ToastLevel.Success);
-                RequestClose?.Invoke(RegionDialogResult.OK);
+                IsPaid = true;
                 break;
             }
         }
@@ -208,14 +223,18 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         ISkuRepository skuRepository,
         IOrderRepository orderRepository,
         IAuraToastService auraToastService,
+        ILicenseRepository licenseRepository,
+        IClock clock,
         IRemotePluginRepository remotePluginRepository,
-        ISkuOrderCacheService skuPayUrlCacheService)
+        ISkuOrderCacheService skuOrderCacheService)
     {
         _skuRepository = skuRepository;
         _orderRepository = orderRepository;
         _auraToastService = auraToastService;
         _remotePluginRepository = remotePluginRepository;
-        _skuPayUrlCacheService = skuPayUrlCacheService;
+        _skuOrderCacheService = skuOrderCacheService;
+        _licenseRepository = licenseRepository;
+        _clock = clock;
 
         OkCommand = new DelegateCommand(Ok);
         CancelCommand = new DelegateCommand(Cancel);
@@ -244,12 +263,25 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         SelectedSku = Skus.FirstOrDefault();
     }
 
+    private async Task LoadLicenseInfo(Guid pluginId)
+    {
+        var licenseInfo = await _licenseRepository.GetResourceLicenseAsync(pluginId);
+        if (!licenseInfo.IsValid || licenseInfo.ExpiredAt < _clock.UtcNow)
+        {
+            CurrentPluginLicense = null;
+            return;
+        }
+
+        CurrentPluginLicense = licenseInfo;
+    }
+
     public void OnDialogOpened(NavigationParameters parameters)
     {
         _resourceId = parameters.GetValue<Guid>("ResourceId");
 
         _ = LoadPluginInfo(_resourceId);
         _ = LoadSkus(_resourceId);
+        _ = LoadLicenseInfo(_resourceId);
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext)

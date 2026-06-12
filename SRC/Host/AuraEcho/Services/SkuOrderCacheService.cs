@@ -10,7 +10,7 @@ namespace AuraEcho.Services;
 public class SkuOrderCacheService : ISkuOrderCacheService
 {
     private readonly MemoryCache _cache;
-    private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
+    private static readonly TimeSpan CacheDuration = TimeSpan.FromSeconds(10);
 
     public SkuOrderCacheService()
     {

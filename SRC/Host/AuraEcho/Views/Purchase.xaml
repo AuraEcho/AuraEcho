@@ -22,9 +22,11 @@
     <UserControl.Resources>
         <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <converters:PayUrlToQRCodeConverter x:Key="PayUrlToQRCode" />
+        <converters:PaymentChannelColorConverter x:Key="PaymentChannelColor" />
+        <converters:PaymentChannelBrushConverter x:Key="PaymentChannelBrush" />
         <ui:EnumToBooleanConverter x:Key="EnumToBoolean" />
         <DataTemplate x:Key="SkuTemplate" DataType="{x:Type models:Sku}">
-            <RadioButton Width="120"
+            <RadioButton Width="108"
                          Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectSkuCommand}"
                          CommandParameter="{Binding}"
                          GroupName="SkuGroup"
@@ -39,7 +41,7 @@
                         <TextBlock Margin="0,0,0,8"
                                    HorizontalAlignment="Center"
                                    d:Text="SKU名称"
-                                   FontSize="{DynamicResource FontSize.Title.Medium}"
+                                   FontSize="{DynamicResource FontSize.Title.Small}"
                                    Foreground="{DynamicResource Brushes.OnSurface}">
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}, Path=IsChecked}" Value="False">
@@ -62,15 +64,15 @@
 
                         <TextBlock Margin="0,0,0,4" HorizontalAlignment="Center">
                             <Run FontSize="{DynamicResource FontSize.Body.Large}" Text="￥" /><Run d:Text="0.5"
-                                 FontSize="{DynamicResource FontSize.Headline.Large}"
+                                 FontSize="{DynamicResource FontSize.Headline.Medium}"
                                  FontWeight="SemiBold"
-                                 Text="{Binding SalePrice, StringFormat={}{0:N2}}" />
+                                 Text="{Binding SalePrice, StringFormat={}{0:0.##}}" />
                         </TextBlock>
                         <TextBlock HorizontalAlignment="Center"
                                    d:Text="￥2.00"
-                                   FontSize="14"
+                                   FontSize="{DynamicResource FontSize.Body.Small}"
                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                   Text="{Binding OriginalPrice, StringFormat=￥{0:N2}}"
+                                   Text="{Binding OriginalPrice, StringFormat=￥{0:0.##}}"
                                    TextDecorations="Strikethrough" />
 
                     </StackPanel>
@@ -79,300 +81,514 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid Background="{DynamicResource Brushes.Scrim}">
-        <Border Width="680"
-                Height="450"
-                Padding="24"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-                BorderBrush="{DynamicResource Brushes.OutlineShadow}"
-                BorderThickness="1"
-                CornerRadius="8">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="20"
-                                  Direction="270"
-                                  Opacity="0.15"
-                                  ShadowDepth="6" />
-            </Border.Effect>
-            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <Grid Grid.Row="0"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="2">
-                    <StackPanel Orientation="Horizontal">
-                        <Border Width="48"
-                                Height="48"
-                                Margin="0,0,8,0"
-                                CornerRadius="4"
-                                DockPanel.Dock="Left">
-                            <Border.Background>
-                                <ImageBrush pcap:WebImageHelper.DecodePixelWidth="96"
-                                            pcap:WebImageHelper.Url="{Binding CurrentPlugin.IconFileUrl}"
-                                            Stretch="UniformToFill" />
-                            </Border.Background>
-                        </Border>
-                        <StackPanel>
-                            <TextBlock Margin="0,0,0,4"
-                                       d:Text="插件名称"
-                                       Style="{DynamicResource TitleMediumTextBlockStyle}"
-                                       Text="{Binding CurrentPlugin.Name}" />
-                            <TextBlock FontSize="{DynamicResource FontSize.Body.Medium}"
-                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                       Text="购买后有效期顺延" />
-                        </StackPanel>
-                    </StackPanel>
-                    <Button Width="45"
-                            Height="36"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            BorderThickness="0"
-                            Command="{Binding CloseCommand}"
-                            FontSize="15"
-                            IsTabStop="False"
-                            Style="{DynamicResource IconButtonStyle}"
-                            ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
-                            WindowChrome.IsHitTestVisibleInChrome="True">
-                        <Button.RenderTransform>
-                            <TranslateTransform X="16" Y="-16" />
-                        </Button.RenderTransform>
-                        <Viewbox Width="20" Height="20">
-                            <Canvas Width="16" Height="16">
-                                <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                            </Canvas>
-                        </Viewbox>
-                    </Button>
-                </Grid>
-
-                <StackPanel Grid.Row="1"
-                            Grid.Column="0"
-                            Margin="0,16,16,0">
-                    <TextBlock Margin="0,0,0,8"
-                               Style="{DynamicResource BodyLargeTextBlockStyle}"
-                               Text="选择您的订阅" />
-                    <ItemsControl Height="160"
-                                  Margin="0,0,0,16"
-                                  d:ItemsSource="{d:SampleData ItemCount=3}"
-                                  ItemTemplate="{StaticResource SkuTemplate}"
-                                  ItemsSource="{Binding Skus}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="{x:Type ContentPresenter}">
-                                <Setter Property="Margin" Value="0,0,12,0" />
-                            </Style>
-                        </ItemsControl.ItemContainerStyle>
-                    </ItemsControl>
-                    <StackPanel>
-                        <TextBlock Margin="0,0,0,8"
-                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                   Text="支付方式" />
-                        <RadioButton Height="48"
-                                     Margin="0,0,0,8"
-                                     HorizontalContentAlignment="Left"
-                                     GroupName="PaymentChannelGroup"
-                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Alipay}}"
-                                     Style="{DynamicResource CardRadioButtonStyle}">
-                            <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
-                                <Border Width="32"
-                                        Height="32"
-                                        Margin="0,0,8,0">
-                                    <Border.Background>
-                                        <ImageBrush>
-                                            <ImageBrush.ImageSource>
-                                                <BitmapImage DecodePixelHeight="64"
-                                                             DecodePixelWidth="64"
-                                                             UriSource="/Assets/Images/alipay_logo.png" />
-                                            </ImageBrush.ImageSource>
-                                        </ImageBrush>
-                                    </Border.Background>
-                                </Border>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                           Text="支付宝" />
-                            </StackPanel>
-                        </RadioButton>
-
-                        <RadioButton Height="48"
-                                     HorizontalContentAlignment="Left"
-                                     GroupName="PaymentChannelGroup"
-                                     IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Wxpay}}"
-                                     Style="{DynamicResource CardRadioButtonStyle}"
-                                     UseLayoutRounding="True">
-                            <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
-                                <Border Width="32"
-                                        Height="32"
-                                        Margin="0,0,8,0">
-                                    <Border.Background>
-                                        <ImageBrush>
-                                            <ImageBrush.ImageSource>
-                                                <BitmapImage DecodePixelHeight="64"
-                                                             DecodePixelWidth="64"
-                                                             UriSource="/Assets/Images/wechat_logo.png" />
-                                            </ImageBrush.ImageSource>
-                                        </ImageBrush>
-                                    </Border.Background>
-                                </Border>
-                                <TextBlock VerticalAlignment="Center"
-                                           Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                           Text="微信支付" />
-                            </StackPanel>
-                        </RadioButton>
-                    </StackPanel>
-                </StackPanel>
-
-                <Grid Grid.Row="1"
-                      Grid.Column="1"
-                      RowDefinitions="*, Auto">
-                    <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                        <TextBlock Margin="0,0,0,8"
-                                   HorizontalAlignment="Center"
-                                   d:Text="￥0.00"
-                                   Foreground="#c38542"
-                                   Style="{DynamicResource DisplaySmallTextBlockStyle}"
-                                   Text="{Binding SelectedSku.SalePrice, StringFormat=￥{0:N2}}" />
-                        <Border Margin="0,0,0,16"
-                                Padding="4"
-                                HorizontalAlignment="Center"
-                                BorderBrush="#c38542"
-                                BorderThickness="2"
-                                CornerRadius="8">
-                            <Grid Width="150" Height="150">
-
-                                <Border Padding="8"
-                                        Background="White"
-                                        CornerRadius="4">
-                                    <Image Source="{Binding PayUrl, Converter={StaticResource PayUrlToQRCode}}" />
-                                </Border>
-
-                                <Border Background="#BB000000" CornerRadius="4">
-                                    <i:Interaction.Triggers>
-                                        <i:DataTrigger Binding="{Binding IsOrderCreating}" Value="True">
-                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                        </i:DataTrigger>
-                                        <i:DataTrigger Binding="{Binding IsOrderCreating}" Value="False">
-                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
-                                        </i:DataTrigger>
-                                    </i:Interaction.Triggers>
-                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Viewbox Width="36" Height="36">
-                                            <Canvas Width="24" Height="24">
-                                                <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="#FFFFFF" />
-                                            </Canvas>
-                                        </Viewbox>
-                                    </StackPanel>
-                                </Border>
-
-                                <Border Background="#BB000000" CornerRadius="4">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseUp">
-                                            <i:InvokeCommandAction Command="{Binding RefreshPayUrlCommand}" />
-                                        </i:EventTrigger>
-                                        <i:DataTrigger Binding="{Binding PayUrlIsValid}" Value="True">
-                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
-                                        </i:DataTrigger>
-                                        <i:DataTrigger Binding="{Binding PayUrlIsValid}" Value="False">
-                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                        </i:DataTrigger>
-                                    </i:Interaction.Triggers>
-                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <TextBlock Margin="0,0,0,8"
-                                                   Foreground="#FFFFFF"
-                                                   Style="{DynamicResource TitleMediumTextBlockStyle}"
-                                                   Text="二维码已失效" />
-                                        <TextBlock Foreground="#FFFFFF"
-                                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                   Text="请点击二维码刷新" />
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-                        </Border>
-                        <Grid HorizontalAlignment="Center">
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Alipay}">
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="AlipayTipsBorder"
-                                                            Value="{x:Static Visibility.Visible}" />
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="WxpayTipsBorder"
-                                                            Value="{x:Static Visibility.Collapsed}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Wxpay}">
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="AlipayTipsBorder"
-                                                            Value="{x:Static Visibility.Collapsed}" />
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="WxpayTipsBorder"
-                                                            Value="{x:Static Visibility.Visible}" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                            <Border x:Name="AlipayTipsBorder"
-                                    HorizontalAlignment="Center"
-                                    BorderBrush="#4377FA"
-                                    BorderThickness="1"
-                                    CornerRadius="4">
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Width="16"
-                                            Height="16"
-                                            Margin="0,0,4,0">
-                                        <Border.Background>
-                                            <ImageBrush>
-                                                <ImageBrush.ImageSource>
-                                                    <BitmapImage DecodePixelHeight="32"
-                                                                 DecodePixelWidth="32"
-                                                                 UriSource="/Assets/Images/alipay_logo.png" />
-                                                </ImageBrush.ImageSource>
-                                            </ImageBrush>
-                                        </Border.Background>
-                                    </Border>
-                                    <TextBlock Margin="0,0,4,0"
-                                               VerticalAlignment="Center"
-                                               Foreground="#4377FA"
-                                               Style="{DynamicResource BodySmallTextBlockStyle}"
-                                               Text="请使用支付宝扫码支付" />
-                                </StackPanel>
+            <Border Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                    BorderBrush="{DynamicResource Brushes.OutlineShadow}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20"
+                                      Direction="270"
+                                      Opacity="0.15"
+                                      ShadowDepth="8" />
+                </Border.Effect>
+                <Grid RowDefinitions="Auto, *">
+                    <!-- Banner -->
+                    <Border Grid.Row="0"
+                            Height="108"
+                            Background="#e76a8d"
+                            CornerRadius="8, 8, 0, 0">
+                        <Grid>
+                            <Border>
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Assets/Images/pay_banner_shapes.png" Stretch="UniformToFill" />
+                                </Border.Background>
                             </Border>
-                            <Border x:Name="WxpayTipsBorder"
-                                    HorizontalAlignment="Center"
-                                    BorderBrush="#2dc100"
-                                    BorderThickness="1"
-                                    CornerRadius="4">
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Width="16"
-                                            Height="16"
-                                            Margin="0,0,4,0">
-                                        <Border.Background>
-                                            <ImageBrush>
-                                                <ImageBrush.ImageSource>
-                                                    <BitmapImage DecodePixelHeight="32"
-                                                                 DecodePixelWidth="32"
-                                                                 UriSource="/Assets/Images/wechat_logo.png" />
-                                                </ImageBrush.ImageSource>
-                                            </ImageBrush>
-                                        </Border.Background>
-                                    </Border>
-                                    <TextBlock Margin="0,0,4,0"
-                                               VerticalAlignment="Center"
-                                               Foreground="#2dc100"
-                                               Style="{DynamicResource BodySmallTextBlockStyle}"
-                                               Text="请使用微信扫一扫支付" />
+                            <Border Margin="0,0,24,0"
+                                    Padding="12"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Background="#44000000"
+                                    CornerRadius="8">
+
+                                <StackPanel Width="294"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            TextBlock.Foreground="White">
+                                    <TextBlock Margin="0,0,0,8"
+                                               d:Text="您的订阅将直接支持灵光回声的持续开发与维护，感谢!"
+                                               FontWeight="Regular"
+                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                               Text="{Binding CurrentPlugin.Name, StringFormat=您的订阅将直接支持{0}的持续开发与维护，感谢！}"
+                                               TextWrapping="Wrap" />
+                                    <TextBlock HorizontalAlignment="Right"
+                                               d:Text="—— Suencesoft"
+                                               FontWeight="Regular"
+                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                               Text="{Binding CurrentPlugin.Author, StringFormat=—— {0}}" />
                                 </StackPanel>
                             </Border>
                         </Grid>
-                    </StackPanel>
-                    <TextBlock Grid.Row="1"
-                               HorizontalAlignment="Center"
-                               FontSize="12"
-                               TextWrapping="Wrap">
-                        <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="支付前请阅读" />
-                        <Hyperlink Command="{Binding OpenSubscriptionTermsCommand}" Cursor="Hand">
-                            会员订阅服务协议
-                        </Hyperlink>
-                    </TextBlock>
+                    </Border>
+                    <!-- MainContent -->
+                    <Border Grid.Row="1" Padding="24,16,24,24">
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
+
+                            <Grid Grid.Row="0"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="42"
+                                            Height="42"
+                                            Margin="0,0,8,0"
+                                            CornerRadius="4"
+                                            DockPanel.Dock="Left">
+                                        <Border.Background>
+                                            <ImageBrush pcap:WebImageHelper.DecodePixelWidth="96"
+                                                        pcap:WebImageHelper.Url="{Binding CurrentPlugin.IconFileUrl}"
+                                                        Stretch="UniformToFill" />
+                                        </Border.Background>
+                                    </Border>
+                                    <StackPanel>
+                                        <TextBlock Margin="0,0,0,4"
+                                                   d:Text="插件名称"
+                                                   Style="{DynamicResource TitleSmallTextBlockStyle}"
+                                                   Text="{Binding CurrentPlugin.Name}" />
+                                        <TextBlock FontSize="{DynamicResource FontSize.Body.Medium}" Foreground="{DynamicResource Brushes.OnSurfaceVariant}">
+                                            <i:Interaction.Triggers>
+                                                <i:DataTrigger Binding="{Binding CurrentPluginLicense}" Value="{x:Null}">
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="HasnotLicenseRun"
+                                                                            Value="{x:Static Visibility.Visible}" />
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="HasLicenseRun"
+                                                                            Value="{x:Static Visibility.Collapsed}" />
+                                                </i:DataTrigger>
+                                                <i:DataTrigger Binding="{Binding CurrentPluginLicense}"
+                                                               Comparison="NotEqual"
+                                                               Value="{x:Null}">
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="HasnotLicenseRun"
+                                                                            Value="{x:Static Visibility.Collapsed}" />
+                                                    <i:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetName="HasLicenseRun"
+                                                                            Value="{x:Static Visibility.Visible}" />
+                                                </i:DataTrigger>
+                                            </i:Interaction.Triggers>
+                                            <TextBlock x:Name="HasnotLicenseRun"
+                                                       d:Text="开通订阅，解锁{插件名称}所有功能。"
+                                                       Text="{Binding CurrentPlugin.Name, StringFormat=开通订阅，解锁{0}所有功能。}" />
+                                            <TextBlock x:Name="HasLicenseRun" Text="{Binding CurrentPluginLicense.ExpiredAt, StringFormat=订阅将于{0:yyyy/MM/dd}过期，购买后有效期顺延。}" />
+                                        </TextBlock>
+
+                                    </StackPanel>
+                                </StackPanel>
+                                <Button Width="45"
+                                        Height="36"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        BorderThickness="0"
+                                        Command="{Binding CloseCommand}"
+                                        FontSize="15"
+                                        IsTabStop="False"
+                                        Style="{DynamicResource IconButtonStyle}"
+                                        ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Button.RenderTransform>
+                                        <TranslateTransform X="8" Y="-8" />
+                                    </Button.RenderTransform>
+                                    <Viewbox Width="20" Height="20">
+                                        <Canvas Width="16" Height="16">
+                                            <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="0,16,16,0">
+                                <TextBlock Margin="0,0,0,8"
+                                           Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                           Text="选择您的订阅" />
+                                <ItemsControl Height="132"
+                                              Margin="0,0,0,16"
+                                              d:ItemsSource="{d:SampleData ItemCount=3}"
+                                              ItemTemplate="{StaticResource SkuTemplate}"
+                                              ItemsSource="{Binding Skus}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ContentPresenter}">
+                                            <Setter Property="Margin" Value="0,0,8,0" />
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+                                </ItemsControl>
+                                <StackPanel Margin="0,0,8,0">
+                                    <TextBlock Margin="0,0,0,8"
+                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                               Text="支付方式" />
+                                    <RadioButton Height="40"
+                                                 Margin="0,0,0,4"
+                                                 HorizontalContentAlignment="Left"
+                                                 GroupName="PaymentChannelGroup"
+                                                 IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Alipay}}"
+                                                 Style="{DynamicResource CardRadioButtonStyle}">
+                                        <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
+                                            <Border Width="24"
+                                                    Height="24"
+                                                    Margin="0,0,8,0">
+                                                <Border.Background>
+                                                    <ImageBrush>
+                                                        <ImageBrush.ImageSource>
+                                                            <BitmapImage DecodePixelHeight="48"
+                                                                         DecodePixelWidth="48"
+                                                                         UriSource="/Assets/Images/alipay_logo.png" />
+                                                        </ImageBrush.ImageSource>
+                                                    </ImageBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <TextBlock VerticalAlignment="Center"
+                                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                       Text="支付宝" />
+                                        </StackPanel>
+                                    </RadioButton>
+
+                                    <RadioButton Height="40"
+                                                 HorizontalContentAlignment="Left"
+                                                 GroupName="PaymentChannelGroup"
+                                                 IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Wxpay}}"
+                                                 Style="{DynamicResource CardRadioButtonStyle}"
+                                                 UseLayoutRounding="True">
+                                        <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
+                                            <Border Width="24"
+                                                    Height="24"
+                                                    Margin="0,0,8,0">
+                                                <Border.Background>
+                                                    <ImageBrush>
+                                                        <ImageBrush.ImageSource>
+                                                            <BitmapImage DecodePixelHeight="48"
+                                                                         DecodePixelWidth="48"
+                                                                         UriSource="/Assets/Images/wechat_logo.png" />
+                                                        </ImageBrush.ImageSource>
+                                                    </ImageBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <TextBlock VerticalAlignment="Center"
+                                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                       Text="微信支付" />
+                                        </StackPanel>
+                                    </RadioButton>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Grid Grid.Row="0"
+                                  Grid.RowSpan="2"
+                                  Grid.Column="1"
+                                  RowDefinitions="*, Auto">
+                                <StackPanel Grid.Row="0" VerticalAlignment="Center">
+                                    <TextBlock Margin="0,0,0,0"
+                                               HorizontalAlignment="Center"
+                                               d:Text="￥0.00"
+                                               Foreground="#c38542"
+                                               Style="{DynamicResource HeadlineMediumTextBlockStyle}">
+                                        <Run FontSize="{DynamicResource FontSize.Title.Large}" Text="￥" /><Run Text="{Binding SelectedSku.SalePrice, StringFormat={}{0:0.##}}" />
+                                    </TextBlock>
+                                    <TextBlock Margin="0,0,0,8"
+                                               HorizontalAlignment="Center"
+                                               d:Text="￥2.00"
+                                               FontSize="{DynamicResource FontSize.Body.Small}"
+                                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                               Text="{Binding SelectedSku.OriginalPrice, StringFormat=￥{0:0.##}}"
+                                               TextDecorations="Strikethrough" />
+                                    <Border Margin="0,0,0,12"
+                                            Padding="6"
+                                            HorizontalAlignment="Center"
+                                            BorderBrush="{Binding ElementName=QRCodeBorder, Path=BorderBrush}"
+                                            BorderThickness="2"
+                                            CornerRadius="8">
+                                        <Grid Width="128" Height="128">
+
+                                            <Border Background="White" CornerRadius="4">
+                                                <Grid>
+                                                    <Grid.Resources>
+                                                        <Storyboard x:Key="ScanAnimation" RepeatBehavior="Forever">
+                                                            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.8"
+                                                                                           Storyboard.TargetName="ScanBorder"
+                                                                                           Storyboard.TargetProperty="Opacity">
+                                                                <DoubleAnimationUsingKeyFrames.KeyFrames>
+                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
+                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                                                                    <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="1" />
+                                                                    <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0" />
+                                                                </DoubleAnimationUsingKeyFrames.KeyFrames>
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                            <DoubleAnimation BeginTime="0:0:0.8"
+                                                                             Storyboard.TargetName="ScanBorderTransform"
+                                                                             Storyboard.TargetProperty="Y"
+                                                                             From="-128"
+                                                                             To="0"
+                                                                             Duration="0:0:1.5" />
+                                                        </Storyboard>
+                                                    </Grid.Resources>
+                                                    <i:Interaction.Triggers>
+                                                        <i:DataTrigger Binding="{Binding PayUrlIsValid}" Value="True">
+                                                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                    TargetName="ScanBorder"
+                                                                                    Value="{x:Static Visibility.Visible}" />
+                                                            <i:ControlStoryboardAction Storyboard="{StaticResource ScanAnimation}" />
+                                                        </i:DataTrigger>
+                                                        <i:DataTrigger Binding="{Binding PayUrlIsValid}" Value="False">
+                                                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                                                    TargetName="ScanBorder"
+                                                                                    Value="{x:Static Visibility.Hidden}" />
+                                                            <i:ControlStoryboardAction ControlStoryboardOption="Stop" Storyboard="{StaticResource ScanAnimation}" />
+                                                        </i:DataTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <Image Margin="8" Source="{Binding PayUrl, Converter={StaticResource PayUrlToQRCode}}" />
+                                                    <Border x:Name="ScanBorder"
+                                                            d:Opacity="1"
+                                                            BorderThickness="0,0,0,2"
+                                                            Opacity="0">
+                                                        <Border.BorderBrush>
+                                                            <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                                                <GradientStop Offset="0" Color="Transparent" />
+                                                                <GradientStop Offset="0.1" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                <GradientStop Offset="0.9" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                <GradientStop Offset="1" Color="Transparent" />
+                                                            </LinearGradientBrush>
+                                                        </Border.BorderBrush>
+                                                        <Border.Background>
+                                                            <RadialGradientBrush Center="0.5, 1.2" GradientOrigin="0.5, 1.2" RadiusX="1" RadiusY="0.4">
+                                                                <GradientStop Offset="0.3" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                <GradientStop Offset="1" Color="Transparent" />
+                                                            </RadialGradientBrush>
+                                                        </Border.Background>
+                                                        <Border.RenderTransform>
+                                                            <TranslateTransform x:Name="ScanBorderTransform" Y="-128" />
+                                                        </Border.RenderTransform>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+
+
+                                            <Border Background="#BB000000" CornerRadius="4">
+                                                <i:Interaction.Triggers>
+                                                    <i:DataTrigger Binding="{Binding IsOrderCreating}" Value="True">
+                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                    </i:DataTrigger>
+                                                    <i:DataTrigger Binding="{Binding IsOrderCreating}" Value="False">
+                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                                    </i:DataTrigger>
+                                                </i:Interaction.Triggers>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Viewbox Width="36" Height="36">
+                                                        <Canvas Width="24" Height="24">
+                                                            <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="#FFFFFF" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Background="#BB000000" CornerRadius="4">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding RefreshPayUrlCommand}" />
+                                                    </i:EventTrigger>
+                                                    <i:DataTrigger Binding="{Binding PayUrlIsValid}" Value="True">
+                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                                    </i:DataTrigger>
+                                                    <i:DataTrigger Binding="{Binding PayUrlIsValid}" Value="False">
+                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                    </i:DataTrigger>
+                                                </i:Interaction.Triggers>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock Margin="0,0,0,8"
+                                                               Foreground="#FFFFFF"
+                                                               Style="{DynamicResource TitleMediumTextBlockStyle}"
+                                                               Text="二维码已失效" />
+                                                    <TextBlock Foreground="#FFFFFF"
+                                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                               Text="请点击二维码刷新" />
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                    <Grid HorizontalAlignment="Center">
+                                        <Border x:Name="QRCodeBorder"
+                                                HorizontalAlignment="Center"
+                                                d:BorderBrush="#4377FA"
+                                                BorderBrush="{Binding PaymentChannel, Converter={StaticResource PaymentChannelBrush}}"
+                                                BorderThickness="1"
+                                                CornerRadius="4">
+                                            <i:Interaction.Triggers>
+                                                <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Alipay}">
+                                                    <i:ChangePropertyAction PropertyName="Text"
+                                                                            TargetName="PaymentChannelTipText"
+                                                                            Value="请使用支付宝扫码支付" />
+                                                    <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
+                                                        <i:ChangePropertyAction.Value>
+                                                            <ImageBrush>
+                                                                <ImageBrush.ImageSource>
+                                                                    <BitmapImage DecodePixelHeight="32"
+                                                                                 DecodePixelWidth="32"
+                                                                                 UriSource="/Assets/Images/alipay_logo.png" />
+                                                                </ImageBrush.ImageSource>
+                                                            </ImageBrush>
+                                                        </i:ChangePropertyAction.Value>
+                                                    </i:ChangePropertyAction>
+                                                </i:DataTrigger>
+                                                <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Wxpay}">
+                                                    <i:ChangePropertyAction PropertyName="Text"
+                                                                            TargetName="PaymentChannelTipText"
+                                                                            Value="请使用微信扫一扫支付" />
+                                                    <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
+                                                        <i:ChangePropertyAction.Value>
+                                                            <ImageBrush>
+                                                                <ImageBrush.ImageSource>
+                                                                    <BitmapImage DecodePixelHeight="32"
+                                                                                 DecodePixelWidth="32"
+                                                                                 UriSource="/Assets/Images/wechat_logo.png" />
+                                                                </ImageBrush.ImageSource>
+                                                            </ImageBrush>
+                                                        </i:ChangePropertyAction.Value>
+                                                    </i:ChangePropertyAction>
+                                                </i:DataTrigger>
+                                            </i:Interaction.Triggers>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border x:Name="PaymentChannelTipIcon"
+                                                        Width="16"
+                                                        Height="16"
+                                                        Margin="0,0,4,0" />
+                                                <TextBlock x:Name="PaymentChannelTipText"
+                                                           Margin="0,0,4,0"
+                                                           VerticalAlignment="Center"
+                                                           d:Text="请使用支付宝扫码支付"
+                                                           Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}, Path=BorderBrush}"
+                                                           Style="{DynamicResource BodySmallTextBlockStyle}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                                <TextBlock Grid.Row="1"
+                                           HorizontalAlignment="Center"
+                                           FontSize="11"
+                                           TextWrapping="Wrap">
+                                    <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="支付前请阅读" /><Hyperlink Command="{Binding OpenSubscriptionTermsCommand}"
+                                               Cursor="Hand"
+                                               Foreground="{DynamicResource Brushes.OnSurface}">
+                                        《会员订阅服务协议》
+                                    </Hyperlink>
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <!-- 支付成功 -->
+                    <Border Grid.Row="1"
+                            Padding="24"
+                            Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                            Visibility="Hidden">
+                        <Border.Resources>
+                            <Storyboard x:Key="PaidIconAnimation">
+                                <DoubleAnimation FillBehavior="HoldEnd"
+                                                 Storyboard.TargetName="IconPath"
+                                                 Storyboard.TargetProperty="(Path.StrokeDashOffset)"
+                                                 From="-12"
+                                                 To="0"
+                                                 Duration="0:0:.3" />
+                            </Storyboard>
+                        </Border.Resources>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding IsPaid}" Value="True">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                                <i:ControlStoryboardAction Storyboard="{StaticResource PaidIconAnimation}"/>
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Grid RowDefinitions="*, Auto">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border Width="64"
+                                        Height="64"
+                                        Margin="0,0,0,12"
+                                        Background="{DynamicResource Brushes.Success}"
+                                        CornerRadius="100">
+                                    <Viewbox Width="48" Height="48">
+                                        <Canvas Width="16" Height="16">
+                                            <Path x:Name="IconPath"
+                                                  d:StrokeDashOffset="0"
+                                                  Data="M 13.33 4 L 6 11.33 L 2.67 8"
+                                                  Stroke="White"
+                                                  StrokeDashArray="12"
+                                                  StrokeDashCap="Round"
+                                                  StrokeEndLineCap="Round"
+                                                  StrokeLineJoin="Round"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeThickness="1.5" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Border>
+                                <TextBlock Margin="0,0,0,12"
+                                           HorizontalAlignment="Center"
+                                           Style="{DynamicResource DisplaySmallTextBlockStyle}"
+                                           Text="支付成功" />
+                                <TextBlock Margin="0,0,0,12"
+                                           HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                           Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                           Text="感谢您的订阅，订单已支付成功。" />
+
+                                <Border Width="320"
+                                        Margin="0,0,0,24"
+                                        Padding="12"
+                                        Visibility="Hidden"
+                                        Background="{DynamicResource Brushes.SurfaceContainer}"
+                                        CornerRadius="4">
+                                    <StackPanel TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
+                                        <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                                            <TextBlock DockPanel.Dock="Left"
+                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                       Text="订单编号" />
+                                            <TextBlock HorizontalAlignment="Right" Text="2026061116224445384999291" />
+                                        </DockPanel>
+                                        <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                                            <TextBlock DockPanel.Dock="Left"
+                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                       Text="付款时间" />
+                                            <TextBlock HorizontalAlignment="Right" Text="2026/06/10 10:06:33" />
+                                        </DockPanel>
+                                        <DockPanel LastChildFill="True">
+                                            <TextBlock DockPanel.Dock="Left"
+                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                       Text="支付方式" />
+                                            <TextBlock HorizontalAlignment="Right" Text="微信支付" />
+                                        </DockPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <Button Grid.Row="1"
+                                        Width="168"
+                                        Height="40"
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding OkCommand}"
+                                        Content="完成"
+                                        FontSize="{DynamicResource FontSize.Label.Large}"
+                                        Style="{DynamicResource PrimaryButtonStyle}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </Grid>
-            </Grid>
-        </Border>
+            </Border>
+            <Image Height="128"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/Assets/Images/pay_banner.png">
+                <Image.RenderTransform>
+                    <TranslateTransform X="1" Y="-19" />
+                </Image.RenderTransform>
+            </Image>
+        </Grid>
     </Grid>
 </UserControl>

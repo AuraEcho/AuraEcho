@@ -57,7 +57,7 @@ public static class Urls
     #endregion
 
     #region Sku
-    public static string GetResourceSkus(Guid resourceId) => $"{ServerUrl}/api/v1/sku/resource/{resourceId}";
+    public static string GetResourceSkus(Guid resourceId) => $"{ServerUrl}/api/v1/sku/list?resourceId={resourceId}";
     #endregion
 
     #region License

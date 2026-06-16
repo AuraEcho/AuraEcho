@@ -1,6 +1,7 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
 	 xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal"
-	 xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
+	 xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx"
+	 xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
 
 	<Bundle Name="AuraEcho"
 			Manufacturer="Suencesoft"
@@ -11,6 +12,19 @@
 			UpgradeCode="73725F25-4E6A-4817-B1EC-69A577E59D25">
 		
 		<netfx:DotNetCoreSearch RuntimeType="desktop" MajorVersion="10" Platform="x64" Variable="DOTNETDESKTOPVERSION" />
+
+		<!-- VC++ 2015-2022 运行库检测 (x64) -->
+		<util:RegistrySearch Root="HKLM"
+							 Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64"
+							 Value="Installed"
+							 Result="value"
+							 Variable="VCRUNTIME_X64_INSTALLED"/>
+		<util:RegistrySearch Root="HKLM"
+							 Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64"
+							 Value="Major"
+							 Result="value"
+							 Variable="VCRUNTIME_X64_MAJOR"/>
+
 		<Variable Name="InstallFolder" Type="string" Value="[ProgramFiles6432Folder]AuraEcho" />
 		<Variable Name="RemoveLocalDataOnUninstall" Type="string" Value="0" />
 		<Variable Name="BundleFileName" Value="$(var.BundleFileName).exe" Type="string" />
@@ -35,8 +49,22 @@
 
 		<Chain DisableSystemRestore="yes">
 
-			<!-- Runtime -->
 			<?if $(var.IncludeRuntime) = "yes" ?>
+			
+			<!-- VC++ 2015-2022 Redistributable (x64)-->
+			<!-- 已安装且主版本 >= 14 时跳过; 退出码 1638(已装更高版本) / 3010(需重启) 视为成功 -->
+			<ExePackage Id="VCRedist_x64"
+						DetectCondition="VCRUNTIME_X64_INSTALLED = 1 AND VCRUNTIME_X64_MAJOR &gt;= 14"
+						Permanent="yes"
+						Vital="yes"
+						InstallArguments="/install /quiet /norestart"
+						RepairArguments="/repair /quiet /norestart">
+				<ExePackagePayload SourceFile="ExePackageFiles/vc_redist.x64.exe" />
+				<ExitCode Value="1638" Behavior="success" />
+				<ExitCode Value="3010" Behavior="success" />
+			</ExePackage>
+
+			<!-- .NET Runtime -->
 			<!-- Permanent: 永久(卸载时保留) or 指定卸载参数 UninstallArguments="/uninstall /quiet /norestart" -->
 			<ExePackage Id="DotNetDesktop"
 						DetectCondition="DOTNETDESKTOPVERSION &gt;= &quot;10.0.0&quot;"
@@ -48,6 +76,7 @@
 						UninstallArguments="windowsdesktop-runtime-10.0.0-win-x64.exe /uninstall /quiet /norestart">
 				<ExePackagePayload SourceFile="ExePackageFiles/windowsdesktop-runtime-10.0.0-win-x64.exe" />
 			</ExePackage>
+			
 			<?endif ?>
 
 			<!-- AuraEcho -->

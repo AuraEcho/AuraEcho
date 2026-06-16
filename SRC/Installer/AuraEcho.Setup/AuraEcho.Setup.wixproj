@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="WixToolset.BootstrapperApplications.wixext" Version="6.0.1" />
     <PackageReference Include="WixToolset.Netfx.wixext" Version="6.0.1" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AuraEcho.DataMigrator.Installer\AuraEcho.DataMigrator.Installer.wixproj" />
@@ -26,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="build.ps1" />
+    <None Include="ExePackageFiles\vc_redist.x64.exe" />
     <None Include="ExePackageFiles\windowsdesktop-runtime-10.0.0-win-x64.exe" />
   </ItemGroup>
 </Project>

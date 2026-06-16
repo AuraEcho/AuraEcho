@@ -36,6 +36,12 @@
 				<Exclude Files="Microsoft.EntityFrameworkCore.Design.dll"/>
 				<Exclude Files="Mono.TextTemplating.dll"/>
 				<Exclude Files="System.Composition.*.dll"/>
+				
+				<Exclude Files="Microsoft.Web.WebView2.WinForms.dll"/>
+				<Exclude Files="Microsoft.Web.WebView2.Core.xml"/>
+				<Exclude Files="Microsoft.Web.WebView2.WinForms.xml"/>
+				<Exclude Files="Microsoft.Web.WebView2.Wpf.xml"/>
+				<Exclude Files="AlibabaCloud.OSS.V2.xml"/>
 			</Files>
 			
 		</ComponentGroup>

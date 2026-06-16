@@ -81,7 +81,7 @@
 
 			<!-- AuraEcho -->
 			<MsiPackage Id="AuraEchoInstallerMSI"
-						Visible="yes"
+						Visible="no"
 						Compressed="yes"
 						SourceFile="$(AuraEcho.Installer.TargetFileName)">
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
@@ -89,7 +89,7 @@
 
 			<!-- AuraEcho Launcher -->
 			<MsiPackage Id="AuraEchoLauncherMSI"
-						Visible="yes"
+						Visible="no"
 						Compressed="yes"
 						EnableFeatureSelection="yes"
 						SourceFile="$(AuraEcho.Launcher.Installer.TargetFileName)">
@@ -100,7 +100,7 @@
 
 			<!-- Data Migrator -->
 			<MsiPackage Id="AuraEchoDataMigratorMsi"
-						Visible="yes"
+						Visible="no"
 						Compressed="yes"
 						SourceFile="$(AuraEcho.DataMigrator.Installer.TargetFileName)">
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
@@ -108,7 +108,7 @@
 
 			<!-- Updater Service -->
 			<MsiPackage Id="AuraEchoUpdaterServiceMsi"
-						Visible="yes"
+						Visible="no"
 						Compressed="yes"
 						SourceFile="$(AuraEcho.UpdaterService.Installer.TargetFileName)">
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
@@ -116,7 +116,7 @@
 
 			<!-- Launcher Service -->
 			<MsiPackage Id="AuraEchoLauncherServiceMsi"
-						Visible="yes"
+						Visible="no"
 						Compressed="yes"
 						SourceFile="$(AuraEcho.LauncherService.Installer.TargetFileName)">
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>

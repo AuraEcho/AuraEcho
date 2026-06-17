@@ -82,7 +82,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
                     Email.Trim(),
                     EmailCodeScene.SignIn));
 
-        if (requestResult.Status != ResultStatus.Success)
+        if (requestResult is null || requestResult.Status != ResultStatus.Success)
         {
             SendEmailCodeCooldown = 0;
             _toastService.Show($"发送验证码时遇到了错误", ToastLevel.Error);

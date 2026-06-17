@@ -13,7 +13,7 @@
 		
 		<netfx:DotNetCoreSearch RuntimeType="desktop" MajorVersion="10" Platform="x64" Variable="DOTNETDESKTOPVERSION" />
 
-		<!-- VC++ 2015-2022 运行库检测 (x64) -->
+		<!-- VC++ 运行库检测 (x64) -->
 		<util:RegistrySearch Root="HKLM"
 							 Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64"
 							 Value="Installed"
@@ -24,6 +24,11 @@
 							 Value="Major"
 							 Result="value"
 							 Variable="VCRUNTIME_X64_MAJOR"/>
+		<util:RegistrySearch Root="HKLM"
+							 Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64"
+							 Value="Minor"
+							 Result="value"
+							 Variable="VCRUNTIME_X64_MINOR"/>
 
 		<Variable Name="InstallFolder" Type="string" Value="[ProgramFiles6432Folder]AuraEcho" />
 		<Variable Name="RemoveLocalDataOnUninstall" Type="string" Value="0" />
@@ -52,9 +57,9 @@
 			<?if $(var.IncludeRuntime) = "yes" ?>
 			
 			<!-- VC++ 2015-2022 Redistributable (x64)-->
-			<!-- 已安装且主版本 >= 14 时跳过; 退出码 1638(已装更高版本) / 3010(需重启) 视为成功 -->
+			<!-- 已安装且版本 >= 14.51 时跳过; 退出码 1638(已装更高版本) / 3010(需重启) 视为成功 -->
 			<ExePackage Id="VCRedist_x64"
-						DetectCondition="VCRUNTIME_X64_INSTALLED = 1 AND VCRUNTIME_X64_MAJOR &gt;= 14"
+						DetectCondition="VCRUNTIME_X64_INSTALLED = 1 AND (VCRUNTIME_X64_MAJOR &gt; 14 OR (VCRUNTIME_X64_MAJOR = 14 AND VCRUNTIME_X64_MINOR &gt;= 51))"
 						Permanent="yes"
 						Vital="yes"
 						InstallArguments="/install /quiet /norestart"

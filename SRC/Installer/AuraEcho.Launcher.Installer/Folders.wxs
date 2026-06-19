@@ -5,7 +5,7 @@
 	  </StandardDirectory>
 
 	  <StandardDirectory Id="ProgramMenuFolder">
-		  <Directory Id="ProductMenuFolder" Name="AuraEcho"/>
+		  <Directory Id="ProductMenuFolder" Name="灵光回声"/>
 	  </StandardDirectory>
   </Fragment>
 </Wix>

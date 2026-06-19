@@ -30,7 +30,7 @@
 		<Component Id="DesktopShortcutComponent" Guid="*">
 			<Shortcut Id="DesktopShortcut"
 					  Directory="DesktopFolder"
-					  Name="AuraEcho"
+					  Name="灵光回声"
 					  Target="[INSTALLFOLDER]$(var.AuraEcho.Launcher.TargetFileName)"
 					  WorkingDirectory="INSTALLFOLDER"
 					  Icon="AuraEcho.ico"
@@ -46,15 +46,15 @@
 		<!-- 开始菜单快捷方式 -->
 		<Component Id="StartMenuShortcutComponent" Guid="*" Directory="ProductMenuFolder" >
 			<Shortcut Id="StartMenuShortcut"
-					  Name="AuraEcho"
+					  Name="灵光回声"
 					  Icon="AuraEcho.ico"
 					  Advertise="no"
 					  Description="AuraEcho by Suencesoft"
 					  Target="[INSTALLFOLDER]$(var.AuraEcho.Launcher.TargetFileName)"
 					  WorkingDirectory="INSTALLFOLDER"/>
 			<Shortcut Id="StartMenuUninstallShortcut"
-					  Name="卸载 AuraEcho"
-				      Description="卸载 AuraEcho"
+					  Name="卸载灵光回声"
+				      Description="卸载灵光回声"
 					  Icon="uninstaller.ico"
 					  Target="[UNINSTALLER_PATH]"
 					  Arguments="/uninstall"

@@ -26,7 +26,7 @@ type Worker(logger: IAppLogger, scopeFactory: IServiceScopeFactory) =
     override this.ExecuteAsync(stoppingToken: CancellationToken) = task {
         logger.Information("Updater Service 工作循环已启动")
         
-        use timer = new PeriodicTimer(TimeSpan.FromMinutes(1.0))
+        use timer = new PeriodicTimer(TimeSpan.FromHours(1))
         
         while! timer.WaitForNextTickAsync(stoppingToken) do
             try

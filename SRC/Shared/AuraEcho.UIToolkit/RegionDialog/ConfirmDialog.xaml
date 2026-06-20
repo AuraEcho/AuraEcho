@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ae="clr-namespace:AuraEcho.Design.AttachedProperties;assembly=AuraEcho.Design"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:AuraEcho.UIToolkit.RegionDialog"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{d:DesignInstance Type=local:ConfirmDialogViewModel}"
@@ -52,7 +53,18 @@
                             d:Content="取消"
                             Command="{Binding CancelCommand}"
                             Content="{Binding Parameter.CancelText}"
-                            FontSize="14" />
+                            FontSize="14">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding Parameter.CancelText}" Value="{x:Null}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding Parameter.CancelText}"
+                                           Comparison="NotEqual"
+                                           Value="{x:Null}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
                     <Button Height="32"
                             d:Content="确定"
                             Command="{Binding OkCommand}"

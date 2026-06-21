@@ -119,46 +119,57 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel>
                 <Grid Margin="48,16,48,24">
-                    <Border Margin="0,0,0,8">
+                    <i:Interaction.Triggers>
+                        <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                       Comparison="LessThan"
+                                       Value="450">
+                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                    TargetName="SmallBannerLayout"
+                                                    Value="{x:Static Visibility.Visible}" />
+                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                    TargetName="NormalBannerLayout"
+                                                    Value="{x:Static Visibility.Collapsed}" />
+                        </i:DataTrigger>
+                        <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
+                                       Comparison="GreaterThanOrEqual"
+                                       Value="450">
+                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                    TargetName="SmallBannerLayout"
+                                                    Value="{x:Static Visibility.Collapsed}" />
+                            <i:ChangePropertyAction PropertyName="Visibility"
+                                                    TargetName="NormalBannerLayout"
+                                                    Value="{x:Static Visibility.Visible}" />
+                        </i:DataTrigger>
+                    </i:Interaction.Triggers>
+                    <Border x:Name="SmallBannerLayout" d:Visibility="Hidden">
                         <TextBlock FontSize="28"
                                    FontWeight="SemiBold"
                                    Text="扩展商店" />
                     </Border>
-                    <Grid>
-                        <i:Interaction.Triggers>
-                            <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
-                                           Comparison="LessThan"
-                                           Value="450">
-                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                            </i:DataTrigger>
-                            <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
-                                           Comparison="GreaterThanOrEqual"
-                                           Value="450">
-                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                            </i:DataTrigger>
-                        </i:Interaction.Triggers>
+                    <Grid x:Name="NormalBannerLayout">
                         <Viewbox>
                             <Grid Width="480"
                                   Height="100"
                                   UseLayoutRounding="True">
-                                <Border CornerRadius="4" UseLayoutRounding="False">
+                                <Border Margin="0,8,0,0" Background="#A43C2F" CornerRadius="4"/>
+                                <Border Width="80"
+                                        HorizontalAlignment="Right"
+                                        CornerRadius="4"
+                                        UseLayoutRounding="False">
+                                    <Border.Effect>
+                                        <DropShadowEffect Direction="360"
+                                                          Opacity="0.3"
+                                                          Color="Black" />
+                                    </Border.Effect>
                                     <Border.Background>
                                         <ImageBrush x:Name="BannerImage"
-                                                    ImageSource="/Assets/Images/market_banner.jpg"
-                                                    Stretch="UniformToFill" />
+                                                    ImageSource="/Assets/Images/market_banner.png"
+                                                    Stretch="Uniform" />
                                     </Border.Background>
-                                </Border>
-                                <Border Background="#A43C2F" CornerRadius="4">
-                                    <Border.OpacityMask>
-                                        <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
-                                            <GradientStop Offset="0.2" Color="Black" />
-                                            <GradientStop Offset="0.7" Color="Transparent" />
-                                        </LinearGradientBrush>
-                                    </Border.OpacityMask>
                                 </Border>
                             </Grid>
                         </Viewbox>
-                        <UniformGrid Margin="32,0,0,0" Columns="2">
+                        <UniformGrid Margin="32,8,0,0" Columns="2">
                             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <TextBlock FontSize="{DynamicResource FontSize.Headline.Large}"
                                            FontWeight="SemiBold"

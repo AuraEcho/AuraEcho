@@ -14,7 +14,6 @@
 	<ItemGroup>
 		<ApplicationDefinition Remove="App.xaml" />
 		<None Remove="Assets\Icons\AuraEcho.ico" />
-		<None Remove="Assets\Images\market_banner.jpg" />
 		<None Remove="Assets\Images\pay_banner.png" />
 		<None Remove="Assets\Images\pay_banner_shapes.png" />
 		<None Remove="Assets\PDF\SubscriptionTerms.pdf" />
@@ -53,7 +52,7 @@
 	  <Resource Include="Assets\Icons\AuraEcho.ico" />
 	  <Resource Include="Assets\Images\alipay_logo.png" />
 	  <Resource Include="Assets\Images\auraecho.png" />
-	  <Resource Include="Assets\Images\market_banner.jpg" />
+	  <Resource Include="Assets\Images\market_banner.png" />
 	  <Resource Include="Assets\Images\pay_banner.png" />
 	  <Resource Include="Assets\Images\pay_banner_shapes.png" />
 	  <Resource Include="Assets\Images\wechat_logo.png" />

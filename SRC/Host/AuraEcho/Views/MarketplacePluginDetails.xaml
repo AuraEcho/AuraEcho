@@ -302,7 +302,10 @@
                     </DockPanel>
                     <TextBlock Margin="0,0,0,16"
                                d:Text="扩展说明文本"
-                               Style="{DynamicResource BodyLargeTextBlockStyle}"
+                               TextWrapping="Wrap"
+                               MaxWidth="400"
+                               HorizontalAlignment="Left"
+                               Style="{DynamicResource BodyMediumTextBlockStyle}"
                                Text="{Binding MarketPlugin.PluginInfo.Summary}" />
                     <ContentControl Margin="0,0,0,24"
                                     HorizontalAlignment="Left"

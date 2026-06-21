@@ -58,14 +58,22 @@
         </Storyboard>
         <DataTemplate x:Key="AppUpdatePendingRestartTemplate" DataType="{x:Type models:AppUpdatePendingRestart}">
             <Grid Margin="8,6" ColumnDefinitions="Auto, *">
-                <Image Grid.Column="0"
-                       Width="64"
-                       Height="64"
-                       Margin="0,0,12,0">
-                    <Image.Source>
-                        <BitmapImage DecodePixelWidth="64" UriSource="/Assets/Images/auraecho.png" />
-                    </Image.Source>
-                </Image>
+                <Rectangle Grid.Column="0"
+                           Width="64"
+                           Height="64"
+                           RadiusX="16"
+                           RadiusY="16"
+                           Margin="0,0,12,0">
+                    <Rectangle.Fill>
+                        <ImageBrush>
+                            <ImageBrush.ImageSource>
+                                <BitmapImage CacheOption="OnLoad"
+                                             DecodePixelWidth="64"
+                                             UriSource="/Assets/Images/auraecho.png" />
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock FontWeight="Bold"
                                Style="{DynamicResource TitleSmallTextBlockStyle}"
@@ -87,14 +95,16 @@
         </DataTemplate>
         <DataTemplate x:Key="PluginUpdatePendingRestartTemplate" DataType="{x:Type models:PluginUpdatePendingRestart}">
             <Grid Margin="8,6" ColumnDefinitions="Auto, *">
-                <Image Grid.Column="0"
-                       Width="64"
-                       Height="64"
-                       Margin="0,0,12,0">
-                    <Image.Source>
-                        <BitmapImage DecodePixelWidth="64" UriSource="{Binding IconPath}" />
-                    </Image.Source>
-                </Image>
+                <Rectangle Grid.Column="0"
+                           Width="64"
+                           Height="64"
+                           RadiusX="16"
+                           RadiusY="16"
+                           Margin="0,0,12,0">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="{Binding IconPath}" />
+                    </Rectangle.Fill>
+                </Rectangle>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock FontWeight="Bold"
                                Style="{DynamicResource TitleSmallTextBlockStyle}"
@@ -116,14 +126,16 @@
         </DataTemplate>
         <DataTemplate x:Key="PluginUninstallPendingRestartTemplate" DataType="{x:Type models:PluginUninstallPendingRestart}">
             <Grid Margin="8,6" ColumnDefinitions="Auto, *">
-                <Image Grid.Column="0"
-                       Width="64"
-                       Height="64"
-                       Margin="0,0,12,0">
-                    <Image.Source>
-                        <BitmapImage DecodePixelWidth="64" UriSource="{Binding IconPath}" />
-                    </Image.Source>
-                </Image>
+                <Rectangle Grid.Column="0"
+                           Width="64"
+                           Height="64"
+                           RadiusX="16"
+                           RadiusY="16"
+                           Margin="0,0,12,0">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="{Binding IconPath}" />
+                    </Rectangle.Fill>
+                </Rectangle>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock FontWeight="Bold"
                                Style="{DynamicResource TitleSmallTextBlockStyle}"

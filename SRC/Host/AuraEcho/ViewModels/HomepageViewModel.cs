@@ -1,6 +1,3 @@
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
 using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
@@ -12,10 +9,14 @@ using AuraEcho.Interfaces;
 using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
 namespace AuraEcho.ViewModels;
 
 public class HomepageViewModel : BindableBase
@@ -81,6 +82,20 @@ public class HomepageViewModel : BindableBase
             PluginId = plugin.PluginId,
             Title = plugin.PluginName
         });
+
+        RegionDialogResult dialogResult =
+            await _regionDialogService.ShowDialogAsync(
+                HostRegionNames.ContentDialogRegion,
+                ViewNames.ConfirmDialog,
+                new NavigationParameters
+                {
+                    { "DialogArgs", new RegionDialogParameter
+                    {
+                        ConfirmText = "我知道了",
+                        Message = "此扩展的卸载操作已挂起，将在灵光回声下次启动时生效。",
+                        Title = "卸载挂起"
+                    }}
+                });
     }
 
     public DelegateCommand<AppPlugin> CancelPluginPlanUninstallCommand { get; }

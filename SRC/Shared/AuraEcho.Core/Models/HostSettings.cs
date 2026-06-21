@@ -9,7 +9,7 @@ public class HostSettings
     public bool HardwareAcceleration { get; set; }
     public static HostSettings Default => new()
     {
-        AppTheme = AppTheme.FollowSystem,
+        AppTheme = AppTheme.Dark,
         AppLanguage = AppLanguage.ChineseSimplified,
         HardwareAcceleration = true
     };

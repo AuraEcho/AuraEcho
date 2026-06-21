@@ -178,7 +178,7 @@
                                 <TextBlock Margin="0,16,0,0"
                                            FontSize="{DynamicResource FontSize.Body.Large}"
                                            Foreground="White"
-                                           Text="各色功能模块，让灵光回声成为你手中最得心应手的全能利器。"
+                                           Text="告别臃肿的预装功能，只留下你真正需要的一切。"
                                            TextWrapping="Wrap">
                                     <i:Interaction.Triggers>
                                         <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"

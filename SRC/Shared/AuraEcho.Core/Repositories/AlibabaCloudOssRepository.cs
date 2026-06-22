@@ -21,7 +21,7 @@ public class AlibabaCloudOssRepository : IStorageRepository
     protected readonly HttpHelper _httpHelper;
     protected const string ENDPOINT = "oss-cn-beijing.aliyuncs.com";
     protected const string REGION = "cn-beijing";
-    protected const string BUCKET_NAME = "web-auraecho";
+    protected const string BUCKET_NAME = "auraecho-uat";
     public AlibabaCloudOssRepository(HttpHelper httpHelper)
     {
         _httpHelper = httpHelper;

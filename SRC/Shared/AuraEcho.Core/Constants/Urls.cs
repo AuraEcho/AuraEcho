@@ -28,7 +28,7 @@ public static class Urls
     #region File
 
     public static string GetStsToken() => $"{ServerUrl}/v1/file/sts";
-    public static string FileCheck(string contentHash, string fileName) => $"{Urls.ServerUrl}/api/v1/file/check?contentHash={contentHash}&fileName={fileName}";
+    public static string FileCheck(string contentHash, string fileName) => $"{Urls.ServerUrl}/v1/file/check?contentHash={contentHash}&fileName={fileName}";
     public static string FileCallback() => $"{ServerUrl}/v1/file-callback/oss";
     #endregion
 

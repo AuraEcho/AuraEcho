@@ -9,7 +9,7 @@
         xmlns:ui="http://ui.auraecho.com/"
         xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
         xmlns:views="clr-namespace:AuraEcho.Setup.UI.Views"
-        Title="AuraEcho 安装向导"
+        Title="灵光回声安装向导"
         Width="1157"
         Height="768"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"

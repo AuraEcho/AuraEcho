@@ -6,7 +6,7 @@
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Assets/Images/AuraEcho.ico</ApplicationIcon>
-		<AssemblyTitle>AuraEcho 安装向导</AssemblyTitle>
+		<AssemblyTitle>灵光回声安装向导</AssemblyTitle>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -30,15 +30,6 @@ public static class Urls
     public static string GetStsToken() => $"{ServerUrl}/v1/file/sts";
     public static string FileCheck(string contentHash, string fileName) => $"{Urls.ServerUrl}/api/v1/file/check?contentHash={contentHash}&fileName={fileName}";
     public static string FileCallback() => $"{ServerUrl}/v1/file-callback/oss";
-
-    public static string DownloadFile(Guid fileId) => $"{ServerUrl}/v1/file/download?fileId={fileId}";
-    public static string GetFileById(Guid fileId) => $"{ServerUrl}/v1/file/{fileId}";
-    public static string GetUploadedFiles() => $"{ServerUrl}/v1/file/UploadFileList";
-    public static string UploadFile() => $"{ServerUrl}/v1/file/upload";
-    public static string UploadFileInit() => $"{ServerUrl}/v1/file/uploadinit";
-    public static string GetUploadedChunks(Guid uploadId) => $"{ServerUrl}/v1/file/uploadedChunks?uploadId={uploadId}";
-    public static string UploadChunk() => $"{ServerUrl}/v1/file/uploadchunk";
-    public static string UploadMerge() => $"{ServerUrl}/v1/file/uploadMerge";
     #endregion
 
     #region Plugin

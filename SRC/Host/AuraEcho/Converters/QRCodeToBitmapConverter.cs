@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 namespace AuraEcho.Converters;
 
 [ValueConversion(typeof(string), typeof(BitmapSource))]
-public class PayUrlToQRCodeConverter : IValueConverter
+public class QRCodeToBitmapConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) 
         => value is string url 

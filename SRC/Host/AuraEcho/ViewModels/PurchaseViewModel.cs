@@ -80,13 +80,13 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         }
     }
 
-    public string PayUrl
+    public string QRCode
     {
         get;
         set => SetProperty(ref field, value);
     }
 
-    public bool PayUrlIsValid
+    public bool QRCodeIsValid
     {
         get;
         set => SetProperty(ref field, value);
@@ -117,7 +117,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         if (SelectedSku is null) return;
 
         IsOrderCreating = true;
-        PayUrlIsValid = true;
+        QRCodeIsValid = true;
 
         Task<ResponseResult<CreateOrderResponse>?> createOrderTask = 
             _skuOrderCacheService.GetOrFetchSkuOrderAsync(
@@ -136,30 +136,30 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
 
         ResponseResult<CreateOrderResponse>? result = createOrderTask.Result;
 
-        if (result is null)
+        if (result is null || result.Data is null || String.IsNullOrEmpty(result.Data.QRCode))
         {
-            PayUrlIsValid = false;
             IsOrderCreating = false;
+            QRCodeIsValid = false;
             _auraToastService.Show("支付二维码生成失败", ToastLevel.Error);
             return;
         }
 
         if (result.Status != ResultStatus.Success)
         {
+            QRCodeIsValid = false;
             IsOrderCreating = false;
-            PayUrlIsValid = false;
             _auraToastService.Show(result.Message, ToastLevel.Error);
             return;
         }
 
-        IsOrderCreating = false;
-        PayUrlIsValid = true;
         _newestOrderId = result.Data?.OrderId;
-        PayUrl = result.Data?.PayUrl;
+        QRCode = result.Data!.QRCode;
+        QRCodeIsValid = true;
+        IsOrderCreating = false;
     }
 
-    public DelegateCommand RefreshPayUrlCommand { get; }
-    private void RefershPayUrl()
+    public DelegateCommand RefreshPayQRCodeCommand { get; }
+    private void RefershQRCode()
     {
         _skuOrderCacheService.InvalidateCache(SelectedSku.Id, PaymentChannel);
         SubmitOrder();
@@ -184,7 +184,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         while (!_orderStatusTaskToken.IsCancellationRequested)
         {
             await Task.Delay(2000, _orderStatusTaskToken.Token);
-            if (!_newestOrderId.HasValue) continue;
+            if (!QRCodeIsValid) continue;
 
             OrderStatus orderStatus = await _orderRepository.GetOrderStatusAsync(_newestOrderId.Value);
             if (orderStatus == OrderStatus.Paid)
@@ -241,7 +241,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         CloseCommand = new DelegateCommand(Close);
         SubmitOrderCommand = new DelegateCommand(SubmitOrder);
         SelectSkuCommand = new DelegateCommand<Sku>(SelectSku);
-        RefreshPayUrlCommand = new DelegateCommand(RefershPayUrl);
+        RefreshPayQRCodeCommand = new DelegateCommand(RefershQRCode);
         OpenSubscriptionTermsCommand = new DelegateCommand(OpenSubscriptionTerms);
 
         _ = CheckOrderStatusAsync();

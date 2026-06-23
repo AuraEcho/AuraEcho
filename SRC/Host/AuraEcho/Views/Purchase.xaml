@@ -81,7 +81,7 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid Background="{DynamicResource Brushes.Scrim}">
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid MinWidth="590" HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <Border Background="{DynamicResource Brushes.SurfaceContainerHighest}"
                     BorderBrush="{DynamicResource Brushes.OutlineShadow}"

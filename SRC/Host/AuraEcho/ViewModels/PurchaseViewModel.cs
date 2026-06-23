@@ -183,15 +183,22 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
     {
         while (!_orderStatusTaskToken.IsCancellationRequested)
         {
-            await Task.Delay(2000, _orderStatusTaskToken.Token);
-            if (!QRCodeIsValid) continue;
-
-            OrderStatus orderStatus = await _orderRepository.GetOrderStatusAsync(_newestOrderId.Value);
-            if (orderStatus == OrderStatus.Paid)
+            try
             {
-                _auraToastService.Show("订单支付成功！", ToastLevel.Success);
-                IsPaid = true;
-                break;
+                await Task.Delay(2000, _orderStatusTaskToken.Token);
+                if (!QRCodeIsValid || IsOrderCreating || _newestOrderId is null) continue;
+
+                OrderStatus orderStatus = await _orderRepository.GetOrderStatusAsync(_newestOrderId.Value);
+                if (orderStatus == OrderStatus.Paid)
+                {
+                    _auraToastService.Show("订单支付成功！", ToastLevel.Success);
+                    IsPaid = true;
+                    break;
+                }
+            }
+            catch (Exception ex)
+            { 
+                // TODO: log ex to file
             }
         }
     }

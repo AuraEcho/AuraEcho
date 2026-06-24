@@ -1,5 +1,6 @@
 ﻿using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Api.Models.V1.Order;
+using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Repositories;
@@ -32,7 +33,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
     private readonly ISkuOrderCacheService _skuOrderCacheService;
     private readonly IClock _clock;
     private Guid? _newestOrderId;
-    public int _currentOrderCreatingTaskId;
+    private int _currentOrderCreatingTaskId;
     private readonly CancellationTokenSource _orderStatusTaskToken = new();
 
     public ResourceLicense CurrentPluginLicense
@@ -78,19 +79,19 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
 
             SubmitOrder();
         }
-    }
+    } = PaymentChannel.Wxpay;
 
     public string QRCode
     {
         get;
         set => SetProperty(ref field, value);
-    }
+    } = "QRPlaceHolderQRPlaceHolderQRPlaceHolder";
 
     public bool QRCodeIsValid
     {
         get;
         set => SetProperty(ref field, value);
-    } = true;
+    }
 
     public bool IsOrderCreating
     {
@@ -104,6 +105,14 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         set => SetProperty(ref field, value);
     }
 
+    /// <summary>
+    /// 当前订单信息
+    /// </summary>
+    public GetOrderByIdResult CurrentOrderInfo
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
 
     public DelegateCommand<Sku> SelectSkuCommand { get; }
     private void SelectSku(Sku sku)
@@ -117,9 +126,8 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         if (SelectedSku is null) return;
 
         IsOrderCreating = true;
-        QRCodeIsValid = true;
 
-        Task<ResponseResult<CreateOrderResponse>?> createOrderTask = 
+        Task<ResponseResult<CreateOrderResponse>?> createOrderTask =
             _skuOrderCacheService.GetOrFetchSkuOrderAsync(
                 SelectedSku.Id,
                 PaymentChannel,
@@ -130,16 +138,16 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
                         Channel = PaymentChannel
                     }));
         _currentOrderCreatingTaskId = createOrderTask.Id;
-        await Task.WhenAll([ createOrderTask, Task.Delay(TimeSpan.FromSeconds(0.3))]);
+        await Task.WhenAll([createOrderTask, Task.Delay(TimeSpan.FromSeconds(0.3))]);
 
         if (_currentOrderCreatingTaskId != createOrderTask.Id) return;
 
         ResponseResult<CreateOrderResponse>? result = createOrderTask.Result;
 
-        if (result is null || result.Data is null || String.IsNullOrEmpty(result.Data.QRCode))
+        if (result is null)
         {
-            IsOrderCreating = false;
             QRCodeIsValid = false;
+            IsOrderCreating = false;
             _auraToastService.Show("支付二维码生成失败", ToastLevel.Error);
             return;
         }
@@ -188,16 +196,16 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
                 await Task.Delay(2000, _orderStatusTaskToken.Token);
                 if (!QRCodeIsValid || IsOrderCreating || _newestOrderId is null) continue;
 
-                OrderStatus orderStatus = await _orderRepository.GetOrderStatusAsync(_newestOrderId.Value);
-                if (orderStatus == OrderStatus.Paid)
-                {
-                    _auraToastService.Show("订单支付成功！", ToastLevel.Success);
-                    IsPaid = true;
-                    break;
-                }
+                CurrentOrderInfo = await _orderRepository.GetOrderByIdAsync(_newestOrderId.Value);
+                if (CurrentOrderInfo is null) continue;
+
+                if (CurrentOrderInfo.Status != OrderStatus.Paid) continue;
+
+                _auraToastService.Show("订单支付成功！", ToastLevel.Success);
+                break;
             }
             catch (Exception ex)
-            { 
+            {
                 // TODO: log ex to file
             }
         }
@@ -252,9 +260,6 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         OpenSubscriptionTermsCommand = new DelegateCommand(OpenSubscriptionTerms);
 
         _ = CheckOrderStatusAsync();
-
-        PaymentChannel = PaymentChannel.Wxpay;
-        PaymentChannel = PaymentChannel.Alipay;
     }
 
     private async Task LoadPluginInfo(Guid pluginId)

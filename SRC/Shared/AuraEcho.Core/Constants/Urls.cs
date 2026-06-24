@@ -58,7 +58,7 @@ public static class Urls
 
     #region Order
     public static string CreateOrderAsync() => $"{ServerUrl}/v1/order/create";
-    public static string GetOrderPaymentCredential(Guid orderId, PaymentChannel channel) => $"{ServerUrl}/v1/order/{orderId}/payment-credential?channel={channel}";
     public static string GetOrderStatus(Guid orderId) => $"{ServerUrl}/v1/order/status/{orderId}";
+    public static string GetOrderById(Guid orderId) => $"{ServerUrl}/v1/order/{orderId}";
     #endregion
 }

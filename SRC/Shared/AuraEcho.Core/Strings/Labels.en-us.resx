@@ -180,6 +180,9 @@
   <data name="AppLanguage_ko_KR" xml:space="preserve">
     <value>Korean</value>
   </data>
+  <data name="AppLanguage_ja_JP" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
   <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
     <value>Chinese (Simplified)</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="AppLanguage_Korean" xml:space="preserve">
     <value>Korean</value>
+  </data>
+  <data name="AppLanguage_Japanese" xml:space="preserve">
+    <value>Japanese</value>
   </data>
   <data name="AppTheme_Light" xml:space="preserve">
     <value>Light</value>
@@ -517,7 +523,7 @@
     <value>By signing in or completing registration, you agree to the</value>
   </data>
   <data name="SignIn_AutoRegisterHint" xml:space="preserve">
-    <value>Unregistered emails will be automatically registered after verification</value>
+    <value>New emails will automatically register after verification.</value>
   </data>
   <data name="SignIn_CodeError" xml:space="preserve">
     <value>Invalid verification code</value>

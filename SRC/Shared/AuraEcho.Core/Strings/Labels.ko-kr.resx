@@ -180,6 +180,30 @@
   <data name="AppLanguage_ko_KR" xml:space="preserve">
     <value>한국어</value>
   </data>
+  <data name="AppLanguage_ja_JP" xml:space="preserve">
+    <value>일본어</value>
+  </data>
+  <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
+    <value>중국어 간체</value>
+  </data>
+  <data name="AppLanguage_English" xml:space="preserve">
+    <value>영어</value>
+  </data>
+  <data name="AppLanguage_Korean" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="AppLanguage_Japanese" xml:space="preserve">
+    <value>일본어</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>라이트</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>다크</value>
+  </data>
+  <data name="AppTheme_FollowSystem" xml:space="preserve">
+    <value>시스템 설정 따르기</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>AuraEcho</value>
   </data>
@@ -584,23 +608,5 @@
   </data>
   <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
     <value>을(를) 읽어주세요.</value>
-  </data>
-  <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
-    <value>중국어 간체</value>
-  </data>
-  <data name="AppLanguage_English" xml:space="preserve">
-    <value>영어</value>
-  </data>
-  <data name="AppLanguage_Korean" xml:space="preserve">
-    <value>한국어</value>
-  </data>
-  <data name="AppTheme_Light" xml:space="preserve">
-    <value>라이트</value>
-  </data>
-  <data name="AppTheme_Dark" xml:space="preserve">
-    <value>다크</value>
-  </data>
-  <data name="AppTheme_FollowSystem" xml:space="preserve">
-    <value>시스템 설정 따르기</value>
   </data>
 </root>

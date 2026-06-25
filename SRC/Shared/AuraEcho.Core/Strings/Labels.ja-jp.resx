@@ -118,484 +118,484 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountSettings_Avatar" xml:space="preserve">
-    <value>头像</value>
+    <value>アバター</value>
   </data>
   <data name="AccountSettings_AvatarSizeExceeded" xml:space="preserve">
-    <value>图像大小不能超过2MB</value>
+    <value>画像サイズは2MBを超えることはできません</value>
   </data>
   <data name="AccountSettings_AvatarUploadFailed" xml:space="preserve">
-    <value>上传头像失败</value>
+    <value>アバターのアップロードに失敗しました</value>
   </data>
   <data name="AccountSettings_ChangeAvatar" xml:space="preserve">
-    <value>更改</value>
+    <value>変更</value>
   </data>
   <data name="AccountSettings_ImageFileFilter" xml:space="preserve">
-    <value>图像文件|*.jpg;*.png;*.jpeg;*.bmp</value>
+    <value>画像ファイル|*.jpg;*.png;*.jpeg;*.bmp</value>
   </data>
   <data name="AccountSettings_ProfileUpdateFailed" xml:space="preserve">
-    <value>个人信息更新失败</value>
+    <value>プロフィールの更新に失敗しました</value>
   </data>
   <data name="AccountSettings_ProfileUpdateSucceeded" xml:space="preserve">
-    <value>个人信息更新成功</value>
+    <value>プロフィールが正常に更新されました</value>
   </data>
   <data name="AccountSettings_SaveChanges" xml:space="preserve">
-    <value>保存修改</value>
+    <value>変更を保存</value>
   </data>
   <data name="AccountSettings_SelectImageFile" xml:space="preserve">
-    <value>选择图像文件</value>
+    <value>画像ファイルを選択</value>
   </data>
   <data name="AccountSettings_Title" xml:space="preserve">
-    <value>账户</value>
+    <value>アカウント</value>
   </data>
   <data name="AccountSettings_UserName" xml:space="preserve">
-    <value>用户名</value>
+    <value>ユーザー名</value>
   </data>
   <data name="AccountSettings_UserNameLengthHint" xml:space="preserve">
-    <value>用户名长度应在4-16个字符之间</value>
+    <value>ユーザー名は4～16文字である必要があります</value>
   </data>
   <data name="AccountSettings_UserNameLengthInvalid" xml:space="preserve">
-    <value>用户名长度应在4-16个字符之间</value>
+    <value>ユーザー名は4～16文字である必要があります</value>
   </data>
   <data name="AccountSettings_UserNameNoSpaces" xml:space="preserve">
-    <value>用户名不能包含空格</value>
+    <value>ユーザー名にスペースを含めることはできません</value>
   </data>
   <data name="AccountSettings_UserNameNoSpecialChars" xml:space="preserve">
-    <value>用户名不能包含特殊字符</value>
+    <value>ユーザー名に特殊文字を含めることはできません</value>
   </data>
   <data name="AccountSettings_UserNameRequired" xml:space="preserve">
-    <value>用户名不能为空</value>
+    <value>ユーザー名は空にできません</value>
   </data>
   <data name="AccountSettings_UserNameSpecialCharHint" xml:space="preserve">
-    <value>用户名不能包含特殊字符</value>
+    <value>ユーザー名に特殊文字を含めることはできません</value>
   </data>
   <data name="App_Exit" xml:space="preserve">
-    <value>退出</value>
+    <value>終了</value>
   </data>
   <data name="AppLanguage_en_US" xml:space="preserve">
-    <value>英语</value>
+    <value>英語</value>
   </data>
   <data name="AppLanguage_zh_CN" xml:space="preserve">
-    <value>简体中文</value>
+    <value>中国語（簡体字）</value>
   </data>
   <data name="AppLanguage_ko_KR" xml:space="preserve">
-    <value>韩语</value>
+    <value>韓国語</value>
   </data>
   <data name="AppLanguage_ja_JP" xml:space="preserve">
-    <value>日语</value>
+    <value>日本語</value>
   </data>
   <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
-    <value>简体中文</value>
+    <value>中国語（簡体字）</value>
   </data>
   <data name="AppLanguage_English" xml:space="preserve">
-    <value>英语</value>
+    <value>英語</value>
   </data>
   <data name="AppLanguage_Korean" xml:space="preserve">
-    <value>韩语</value>
+    <value>韓国語</value>
   </data>
   <data name="AppLanguage_Japanese" xml:space="preserve">
-    <value>日语</value>
+    <value>日本語</value>
   </data>
   <data name="AppTheme_Light" xml:space="preserve">
-    <value>浅色</value>
+    <value>ライト</value>
   </data>
   <data name="AppTheme_Dark" xml:space="preserve">
-    <value>深色</value>
+    <value>ダーク</value>
   </data>
   <data name="AppTheme_FollowSystem" xml:space="preserve">
-    <value>跟随系统</value>
+    <value>システム設定に従う</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>灵光回声</value>
+    <value>AuraEcho</value>
   </data>
   <data name="GeneralSettings_HardwareAcceleration" xml:space="preserve">
-    <value>硬件加速</value>
+    <value>ハードウェアアクセラレーション</value>
   </data>
   <data name="GeneralSettings_HardwareAccelerationDescription" xml:space="preserve">
-    <value>在可用时使用 GPU 图形加速</value>
+    <value>利用可能な場合、GPUグラフィックアクセラレーションを使用</value>
   </data>
   <data name="GeneralSettings_Language" xml:space="preserve">
-    <value>语言</value>
+    <value>言語</value>
   </data>
   <data name="GeneralSettings_LanguageDescription" xml:space="preserve">
-    <value>选择灵光回声使用的语言</value>
+    <value>AuraEchoで使用する言語を選択してください</value>
   </data>
   <data name="GeneralSettings_RunAtBoot" xml:space="preserve">
-    <value>随系统启动</value>
+    <value>システム起動時に実行</value>
   </data>
   <data name="GeneralSettings_RunAtBootDescription" xml:space="preserve">
-    <value>在启动系统后自动启动灵光回声</value>
+    <value>システム起動後にAuraEchoを自動的に起動</value>
   </data>
   <data name="GeneralSettings_Theme" xml:space="preserve">
-    <value>主题</value>
+    <value>テーマ</value>
   </data>
   <data name="GeneralSettings_ThemeDescription" xml:space="preserve">
-    <value>选择灵光回声使用的主题</value>
+    <value>AuraEchoで使用するテーマを選択してください</value>
   </data>
   <data name="GeneralSettings_Title" xml:space="preserve">
-    <value>常规</value>
+    <value>一般</value>
   </data>
   <data name="Homepage_PluginCancelUninstall" xml:space="preserve">
-    <value>取消卸载</value>
+    <value>アンインストールをキャンセル</value>
   </data>
   <data name="Homepage_PluginOpen" xml:space="preserve">
-    <value>打开</value>
+    <value>開く</value>
   </data>
   <data name="Homepage_PluginUninstall" xml:space="preserve">
-    <value>卸载</value>
+    <value>アンインストール</value>
   </data>
   <data name="Homepage_UninstallConfirmAck" xml:space="preserve">
-    <value>我知道了</value>
+    <value>確認しました</value>
   </data>
   <data name="Homepage_UninstallPending" xml:space="preserve">
-    <value>卸载挂起</value>
+    <value>アンインストール保留中</value>
   </data>
   <data name="Homepage_UninstallPendingMessage" xml:space="preserve">
-    <value>此扩展的卸载操作已挂起，将在灵光回声下次启动时生效。</value>
+    <value>この拡張機能のアンインストールは保留中で、次回AuraEchoの起動時に適用されます。</value>
   </data>
   <data name="MainWindow_ApplyAfterRestart" xml:space="preserve">
-    <value>将在重启后应用</value>
+    <value>再起動後に適用されます</value>
   </data>
   <data name="MainWindow_CurrentVersionPrefix" xml:space="preserve">
-    <value>当前版本：</value>
+    <value>現在のバージョン：</value>
   </data>
   <data name="MainWindow_KickedOutMessage" xml:space="preserve">
-    <value>您的账号已在其他设备登录，当前设备已下线。如果这不是您本人的操作，那么您的密码可能已经泄露，请尽快修改密码。</value>
+    <value>お客様のアカウントが別のデバイスでログインされたため、このデバイスはログアウトされました。お客様ご自身の操作でない場合、パスワードが漏洩した可能性がありますので、早急にパスワードを変更してください。</value>
   </data>
   <data name="MainWindow_KickedOutTitle" xml:space="preserve">
-    <value>账号在其他设备登录</value>
+    <value>別のデバイスでアカウントがログインされました</value>
   </data>
   <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
-    <value>最新版本：</value>
+    <value>最新バージョン：</value>
   </data>
   <data name="MainWindow_MinimizedToTray" xml:space="preserve">
-    <value>程序已最小化到系统托盘</value>
+    <value>アプリはシステムトレイに最小化されました</value>
   </data>
   <data name="MainWindow_PendingRestart" xml:space="preserve">
-    <value>等待重启</value>
+    <value>再起動待ち</value>
   </data>
   <data name="MainWindow_ReLogin" xml:space="preserve">
-    <value>重新登录</value>
+    <value>再ログイン</value>
   </data>
   <data name="MainWindow_RestartNow" xml:space="preserve">
-    <value>现在重启</value>
+    <value>今すぐ再起動</value>
   </data>
   <data name="MainWindow_RestartToUpdate" xml:space="preserve">
-    <value>重启以更新</value>
+    <value>更新のために再起動</value>
   </data>
   <data name="MainWindow_SignInExpiredCancel" xml:space="preserve">
-    <value>取消</value>
+    <value>キャンセル</value>
   </data>
   <data name="MainWindow_SignInExpiredMessage" xml:space="preserve">
-    <value>您的登录状态已过期，您可以继续留在此界面，或者重新登录。</value>
+    <value>ログインセッションの有効期限が切れました。この画面に留まるか、再ログインすることができます。</value>
   </data>
   <data name="MainWindow_SignInExpiredTitle" xml:space="preserve">
-    <value>登录已过期</value>
+    <value>セッションの有効期限切れ</value>
   </data>
   <data name="MainWindow_SignOut" xml:space="preserve">
-    <value>退出登录</value>
+    <value>ログアウト</value>
   </data>
   <data name="MainWindow_TrayNotificationHint" xml:space="preserve">
-    <value>可转到个性化界面关闭推送通知</value>
+    <value>個人設定でプッシュ通知をオフにできます</value>
   </data>
   <data name="MainWindow_UninstallPending" xml:space="preserve">
-    <value>卸载已挂起</value>
+    <value>アンインストール保留中</value>
   </data>
   <data name="MarketplacePluginDetails_Acquire" xml:space="preserve">
-    <value>获取</value>
+    <value>取得</value>
   </data>
   <data name="MarketplacePluginDetails_Acquiring" xml:space="preserve">
-    <value>正在获取...</value>
+    <value>取得中...</value>
   </data>
   <data name="MarketplacePluginDetails_ApproximateSize" xml:space="preserve">
-    <value>近似大小</value>
+    <value>おおよそのサイズ</value>
   </data>
   <data name="MarketplacePluginDetails_Description" xml:space="preserve">
-    <value>描述</value>
+    <value>説明</value>
   </data>
   <data name="MarketplacePluginDetails_DownloadingPrefix" xml:space="preserve">
-    <value>正在下载(</value>
+    <value>ダウンロード中（</value>
   </data>
   <data name="MarketplacePluginDetails_Install" xml:space="preserve">
-    <value>安装</value>
+    <value>インストール</value>
   </data>
   <data name="MarketplacePluginDetails_Installing" xml:space="preserve">
-    <value>正在安装...</value>
+    <value>インストール中...</value>
   </data>
   <data name="MarketplacePluginDetails_LastUpdateDate" xml:space="preserve">
-    <value>上次更新日期</value>
+    <value>最終更新日</value>
   </data>
   <data name="MarketplacePluginDetails_Open" xml:space="preserve">
-    <value>打开</value>
+    <value>開く</value>
   </data>
   <data name="MarketplacePluginDetails_OtherInfo" xml:space="preserve">
-    <value>其他信息</value>
+    <value>その他の情報</value>
   </data>
   <data name="MarketplacePluginDetails_PublishDate" xml:space="preserve">
-    <value>发布日期</value>
+    <value>公開日</value>
   </data>
   <data name="MarketplacePluginDetails_Publisher" xml:space="preserve">
-    <value>发布者</value>
+    <value>公開者</value>
   </data>
   <data name="MarketplacePluginDetails_ReleaseNotes" xml:space="preserve">
-    <value>此版本的更新内容</value>
+    <value>このバージョンの新機能</value>
   </data>
   <data name="MarketplacePluginDetails_Screenshots" xml:space="preserve">
-    <value>屏幕截图</value>
+    <value>スクリーンショット</value>
   </data>
   <data name="MarketplacePluginDetails_UserCount" xml:space="preserve">
-    <value>用户数</value>
+    <value>ユーザー数</value>
   </data>
   <data name="MarketplacePluginDetails_Version" xml:space="preserve">
-    <value>版本</value>
+    <value>バージョン</value>
   </data>
   <data name="PasswordResetCompleted_LoginPrompt" xml:space="preserve">
-    <value>现在可使用新的密码登录到灵光回声。</value>
+    <value>新しいパスワードでAuraEchoにログインできるようになりました。</value>
   </data>
   <data name="PasswordResetCompleted_ReLoginButton" xml:space="preserve">
-    <value>重新登录</value>
+    <value>再ログイン</value>
   </data>
   <data name="PasswordResetCompleted_SuccessMessage" xml:space="preserve">
-    <value>密码已重置完成！</value>
+    <value>パスワードがリセットされました！</value>
   </data>
   <data name="PasswordResetCompleted_Title" xml:space="preserve">
-    <value>密码已重置</value>
+    <value>パスワードリセット完了</value>
   </data>
   <data name="PluginsMarketplace" xml:space="preserve">
-    <value>扩展商店</value>
+    <value>マーケットプレイス</value>
   </data>
   <data name="PluginsMarketplace_Subtitle" xml:space="preserve">
-    <value>告别臃肿的预装功能，只留下你真正需要的一切。</value>
+    <value>膨大なプリインストール機能に別れを告げて、本当に必要なものだけを残しましょう。</value>
   </data>
   <data name="Purchase_Alipay" xml:space="preserve">
-    <value>支付宝</value>
+    <value>Alipay</value>
   </data>
   <data name="Purchase_AlipayScanTip" xml:space="preserve">
-    <value>请使用支付宝扫码支付</value>
+    <value>Alipayでスキャンして支払う</value>
   </data>
   <data name="Purchase_ChooseSubscription" xml:space="preserve">
-    <value>选择您的订阅</value>
+    <value>サブスクリプションを選択</value>
   </data>
   <data name="Purchase_ClickQRToRefresh" xml:space="preserve">
-    <value>请点击二维码刷新</value>
+    <value>QRコードをクリックして更新</value>
   </data>
   <data name="Purchase_DoneButton" xml:space="preserve">
-    <value>完成</value>
+    <value>完了</value>
   </data>
   <data name="Purchase_LifetimeLicense" xml:space="preserve">
     <value>永久</value>
   </data>
   <data name="Purchase_MonthlyLicense" xml:space="preserve">
-    <value>月卡</value>
+    <value>月間</value>
   </data>
   <data name="Purchase_OrderNumber" xml:space="preserve">
-    <value>订单编号</value>
+    <value>注文番号</value>
   </data>
   <data name="Purchase_OrderPaidSuccess" xml:space="preserve">
-    <value>订单支付成功！</value>
+    <value>注文の支払いが完了しました！</value>
   </data>
   <data name="Purchase_PaymentMethod" xml:space="preserve">
-    <value>支付方式</value>
+    <value>支払い方法</value>
   </data>
   <data name="Purchase_PaymentSuccess" xml:space="preserve">
-    <value>支付成功</value>
+    <value>支払い成功</value>
   </data>
   <data name="Purchase_PaymentSuccessMessage" xml:space="preserve">
-    <value>感谢您的订阅，订单已支付成功。</value>
+    <value>ご購読いただきありがとうございます。注文の支払いが正常に完了しました。</value>
   </data>
   <data name="Purchase_PaymentTime" xml:space="preserve">
-    <value>付款时间</value>
+    <value>支払い時間</value>
   </data>
   <data name="Purchase_QRCodeExpired" xml:space="preserve">
-    <value>二维码已失效</value>
+    <value>QRコードの有効期限切れ</value>
   </data>
   <data name="Purchase_QRCodeGenerateFailed" xml:space="preserve">
-    <value>支付二维码生成失败</value>
+    <value>支払いQRコードの生成に失敗しました</value>
   </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
-    <value>支付前请阅读《</value>
+    <value>お支払い前に</value>
   </data>
   <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
-    <value>开通订阅，解锁</value>
+    <value>サブスクライブして</value>
   </data>
   <data name="Purchase_SubscribeToUnlockSuffix" xml:space="preserve">
-    <value>所有功能。</value>
+    <value>のすべての機能をロック解除します。</value>
   </data>
   <data name="Purchase_SubscriptionExpiryPrefix" xml:space="preserve">
-    <value>订阅将于</value>
+    <value>有効期限</value>
   </data>
   <data name="Purchase_SubscriptionExpirySuffix" xml:space="preserve">
-    <value>过期，购买后有效期顺延。</value>
+    <value>。購入時に更新されます。</value>
   </data>
   <data name="Purchase_SubscriptionSupportMessagePrefix" xml:space="preserve">
-    <value>您的订阅将直接支持</value>
+    <value>サブスクでのご支援、</value>
   </data>
   <data name="Purchase_SubscriptionSupportMessageSuffix" xml:space="preserve">
-    <value>的持续开发与维护，感谢！</value>
+    <value>の開発の励みになります。感謝！</value>
   </data>
   <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
-    <value>会员订阅服务协议</value>
+    <value>会員サブスクリプションサービス規約</value>
   </data>
   <data name="Purchase_WeChatPay" xml:space="preserve">
-    <value>微信支付</value>
+    <value>WeChat Pay</value>
   </data>
   <data name="Purchase_WeChatScanTip" xml:space="preserve">
-    <value>请使用微信扫一扫支付</value>
+    <value>WeChat Payで支払う</value>
   </data>
   <data name="Purchase_YearlyLicense" xml:space="preserve">
-    <value>年卡</value>
+    <value>年間</value>
   </data>
   <data name="ResetPassword_BackButton" xml:space="preserve">
-    <value>返回</value>
+    <value>戻る</value>
   </data>
   <data name="ResetPassword_CodeSentToEmail" xml:space="preserve">
-    <value>验证码已发送至 {0}</value>
+    <value>認証コードが{0}に送信されました</value>
   </data>
   <data name="ResetPassword_EmailCodeInvalid" xml:space="preserve">
-    <value>验证码错误</value>
+    <value>無効な認証コード</value>
   </data>
   <data name="ResetPassword_EmailCodeRequired" xml:space="preserve">
-    <value>验证码不能为空！</value>
+    <value>認証コードは空にできません！</value>
   </data>
   <data name="ResetPassword_EmailInvalidFormat" xml:space="preserve">
-    <value>请输入有效的邮箱格式</value>
+    <value>有効なメール形式を入力してください</value>
   </data>
   <data name="ResetPassword_EmailPlaceholder" xml:space="preserve">
-    <value>邮箱</value>
+    <value>メールアドレス</value>
   </data>
   <data name="ResetPassword_EmailRequired" xml:space="preserve">
-    <value>邮箱地址不能为空！</value>
+    <value>メールアドレスは空にできません！</value>
   </data>
   <data name="ResetPassword_GetCode" xml:space="preserve">
-    <value>获取验证码</value>
+    <value>コードを取得</value>
   </data>
   <data name="ResetPassword_NewPasswordPlaceholder" xml:space="preserve">
-    <value>新密码</value>
+    <value>新しいパスワード</value>
   </data>
   <data name="ResetPassword_PasswordHint" xml:space="preserve">
-    <value>新密码应至少8个字符且包括字母和数字</value>
+    <value>新しいパスワードは8文字以上で、文字と数字を含める必要があります</value>
   </data>
   <data name="ResetPassword_PasswordMustContainLetterAndDigit" xml:space="preserve">
-    <value>密码必须同时包含字母和数字！</value>
+    <value>パスワードには文字と数字の両方を含める必要があります！</value>
   </data>
   <data name="ResetPassword_PasswordNoSpaces" xml:space="preserve">
-    <value>密码不能包含空格！</value>
+    <value>パスワードにスペースを含めることはできません！</value>
   </data>
   <data name="ResetPassword_PasswordRequired" xml:space="preserve">
-    <value>密码不能为空！</value>
+    <value>パスワードは空にできません！</value>
   </data>
   <data name="ResetPassword_PasswordTooShort" xml:space="preserve">
-    <value>密码长度过短！</value>
+    <value>パスワードが短すぎます！</value>
   </data>
   <data name="ResetPassword_ResendCode" xml:space="preserve">
-    <value>重新发送</value>
+    <value>再送信</value>
   </data>
   <data name="ResetPassword_ResetButton" xml:space="preserve">
-    <value>重置密码</value>
+    <value>パスワードをリセット</value>
   </data>
   <data name="ResetPassword_ServerBusy" xml:space="preserve">
-    <value>服务器繁忙，请稍后重试。</value>
+    <value>サーバーが混雑しています。後でもう一度お試しください。</value>
   </data>
   <data name="ResetPassword_Title" xml:space="preserve">
-    <value>重置密码</value>
+    <value>パスワードリセット</value>
   </data>
   <data name="ResetPassword_UserNotFound" xml:space="preserve">
-    <value>用户不存在，请检查邮箱地址是否正确。</value>
+    <value>ユーザーが存在しません。メールアドレスを確認してください。</value>
   </data>
   <data name="ResetPassword_UserNotFoundShort" xml:space="preserve">
-    <value>用户不存在</value>
+    <value>ユーザーが存在しません</value>
   </data>
   <data name="ResetPassword_VerificationCodePlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>認証コード</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>设置</value>
+    <value>設定</value>
   </data>
   <data name="Settings_NavAccount" xml:space="preserve">
-    <value>账户</value>
+    <value>アカウント</value>
   </data>
   <data name="Settings_NavGeneral" xml:space="preserve">
-    <value>常规</value>
+    <value>一般</value>
   </data>
   <data name="SignIn_AccountOrPasswordError" xml:space="preserve">
-    <value>账号或密码错误</value>
+    <value>アカウントまたはパスワードが正しくありません</value>
   </data>
   <data name="SignIn_AgreeToEULA" xml:space="preserve">
-    <value>登录或完成注册即代表您同意</value>
+    <value>ログインまたは登録を完了すると、以下に同意したものとみなされます</value>
   </data>
   <data name="SignIn_AutoRegisterHint" xml:space="preserve">
-    <value>未注册邮箱验证后系统将自动注册账号</value>
+    <value>未登録のメールは、認証後に自動でアカウント作成されます</value>
   </data>
   <data name="SignIn_CodeError" xml:space="preserve">
-    <value>验证码错误</value>
+    <value>無効な認証コード</value>
   </data>
   <data name="SignIn_CodeLoginTab" xml:space="preserve">
-    <value>验证码登录</value>
+    <value>コードログイン</value>
   </data>
   <data name="SignIn_CodeRequired" xml:space="preserve">
-    <value>验证码不能为空！</value>
+    <value>認証コードは空にできません！</value>
   </data>
   <data name="SignIn_CodeSendFailed" xml:space="preserve">
-    <value>发送验证码时遇到了错误</value>
+    <value>認証コードの送信中にエラーが発生しました</value>
   </data>
   <data name="SignIn_CodeSent" xml:space="preserve">
-    <value>验证码已发送至 {0}</value>
+    <value>認証コードが{0}に送信されました</value>
   </data>
   <data name="SignIn_EmailInvalidFormat" xml:space="preserve">
-    <value>请输入有效的邮箱格式</value>
+    <value>有効なメール形式を入力してください</value>
   </data>
   <data name="SignIn_EmailPlaceholder" xml:space="preserve">
-    <value>邮箱</value>
+    <value>メールアドレス</value>
   </data>
   <data name="SignIn_EmailRequired" xml:space="preserve">
-    <value>邮箱地址不能为空！</value>
+    <value>メールアドレスは空にできません！</value>
   </data>
   <data name="SignIn_EULA" xml:space="preserve">
-    <value>最终用户许可协议</value>
+    <value>エンドユーザーライセンス契約</value>
   </data>
   <data name="SignIn_ForgotPassword" xml:space="preserve">
-    <value>忘记密码?</value>
+    <value>パスワードをお忘れですか？</value>
   </data>
   <data name="SignIn_GetCode" xml:space="preserve">
-    <value>获取验证码</value>
+    <value>コードを取得</value>
   </data>
   <data name="SignIn_PasswordLoginTab" xml:space="preserve">
-    <value>密码登录</value>
+    <value>パスワードログイン</value>
   </data>
   <data name="SignIn_PasswordPlaceholder" xml:space="preserve">
-    <value>密码</value>
+    <value>パスワード</value>
   </data>
   <data name="SignIn_PasswordRequired" xml:space="preserve">
-    <value>密码不能为空！</value>
+    <value>パスワードは空にできません！</value>
   </data>
   <data name="SignIn_ResendCode" xml:space="preserve">
-    <value>重新发送</value>
+    <value>再送信</value>
   </data>
   <data name="SignIn_ServerBusy" xml:space="preserve">
-    <value>服务器繁忙，请稍后重试。</value>
+    <value>サーバーが混雑しています。後でもう一度お試しください。</value>
   </data>
   <data name="SignIn_SignInButton" xml:space="preserve">
-    <value>登录</value>
+    <value>ログイン</value>
   </data>
   <data name="SignIn_SignInOrRegisterButton" xml:space="preserve">
-    <value>登录 / 注册</value>
+    <value>ログイン / 登録</value>
   </data>
   <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
-    <value>验证码</value>
+    <value>認証コード</value>
   </data>
   <data name="SignInExpired_Message" xml:space="preserve">
-    <value>您的登录凭证已过期，请重新登录。</value>
+    <value>ログインセッションの有効期限が切れました。再ログインしてください。</value>
   </data>
   <data name="SignInExpired_SignInButton" xml:space="preserve">
-    <value>登录</value>
+    <value>ログイン</value>
   </data>
   <data name="SignInExpired_Title" xml:space="preserve">
-    <value>登录已过期</value>
+    <value>セッションの有効期限切れ</value>
   </data>
   <data name="WebContainer_Loading" xml:space="preserve">
-    <value>正在加载...</value>
+    <value>読み込み中...</value>
   </data>
   <data name="Window_Close" xml:space="preserve">
-    <value>关闭</value>
+    <value>閉じる</value>
   </data>
   <data name="Window_Maximize" xml:space="preserve">
     <value>最大化</value>
@@ -604,9 +604,9 @@
     <value>最小化</value>
   </data>
   <data name="Window_Reduction" xml:space="preserve">
-    <value>还原</value>
+    <value>元に戻す</value>
   </data>
   <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
-    <value>》</value>
+    <value>をお読みください。</value>
   </data>
 </root>

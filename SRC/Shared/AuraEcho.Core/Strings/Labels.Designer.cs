@@ -250,6 +250,24 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
+        ///   查找类似 日语 的本地化字符串。
+        /// </summary>
+        public static string AppLanguage_ja_JP {
+            get {
+                return ResourceManager.GetString("AppLanguage_ja_JP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 日语 的本地化字符串。
+        /// </summary>
+        public static string AppLanguage_Japanese {
+            get {
+                return ResourceManager.GetString("AppLanguage_Japanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 韩语 的本地化字符串。
         /// </summary>
         public static string AppLanguage_ko_KR {

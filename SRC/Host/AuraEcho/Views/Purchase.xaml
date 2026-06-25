@@ -446,12 +446,15 @@
                                                             <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                                         </i:DataTrigger>
                                                     </i:Interaction.Triggers>
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                Margin="8">
                                                         <TextBlock Margin="0,0,0,8"
                                                                    Foreground="#FFFFFF"
+                                                                   TextWrapping="Wrap"
                                                                    Style="{DynamicResource TitleMediumTextBlockStyle}"
                                                                    Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_QRCodeExpired}" />
                                                         <TextBlock Foreground="#FFFFFF"
+                                                                   TextWrapping="Wrap"
                                                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
                                                                    Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ClickQRToRefresh}" />
                                                     </StackPanel>

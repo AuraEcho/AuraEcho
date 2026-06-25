@@ -53,6 +53,7 @@
                                 <x:Static Member="pm:AppLanguage.ChineseSimplified" />
                                 <x:Static Member="pm:AppLanguage.English" />
                                 <x:Static Member="pm:AppLanguage.Korean" />
+                                <x:Static Member="pm:AppLanguage.Japanese" />
                             </x:Array>
                         </ComboBox.ItemsSource>
                     </ComboBox>

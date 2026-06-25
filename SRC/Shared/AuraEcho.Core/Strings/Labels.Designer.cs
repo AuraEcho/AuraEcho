@@ -223,11 +223,47 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
+        ///   查找类似 简体中文 的本地化字符串。
+        /// </summary>
+        public static string AppLanguage_ChineseSimplified {
+            get {
+                return ResourceManager.GetString("AppLanguage_ChineseSimplified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 英语 的本地化字符串。
         /// </summary>
         public static string AppLanguage_en_US {
             get {
                 return ResourceManager.GetString("AppLanguage_en_US", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 英语 的本地化字符串。
+        /// </summary>
+        public static string AppLanguage_English {
+            get {
+                return ResourceManager.GetString("AppLanguage_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 韩语 的本地化字符串。
+        /// </summary>
+        public static string AppLanguage_ko_KR {
+            get {
+                return ResourceManager.GetString("AppLanguage_ko_KR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 韩语 的本地化字符串。
+        /// </summary>
+        public static string AppLanguage_Korean {
+            get {
+                return ResourceManager.GetString("AppLanguage_Korean", resourceCulture);
             }
         }
         
@@ -246,6 +282,33 @@ namespace AuraEcho.Core.Strings {
         public static string AppName {
             get {
                 return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 深色 的本地化字符串。
+        /// </summary>
+        public static string AppTheme_Dark {
+            get {
+                return ResourceManager.GetString("AppTheme_Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 跟随系统 的本地化字符串。
+        /// </summary>
+        public static string AppTheme_FollowSystem {
+            get {
+                return ResourceManager.GetString("AppTheme_FollowSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 浅色 的本地化字符串。
+        /// </summary>
+        public static string AppTheme_Light {
+            get {
+                return ResourceManager.GetString("AppTheme_Light", resourceCulture);
             }
         }
         

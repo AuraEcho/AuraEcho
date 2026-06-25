@@ -177,6 +177,27 @@
   <data name="AppLanguage_zh_CN" xml:space="preserve">
     <value>Chinese</value>
   </data>
+  <data name="AppLanguage_ko_KR" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
+    <value>Chinese (Simplified)</value>
+  </data>
+  <data name="AppLanguage_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="AppLanguage_Korean" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="AppTheme_FollowSystem" xml:space="preserve">
+    <value>Follow System</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>AuraEcho</value>
   </data>

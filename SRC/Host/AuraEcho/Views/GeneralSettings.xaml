@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:converters="clr-namespace:AuraEcho.Converters"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              d:Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              d:DataContext="{d:DesignInstance Type=viewmodels:GeneralSettingsViewModel}"
@@ -14,6 +15,9 @@
              d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:EnumLocalizationConverter x:Key="EnumLocalizationConverter" />
+    </UserControl.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadSettingsCommand}" />
@@ -39,10 +43,16 @@
                               DockPanel.Dock="Right"
                               SelectedIndex="0"
                               SelectedItem="{Binding AppLanguage}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource EnumLocalizationConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                         <ComboBox.ItemsSource>
                             <x:Array Type="{x:Type pm:AppLanguage}">
                                 <x:Static Member="pm:AppLanguage.ChineseSimplified" />
                                 <x:Static Member="pm:AppLanguage.English" />
+                                <x:Static Member="pm:AppLanguage.Korean" />
                             </x:Array>
                         </ComboBox.ItemsSource>
                     </ComboBox>
@@ -81,6 +91,11 @@
                               DockPanel.Dock="Right"
                               SelectedIndex="0"
                               SelectedItem="{Binding AppTheme}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource EnumLocalizationConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                         <ComboBox.ItemsSource>
                             <x:Array Type="{x:Type pm:AppTheme}">
                                 <x:Static Member="pm:AppTheme.Light" />

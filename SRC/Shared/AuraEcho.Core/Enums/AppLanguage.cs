@@ -13,5 +13,7 @@ public enum AppLanguage
     [Description(nameof(Labels.AppLanguage_zh_CN))]
     zh_CN,
     [Description(nameof(Labels.AppLanguage_en_US))]
-    en_US
+    en_US,
+    [Description(nameof(Labels.AppLanguage_ko_KR))]
+    ko_KR
 }

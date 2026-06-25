@@ -46,6 +46,7 @@ public class GeneralSettingsViewModel : BindableBase
         {
             AppLanguage.ChineseSimplified => new CultureInfo("zh-CN"),
             AppLanguage.English => new CultureInfo("en-US"),
+            AppLanguage.Korean => new CultureInfo("ko-KR"),
             _ => throw new ArgumentOutOfRangeException(nameof(language), language, null)
         };
 

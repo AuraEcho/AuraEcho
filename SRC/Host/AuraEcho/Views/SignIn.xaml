@@ -14,10 +14,11 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:SignInViewModel}"
              d:DesignHeight="640"
              d:DesignWidth="960"
-             UseLayoutRounding="True"
              d:Foreground="{DynamicResource Brushes.OnSurface}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+             Loaded="UserControl_Loaded"
+             UseLayoutRounding="True"
              mc:Ignorable="d">
     <Grid Background="{DynamicResource Brushes.Special.Background}">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -25,10 +26,10 @@
                 <Grid>
                     <Border Width="80"
                             Height="80"
-                            Visibility="Visible"
                             Margin="0,0,0,12"
                             Background="#7F9A3BFF"
-                            CornerRadius="8">
+                            CornerRadius="8"
+                            Visibility="Visible">
                         <Border.Effect>
                             <BlurEffect Radius="100" />
                         </Border.Effect>
@@ -43,8 +44,8 @@
                         <Border BorderThickness="1" CornerRadius="8">
                             <Border.BorderBrush>
                                 <LinearGradientBrush StartPoint="0.5, 0.5" EndPoint="1, 0">
-                                    <GradientStop Offset="0" Color="#00FFFFFF"/>
-                                    <GradientStop Offset="1" Color="#FFFFFFFF"/>
+                                    <GradientStop Offset="0" Color="#00FFFFFF" />
+                                    <GradientStop Offset="1" Color="#FFFFFFFF" />
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
                         </Border>
@@ -53,9 +54,9 @@
                 <TextBlock Margin="0,0,0,40"
                            HorizontalAlignment="Center"
                            FontFamily="Microsoft YaHei UI"
+                           Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"
                            Style="{DynamicResource DisplayLargeTextBlockStyle}"
-                           Text="灵光回声"
-                           Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"/>
+                           Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
 
                 <Border Width="400"
                         Height="320"
@@ -63,14 +64,13 @@
                         BorderBrush="{DynamicResource Brushes.Special.HighlightOutline}"
                         BorderThickness="1"
                         CornerRadius="8">
-                    <Grid Margin="24">
+                    <Grid Margin="24,20">
                         <StackPanel VerticalAlignment="Top">
-                            <Grid Margin="0,0,0,16">
+                            <Grid x:Name="SignModeLayout" Margin="0,0,0,16">
                                 <Grid.Resources>
                                     <Storyboard x:Key="ToCodeButton">
                                         <DoubleAnimation Storyboard.TargetName="SignInModeBg"
                                                          Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
-                                                         To="10"
                                                          Duration="0:0:0.3">
                                             <DoubleAnimation.EasingFunction>
                                                 <BackEase Amplitude="0.4" EasingMode="EaseOut" />
@@ -80,7 +80,6 @@
                                     <Storyboard x:Key="ToPasswordButton">
                                         <DoubleAnimation Storyboard.TargetName="SignInModeBg"
                                                          Storyboard.TargetProperty="(Shape.RenderTransform).(TranslateTransform.X)"
-                                                         To="120"
                                                          Duration="0:0:0.3">
                                             <DoubleAnimation.EasingFunction>
                                                 <BackEase Amplitude="0.4" EasingMode="EaseOut" />
@@ -89,7 +88,7 @@
                                     </Storyboard>
                                 </Grid.Resources>
                                 <Rectangle x:Name="SignInModeBg"
-                                           Width="60"
+                                           Width="64"
                                            Height="12"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Bottom"
@@ -97,13 +96,14 @@
                                            RadiusX="2"
                                            RadiusY="2">
                                     <Rectangle.RenderTransform>
-                                        <TranslateTransform X="10" Y="2" />
+                                        <TranslateTransform X="8" Y="2" />
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
-                                <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
-                                    <RadioButton Margin="0,0,24,0"
+                                <StackPanel x:Name="SignModeButtonPanel" Orientation="Horizontal">
+                                    <RadioButton x:Name="CodeModeRadioButton"
+                                                 Margin="0,0,24,0"
                                                  Command="{Binding ResetDataCommand}"
-                                                 Content="验证码登录"
+                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_CodeLoginTab}"
                                                  FontSize="18"
                                                  IsChecked="True"
                                                  Style="{DynamicResource TextRadioButtonStyle}">
@@ -119,8 +119,9 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </RadioButton>
-                                    <RadioButton Command="{Binding ResetDataCommand}"
-                                                 Content="密码登录"
+                                    <RadioButton x:Name="PasswordModeRadioButton"
+                                                 Command="{Binding ResetDataCommand}"
+                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_PasswordLoginTab}"
                                                  FontSize="18"
                                                  Style="{DynamicResource TextRadioButtonStyle}">
                                         <i:Interaction.Triggers>
@@ -144,7 +145,7 @@
                                         <TextBox Height="40"
                                                  Margin="0,0,0,24"
                                                  Padding="8,0"
-                                                 ui:ControlHelper.PlaceHolder="邮箱"
+                                                 ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_EmailPlaceholder}"
                                                  ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                  FontSize="16"
                                                  MaxLength="40"
@@ -181,7 +182,7 @@
                                                 <TextBox Height="40"
                                                          Margin="0,0,0,2"
                                                          Padding="8,0"
-                                                         ui:ControlHelper.PlaceHolder="验证码"
+                                                         ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_VerificationCodePlaceholder}"
                                                          ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                          FontSize="16"
                                                          InputMethod.IsInputMethodEnabled="False"
@@ -200,8 +201,14 @@
                                                            VerticalAlignment="Center"
                                                            d:Text="重新发送(49)"
                                                            FontSize="14"
-                                                           Foreground="#8c8c8c"
-                                                           Text="{Binding SendEmailCodeCooldown, StringFormat=重新发送({0})}" />
+                                                           Foreground="#8c8c8c">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0}({1})">
+                                                            <Binding Path="Labels.SignIn_ResendCode" Source="{StaticResource R}" />
+                                                            <Binding Path="SendEmailCodeCooldown" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
                                                 <TextBlock x:Name="SendEmailCodeTextBlock"
                                                            Margin="0,0,12,0"
                                                            HorizontalAlignment="Right"
@@ -211,16 +218,16 @@
                                                     <Hyperlink Command="{Binding SendEmailCodeCommand}"
                                                                Cursor="Hand"
                                                                KeyboardNavigation.IsTabStop="False">
-                                                        获取验证码
+                                                        <Run Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_GetCode, Mode=OneWay}" />
                                                     </Hyperlink>
                                                 </TextBlock>
                                             </Grid>
                                         </Grid>
                                         <Button Height="45"
                                                 Command="{Binding SignInByCodeCommand}"
-                                                Content="登录 / 注册"
-                                                IsDefault="True"
+                                                Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInOrRegisterButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
+                                                IsDefault="True"
                                                 Style="{DynamicResource PrimaryButtonStyle}">
                                             <Button.IsEnabled>
                                                 <Binding Path="IsSigningInByCode">
@@ -238,7 +245,7 @@
                                         <TextBox Height="40"
                                                  Margin="0,0,0,24"
                                                  Padding="8,0"
-                                                 ui:ControlHelper.PlaceHolder="邮箱"
+                                                 ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_EmailPlaceholder}"
                                                  ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                  FontSize="16"
                                                  MaxLength="40"
@@ -255,7 +262,7 @@
                                                          Margin="0,0,0,2"
                                                          Padding="8,0"
                                                          VerticalAlignment="Top"
-                                                         ui:ControlHelper.PlaceHolder="密码"
+                                                         ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_PasswordPlaceholder}"
                                                          ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                          ui:PasswordBoxHelper.Attach="True"
                                                          ui:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -267,19 +274,19 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                                 <i:Interaction.Behaviors>
-                                                    <ui:IgnoreKeyBehavior Key="Space"/>
+                                                    <ui:IgnoreKeyBehavior Key="Space" />
                                                 </i:Interaction.Behaviors>
                                             </PasswordBox>
 
                                             <TextBlock HorizontalAlignment="Right" FontSize="14">
                                                 <Hyperlink Command="{Binding NavigationToResetPasswordCommand}" Cursor="Hand">
-                                                    忘记密码?
+                                                    <Run Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_ForgotPassword, Mode=OneWay}" />
                                                 </Hyperlink>
                                             </TextBlock>
                                         </StackPanel>
                                         <Button Height="45"
                                                 Command="{Binding SignInByPasswordCommand}"
-                                                Content="登录"
+                                                Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
                                                 Style="{DynamicResource PrimaryButtonStyle}">
@@ -299,11 +306,11 @@
                             <TextBlock Margin="0,0,0,2"
                                        FontSize="12"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                       Text="未注册邮箱验证后系统将自动注册账号" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_AutoRegisterHint}" />
                             <TextBlock FontSize="12" TextWrapping="Wrap">
-                                <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="登录或完成注册即代表您同意" />
+                                <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_AgreeToEULA, Mode=OneWay}" />
                                 <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
-                                    最终用户许可协议
+                                    <Run Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_EULA, Mode=OneWay}" />
                                 </Hyperlink>
                             </TextBlock>
                         </StackPanel>

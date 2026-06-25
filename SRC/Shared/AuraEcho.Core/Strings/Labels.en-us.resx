@@ -117,14 +117,455 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppName" xml:space="preserve">
-    <value>AuraEcho</value>
+  <data name="AccountSettings_Avatar" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="AccountSettings_AvatarSizeExceeded" xml:space="preserve">
+    <value>Image size cannot exceed 2MB</value>
+  </data>
+  <data name="AccountSettings_AvatarUploadFailed" xml:space="preserve">
+    <value>Failed to upload avatar</value>
+  </data>
+  <data name="AccountSettings_ChangeAvatar" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="AccountSettings_ImageFileFilter" xml:space="preserve">
+    <value>Image files|*.jpg;*.png;*.jpeg;*.bmp</value>
+  </data>
+  <data name="AccountSettings_ProfileUpdateFailed" xml:space="preserve">
+    <value>Failed to update profile</value>
+  </data>
+  <data name="AccountSettings_ProfileUpdateSucceeded" xml:space="preserve">
+    <value>Profile updated successfully</value>
+  </data>
+  <data name="AccountSettings_SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="AccountSettings_SelectImageFile" xml:space="preserve">
+    <value>Select image file</value>
+  </data>
+  <data name="AccountSettings_Title" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountSettings_UserName" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="AccountSettings_UserNameLengthHint" xml:space="preserve">
+    <value>Username must be 4-16 characters long</value>
+  </data>
+  <data name="AccountSettings_UserNameLengthInvalid" xml:space="preserve">
+    <value>Username must be 4-16 characters long</value>
+  </data>
+  <data name="AccountSettings_UserNameNoSpaces" xml:space="preserve">
+    <value>Username cannot contain spaces</value>
+  </data>
+  <data name="AccountSettings_UserNameNoSpecialChars" xml:space="preserve">
+    <value>Username cannot contain special characters</value>
+  </data>
+  <data name="AccountSettings_UserNameRequired" xml:space="preserve">
+    <value>Username cannot be empty</value>
+  </data>
+  <data name="AccountSettings_UserNameSpecialCharHint" xml:space="preserve">
+    <value>Username cannot contain special characters</value>
+  </data>
+  <data name="App_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="AppLanguage_en_US" xml:space="preserve">
+    <value>English</value>
   </data>
   <data name="AppLanguage_zh_CN" xml:space="preserve">
     <value>Chinese</value>
   </data>
-  <data name="AppLanguage_en_US" xml:space="preserve">
-    <value>English</value>
+  <data name="AppName" xml:space="preserve">
+    <value>AuraEcho</value>
+  </data>
+  <data name="GeneralSettings_HardwareAcceleration" xml:space="preserve">
+    <value>Hardware Acceleration</value>
+  </data>
+  <data name="GeneralSettings_HardwareAccelerationDescription" xml:space="preserve">
+    <value>Use GPU graphics acceleration when available</value>
+  </data>
+  <data name="GeneralSettings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="GeneralSettings_LanguageDescription" xml:space="preserve">
+    <value>Choose the language used by AuraEcho</value>
+  </data>
+  <data name="GeneralSettings_RunAtBoot" xml:space="preserve">
+    <value>Run at system startup</value>
+  </data>
+  <data name="GeneralSettings_RunAtBootDescription" xml:space="preserve">
+    <value>Automatically start AuraEcho after the system starts</value>
+  </data>
+  <data name="GeneralSettings_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="GeneralSettings_ThemeDescription" xml:space="preserve">
+    <value>Choose the theme used by AuraEcho</value>
+  </data>
+  <data name="GeneralSettings_Title" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Homepage_PluginCancelUninstall" xml:space="preserve">
+    <value>Cancel Uninstall</value>
+  </data>
+  <data name="Homepage_PluginOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Homepage_PluginUninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Homepage_UninstallConfirmAck" xml:space="preserve">
+    <value>Got it</value>
+  </data>
+  <data name="Homepage_UninstallPending" xml:space="preserve">
+    <value>Uninstall Pending</value>
+  </data>
+  <data name="Homepage_UninstallPendingMessage" xml:space="preserve">
+    <value>The uninstall operation for this extension is pending and will take effect the next time AuraEcho starts.</value>
+  </data>
+  <data name="MainWindow_ApplyAfterRestart" xml:space="preserve">
+    <value>Will be applied after restart</value>
+  </data>
+  <data name="MainWindow_CurrentVersionPrefix" xml:space="preserve">
+    <value>Current version: </value>
+  </data>
+  <data name="MainWindow_KickedOutMessage" xml:space="preserve">
+    <value>Your account is signed in on another device and this device has been signed out. If this was not you, your password may have been compromised. Please change it as soon as possible.</value>
+  </data>
+  <data name="MainWindow_KickedOutTitle" xml:space="preserve">
+    <value>Account signed in on another device</value>
+  </data>
+  <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
+    <value>Latest version: </value>
+  </data>
+  <data name="MainWindow_MinimizedToTray" xml:space="preserve">
+    <value>The app has been minimized to the system tray</value>
+  </data>
+  <data name="MainWindow_PendingRestart" xml:space="preserve">
+    <value>Pending restart</value>
+  </data>
+  <data name="MainWindow_ReLogin" xml:space="preserve">
+    <value>Sign in again</value>
+  </data>
+  <data name="MainWindow_RestartNow" xml:space="preserve">
+    <value>Restart now</value>
+  </data>
+  <data name="MainWindow_RestartToUpdate" xml:space="preserve">
+    <value>Restart to update</value>
+  </data>
+  <data name="MainWindow_SignInExpiredCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MainWindow_SignInExpiredMessage" xml:space="preserve">
+    <value>Your session has expired. You can stay on this screen or sign in again.</value>
+  </data>
+  <data name="MainWindow_SignInExpiredTitle" xml:space="preserve">
+    <value>Session expired</value>
+  </data>
+  <data name="MainWindow_SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="MainWindow_TrayNotificationHint" xml:space="preserve">
+    <value>Go to personalization settings to turn off push notifications</value>
+  </data>
+  <data name="MainWindow_UninstallPending" xml:space="preserve">
+    <value>Uninstall pending</value>
+  </data>
+  <data name="MarketplacePluginDetails_Acquire" xml:space="preserve">
+    <value>Get</value>
+  </data>
+  <data name="MarketplacePluginDetails_Acquiring" xml:space="preserve">
+    <value>Acquiring...</value>
+  </data>
+  <data name="MarketplacePluginDetails_ApproximateSize" xml:space="preserve">
+    <value>Approximate size</value>
+  </data>
+  <data name="MarketplacePluginDetails_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MarketplacePluginDetails_DownloadingPrefix" xml:space="preserve">
+    <value>Downloading (</value>
+  </data>
+  <data name="MarketplacePluginDetails_Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="MarketplacePluginDetails_Installing" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="MarketplacePluginDetails_LastUpdateDate" xml:space="preserve">
+    <value>Last updated</value>
+  </data>
+  <data name="MarketplacePluginDetails_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="MarketplacePluginDetails_OtherInfo" xml:space="preserve">
+    <value>Other information</value>
+  </data>
+  <data name="MarketplacePluginDetails_PublishDate" xml:space="preserve">
+    <value>Published</value>
+  </data>
+  <data name="MarketplacePluginDetails_Publisher" xml:space="preserve">
+    <value>Publisher</value>
+  </data>
+  <data name="MarketplacePluginDetails_ReleaseNotes" xml:space="preserve">
+    <value>What's new in this version</value>
+  </data>
+  <data name="MarketplacePluginDetails_Screenshots" xml:space="preserve">
+    <value>Screenshots</value>
+  </data>
+  <data name="MarketplacePluginDetails_UserCount" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="MarketplacePluginDetails_Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="PasswordResetCompleted_LoginPrompt" xml:space="preserve">
+    <value>You can now sign in to AuraEcho with your new password.</value>
+  </data>
+  <data name="PasswordResetCompleted_ReLoginButton" xml:space="preserve">
+    <value>Sign In Again</value>
+  </data>
+  <data name="PasswordResetCompleted_SuccessMessage" xml:space="preserve">
+    <value>Your password has been reset!</value>
+  </data>
+  <data name="PasswordResetCompleted_Title" xml:space="preserve">
+    <value>Password Reset</value>
+  </data>
+  <data name="PluginsMarketplace" xml:space="preserve">
+    <value>Marketplace</value>
+  </data>
+  <data name="PluginsMarketplace_Subtitle" xml:space="preserve">
+    <value>Say goodbye to bloated pre-installed features and keep only what you really need.</value>
+  </data>
+  <data name="Purchase_Alipay" xml:space="preserve">
+    <value>Alipay</value>
+  </data>
+  <data name="Purchase_AlipayScanTip" xml:space="preserve">
+    <value>Scan with Alipay to pay</value>
+  </data>
+  <data name="Purchase_ChooseSubscription" xml:space="preserve">
+    <value>Choose your subscription</value>
+  </data>
+  <data name="Purchase_ClickQRToRefresh" xml:space="preserve">
+    <value>Click the QR code to refresh</value>
+  </data>
+  <data name="Purchase_DoneButton" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Purchase_LifetimeLicense" xml:space="preserve">
+    <value>Lifetime</value>
+  </data>
+  <data name="Purchase_MonthlyLicense" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="Purchase_OrderNumber" xml:space="preserve">
+    <value>Order number</value>
+  </data>
+  <data name="Purchase_OrderPaidSuccess" xml:space="preserve">
+    <value>Order paid successfully!</value>
+  </data>
+  <data name="Purchase_PaymentMethod" xml:space="preserve">
+    <value>Payment method</value>
+  </data>
+  <data name="Purchase_PaymentSuccess" xml:space="preserve">
+    <value>Payment successful</value>
+  </data>
+  <data name="Purchase_PaymentSuccessMessage" xml:space="preserve">
+    <value>Thank you for your subscription. The order has been paid successfully.</value>
+  </data>
+  <data name="Purchase_PaymentTime" xml:space="preserve">
+    <value>Payment time</value>
+  </data>
+  <data name="Purchase_QRCodeExpired" xml:space="preserve">
+    <value>QR code expired</value>
+  </data>
+  <data name="Purchase_QRCodeGenerateFailed" xml:space="preserve">
+    <value>Failed to generate payment QR code</value>
+  </data>
+  <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
+    <value>Please read the </value>
+  </data>
+  <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
+    <value>Subscribe to unlock all of </value>
+  </data>
+  <data name="Purchase_SubscribeToUnlockSuffix" xml:space="preserve">
+    <value>'s features.</value>
+  </data>
+  <data name="Purchase_SubscriptionExpiryPrefix" xml:space="preserve">
+    <value>Expires </value>
+  </data>
+  <data name="Purchase_SubscriptionExpirySuffix" xml:space="preserve">
+    <value>. Renew on purchase.</value>
+  </data>
+  <data name="Purchase_SubscriptionSupportMessagePrefix" xml:space="preserve">
+    <value>Your subscription keeps </value>
+  </data>
+  <data name="Purchase_SubscriptionSupportMessageSuffix" xml:space="preserve">
+    <value> updated and maintained. Thank you!</value>
+  </data>
+  <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
+    <value>Membership Agreement </value>
+  </data>
+  <data name="Purchase_WeChatPay" xml:space="preserve">
+    <value>WeChat Pay</value>
+  </data>
+  <data name="Purchase_WeChatScanTip" xml:space="preserve">
+    <value>Scan with WeChat to pay</value>
+  </data>
+  <data name="Purchase_YearlyLicense" xml:space="preserve">
+    <value>Yearly</value>
+  </data>
+  <data name="ResetPassword_BackButton" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="ResetPassword_CodeSentToEmail" xml:space="preserve">
+    <value>Verification code sent to {0}</value>
+  </data>
+  <data name="ResetPassword_EmailCodeInvalid" xml:space="preserve">
+    <value>Invalid verification code</value>
+  </data>
+  <data name="ResetPassword_EmailCodeRequired" xml:space="preserve">
+    <value>Verification code cannot be empty!</value>
+  </data>
+  <data name="ResetPassword_EmailInvalidFormat" xml:space="preserve">
+    <value>Please enter a valid email format</value>
+  </data>
+  <data name="ResetPassword_EmailPlaceholder" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ResetPassword_EmailRequired" xml:space="preserve">
+    <value>Email address cannot be empty!</value>
+  </data>
+  <data name="ResetPassword_GetCode" xml:space="preserve">
+    <value>Get Code</value>
+  </data>
+  <data name="ResetPassword_NewPasswordPlaceholder" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="ResetPassword_PasswordHint" xml:space="preserve">
+    <value>New password must be at least 8 characters and include letters and numbers</value>
+  </data>
+  <data name="ResetPassword_PasswordMustContainLetterAndDigit" xml:space="preserve">
+    <value>Password must contain both letters and numbers!</value>
+  </data>
+  <data name="ResetPassword_PasswordNoSpaces" xml:space="preserve">
+    <value>Password cannot contain spaces!</value>
+  </data>
+  <data name="ResetPassword_PasswordRequired" xml:space="preserve">
+    <value>Password cannot be empty!</value>
+  </data>
+  <data name="ResetPassword_PasswordTooShort" xml:space="preserve">
+    <value>Password is too short!</value>
+  </data>
+  <data name="ResetPassword_ResendCode" xml:space="preserve">
+    <value>Resend </value>
+  </data>
+  <data name="ResetPassword_ResetButton" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="ResetPassword_ServerBusy" xml:space="preserve">
+    <value>Server is busy. Please try again later.</value>
+  </data>
+  <data name="ResetPassword_Title" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="ResetPassword_UserNotFound" xml:space="preserve">
+    <value>User does not exist. Please check the email address.</value>
+  </data>
+  <data name="ResetPassword_UserNotFoundShort" xml:space="preserve">
+    <value>User does not exist</value>
+  </data>
+  <data name="ResetPassword_VerificationCodePlaceholder" xml:space="preserve">
+    <value>Verification Code</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_NavAccount" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Settings_NavGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SignIn_AccountOrPasswordError" xml:space="preserve">
+    <value>Incorrect account or password</value>
+  </data>
+  <data name="SignIn_AgreeToEULA" xml:space="preserve">
+    <value>By signing in or completing registration, you agree to the</value>
+  </data>
+  <data name="SignIn_AutoRegisterHint" xml:space="preserve">
+    <value>Unregistered emails will be automatically registered after verification</value>
+  </data>
+  <data name="SignIn_CodeError" xml:space="preserve">
+    <value>Invalid verification code</value>
+  </data>
+  <data name="SignIn_CodeLoginTab" xml:space="preserve">
+    <value>Code Sign-In</value>
+  </data>
+  <data name="SignIn_CodeRequired" xml:space="preserve">
+    <value>Verification code cannot be empty!</value>
+  </data>
+  <data name="SignIn_CodeSendFailed" xml:space="preserve">
+    <value>An error occurred while sending the verification code</value>
+  </data>
+  <data name="SignIn_CodeSent" xml:space="preserve">
+    <value>Verification code sent to {0}</value>
+  </data>
+  <data name="SignIn_EmailInvalidFormat" xml:space="preserve">
+    <value>Please enter a valid email format</value>
+  </data>
+  <data name="SignIn_EmailPlaceholder" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="SignIn_EmailRequired" xml:space="preserve">
+    <value>Email address cannot be empty!</value>
+  </data>
+  <data name="SignIn_EULA" xml:space="preserve">
+    <value>End User License Agreement</value>
+  </data>
+  <data name="SignIn_ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="SignIn_GetCode" xml:space="preserve">
+    <value>Get Code</value>
+  </data>
+  <data name="SignIn_PasswordLoginTab" xml:space="preserve">
+    <value>Password Sign-In</value>
+  </data>
+  <data name="SignIn_PasswordPlaceholder" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SignIn_PasswordRequired" xml:space="preserve">
+    <value>Password cannot be empty!</value>
+  </data>
+  <data name="SignIn_ResendCode" xml:space="preserve">
+    <value>Resend </value>
+  </data>
+  <data name="SignIn_ServerBusy" xml:space="preserve">
+    <value>Server is busy. Please try again later.</value>
+  </data>
+  <data name="SignIn_SignInButton" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="SignIn_SignInOrRegisterButton" xml:space="preserve">
+    <value>Sign In / Register</value>
+  </data>
+  <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
+    <value>Verification Code</value>
+  </data>
+  <data name="SignInExpired_Message" xml:space="preserve">
+    <value>Your session has expired. Please sign in again.</value>
+  </data>
+  <data name="SignInExpired_SignInButton" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="SignInExpired_Title" xml:space="preserve">
+    <value>Session Expired</value>
+  </data>
+  <data name="WebContainer_Loading" xml:space="preserve">
+    <value>Loading...</value>
   </data>
   <data name="Window_Close" xml:space="preserve">
     <value>Close</value>
@@ -138,13 +579,7 @@
   <data name="Window_Reduction" xml:space="preserve">
     <value>Reduction</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="PluginsMarketplace" xml:space="preserve">
-    <value>Marketplace</value>
-  </data>
-  <data name="App_Exit" xml:space="preserve">
-    <value>Exit</value>
+  <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
+    <value> before paying.</value>
   </data>
 </root>

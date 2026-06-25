@@ -1,6 +1,7 @@
 using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
@@ -91,9 +92,9 @@ public class HomepageViewModel : BindableBase
                 {
                     { "DialogArgs", new RegionDialogParameter
                     {
-                        ConfirmText = "我知道了",
-                        Message = "此扩展的卸载操作已挂起，将在灵光回声下次启动时生效。",
-                        Title = "卸载挂起"
+                        ConfirmText = Labels.Homepage_UninstallConfirmAck,
+                        Message = Labels.Homepage_UninstallPendingMessage,
+                        Title = Labels.Homepage_UninstallPending
                     }}
                 });
     }

@@ -19,14 +19,14 @@
                   Height="24">
                 <TextBlock Margin="4"
                            VerticalAlignment="Center"
-                           Text="SIGN IN EXPIRED" />
+                           Text="{Binding Source={StaticResource R}, Path=Labels.SignInExpired_Title}" />
             </Grid>
             <TextBlock Grid.Row="1"
                        Margin="0,0,0,0"
                        FontSize="16"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Text="SIGN IN EXPIRED"
+                       Text="{Binding Source={StaticResource R}, Path=Labels.SignInExpired_Message}"
                        TextWrapping="Wrap" />
             <StackPanel Grid.Row="2"
                         Margin="8"
@@ -36,7 +36,7 @@
                         FontSize="16"
                         Style="{DynamicResource PrimaryButtonStyle}"
                         Command="{Binding SignInCommand}"
-                        Content="SIGN IN" />
+                        Content="{Binding Source={StaticResource R}, Path=Labels.SignInExpired_SignInButton}" />
             </StackPanel>
         </Grid>
     </Border>

@@ -1,6 +1,7 @@
 ﻿using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.Core.Enums;
 using AuraEcho.Core.Extensions;
 using AuraEcho.PluginContracts.Interfaces;
@@ -78,13 +79,13 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
 
             if (result.Status != ResultStatus.Success)
             {
-                _toastService.Show("个人信息更新失败", ToastLevel.Error);
+                _toastService.Show(Labels.AccountSettings_ProfileUpdateFailed, ToastLevel.Error);
                 return;
             }
 
             var userInfo = await _authRepository.GetCurrentUserAsync();
             _clientSession.UpdateUserProfile(userInfo.ToUserProfile());
-            _toastService.Show("个人信息更新成功", ToastLevel.Success);
+            _toastService.Show(Labels.AccountSettings_ProfileUpdateSucceeded, ToastLevel.Success);
         }
         finally
         {
@@ -97,12 +98,12 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
     {
         var fileInfo = new FileInfo(filePath);
 
-        if (fileInfo.Length > 2 * 1024 * 1024) throw new Exception("图像大小不能超过2MB");
+        if (fileInfo.Length > 2 * 1024 * 1024) throw new Exception(Labels.AccountSettings_AvatarSizeExceeded);
 
         var uploadResult = await _storageRepository.UploadFileAsync(filePath);
         if (uploadResult is null)
         {
-            _toastService.Show("上传头像失败", ToastLevel.Error);
+            _toastService.Show(Labels.AccountSettings_AvatarUploadFailed, ToastLevel.Error);
             return;
         }
 
@@ -121,10 +122,10 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
     }
     private string ValidateCore(string propertyName) => propertyName switch
     {
-        nameof(NewUserName) when String.IsNullOrWhiteSpace(NewUserName) => "用户名不能为空",
-        nameof(NewUserName) when NewUserName.Contains(' ') => "用户名不能包含空格",
-        nameof(NewUserName) when NewUserName.Length < 4 || NewUserName.Length > 16 => "用户名长度应在4-16个字符之间",
-        nameof(NewUserName) when !UsernameRegex().IsMatch(NewUserName) => "用户名不能包含特殊字符",
+        nameof(NewUserName) when String.IsNullOrWhiteSpace(NewUserName) => Labels.AccountSettings_UserNameRequired,
+        nameof(NewUserName) when NewUserName.Contains(' ') => Labels.AccountSettings_UserNameNoSpaces,
+        nameof(NewUserName) when NewUserName.Length < 4 || NewUserName.Length > 16 => Labels.AccountSettings_UserNameLengthInvalid,
+        nameof(NewUserName) when !UsernameRegex().IsMatch(NewUserName) => Labels.AccountSettings_UserNameNoSpecialChars,
         _ => String.Empty
     };
 

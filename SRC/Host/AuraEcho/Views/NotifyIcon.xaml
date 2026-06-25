@@ -34,11 +34,12 @@
         </MenuItem>
     </ContextMenu>
 
+    <!-- 为什么不能使用 StaticResource R 绑定资源的方式呢 -->
     <tb:TaskbarIcon x:Key="NotifyIcon"
                     ContextMenu="{StaticResource SysTrayMenu}"
                     DoubleClickCommand="{Binding ShowWindowCommand}"
                     IconSource="/Assets/Icons/AuraEcho.ico"
-                    ToolTipText="AuraEcho">
+                    ToolTipText="{Binding Source={x:Static tools:ApplicationResources.Current}, Path=Labels.AppName}">
         <!--<tb:TaskbarIcon.DataContext>
             <vm:NotifyIconViewModel />
         </tb:TaskbarIcon.DataContext>-->

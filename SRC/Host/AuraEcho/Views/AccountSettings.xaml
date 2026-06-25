@@ -23,12 +23,12 @@
             <TextBlock Margin="0,0,0,24"
                        HorizontalAlignment="Left"
                        Style="{DynamicResource HeadlineLargeTextBlockStyle}"
-                       Text="账户" />
+                       Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_Title}" />
             <WrapPanel>
                 <StackPanel Margin="0,0,0,24">
                     <TextBlock Margin="0,0,0,8"
                                Style="{DynamicResource BodyLargeTextBlockStyle}"
-                               Text="头像" />
+                               Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_Avatar}" />
                     <Grid Width="150" Height="150">
                         <Border BorderBrush="{DynamicResource Brushes.Outline}"
                                 BorderThickness="1"
@@ -49,7 +49,7 @@
                             <Border.Background>
                                 <ImageBrush pcap:WebImageHelper.DecodePixelWidth="300"
                                             pcap:WebImageHelper.Url="{Binding NewAvatarFileUrl}"
-                                            Stretch="UniformToFill"/>
+                                            Stretch="UniformToFill" />
                             </Border.Background>
                         </Border>
                         <Border Margin="8"
@@ -74,7 +74,7 @@
                                            Padding="0"
                                            VerticalAlignment="Center"
                                            VerticalContentAlignment="Center"
-                                           Content="更改"
+                                           Content="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_ChangeAvatar}"
                                            FontSize="{DynamicResource FontSize.Label.Small}"
                                            Foreground="{DynamicResource Brushes.OnSurface}" />
                                 </StackPanel>
@@ -86,7 +86,7 @@
                 <StackPanel UseLayoutRounding="True">
                     <TextBlock Margin="0,0,0,8"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                               Text="用户名" />
+                               Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_UserName}" />
                     <TextBox x:Name="NewUserNameTextBox"
                              Width="200"
                              Height="40"
@@ -105,10 +105,11 @@
                     </TextBox>
                     <TextBlock Margin="0,0,0,24"
                                Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                               Style="{DynamicResource BodySmallTextBlockStyle}">
-                        <Run Text="用户名长度应在4-16个字符之间" />
+                               Style="{DynamicResource BodySmallTextBlockStyle}"
+                               TextWrapping="Wrap">
+                        <Run Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_UserNameLengthHint, Mode=OneWay}" />
                         <LineBreak />
-                        <Run Text="用户名不能包含特殊字符" />
+                        <Run Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_UserNameSpecialCharHint, Mode=OneWay}" />
                         <TextBlock.Visibility>
                             <Binding ElementName="NewUserNameTextBox" Path="(Validation.HasError)">
                                 <Binding.Converter>
@@ -120,7 +121,7 @@
                     <Button Padding="24,8"
                             HorizontalAlignment="Left"
                             Command="{Binding UpdateProfileCommand}"
-                            Content="保存修改"
+                            Content="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_SaveChanges}"
                             FontSize="{DynamicResource FontSize.Label.Medium}"
                             Style="{DynamicResource PrimaryButtonStyle}" />
                 </StackPanel>

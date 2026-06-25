@@ -2,6 +2,7 @@ using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
 using AuraEcho.Core.Attributes;
 using AuraEcho.Core.Events;
+using AuraEcho.Core.Strings;
 using AuraEcho.ViewModels;
 using Prism.Events;
 namespace AuraEcho.Views;
@@ -102,8 +103,8 @@ public partial class MainWindow : Window
         int conversationId = 384928;
 
         new ToastContentBuilder().AddArgument("conversationId", conversationId)
-                                 .AddText("程序已最小化到系统托盘")
-                                 .AddText("可转到个性化界面关闭推送通知")
+                                 .AddText(Labels.MainWindow_MinimizedToTray)
+                                 .AddText(Labels.MainWindow_TrayNotificationHint)
                                  .Show();
     }
 

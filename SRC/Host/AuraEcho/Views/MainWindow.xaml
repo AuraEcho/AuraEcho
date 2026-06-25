@@ -61,9 +61,9 @@
                 <Rectangle Grid.Column="0"
                            Width="64"
                            Height="64"
+                           Margin="0,0,12,0"
                            RadiusX="16"
-                           RadiusY="16"
-                           Margin="0,0,12,0">
+                           RadiusY="16">
                     <Rectangle.Fill>
                         <ImageBrush>
                             <ImageBrush.ImageSource>
@@ -78,17 +78,28 @@
                     <TextBlock FontWeight="Bold"
                                Style="{DynamicResource TitleSmallTextBlockStyle}"
                                Text="{Binding Title}" />
-                    <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                               Style="{DynamicResource BodyMediumTextBlockStyle}"
-                               Text="{Binding Source={StaticResource BindingProxy}, Path=Data.CurrentVersion, StringFormat=当前版本：{0}}" />
+                    <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Style="{DynamicResource BodyMediumTextBlockStyle}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}{1}">
+                                <Binding Path="Labels.MainWindow_CurrentVersionPrefix" Source="{StaticResource R}" />
+                                <Binding Path="Data.CurrentVersion" Source="{StaticResource BindingProxy}" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="0,0,8,0"
                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="{Binding LatestVersion, StringFormat=最新版本：{0}}" />
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}{1}">
+                                    <Binding Path="Labels.MainWindow_LatestVersionPrefix" Source="{StaticResource R}" />
+                                    <Binding Path="LatestVersion" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                         <TextBlock Foreground="{DynamicResource Brushes.Primary}"
                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="等待重启" />
+                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -98,9 +109,9 @@
                 <Rectangle Grid.Column="0"
                            Width="64"
                            Height="64"
+                           Margin="0,0,12,0"
                            RadiusX="16"
-                           RadiusY="16"
-                           Margin="0,0,12,0">
+                           RadiusY="16">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="{Binding IconPath}" />
                     </Rectangle.Fill>
@@ -111,15 +122,21 @@
                                Text="{Binding Title}" />
                     <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                               Text="当前版本：1.2.0" />
+                               Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_CurrentVersionPrefix, StringFormat={}{0}1.2.0}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="0,0,8,0"
                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="{Binding LatestVersion, StringFormat=最新版本：{0}}" />
+                                   Style="{DynamicResource BodyMediumTextBlockStyle}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}{1}">
+                                    <Binding Path="Labels.MainWindow_LatestVersionPrefix" Source="{StaticResource R}" />
+                                    <Binding Path="LatestVersion" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                         <TextBlock Foreground="{DynamicResource Brushes.Primary}"
                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="等待重启" />
+                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -129,9 +146,9 @@
                 <Rectangle Grid.Column="0"
                            Width="64"
                            Height="64"
+                           Margin="0,0,12,0"
                            RadiusX="16"
-                           RadiusY="16"
-                           Margin="0,0,12,0">
+                           RadiusY="16">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="{Binding IconPath}" />
                     </Rectangle.Fill>
@@ -142,15 +159,15 @@
                                Text="{Binding Title}" />
                     <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                               Text="卸载已挂起" />
+                               Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_UninstallPending}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="0,0,8,0"
                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="将在重启后应用" />
+                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_ApplyAfterRestart}" />
                         <TextBlock Foreground="{DynamicResource Brushes.Primary}"
                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="等待重启" />
+                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -318,7 +335,7 @@
                                   Background="Transparent"
                                   BorderThickness="0"
                                   Foreground="{DynamicResource Brushes.Primary}"
-                                  ToolTip="等待重启"
+                                  ToolTip="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}"
                                   WindowChrome.IsHitTestVisibleInChrome="True">
                         <i:Interaction.Triggers>
                             <i:DataTrigger Binding="{Binding PendingRestartItems.Count}" Value="0">
@@ -568,7 +585,7 @@
                                 <TextBlock Margin="0,0,0,8"
                                            FontSize="{DynamicResource FontSize.Body.Medium}"
                                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                           Text="重启以更新" />
+                                           Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_RestartToUpdate}" />
                                 <ScrollViewer Grid.Row="1" Margin="0,0,0,12">
                                     <ItemsControl ItemsSource="{Binding PendingRestartItems}">
                                         <ItemsControl.ItemTemplateSelector>
@@ -582,7 +599,7 @@
                                 <Button Grid.Row="2"
                                         Padding="0,8"
                                         Command="{Binding Source={StaticResource BindingProxy}, Path=Data.RequestRestartAppCommand}"
-                                        Content="现在重启"
+                                        Content="{Binding Source={StaticResource R}, Path=Labels.MainWindow_RestartNow}"
                                         FontSize="{DynamicResource FontSize.Label.Medium}"
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                             </Grid>
@@ -684,7 +701,7 @@
                                         <Button Margin="8,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 Command="{Binding SignOutCommand}"
-                                                Content="退出登录"
+                                                Content="{Binding Source={StaticResource R}, Path=Labels.MainWindow_SignOut}"
                                                 FontSize="{DynamicResource FontSize.Label.Medium}"
                                                 Foreground="{DynamicResource Brushes.Primary}"
                                                 Style="{DynamicResource IconButtonStyle}" />
@@ -734,7 +751,7 @@
                                                           StrokeThickness="1.5" />
                                                 </Canvas>
                                             </Viewbox>
-                                            <TextBlock VerticalAlignment="Center" Text="设置" />
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource R}, Path=Labels.Settings}" />
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>

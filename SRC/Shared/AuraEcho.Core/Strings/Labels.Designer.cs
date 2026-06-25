@@ -61,6 +61,159 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
+        ///   查找类似 头像 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_Avatar {
+            get {
+                return ResourceManager.GetString("AccountSettings_Avatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 图像大小不能超过2MB 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_AvatarSizeExceeded {
+            get {
+                return ResourceManager.GetString("AccountSettings_AvatarSizeExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传头像失败 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_AvatarUploadFailed {
+            get {
+                return ResourceManager.GetString("AccountSettings_AvatarUploadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更改 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_ChangeAvatar {
+            get {
+                return ResourceManager.GetString("AccountSettings_ChangeAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 图像文件|*.jpg;*.png;*.jpeg;*.bmp 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_ImageFileFilter {
+            get {
+                return ResourceManager.GetString("AccountSettings_ImageFileFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 个人信息更新失败 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_ProfileUpdateFailed {
+            get {
+                return ResourceManager.GetString("AccountSettings_ProfileUpdateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 个人信息更新成功 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_ProfileUpdateSucceeded {
+            get {
+                return ResourceManager.GetString("AccountSettings_ProfileUpdateSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存修改 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_SaveChanges {
+            get {
+                return ResourceManager.GetString("AccountSettings_SaveChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 选择图像文件 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_SelectImageFile {
+            get {
+                return ResourceManager.GetString("AccountSettings_SelectImageFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 账户 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_Title {
+            get {
+                return ResourceManager.GetString("AccountSettings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_UserName {
+            get {
+                return ResourceManager.GetString("AccountSettings_UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名长度应在4-16个字符之间 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_UserNameLengthHint {
+            get {
+                return ResourceManager.GetString("AccountSettings_UserNameLengthHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名长度应在4-16个字符之间 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_UserNameLengthInvalid {
+            get {
+                return ResourceManager.GetString("AccountSettings_UserNameLengthInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名不能包含空格 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_UserNameNoSpaces {
+            get {
+                return ResourceManager.GetString("AccountSettings_UserNameNoSpaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名不能包含特殊字符 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_UserNameNoSpecialChars {
+            get {
+                return ResourceManager.GetString("AccountSettings_UserNameNoSpecialChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名不能为空 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_UserNameRequired {
+            get {
+                return ResourceManager.GetString("AccountSettings_UserNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名不能包含特殊字符 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_UserNameSpecialCharHint {
+            get {
+                return ResourceManager.GetString("AccountSettings_UserNameSpecialCharHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 退出 的本地化字符串。
         /// </summary>
         public static string App_Exit {
@@ -97,6 +250,465 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
+        ///   查找类似 硬件加速 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_HardwareAcceleration {
+            get {
+                return ResourceManager.GetString("GeneralSettings_HardwareAcceleration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在可用时使用 GPU 图形加速 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_HardwareAccelerationDescription {
+            get {
+                return ResourceManager.GetString("GeneralSettings_HardwareAccelerationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 语言 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_Language {
+            get {
+                return ResourceManager.GetString("GeneralSettings_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 选择灵光回声使用的语言 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_LanguageDescription {
+            get {
+                return ResourceManager.GetString("GeneralSettings_LanguageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 随系统启动 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_RunAtBoot {
+            get {
+                return ResourceManager.GetString("GeneralSettings_RunAtBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在启动系统后自动启动灵光回声 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_RunAtBootDescription {
+            get {
+                return ResourceManager.GetString("GeneralSettings_RunAtBootDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主题 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_Theme {
+            get {
+                return ResourceManager.GetString("GeneralSettings_Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 选择灵光回声使用的主题 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_ThemeDescription {
+            get {
+                return ResourceManager.GetString("GeneralSettings_ThemeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 常规 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_Title {
+            get {
+                return ResourceManager.GetString("GeneralSettings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 取消卸载 的本地化字符串。
+        /// </summary>
+        public static string Homepage_PluginCancelUninstall {
+            get {
+                return ResourceManager.GetString("Homepage_PluginCancelUninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开 的本地化字符串。
+        /// </summary>
+        public static string Homepage_PluginOpen {
+            get {
+                return ResourceManager.GetString("Homepage_PluginOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 卸载 的本地化字符串。
+        /// </summary>
+        public static string Homepage_PluginUninstall {
+            get {
+                return ResourceManager.GetString("Homepage_PluginUninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我知道了 的本地化字符串。
+        /// </summary>
+        public static string Homepage_UninstallConfirmAck {
+            get {
+                return ResourceManager.GetString("Homepage_UninstallConfirmAck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 卸载挂起 的本地化字符串。
+        /// </summary>
+        public static string Homepage_UninstallPending {
+            get {
+                return ResourceManager.GetString("Homepage_UninstallPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 此扩展的卸载操作已挂起，将在灵光回声下次启动时生效。 的本地化字符串。
+        /// </summary>
+        public static string Homepage_UninstallPendingMessage {
+            get {
+                return ResourceManager.GetString("Homepage_UninstallPendingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 将在重启后应用 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_ApplyAfterRestart {
+            get {
+                return ResourceManager.GetString("MainWindow_ApplyAfterRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 当前版本： 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_CurrentVersionPrefix {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentVersionPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您的账号已在其他设备登录，当前设备已下线。如果这不是您本人的操作，那么您的密码可能已经泄露，请尽快修改密码。 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_KickedOutMessage {
+            get {
+                return ResourceManager.GetString("MainWindow_KickedOutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 账号在其他设备登录 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_KickedOutTitle {
+            get {
+                return ResourceManager.GetString("MainWindow_KickedOutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最新版本： 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_LatestVersionPrefix {
+            get {
+                return ResourceManager.GetString("MainWindow_LatestVersionPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 程序已最小化到系统托盘 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_MinimizedToTray {
+            get {
+                return ResourceManager.GetString("MainWindow_MinimizedToTray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待重启 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_PendingRestart {
+            get {
+                return ResourceManager.GetString("MainWindow_PendingRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重新登录 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_ReLogin {
+            get {
+                return ResourceManager.GetString("MainWindow_ReLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 现在重启 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_RestartNow {
+            get {
+                return ResourceManager.GetString("MainWindow_RestartNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重启以更新 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_RestartToUpdate {
+            get {
+                return ResourceManager.GetString("MainWindow_RestartToUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 取消 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_SignInExpiredCancel {
+            get {
+                return ResourceManager.GetString("MainWindow_SignInExpiredCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您的登录状态已过期，您可以继续留在此界面，或者重新登录。 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_SignInExpiredMessage {
+            get {
+                return ResourceManager.GetString("MainWindow_SignInExpiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录已过期 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_SignInExpiredTitle {
+            get {
+                return ResourceManager.GetString("MainWindow_SignInExpiredTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退出登录 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_SignOut {
+            get {
+                return ResourceManager.GetString("MainWindow_SignOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 可转到个性化界面关闭推送通知 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_TrayNotificationHint {
+            get {
+                return ResourceManager.GetString("MainWindow_TrayNotificationHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 卸载已挂起 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_UninstallPending {
+            get {
+                return ResourceManager.GetString("MainWindow_UninstallPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Acquire {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Acquire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在获取... 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Acquiring {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Acquiring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 近似大小 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_ApproximateSize {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_ApproximateSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 描述 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Description {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在下载( 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_DownloadingPrefix {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_DownloadingPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 安装 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Install {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Install", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在安装... 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Installing {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Installing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上次更新日期 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_LastUpdateDate {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_LastUpdateDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Open {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 其他信息 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_OtherInfo {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_OtherInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发布日期 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_PublishDate {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_PublishDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发布者 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Publisher {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Publisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 此版本的更新内容 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_ReleaseNotes {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_ReleaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 屏幕截图 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Screenshots {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Screenshots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户数 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_UserCount {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_UserCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 版本 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Version {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 现在可使用新的密码登录到灵光回声。 的本地化字符串。
+        /// </summary>
+        public static string PasswordResetCompleted_LoginPrompt {
+            get {
+                return ResourceManager.GetString("PasswordResetCompleted_LoginPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重新登录 的本地化字符串。
+        /// </summary>
+        public static string PasswordResetCompleted_ReLoginButton {
+            get {
+                return ResourceManager.GetString("PasswordResetCompleted_ReLoginButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码已重置完成！ 的本地化字符串。
+        /// </summary>
+        public static string PasswordResetCompleted_SuccessMessage {
+            get {
+                return ResourceManager.GetString("PasswordResetCompleted_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码已重置 的本地化字符串。
+        /// </summary>
+        public static string PasswordResetCompleted_Title {
+            get {
+                return ResourceManager.GetString("PasswordResetCompleted_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 扩展商店 的本地化字符串。
         /// </summary>
         public static string PluginsMarketplace {
@@ -106,11 +718,704 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
+        ///   查找类似 告别臃肿的预装功能，只留下你真正需要的一切。 的本地化字符串。
+        /// </summary>
+        public static string PluginsMarketplace_Subtitle {
+            get {
+                return ResourceManager.GetString("PluginsMarketplace_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 支付宝 的本地化字符串。
+        /// </summary>
+        public static string Purchase_Alipay {
+            get {
+                return ResourceManager.GetString("Purchase_Alipay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请使用支付宝扫码支付 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AlipayScanTip {
+            get {
+                return ResourceManager.GetString("Purchase_AlipayScanTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 选择您的订阅 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ChooseSubscription {
+            get {
+                return ResourceManager.GetString("Purchase_ChooseSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请点击二维码刷新 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ClickQRToRefresh {
+            get {
+                return ResourceManager.GetString("Purchase_ClickQRToRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完成 的本地化字符串。
+        /// </summary>
+        public static string Purchase_DoneButton {
+            get {
+                return ResourceManager.GetString("Purchase_DoneButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 永久 的本地化字符串。
+        /// </summary>
+        public static string Purchase_LifetimeLicense {
+            get {
+                return ResourceManager.GetString("Purchase_LifetimeLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 月卡 的本地化字符串。
+        /// </summary>
+        public static string Purchase_MonthlyLicense {
+            get {
+                return ResourceManager.GetString("Purchase_MonthlyLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 订单编号 的本地化字符串。
+        /// </summary>
+        public static string Purchase_OrderNumber {
+            get {
+                return ResourceManager.GetString("Purchase_OrderNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 订单支付成功！ 的本地化字符串。
+        /// </summary>
+        public static string Purchase_OrderPaidSuccess {
+            get {
+                return ResourceManager.GetString("Purchase_OrderPaidSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 支付方式 的本地化字符串。
+        /// </summary>
+        public static string Purchase_PaymentMethod {
+            get {
+                return ResourceManager.GetString("Purchase_PaymentMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 支付成功 的本地化字符串。
+        /// </summary>
+        public static string Purchase_PaymentSuccess {
+            get {
+                return ResourceManager.GetString("Purchase_PaymentSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 感谢您的订阅，订单已支付成功。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_PaymentSuccessMessage {
+            get {
+                return ResourceManager.GetString("Purchase_PaymentSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 付款时间 的本地化字符串。
+        /// </summary>
+        public static string Purchase_PaymentTime {
+            get {
+                return ResourceManager.GetString("Purchase_PaymentTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 二维码已失效 的本地化字符串。
+        /// </summary>
+        public static string Purchase_QRCodeExpired {
+            get {
+                return ResourceManager.GetString("Purchase_QRCodeExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 支付二维码生成失败 的本地化字符串。
+        /// </summary>
+        public static string Purchase_QRCodeGenerateFailed {
+            get {
+                return ResourceManager.GetString("Purchase_QRCodeGenerateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 开通订阅，解锁 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscribeToUnlockPrefix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscribeToUnlockPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 所有功能。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscribeToUnlockSuffix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscribeToUnlockSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 订阅将于 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscriptionExpiryPrefix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscriptionExpiryPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 过期，购买后有效期顺延。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscriptionExpirySuffix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscriptionExpirySuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您的订阅将直接支持 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscriptionSupportMessagePrefix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscriptionSupportMessagePrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 的持续开发与维护，感谢！ 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscriptionSupportMessageSuffix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscriptionSupportMessageSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 会员订阅服务协议 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscriptionTermsLink {
+            get {
+                return ResourceManager.GetString("Purchase_SubscriptionTermsLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 支付前请阅读《 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscriptionTermsPrefix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscriptionTermsPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 》 的本地化字符串。
+        /// </summary>
+        public static string Purchase_SubscriptionTermsSuffix {
+            get {
+                return ResourceManager.GetString("Purchase_SubscriptionTermsSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 微信支付 的本地化字符串。
+        /// </summary>
+        public static string Purchase_WeChatPay {
+            get {
+                return ResourceManager.GetString("Purchase_WeChatPay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请使用微信扫一扫支付 的本地化字符串。
+        /// </summary>
+        public static string Purchase_WeChatScanTip {
+            get {
+                return ResourceManager.GetString("Purchase_WeChatScanTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 年卡 的本地化字符串。
+        /// </summary>
+        public static string Purchase_YearlyLicense {
+            get {
+                return ResourceManager.GetString("Purchase_YearlyLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 返回 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_BackButton {
+            get {
+                return ResourceManager.GetString("ResetPassword_BackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码已发送至 {0} 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_CodeSentToEmail {
+            get {
+                return ResourceManager.GetString("ResetPassword_CodeSentToEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码错误 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_EmailCodeInvalid {
+            get {
+                return ResourceManager.GetString("ResetPassword_EmailCodeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码不能为空！ 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_EmailCodeRequired {
+            get {
+                return ResourceManager.GetString("ResetPassword_EmailCodeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入有效的邮箱格式 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_EmailInvalidFormat {
+            get {
+                return ResourceManager.GetString("ResetPassword_EmailInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 邮箱 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_EmailPlaceholder {
+            get {
+                return ResourceManager.GetString("ResetPassword_EmailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 邮箱地址不能为空！ 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_EmailRequired {
+            get {
+                return ResourceManager.GetString("ResetPassword_EmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取验证码 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_GetCode {
+            get {
+                return ResourceManager.GetString("ResetPassword_GetCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新密码 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_NewPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("ResetPassword_NewPasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新密码应至少8个字符且包括字母和数字 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_PasswordHint {
+            get {
+                return ResourceManager.GetString("ResetPassword_PasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码必须同时包含字母和数字！ 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_PasswordMustContainLetterAndDigit {
+            get {
+                return ResourceManager.GetString("ResetPassword_PasswordMustContainLetterAndDigit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码不能包含空格！ 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_PasswordNoSpaces {
+            get {
+                return ResourceManager.GetString("ResetPassword_PasswordNoSpaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码不能为空！ 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_PasswordRequired {
+            get {
+                return ResourceManager.GetString("ResetPassword_PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码长度过短！ 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_PasswordTooShort {
+            get {
+                return ResourceManager.GetString("ResetPassword_PasswordTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重新发送 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_ResendCode {
+            get {
+                return ResourceManager.GetString("ResetPassword_ResendCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重置密码 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_ResetButton {
+            get {
+                return ResourceManager.GetString("ResetPassword_ResetButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服务器繁忙，请稍后重试。 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_ServerBusy {
+            get {
+                return ResourceManager.GetString("ResetPassword_ServerBusy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重置密码 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_Title {
+            get {
+                return ResourceManager.GetString("ResetPassword_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户不存在，请检查邮箱地址是否正确。 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_UserNotFound {
+            get {
+                return ResourceManager.GetString("ResetPassword_UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户不存在 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_UserNotFoundShort {
+            get {
+                return ResourceManager.GetString("ResetPassword_UserNotFoundShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码 的本地化字符串。
+        /// </summary>
+        public static string ResetPassword_VerificationCodePlaceholder {
+            get {
+                return ResourceManager.GetString("ResetPassword_VerificationCodePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置 的本地化字符串。
         /// </summary>
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 账户 的本地化字符串。
+        /// </summary>
+        public static string Settings_NavAccount {
+            get {
+                return ResourceManager.GetString("Settings_NavAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 常规 的本地化字符串。
+        /// </summary>
+        public static string Settings_NavGeneral {
+            get {
+                return ResourceManager.GetString("Settings_NavGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 账号或密码错误 的本地化字符串。
+        /// </summary>
+        public static string SignIn_AccountOrPasswordError {
+            get {
+                return ResourceManager.GetString("SignIn_AccountOrPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录或完成注册即代表您同意 的本地化字符串。
+        /// </summary>
+        public static string SignIn_AgreeToEULA {
+            get {
+                return ResourceManager.GetString("SignIn_AgreeToEULA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未注册邮箱验证后系统将自动注册账号 的本地化字符串。
+        /// </summary>
+        public static string SignIn_AutoRegisterHint {
+            get {
+                return ResourceManager.GetString("SignIn_AutoRegisterHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码错误 的本地化字符串。
+        /// </summary>
+        public static string SignIn_CodeError {
+            get {
+                return ResourceManager.GetString("SignIn_CodeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码登录 的本地化字符串。
+        /// </summary>
+        public static string SignIn_CodeLoginTab {
+            get {
+                return ResourceManager.GetString("SignIn_CodeLoginTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码不能为空！ 的本地化字符串。
+        /// </summary>
+        public static string SignIn_CodeRequired {
+            get {
+                return ResourceManager.GetString("SignIn_CodeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发送验证码时遇到了错误 的本地化字符串。
+        /// </summary>
+        public static string SignIn_CodeSendFailed {
+            get {
+                return ResourceManager.GetString("SignIn_CodeSendFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码已发送至 {0} 的本地化字符串。
+        /// </summary>
+        public static string SignIn_CodeSent {
+            get {
+                return ResourceManager.GetString("SignIn_CodeSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入有效的邮箱格式 的本地化字符串。
+        /// </summary>
+        public static string SignIn_EmailInvalidFormat {
+            get {
+                return ResourceManager.GetString("SignIn_EmailInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 邮箱 的本地化字符串。
+        /// </summary>
+        public static string SignIn_EmailPlaceholder {
+            get {
+                return ResourceManager.GetString("SignIn_EmailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 邮箱地址不能为空！ 的本地化字符串。
+        /// </summary>
+        public static string SignIn_EmailRequired {
+            get {
+                return ResourceManager.GetString("SignIn_EmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最终用户许可协议 的本地化字符串。
+        /// </summary>
+        public static string SignIn_EULA {
+            get {
+                return ResourceManager.GetString("SignIn_EULA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 忘记密码? 的本地化字符串。
+        /// </summary>
+        public static string SignIn_ForgotPassword {
+            get {
+                return ResourceManager.GetString("SignIn_ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取验证码 的本地化字符串。
+        /// </summary>
+        public static string SignIn_GetCode {
+            get {
+                return ResourceManager.GetString("SignIn_GetCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码登录 的本地化字符串。
+        /// </summary>
+        public static string SignIn_PasswordLoginTab {
+            get {
+                return ResourceManager.GetString("SignIn_PasswordLoginTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码 的本地化字符串。
+        /// </summary>
+        public static string SignIn_PasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("SignIn_PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码不能为空！ 的本地化字符串。
+        /// </summary>
+        public static string SignIn_PasswordRequired {
+            get {
+                return ResourceManager.GetString("SignIn_PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重新发送 的本地化字符串。
+        /// </summary>
+        public static string SignIn_ResendCode {
+            get {
+                return ResourceManager.GetString("SignIn_ResendCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服务器繁忙，请稍后重试。 的本地化字符串。
+        /// </summary>
+        public static string SignIn_ServerBusy {
+            get {
+                return ResourceManager.GetString("SignIn_ServerBusy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录 的本地化字符串。
+        /// </summary>
+        public static string SignIn_SignInButton {
+            get {
+                return ResourceManager.GetString("SignIn_SignInButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录 / 注册 的本地化字符串。
+        /// </summary>
+        public static string SignIn_SignInOrRegisterButton {
+            get {
+                return ResourceManager.GetString("SignIn_SignInOrRegisterButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证码 的本地化字符串。
+        /// </summary>
+        public static string SignIn_VerificationCodePlaceholder {
+            get {
+                return ResourceManager.GetString("SignIn_VerificationCodePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您的登录凭证已过期，请重新登录。 的本地化字符串。
+        /// </summary>
+        public static string SignInExpired_Message {
+            get {
+                return ResourceManager.GetString("SignInExpired_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录 的本地化字符串。
+        /// </summary>
+        public static string SignInExpired_SignInButton {
+            get {
+                return ResourceManager.GetString("SignInExpired_SignInButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录已过期 的本地化字符串。
+        /// </summary>
+        public static string SignInExpired_Title {
+            get {
+                return ResourceManager.GetString("SignInExpired_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在加载... 的本地化字符串。
+        /// </summary>
+        public static string WebContainer_Loading {
+            get {
+                return ResourceManager.GetString("WebContainer_Loading", resourceCulture);
             }
         }
         

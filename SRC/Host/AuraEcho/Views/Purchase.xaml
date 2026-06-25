@@ -53,13 +53,13 @@
                                     <i:ChangePropertyAction PropertyName="FontWeight" Value="SemiBold" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Monthly}">
-                                    <i:ChangePropertyAction PropertyName="Text" Value="月卡" />
+                                    <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_MonthlyLicense}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Yearly}">
-                                    <i:ChangePropertyAction PropertyName="Text" Value="年卡" />
+                                    <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_YearlyLicense}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Lifetime}">
-                                    <i:ChangePropertyAction PropertyName="Text" Value="永久" />
+                                    <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_LifetimeLicense}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
                         </TextBlock>
@@ -124,8 +124,15 @@
                                                d:Text="您的订阅将直接支持{插件名称}的持续开发与维护，感谢!"
                                                FontWeight="Regular"
                                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                               Text="{Binding CurrentPlugin.Name, StringFormat=您的订阅将直接支持{0}的持续开发与维护，感谢！}"
-                                               TextWrapping="Wrap" />
+                                               TextWrapping="Wrap">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}{1}{2}">
+                                                <Binding Path="Labels.Purchase_SubscriptionSupportMessagePrefix" Source="{StaticResource R}" />
+                                                <Binding Path="CurrentPlugin.Name" />
+                                                <Binding Path="Labels.Purchase_SubscriptionSupportMessageSuffix" Source="{StaticResource R}" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                     <TextBlock HorizontalAlignment="Right"
                                                d:Text="—— Suencesoft"
                                                FontWeight="Regular"
@@ -146,8 +153,8 @@
                                     <Border Width="42"
                                             Height="42"
                                             Margin="0,0,8,0"
-                                            CornerRadius="4"
                                             d:Background="Gray"
+                                            CornerRadius="4"
                                             DockPanel.Dock="Left">
                                         <Border.Background>
                                             <ImageBrush pcap:WebImageHelper.DecodePixelWidth="96"
@@ -181,10 +188,24 @@
                                                                             Value="{x:Static Visibility.Visible}" />
                                                 </i:DataTrigger>
                                             </i:Interaction.Triggers>
-                                            <TextBlock x:Name="HasnotLicenseRun"
-                                                       d:Text="开通订阅，解锁{插件名称}所有功能。"
-                                                       Text="{Binding CurrentPlugin.Name, StringFormat=开通订阅，解锁{0}所有功能。}" />
-                                            <TextBlock x:Name="HasLicenseRun" Text="{Binding CurrentPluginLicense.ExpiredAt, StringFormat=订阅将于{0:yyyy/MM/dd}过期，购买后有效期顺延。}" />
+                                            <TextBlock x:Name="HasnotLicenseRun" d:Text="开通订阅，解锁{插件名称}所有功能。">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}{1}{2}">
+                                                        <Binding Path="Labels.Purchase_SubscribeToUnlockPrefix" Source="{StaticResource R}" />
+                                                        <Binding Path="CurrentPlugin.Name" />
+                                                        <Binding Path="Labels.Purchase_SubscribeToUnlockSuffix" Source="{StaticResource R}" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock x:Name="HasLicenseRun">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}{1:yyyy/MM/dd}{2}">
+                                                        <Binding Path="Labels.Purchase_SubscriptionExpiryPrefix" Source="{StaticResource R}" />
+                                                        <Binding Path="CurrentPluginLicense.ExpiredAt" />
+                                                        <Binding Path="Labels.Purchase_SubscriptionExpirySuffix" Source="{StaticResource R}" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </TextBlock>
 
                                     </StackPanel>
@@ -216,7 +237,7 @@
                                         Margin="0,16,16,0">
                                 <TextBlock Margin="0,0,0,8"
                                            Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                           Text="选择您的订阅" />
+                                           Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ChooseSubscription}" />
                                 <ItemsControl Height="132"
                                               Margin="0,0,0,16"
                                               d:ItemsSource="{d:SampleData ItemCount=3}"
@@ -236,7 +257,7 @@
                                 <StackPanel Margin="0,0,8,0">
                                     <TextBlock Margin="0,0,0,8"
                                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                               Text="支付方式" />
+                                               Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentMethod}" />
                                     <RadioButton Height="40"
                                                  Margin="0,0,0,4"
                                                  HorizontalContentAlignment="Left"
@@ -260,7 +281,7 @@
                                             </Border>
                                             <TextBlock VerticalAlignment="Center"
                                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                       Text="微信支付" />
+                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" />
                                         </StackPanel>
                                     </RadioButton>
                                     <RadioButton Height="40"
@@ -284,7 +305,7 @@
                                             </Border>
                                             <TextBlock VerticalAlignment="Center"
                                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                       Text="支付宝" />
+                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" />
                                         </StackPanel>
                                     </RadioButton>
                                 </StackPanel>
@@ -293,6 +314,7 @@
                             <Grid Grid.Row="0"
                                   Grid.RowSpan="2"
                                   Grid.Column="1"
+                                  Width="180"
                                   RowDefinitions="*, Auto">
                                 <StackPanel Grid.Row="0" VerticalAlignment="Center">
                                     <TextBlock Margin="0,0,0,0"
@@ -428,10 +450,10 @@
                                                         <TextBlock Margin="0,0,0,8"
                                                                    Foreground="#FFFFFF"
                                                                    Style="{DynamicResource TitleMediumTextBlockStyle}"
-                                                                   Text="二维码已失效" />
+                                                                   Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_QRCodeExpired}" />
                                                         <TextBlock Foreground="#FFFFFF"
                                                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                                   Text="请点击二维码刷新" />
+                                                                   Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ClickQRToRefresh}" />
                                                     </StackPanel>
                                                 </Border>
                                             </Border>
@@ -448,7 +470,7 @@
                                                 <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Alipay}">
                                                     <i:ChangePropertyAction PropertyName="Text"
                                                                             TargetName="PaymentChannelTipText"
-                                                                            Value="请使用支付宝扫码支付" />
+                                                                            Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_AlipayScanTip}" />
                                                     <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
                                                         <i:ChangePropertyAction.Value>
                                                             <ImageBrush>
@@ -464,7 +486,7 @@
                                                 <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Wxpay}">
                                                     <i:ChangePropertyAction PropertyName="Text"
                                                                             TargetName="PaymentChannelTipText"
-                                                                            Value="请使用微信扫一扫支付" />
+                                                                            Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatScanTip}" />
                                                     <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
                                                         <i:ChangePropertyAction.Value>
                                                             <ImageBrush>
@@ -507,11 +529,11 @@
                                            HorizontalAlignment="Center"
                                            FontSize="11"
                                            TextWrapping="Wrap">
-                                    <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="支付前请阅读" /><Hyperlink Command="{Binding OpenSubscriptionTermsCommand}"
+                                    <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_SubscriptionTermsPrefix, Mode=OneWay}" /><Hyperlink Command="{Binding OpenSubscriptionTermsCommand}"
                                                Cursor="Hand"
                                                Foreground="{DynamicResource Brushes.OnSurface}">
-                                        《会员订阅服务协议》
-                                    </Hyperlink>
+                                        <Run Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_SubscriptionTermsLink, Mode=OneWay}" />
+                                    </Hyperlink><Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_SubscriptionTermsSuffix, Mode=OneWay}" />
                                 </TextBlock>
                             </Grid>
                         </Grid>
@@ -562,12 +584,12 @@
                                 <TextBlock Margin="0,0,0,12"
                                            HorizontalAlignment="Center"
                                            Style="{DynamicResource DisplaySmallTextBlockStyle}"
-                                           Text="支付成功" />
+                                           Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentSuccess}" />
                                 <TextBlock Margin="0,0,0,12"
                                            HorizontalAlignment="Center"
                                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                            Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                           Text="感谢您的订阅，订单已支付成功。" />
+                                           Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentSuccessMessage}" />
 
                                 <Border Width="320"
                                         Margin="0,0,0,24"
@@ -578,7 +600,7 @@
                                         <DockPanel Margin="0,0,0,4" LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="订单编号" />
+                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_OrderNumber}" />
                                             <TextBlock HorizontalAlignment="Right"
                                                        d:Text="2026061116224445384999291"
                                                        Text="{Binding CurrentOrderInfo.OrderNumber}" />
@@ -586,7 +608,7 @@
                                         <DockPanel Margin="0,0,0,4" LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="付款时间" />
+                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentTime}" />
                                             <TextBlock HorizontalAlignment="Right"
                                                        d:Text="2026/06/10 10:06:33"
                                                        Text="{Binding CurrentOrderInfo.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
@@ -594,14 +616,14 @@
                                         <DockPanel LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="支付方式" />
-                                            <TextBlock HorizontalAlignment="Right" d:Text="微信支付">
+                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentMethod}" />
+                                            <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}">
                                                 <i:Interaction.Triggers>
                                                     <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
-                                                        <i:ChangePropertyAction PropertyName="Text" Value="支付宝" />
+                                                        <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" />
                                                     </i:DataTrigger>
                                                     <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
-                                                        <i:ChangePropertyAction PropertyName="Text" Value="微信支付" />
+                                                        <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" />
                                                     </i:DataTrigger>
                                                 </i:Interaction.Triggers>
                                             </TextBlock>
@@ -614,7 +636,7 @@
                                         Height="40"
                                         HorizontalAlignment="Center"
                                         Command="{Binding OkCommand}"
-                                        Content="完成"
+                                        Content="{Binding Source={StaticResource R}, Path=Labels.Purchase_DoneButton}"
                                         FontSize="{DynamicResource FontSize.Label.Large}"
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                             </StackPanel>

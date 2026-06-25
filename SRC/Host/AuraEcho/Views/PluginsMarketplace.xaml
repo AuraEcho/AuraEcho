@@ -144,14 +144,16 @@
                     <Border x:Name="SmallBannerLayout" d:Visibility="Hidden">
                         <TextBlock FontSize="28"
                                    FontWeight="SemiBold"
-                                   Text="扩展商店" />
+                                   Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace}" />
                     </Border>
                     <Grid x:Name="NormalBannerLayout">
                         <Viewbox>
                             <Grid Width="480"
                                   Height="100"
                                   UseLayoutRounding="True">
-                                <Border Margin="0,8,0,0" Background="#A43C2F" CornerRadius="4"/>
+                                <Border Margin="0,8,0,0"
+                                        Background="#A43C2F"
+                                        CornerRadius="4" />
                                 <Border Width="80"
                                         HorizontalAlignment="Right"
                                         CornerRadius="4"
@@ -174,11 +176,11 @@
                                 <TextBlock FontSize="{DynamicResource FontSize.Headline.Large}"
                                            FontWeight="SemiBold"
                                            Foreground="White"
-                                           Text="扩展商店" />
+                                           Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace}" />
                                 <TextBlock Margin="0,16,0,0"
                                            FontSize="{DynamicResource FontSize.Body.Large}"
                                            Foreground="White"
-                                           Text="告别臃肿的预装功能，只留下你真正需要的一切。"
+                                           Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace_Subtitle}"
                                            TextWrapping="Wrap">
                                     <i:Interaction.Triggers>
                                         <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"

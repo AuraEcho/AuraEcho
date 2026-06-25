@@ -2,6 +2,7 @@ using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Tools;
 using AuraEcho.Events;
@@ -149,10 +150,10 @@ public class MainWindowViewModel : BindableBase
                 {
                     { "DialogArgs", new RegionDialogParameter
                     {
-                        CancelText = "重新登录",
-                        ConfirmText = "退出",
-                        Message = "您的账号已在其他设备登录，当前设备已下线。如果这不是您本人的操作，那么您的密码可能已经泄露，请尽快修改密码。",
-                        Title = "账号在其他设备登录"
+                        CancelText = Labels.MainWindow_ReLogin,
+                        ConfirmText = Labels.App_Exit,
+                        Message = Labels.MainWindow_KickedOutMessage,
+                        Title = Labels.MainWindow_KickedOutTitle
                     }}
                 });
 
@@ -175,10 +176,10 @@ public class MainWindowViewModel : BindableBase
                 {
                     { "DialogArgs", new RegionDialogParameter
                     {
-                        CancelText = "取消",
-                        ConfirmText = "重新登录",
-                        Message = "您的登录状态已过期，您可以继续留在此界面，或者重新登录。",
-                        Title = "登录已过期"
+                        CancelText = Labels.MainWindow_SignInExpiredCancel,
+                        ConfirmText = Labels.MainWindow_ReLogin,
+                        Message = Labels.MainWindow_SignInExpiredMessage,
+                        Title = Labels.MainWindow_SignInExpiredTitle
                     }}
                 });
 

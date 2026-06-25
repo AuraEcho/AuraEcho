@@ -24,7 +24,7 @@
             <TextBlock Margin="0,0,0,24"
                        HorizontalAlignment="Left"
                        Style="{DynamicResource HeadlineLargeTextBlockStyle}"
-                       Text="常规" />
+                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_Title}" />
             <Border Height="64"
                     Margin="0,0,0,4"
                     Padding="16,0"
@@ -57,11 +57,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="语言" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_Language}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="选择灵光回声使用的语言" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_LanguageDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -100,11 +100,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="主题" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_Theme}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="选择灵光回声使用的主题" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_ThemeDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -132,11 +132,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="硬件加速" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_HardwareAcceleration}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="在可用时使用 GPU 图形加速" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_HardwareAccelerationDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -164,11 +164,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="随系统启动" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_RunAtBoot}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="在启动系统后自动启动灵光回声" />
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_RunAtBootDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>

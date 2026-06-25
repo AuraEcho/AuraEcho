@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows.Controls;
+using AuraEcho.Core.Strings;
 using AuraEcho.ViewModels;
 
 namespace AuraEcho.Views
@@ -18,8 +19,8 @@ namespace AuraEcho.Views
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
-                Title = "选择图像文件",
-                Filter = "图像文件|*.jpg;*.png;*.jpeg;*.bmp",
+                Title = Labels.AccountSettings_SelectImageFile,
+                Filter = Labels.AccountSettings_ImageFileFilter,
             };
             if (dialog.ShowDialog() != true) return;
 

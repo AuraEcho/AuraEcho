@@ -1,5 +1,6 @@
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
@@ -56,12 +57,12 @@ public class SettingsViewModel : BindableBase
         [
             new()
             {
-                Name = "账户",
+                Name = Labels.Settings_NavAccount,
                 ViewName = ViewNames.AccountSettings
             },
             new()
             {
-                Name = "常规",
+                Name = Labels.Settings_NavGeneral,
                 ViewName = ViewNames.GeneralSettings
             }
         ];

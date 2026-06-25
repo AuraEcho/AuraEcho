@@ -2,6 +2,7 @@ using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
@@ -85,11 +86,11 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         if (requestResult is null || requestResult.Status != ResultStatus.Success)
         {
             SendEmailCodeCooldown = 0;
-            _toastService.Show($"发送验证码时遇到了错误", ToastLevel.Error);
+            _toastService.Show(Labels.SignIn_CodeSendFailed, ToastLevel.Error);
             return;
         }
 
-        _toastService.Show($"验证码已发送至 {Email}", ToastLevel.Info);
+        _toastService.Show(string.Format(Labels.SignIn_CodeSent, Email), ToastLevel.Info);
 
         _ = Task.Run(async () =>
         {
@@ -131,7 +132,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result?.Status == ResultStatus.EmailCodeError)
         {
-            _errors[nameof(EmailCode)] = ["验证码错误"];
+            _errors[nameof(EmailCode)] = [Labels.SignIn_CodeError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
             IsSigningInByCode = false;
             return;
@@ -139,7 +140,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
+            _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
             IsSigningInByCode = false;
             return;
         }
@@ -164,10 +165,10 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
     private string ValidateCore(string propertyName) => propertyName switch
     {
-        nameof(Email) when String.IsNullOrWhiteSpace(Email) => "邮箱地址不能为空！",
-        nameof(Email) when EmailRegex.IsMatch(Email) == false => "请输入有效的邮箱格式",
-        nameof(EmailCode) when String.IsNullOrWhiteSpace(EmailCode) => "验证码不能为空！",
-        nameof(Password) when String.IsNullOrWhiteSpace(Password) => "密码不能为空！",
+        nameof(Email) when String.IsNullOrWhiteSpace(Email) => Labels.SignIn_EmailRequired,
+        nameof(Email) when EmailRegex.IsMatch(Email) == false => Labels.SignIn_EmailInvalidFormat,
+        nameof(EmailCode) when String.IsNullOrWhiteSpace(EmailCode) => Labels.SignIn_CodeRequired,
+        nameof(Password) when String.IsNullOrWhiteSpace(Password) => Labels.SignIn_PasswordRequired,
         _ => String.Empty
     };
 
@@ -198,7 +199,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result?.Status == ResultStatus.PasswordError)
         {
-            _errors[nameof(Email)] = ["账号或密码错误"];
+            _errors[nameof(Email)] = [Labels.SignIn_AccountOrPasswordError];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
             IsSigningInByPassword = false;
             return;
@@ -206,7 +207,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
+            _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
             IsSigningInByPassword = false;
             return;
         }

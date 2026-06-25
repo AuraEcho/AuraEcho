@@ -117,14 +117,455 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppName" xml:space="preserve">
-    <value>灵光回声</value>
+  <data name="AccountSettings_Avatar" xml:space="preserve">
+    <value>头像</value>
+  </data>
+  <data name="AccountSettings_AvatarSizeExceeded" xml:space="preserve">
+    <value>图像大小不能超过2MB</value>
+  </data>
+  <data name="AccountSettings_AvatarUploadFailed" xml:space="preserve">
+    <value>上传头像失败</value>
+  </data>
+  <data name="AccountSettings_ChangeAvatar" xml:space="preserve">
+    <value>更改</value>
+  </data>
+  <data name="AccountSettings_ImageFileFilter" xml:space="preserve">
+    <value>图像文件|*.jpg;*.png;*.jpeg;*.bmp</value>
+  </data>
+  <data name="AccountSettings_ProfileUpdateFailed" xml:space="preserve">
+    <value>个人信息更新失败</value>
+  </data>
+  <data name="AccountSettings_ProfileUpdateSucceeded" xml:space="preserve">
+    <value>个人信息更新成功</value>
+  </data>
+  <data name="AccountSettings_SaveChanges" xml:space="preserve">
+    <value>保存修改</value>
+  </data>
+  <data name="AccountSettings_SelectImageFile" xml:space="preserve">
+    <value>选择图像文件</value>
+  </data>
+  <data name="AccountSettings_Title" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="AccountSettings_UserName" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="AccountSettings_UserNameLengthHint" xml:space="preserve">
+    <value>用户名长度应在4-16个字符之间</value>
+  </data>
+  <data name="AccountSettings_UserNameLengthInvalid" xml:space="preserve">
+    <value>用户名长度应在4-16个字符之间</value>
+  </data>
+  <data name="AccountSettings_UserNameNoSpaces" xml:space="preserve">
+    <value>用户名不能包含空格</value>
+  </data>
+  <data name="AccountSettings_UserNameNoSpecialChars" xml:space="preserve">
+    <value>用户名不能包含特殊字符</value>
+  </data>
+  <data name="AccountSettings_UserNameRequired" xml:space="preserve">
+    <value>用户名不能为空</value>
+  </data>
+  <data name="AccountSettings_UserNameSpecialCharHint" xml:space="preserve">
+    <value>用户名不能包含特殊字符</value>
+  </data>
+  <data name="App_Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="AppLanguage_en_US" xml:space="preserve">
+    <value>英语</value>
   </data>
   <data name="AppLanguage_zh_CN" xml:space="preserve">
     <value>简体中文</value>
   </data>
-  <data name="AppLanguage_en_US" xml:space="preserve">
-    <value>英语</value>
+  <data name="AppName" xml:space="preserve">
+    <value>灵光回声</value>
+  </data>
+  <data name="GeneralSettings_HardwareAcceleration" xml:space="preserve">
+    <value>硬件加速</value>
+  </data>
+  <data name="GeneralSettings_HardwareAccelerationDescription" xml:space="preserve">
+    <value>在可用时使用 GPU 图形加速</value>
+  </data>
+  <data name="GeneralSettings_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="GeneralSettings_LanguageDescription" xml:space="preserve">
+    <value>选择灵光回声使用的语言</value>
+  </data>
+  <data name="GeneralSettings_RunAtBoot" xml:space="preserve">
+    <value>随系统启动</value>
+  </data>
+  <data name="GeneralSettings_RunAtBootDescription" xml:space="preserve">
+    <value>在启动系统后自动启动灵光回声</value>
+  </data>
+  <data name="GeneralSettings_Theme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="GeneralSettings_ThemeDescription" xml:space="preserve">
+    <value>选择灵光回声使用的主题</value>
+  </data>
+  <data name="GeneralSettings_Title" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="Homepage_PluginCancelUninstall" xml:space="preserve">
+    <value>取消卸载</value>
+  </data>
+  <data name="Homepage_PluginOpen" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Homepage_PluginUninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+  <data name="Homepage_UninstallConfirmAck" xml:space="preserve">
+    <value>我知道了</value>
+  </data>
+  <data name="Homepage_UninstallPending" xml:space="preserve">
+    <value>卸载挂起</value>
+  </data>
+  <data name="Homepage_UninstallPendingMessage" xml:space="preserve">
+    <value>此扩展的卸载操作已挂起，将在灵光回声下次启动时生效。</value>
+  </data>
+  <data name="MainWindow_ApplyAfterRestart" xml:space="preserve">
+    <value>将在重启后应用</value>
+  </data>
+  <data name="MainWindow_CurrentVersionPrefix" xml:space="preserve">
+    <value>当前版本：</value>
+  </data>
+  <data name="MainWindow_KickedOutMessage" xml:space="preserve">
+    <value>您的账号已在其他设备登录，当前设备已下线。如果这不是您本人的操作，那么您的密码可能已经泄露，请尽快修改密码。</value>
+  </data>
+  <data name="MainWindow_KickedOutTitle" xml:space="preserve">
+    <value>账号在其他设备登录</value>
+  </data>
+  <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
+    <value>最新版本：</value>
+  </data>
+  <data name="MainWindow_MinimizedToTray" xml:space="preserve">
+    <value>程序已最小化到系统托盘</value>
+  </data>
+  <data name="MainWindow_PendingRestart" xml:space="preserve">
+    <value>等待重启</value>
+  </data>
+  <data name="MainWindow_ReLogin" xml:space="preserve">
+    <value>重新登录</value>
+  </data>
+  <data name="MainWindow_RestartNow" xml:space="preserve">
+    <value>现在重启</value>
+  </data>
+  <data name="MainWindow_RestartToUpdate" xml:space="preserve">
+    <value>重启以更新</value>
+  </data>
+  <data name="MainWindow_SignInExpiredCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="MainWindow_SignInExpiredMessage" xml:space="preserve">
+    <value>您的登录状态已过期，您可以继续留在此界面，或者重新登录。</value>
+  </data>
+  <data name="MainWindow_SignInExpiredTitle" xml:space="preserve">
+    <value>登录已过期</value>
+  </data>
+  <data name="MainWindow_SignOut" xml:space="preserve">
+    <value>退出登录</value>
+  </data>
+  <data name="MainWindow_TrayNotificationHint" xml:space="preserve">
+    <value>可转到个性化界面关闭推送通知</value>
+  </data>
+  <data name="MainWindow_UninstallPending" xml:space="preserve">
+    <value>卸载已挂起</value>
+  </data>
+  <data name="MarketplacePluginDetails_Acquire" xml:space="preserve">
+    <value>获取</value>
+  </data>
+  <data name="MarketplacePluginDetails_Acquiring" xml:space="preserve">
+    <value>正在获取...</value>
+  </data>
+  <data name="MarketplacePluginDetails_ApproximateSize" xml:space="preserve">
+    <value>近似大小</value>
+  </data>
+  <data name="MarketplacePluginDetails_Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="MarketplacePluginDetails_DownloadingPrefix" xml:space="preserve">
+    <value>正在下载(</value>
+  </data>
+  <data name="MarketplacePluginDetails_Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="MarketplacePluginDetails_Installing" xml:space="preserve">
+    <value>正在安装...</value>
+  </data>
+  <data name="MarketplacePluginDetails_LastUpdateDate" xml:space="preserve">
+    <value>上次更新日期</value>
+  </data>
+  <data name="MarketplacePluginDetails_Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="MarketplacePluginDetails_OtherInfo" xml:space="preserve">
+    <value>其他信息</value>
+  </data>
+  <data name="MarketplacePluginDetails_PublishDate" xml:space="preserve">
+    <value>发布日期</value>
+  </data>
+  <data name="MarketplacePluginDetails_Publisher" xml:space="preserve">
+    <value>发布者</value>
+  </data>
+  <data name="MarketplacePluginDetails_ReleaseNotes" xml:space="preserve">
+    <value>此版本的更新内容</value>
+  </data>
+  <data name="MarketplacePluginDetails_Screenshots" xml:space="preserve">
+    <value>屏幕截图</value>
+  </data>
+  <data name="MarketplacePluginDetails_UserCount" xml:space="preserve">
+    <value>用户数</value>
+  </data>
+  <data name="MarketplacePluginDetails_Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="PasswordResetCompleted_LoginPrompt" xml:space="preserve">
+    <value>现在可使用新的密码登录到灵光回声。</value>
+  </data>
+  <data name="PasswordResetCompleted_ReLoginButton" xml:space="preserve">
+    <value>重新登录</value>
+  </data>
+  <data name="PasswordResetCompleted_SuccessMessage" xml:space="preserve">
+    <value>密码已重置完成！</value>
+  </data>
+  <data name="PasswordResetCompleted_Title" xml:space="preserve">
+    <value>密码已重置</value>
+  </data>
+  <data name="PluginsMarketplace" xml:space="preserve">
+    <value>扩展商店</value>
+  </data>
+  <data name="PluginsMarketplace_Subtitle" xml:space="preserve">
+    <value>告别臃肿的预装功能，只留下你真正需要的一切。</value>
+  </data>
+  <data name="Purchase_Alipay" xml:space="preserve">
+    <value>支付宝</value>
+  </data>
+  <data name="Purchase_AlipayScanTip" xml:space="preserve">
+    <value>请使用支付宝扫码支付</value>
+  </data>
+  <data name="Purchase_ChooseSubscription" xml:space="preserve">
+    <value>选择您的订阅</value>
+  </data>
+  <data name="Purchase_ClickQRToRefresh" xml:space="preserve">
+    <value>请点击二维码刷新</value>
+  </data>
+  <data name="Purchase_DoneButton" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Purchase_LifetimeLicense" xml:space="preserve">
+    <value>永久</value>
+  </data>
+  <data name="Purchase_MonthlyLicense" xml:space="preserve">
+    <value>月卡</value>
+  </data>
+  <data name="Purchase_OrderNumber" xml:space="preserve">
+    <value>订单编号</value>
+  </data>
+  <data name="Purchase_OrderPaidSuccess" xml:space="preserve">
+    <value>订单支付成功！</value>
+  </data>
+  <data name="Purchase_PaymentMethod" xml:space="preserve">
+    <value>支付方式</value>
+  </data>
+  <data name="Purchase_PaymentSuccess" xml:space="preserve">
+    <value>支付成功</value>
+  </data>
+  <data name="Purchase_PaymentSuccessMessage" xml:space="preserve">
+    <value>感谢您的订阅，订单已支付成功。</value>
+  </data>
+  <data name="Purchase_PaymentTime" xml:space="preserve">
+    <value>付款时间</value>
+  </data>
+  <data name="Purchase_QRCodeExpired" xml:space="preserve">
+    <value>二维码已失效</value>
+  </data>
+  <data name="Purchase_QRCodeGenerateFailed" xml:space="preserve">
+    <value>支付二维码生成失败</value>
+  </data>
+  <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
+    <value>支付前请阅读《</value>
+  </data>
+  <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
+    <value>开通订阅，解锁</value>
+  </data>
+  <data name="Purchase_SubscribeToUnlockSuffix" xml:space="preserve">
+    <value>所有功能。</value>
+  </data>
+  <data name="Purchase_SubscriptionExpiryPrefix" xml:space="preserve">
+    <value>订阅将于</value>
+  </data>
+  <data name="Purchase_SubscriptionExpirySuffix" xml:space="preserve">
+    <value>过期，购买后有效期顺延。</value>
+  </data>
+  <data name="Purchase_SubscriptionSupportMessagePrefix" xml:space="preserve">
+    <value>您的订阅将直接支持</value>
+  </data>
+  <data name="Purchase_SubscriptionSupportMessageSuffix" xml:space="preserve">
+    <value>的持续开发与维护，感谢！</value>
+  </data>
+  <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
+    <value>会员订阅服务协议</value>
+  </data>
+  <data name="Purchase_WeChatPay" xml:space="preserve">
+    <value>微信支付</value>
+  </data>
+  <data name="Purchase_WeChatScanTip" xml:space="preserve">
+    <value>请使用微信扫一扫支付</value>
+  </data>
+  <data name="Purchase_YearlyLicense" xml:space="preserve">
+    <value>年卡</value>
+  </data>
+  <data name="ResetPassword_BackButton" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="ResetPassword_CodeSentToEmail" xml:space="preserve">
+    <value>验证码已发送至 {0}</value>
+  </data>
+  <data name="ResetPassword_EmailCodeInvalid" xml:space="preserve">
+    <value>验证码错误</value>
+  </data>
+  <data name="ResetPassword_EmailCodeRequired" xml:space="preserve">
+    <value>验证码不能为空！</value>
+  </data>
+  <data name="ResetPassword_EmailInvalidFormat" xml:space="preserve">
+    <value>请输入有效的邮箱格式</value>
+  </data>
+  <data name="ResetPassword_EmailPlaceholder" xml:space="preserve">
+    <value>邮箱</value>
+  </data>
+  <data name="ResetPassword_EmailRequired" xml:space="preserve">
+    <value>邮箱地址不能为空！</value>
+  </data>
+  <data name="ResetPassword_GetCode" xml:space="preserve">
+    <value>获取验证码</value>
+  </data>
+  <data name="ResetPassword_NewPasswordPlaceholder" xml:space="preserve">
+    <value>新密码</value>
+  </data>
+  <data name="ResetPassword_PasswordHint" xml:space="preserve">
+    <value>新密码应至少8个字符且包括字母和数字</value>
+  </data>
+  <data name="ResetPassword_PasswordMustContainLetterAndDigit" xml:space="preserve">
+    <value>密码必须同时包含字母和数字！</value>
+  </data>
+  <data name="ResetPassword_PasswordNoSpaces" xml:space="preserve">
+    <value>密码不能包含空格！</value>
+  </data>
+  <data name="ResetPassword_PasswordRequired" xml:space="preserve">
+    <value>密码不能为空！</value>
+  </data>
+  <data name="ResetPassword_PasswordTooShort" xml:space="preserve">
+    <value>密码长度过短！</value>
+  </data>
+  <data name="ResetPassword_ResendCode" xml:space="preserve">
+    <value>重新发送</value>
+  </data>
+  <data name="ResetPassword_ResetButton" xml:space="preserve">
+    <value>重置密码</value>
+  </data>
+  <data name="ResetPassword_ServerBusy" xml:space="preserve">
+    <value>服务器繁忙，请稍后重试。</value>
+  </data>
+  <data name="ResetPassword_Title" xml:space="preserve">
+    <value>重置密码</value>
+  </data>
+  <data name="ResetPassword_UserNotFound" xml:space="preserve">
+    <value>用户不存在，请检查邮箱地址是否正确。</value>
+  </data>
+  <data name="ResetPassword_UserNotFoundShort" xml:space="preserve">
+    <value>用户不存在</value>
+  </data>
+  <data name="ResetPassword_VerificationCodePlaceholder" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Settings_NavAccount" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="Settings_NavGeneral" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="SignIn_AccountOrPasswordError" xml:space="preserve">
+    <value>账号或密码错误</value>
+  </data>
+  <data name="SignIn_AgreeToEULA" xml:space="preserve">
+    <value>登录或完成注册即代表您同意</value>
+  </data>
+  <data name="SignIn_AutoRegisterHint" xml:space="preserve">
+    <value>未注册邮箱验证后系统将自动注册账号</value>
+  </data>
+  <data name="SignIn_CodeError" xml:space="preserve">
+    <value>验证码错误</value>
+  </data>
+  <data name="SignIn_CodeLoginTab" xml:space="preserve">
+    <value>验证码登录</value>
+  </data>
+  <data name="SignIn_CodeRequired" xml:space="preserve">
+    <value>验证码不能为空！</value>
+  </data>
+  <data name="SignIn_CodeSendFailed" xml:space="preserve">
+    <value>发送验证码时遇到了错误</value>
+  </data>
+  <data name="SignIn_CodeSent" xml:space="preserve">
+    <value>验证码已发送至 {0}</value>
+  </data>
+  <data name="SignIn_EmailInvalidFormat" xml:space="preserve">
+    <value>请输入有效的邮箱格式</value>
+  </data>
+  <data name="SignIn_EmailPlaceholder" xml:space="preserve">
+    <value>邮箱</value>
+  </data>
+  <data name="SignIn_EmailRequired" xml:space="preserve">
+    <value>邮箱地址不能为空！</value>
+  </data>
+  <data name="SignIn_EULA" xml:space="preserve">
+    <value>最终用户许可协议</value>
+  </data>
+  <data name="SignIn_ForgotPassword" xml:space="preserve">
+    <value>忘记密码?</value>
+  </data>
+  <data name="SignIn_GetCode" xml:space="preserve">
+    <value>获取验证码</value>
+  </data>
+  <data name="SignIn_PasswordLoginTab" xml:space="preserve">
+    <value>密码登录</value>
+  </data>
+  <data name="SignIn_PasswordPlaceholder" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="SignIn_PasswordRequired" xml:space="preserve">
+    <value>密码不能为空！</value>
+  </data>
+  <data name="SignIn_ResendCode" xml:space="preserve">
+    <value>重新发送</value>
+  </data>
+  <data name="SignIn_ServerBusy" xml:space="preserve">
+    <value>服务器繁忙，请稍后重试。</value>
+  </data>
+  <data name="SignIn_SignInButton" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="SignIn_SignInOrRegisterButton" xml:space="preserve">
+    <value>登录 / 注册</value>
+  </data>
+  <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="SignInExpired_Message" xml:space="preserve">
+    <value>您的登录凭证已过期，请重新登录。</value>
+  </data>
+  <data name="SignInExpired_SignInButton" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="SignInExpired_Title" xml:space="preserve">
+    <value>登录已过期</value>
+  </data>
+  <data name="WebContainer_Loading" xml:space="preserve">
+    <value>正在加载...</value>
   </data>
   <data name="Window_Close" xml:space="preserve">
     <value>关闭</value>
@@ -138,13 +579,7 @@
   <data name="Window_Reduction" xml:space="preserve">
     <value>还原</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>设置</value>
-  </data>
-  <data name="PluginsMarketplace" xml:space="preserve">
-    <value>扩展商店</value>
-  </data>
-  <data name="App_Exit" xml:space="preserve">
-    <value>退出</value>
+  <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
+    <value>》</value>
   </data>
 </root>

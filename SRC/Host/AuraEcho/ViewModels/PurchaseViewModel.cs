@@ -2,6 +2,7 @@
 using AuraEcho.Api.Models.V1.Order;
 using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Repositories;
 using AuraEcho.Interfaces;
@@ -148,7 +149,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         {
             QRCodeIsValid = false;
             IsOrderCreating = false;
-            _auraToastService.Show("支付二维码生成失败", ToastLevel.Error);
+            _auraToastService.Show(Labels.Purchase_QRCodeGenerateFailed, ToastLevel.Error);
             return;
         }
 
@@ -201,7 +202,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
 
                 if (CurrentOrderInfo.Status != OrderStatus.Paid) continue;
 
-                _auraToastService.Show("订单支付成功！", ToastLevel.Success);
+                _auraToastService.Show(Labels.Purchase_OrderPaidSuccess, ToastLevel.Success);
                 break;
             }
             catch (Exception ex)

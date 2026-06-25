@@ -2,6 +2,7 @@ using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
@@ -77,18 +78,18 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         if (requestResult.Status == ResultStatus.UserNotFound)
         {
             SendEmailCodeCooldown = 0;
-            _toastService.Show($"用户不存在，请检查邮箱地址是否正确。", ToastLevel.Error);
+            _toastService.Show(Labels.ResetPassword_UserNotFound, ToastLevel.Error);
             return;
         }
 
         if (requestResult.Status != ResultStatus.Success)
         {
             SendEmailCodeCooldown = 0;
-            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
+            _toastService.Show(Labels.ResetPassword_ServerBusy, ToastLevel.Error);
             return;
         }
 
-        _toastService.Show($"验证码已发送至 {Email}", ToastLevel.Info);
+        _toastService.Show(string.Format(Labels.ResetPassword_CodeSentToEmail, Email), ToastLevel.Info);
         _ = Task.Run(async () =>
         {
             SendEmailCodeCooldown = 60;
@@ -144,7 +145,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         if (result?.Status == ResultStatus.UserNotFound)
         {
-            _errors[nameof(Email)] = ["用户不存在"];
+            _errors[nameof(Email)] = [Labels.ResetPassword_UserNotFoundShort];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
             IsSubmitting = false;
             return;
@@ -152,7 +153,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         if (result?.Status == ResultStatus.EmailCodeError)
         {
-            _errors[nameof(EmailCode)] = ["验证码错误"];
+            _errors[nameof(EmailCode)] = [Labels.ResetPassword_EmailCodeInvalid];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
             IsSubmitting = false;
             return;
@@ -160,7 +161,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
-            _toastService.Show($"服务器繁忙，请稍后重试。", ToastLevel.Error);
+            _toastService.Show(Labels.ResetPassword_ServerBusy, ToastLevel.Error);
             IsSubmitting = false;
             return;
         }
@@ -191,13 +192,13 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
     private string ValidateCore(string propertyName) => propertyName switch
     {
-        nameof(Email) when String.IsNullOrWhiteSpace(Email) => "邮箱地址不能为空！",
-        nameof(Email) when EmailRegex.IsMatch(Email) == false => "请输入有效的邮箱格式",
-        nameof(EmailCode) when String.IsNullOrWhiteSpace(EmailCode) => "验证码不能为空！",
-        nameof(Password) when String.IsNullOrWhiteSpace(Password) => "密码不能为空！",
-        nameof(Password) when Password.Any(Char.IsWhiteSpace) => "密码不能包含空格！",
-        nameof(Password) when Password.Length < 8 => "密码长度过短！",
-        nameof(Password) when !Password.Any(Char.IsLetter) || !Password.Any(Char.IsDigit) => "密码必须同时包含字母和数字！",
+        nameof(Email) when String.IsNullOrWhiteSpace(Email) => Labels.ResetPassword_EmailRequired,
+        nameof(Email) when EmailRegex.IsMatch(Email) == false => Labels.ResetPassword_EmailInvalidFormat,
+        nameof(EmailCode) when String.IsNullOrWhiteSpace(EmailCode) => Labels.ResetPassword_EmailCodeRequired,
+        nameof(Password) when String.IsNullOrWhiteSpace(Password) => Labels.ResetPassword_PasswordRequired,
+        nameof(Password) when Password.Any(Char.IsWhiteSpace) => Labels.ResetPassword_PasswordNoSpaces,
+        nameof(Password) when Password.Length < 8 => Labels.ResetPassword_PasswordTooShort,
+        nameof(Password) when !Password.Any(Char.IsLetter) || !Password.Any(Char.IsDigit) => Labels.ResetPassword_PasswordMustContainLetterAndDigit,
         _ => String.Empty
     };
 

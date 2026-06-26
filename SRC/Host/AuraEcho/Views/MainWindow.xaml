@@ -468,9 +468,9 @@
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="MaxWindowIcon"
                                                             Value="{x:Static Visibility.Visible}" />
-                                    <i:ChangePropertyAction PropertyName="ToolTip"
-                                                            TargetName="MinMaxWindowButton"
-                                                            Value="{Binding Source={StaticResource R}, Path=Labels.Window_Maximize}" />
+                                    <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Maximize}"
+                                                               PropertyName="ToolTip"
+                                                               TargetName="MinMaxWindowButton" />
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="RestoreWindowIcon"
                                                             Value="{x:Static Visibility.Hidden}" />
@@ -481,9 +481,9 @@
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="MaxWindowIcon"
                                                             Value="{x:Static Visibility.Hidden}" />
-                                    <i:ChangePropertyAction PropertyName="ToolTip"
-                                                            TargetName="MinMaxWindowButton"
-                                                            Value="{Binding Source={StaticResource R}, Path=Labels.Window_Reduction}" />
+                                    <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Reduction}"
+                                                               PropertyName="ToolTip"
+                                                               TargetName="MinMaxWindowButton" />
                                     <i:ChangePropertyAction PropertyName="Visibility"
                                                             TargetName="RestoreWindowIcon"
                                                             Value="{x:Static Visibility.Visible}" />

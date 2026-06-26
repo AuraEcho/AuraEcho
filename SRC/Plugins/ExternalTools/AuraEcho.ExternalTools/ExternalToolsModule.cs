@@ -21,7 +21,7 @@ public class ExternalToolsModule : IPlugin
 
     public string EntryViewName => nameof(ExternalToolsHome);
 
-    public AppSettingsItem GetSettings()
+    public PluginSettingsItem GetSettings()
     {
         return new()
         {

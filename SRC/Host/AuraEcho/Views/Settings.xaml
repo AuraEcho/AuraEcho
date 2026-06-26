@@ -4,12 +4,15 @@
              xmlns:auraecho="http://ui.auraecho.com/"
              xmlns:cc="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:behaviors="clr-namespace:AuraEcho.Behaviors"
+             xmlns:hm="clr-namespace:AuraEcho.Models"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:views="clr-namespace:AuraEcho.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:selectors="clr-namespace:AuraEcho.Selectors"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             xmlns:views="clr-namespace:AuraEcho.Views"
              Padding="0,36,0,0"
              d:DataContext="{d:DesignInstance Type=viewmodels:SettingsViewModel}"
              d:DesignHeight="510"
@@ -24,38 +27,47 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>
-        <auraecho:BindingProxy x:Key="BindingProxy"
-                               Data="{Binding}" />
+        <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
 
-        <DataTemplate x:Key="SettingsItemTemplate"
-                      DataType="{x:Type pm:AppSettingsItem}">
+        <DataTemplate x:Key="HostSettingsItemNameTemplate" DataType="{x:Type hm:HostSettingsItem}">
+            <TextBlock>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <behaviors:I18NBindingAction PropertyName="Text" I18NTokenName="{Binding Name}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="PluginSettingsItemNameTemplate" DataType="{x:Type pm:PluginSettingsItem}">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="SettingsItemTemplate" DataType="{x:Type pm:PluginSettingsItem}">
             <Grid>
                 <RadioButton Height="36"
                              Margin="0,2"
                              Padding="12,0"
-                             d:IsChecked="True"
                              HorizontalContentAlignment="Left"
+                             d:IsChecked="True"
                              Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToSettingsItemCommand}"
                              CommandParameter="{Binding ViewName}"
-                             Content="{Binding Name}"
+                             Content="{Binding}"
                              FontSize="{DynamicResource FontSize.Label.Large}"
                              GroupName="SettingsGroup"
                              Style="{StaticResource NavigationRadioButtonStyle}">
+                    <RadioButton.ContentTemplateSelector>
+                        <selectors:AppSettingsItemDataTemplateSelector HostSettingsItemTemplate="{StaticResource HostSettingsItemNameTemplate}" PluginSettingsItemTemplate="{StaticResource PluginSettingsItemNameTemplate}" />
+                    </RadioButton.ContentTemplateSelector>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToSettingsItemCommand}"
-                                                   CommandParameter="{Binding ViewName}" />
+                            <i:InvokeCommandAction Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToSettingsItemCommand}" CommandParameter="{Binding ViewName}" />
                         </i:EventTrigger>
-                        <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.CurrentSettingItem}"
-                                       Value="{Binding}">
-                            <i:ChangePropertyAction PropertyName="IsChecked"
-                                                    Value="True" />
+                        <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.CurrentSettingItem}" Value="{Binding}">
+                            <i:ChangePropertyAction PropertyName="IsChecked" Value="True" />
                         </i:DataTrigger>
                         <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.CurrentSettingItem}"
                                        Comparison="NotEqual"
                                        Value="{Binding}">
-                            <i:ChangePropertyAction PropertyName="IsChecked"
-                                                    Value="False" />
+                            <i:ChangePropertyAction PropertyName="IsChecked" Value="False" />
                         </i:DataTrigger>
                     </i:Interaction.Triggers>
                 </RadioButton>
@@ -71,19 +83,17 @@
                            HorizontalAlignment="Left"
                            Style="{DynamicResource TitleLargeTextBlockStyle}"
                            Text="{Binding Source={StaticResource R}, Path=Labels.Settings}" />
-                <ItemsControl ItemTemplate="{StaticResource SettingsItemTemplate}"
-                              ItemsSource="{Binding SettingsItems}">
+                <ItemsControl ItemTemplate="{StaticResource SettingsItemTemplate}" ItemsSource="{Binding SettingsItems}">
                     <d:ItemsControl.ItemsSource>
-                        <x:Array Type="{x:Type pm:AppSettingsItem}">
-                            <pm:AppSettingsItem Name="账户" />
-                            <pm:AppSettingsItem Name="常规" />
+                        <x:Array Type="{x:Type pm:PluginSettingsItem}">
+                            <pm:PluginSettingsItem Name="账户" />
+                            <pm:PluginSettingsItem Name="常规" />
                         </x:Array>
                     </d:ItemsControl.ItemsSource>
                 </ItemsControl>
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer Grid.Column="1"
-                      MaxWidth="1000">
+        <ScrollViewer Grid.Column="1" MaxWidth="1000">
             <ContentControl prism:RegionManager.RegionName="{x:Static cc:HostRegionNames.SettingsContentRegion}">
                 <d:ContentControl.Content>
                     <views:GeneralSettings />

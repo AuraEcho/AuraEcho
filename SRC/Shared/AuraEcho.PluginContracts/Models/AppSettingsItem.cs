@@ -1,4 +1,4 @@
-namespace AuraEcho.PluginContracts.Models
+﻿namespace AuraEcho.PluginContracts.Models
 {
     public class AppSettingsItem
     {

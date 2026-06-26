@@ -35,10 +35,10 @@
                     Style="{DynamicResource PrimaryButtonStyle}">
                 <i:Interaction.Triggers>
                     <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.Status}" Value="{x:Static enums:MarketPluginStatus.Acquired}">
-                        <i:ChangePropertyAction PropertyName="Content" Value="{Binding Source={StaticResource R}, Path=Labels.MarketplacePluginDetails_Install}" />
+                        <ui:SetBindingAction PropertyName="Content" Binding="{Binding Source={StaticResource R}, Path=Labels.MarketplacePluginDetails_Install}" />
                     </i:DataTrigger>
                     <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.MarketPlugin.Status}" Value="{x:Static enums:MarketPluginStatus.None}">
-                        <i:ChangePropertyAction PropertyName="Content" Value="{Binding Source={StaticResource R}, Path=Labels.MarketplacePluginDetails_Acquire}" />
+                        <ui:SetBindingAction PropertyName="Content" Binding="{Binding Source={StaticResource R}, Path=Labels.MarketplacePluginDetails_Acquire}" />
                     </i:DataTrigger>
                 </i:Interaction.Triggers>
             </Button>

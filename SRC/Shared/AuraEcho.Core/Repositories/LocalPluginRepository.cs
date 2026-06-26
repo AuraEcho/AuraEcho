@@ -1,7 +1,6 @@
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Data;
 using AuraEcho.Core.Data.Entities;
-using AuraEcho.Core.Enums;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using Microsoft.EntityFrameworkCore;

@@ -53,13 +53,13 @@
                                     <i:ChangePropertyAction PropertyName="FontWeight" Value="SemiBold" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Monthly}">
-                                    <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_MonthlyLicense}" />
+                                    <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_MonthlyLicense}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Yearly}">
-                                    <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_YearlyLicense}" />
+                                    <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_YearlyLicense}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Lifetime}">
-                                    <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_LifetimeLicense}" />
+                                    <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_LifetimeLicense}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
                         </TextBlock>
@@ -623,10 +623,10 @@
                                             <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}">
                                                 <i:Interaction.Triggers>
                                                     <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
-                                                        <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" />
+                                                        <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" />
                                                     </i:DataTrigger>
                                                     <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
-                                                        <i:ChangePropertyAction PropertyName="Text" Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" />
+                                                        <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" />
                                                     </i:DataTrigger>
                                                 </i:Interaction.Triggers>
                                             </TextBlock>

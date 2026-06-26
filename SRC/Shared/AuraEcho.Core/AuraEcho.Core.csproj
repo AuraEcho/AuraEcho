@@ -26,6 +26,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Enums\" />
     <Folder Include="Native\Externals\" />
   </ItemGroup>
   <ItemGroup>

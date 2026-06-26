@@ -12,7 +12,7 @@ namespace AuraEcho.Converters;
 /// </summary>
 public class PluginIconConverter : MarkupExtension, IValueConverter
 {
-    public PluginIconConverter _instance;
+    public static PluginIconConverter _instance;
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

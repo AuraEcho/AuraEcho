@@ -10,7 +10,7 @@ namespace AuraEcho.PluginContracts.Interfaces
     {
         string EntryViewName { get; }
         ResourceDictionary GetThemeResource(AppTheme theme);
-        AppSettingsItem GetSettings();
+        PluginSettingsItem GetSettings();
         Task SetupAsync(IContainerProvider containerProvider);
         void RegisterTypes(IContainerRegistry containerProvider);
         void OnInitialized(IContainerProvider containerProvider);

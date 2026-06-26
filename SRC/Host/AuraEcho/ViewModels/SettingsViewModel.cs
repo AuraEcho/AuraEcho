@@ -16,6 +16,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using AuraEcho.Models;
 
 namespace AuraEcho.ViewModels;
 
@@ -29,13 +30,12 @@ public class SettingsViewModel : BindableBase
     private readonly INavigationService _navigationService;
     private readonly IEventAggregator _eventAggregator;
 
-    private ObservableCollection<AppSettingsItem> _settingsItems;
     #endregion
 
     public ObservableCollection<AppSettingsItem> SettingsItems
     {
-        get => _settingsItems;
-        set => SetProperty(ref _settingsItems, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public AppSettingsItem CurrentSettingItem
@@ -55,14 +55,14 @@ public class SettingsViewModel : BindableBase
     {
         SettingsItems =
         [
-            new()
+            new HostSettingsItem()
             {
-                Name = Labels.Settings_NavAccount,
+                Name = $"{nameof(Labels)}.{nameof(Labels.Settings_NavAccount)}",
                 ViewName = ViewNames.AccountSettings
             },
-            new()
+            new HostSettingsItem()
             {
-                Name = Labels.Settings_NavGeneral,
+                Name = $"{nameof(Labels)}.{nameof(Labels.Settings_NavGeneral)}",
                 ViewName = ViewNames.GeneralSettings
             }
         ];

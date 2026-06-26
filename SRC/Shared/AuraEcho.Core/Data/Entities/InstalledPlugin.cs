@@ -1,6 +1,4 @@
 using AuraEcho.Api.Models.V1.Plugin;
-using AuraEcho.Core.Enums;
-using Prism.Mvvm;
 
 namespace AuraEcho.Core.Data.Entities;
 

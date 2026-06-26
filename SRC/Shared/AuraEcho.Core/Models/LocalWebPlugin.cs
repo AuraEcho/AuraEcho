@@ -16,7 +16,7 @@ public class LocalWebPlugin : AppPlugin
         EntryFileName = manifest.EntryFileName;
     }
 
-    public override AppSettingsItem? GetSettings() => null;
+    public override PluginSettingsItem? GetSettings() => null;
 
     public override ResourceDictionary? GetThemeResource(AppTheme theme) => null;
 }

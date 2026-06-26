@@ -161,13 +161,16 @@
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
                                Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_UninstallPending}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="0,0,8,0"
-                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_ApplyAfterRestart}" />
-                        <TextBlock Foreground="{DynamicResource Brushes.Primary}"
-                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}" />
+                        <TextBlock Width="220" TextWrapping="Wrap">
+                            <TextBlock Margin="0,0,8,0"
+                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_ApplyAfterRestart}" />
+                            <TextBlock Foreground="{DynamicResource Brushes.Primary}"
+                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                       Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}"
+                                       Visibility="Collapsed" />
+                        </TextBlock>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -593,6 +596,11 @@
                                                                                           PluginUninstallTemplate="{StaticResource PluginUninstallPendingRestartTemplate}"
                                                                                           PluginUpdateTemplate="{StaticResource PluginUpdatePendingRestartTemplate}" />
                                         </ItemsControl.ItemTemplateSelector>
+                                        <ItemsControl.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ContentPresenter}">
+                                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                            </Style>
+                                        </ItemsControl.ItemContainerStyle>
                                     </ItemsControl>
                                 </ScrollViewer>
 

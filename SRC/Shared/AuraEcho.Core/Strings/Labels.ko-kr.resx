@@ -609,4 +609,7 @@
   <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
     <value>을(를) 읽어주세요.</value>
   </data>
+  <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
+    <value>{0} 설치 중 오류가 발생했습니다</value>
+  </data>
 </root>

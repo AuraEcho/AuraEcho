@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Strings;
 using AuraEcho.Core.Data.Entities;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Models;
@@ -28,6 +29,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     private readonly IClientSession _clientSession;
     private readonly ILocalPluginRepository _localPluginRepository;
     private readonly IStorageRepository _storageRepository;
+    private readonly IAuraToastService _auraToastService;
     private readonly MarketPlugin _plugin;
     protected CancellationTokenSource _cts;
     private bool _inProgress;
@@ -79,6 +81,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
                 Status = MarketPluginInstallStatus.Acquiring;
                 await AcquireAsync();
             }
+            _plugin.Status = MarketPluginStatus.Acquired;
 
             Status = MarketPluginInstallStatus.Downloading;
             string packageFilePath = await DownloadAsync(_cts.Token);
@@ -88,6 +91,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
             var userPlugin = await RegisterUserPluginAsync(localPlugin);
             var loadedPlugin = await LoadPluginAsync(userPlugin, _cts.Token);
 
+            _plugin.Status = MarketPluginStatus.Installed;
             Status = MarketPluginInstallStatus.Completed;
             _eventAggregator.GetEvent<PluginInstalledEvent>().Publish(loadedPlugin);
         }
@@ -97,10 +101,12 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         }
         catch (Exception ex)
         {
+            _auraToastService.Show(String.Format(Labels.MarketplacePluginDetails_InstallError, _plugin.PluginInfo.Name), ToastLevel.Error);
             Status = MarketPluginInstallStatus.Failed;
         }
         finally
         {
+            Progress = 0;
             _inProgress = false;
         }
     }
@@ -147,10 +153,12 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
         IStorageRepository storageRepository,
+        IAuraToastService auraToastService,
         MarketPlugin plugin)
     {
         _plugin = plugin;
         _clientSession = clientSession;
+        _auraToastService = auraToastService;
         _localPluginRepository = localPluginRepository;
         _remotePluginRepository = remotePluginRepository;
         _pluginInstallService = pluginInstallService;

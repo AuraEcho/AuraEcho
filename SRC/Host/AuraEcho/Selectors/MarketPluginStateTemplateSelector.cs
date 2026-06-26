@@ -24,7 +24,8 @@ public class MarketPluginStateTemplateSelector : DataTemplateSelector
                 MarketPluginInstallStatus.Downloading => DownloadingTemplate,
                 MarketPluginInstallStatus.Installing => InstallingTemplate,
                 MarketPluginInstallStatus.Completed => InstalledTemplate,
-                MarketPluginInstallStatus.Failed => throw new NotImplementedException(),
+                MarketPluginInstallStatus.Canceled => NotInstalledTemplate,
+                MarketPluginInstallStatus.Failed => NotInstalledTemplate,
                 _ => base.SelectTemplate(item, container),
             };
         }

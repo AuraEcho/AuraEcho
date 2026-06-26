@@ -14,6 +14,7 @@ public class TransferManager : BindableBase, ITransferManager
 
         AllTasks.Add(task);
         await task.Start();
+        AllTasks.Remove(task);
     }
 
     public ITransferTask GetTaskById(string id)

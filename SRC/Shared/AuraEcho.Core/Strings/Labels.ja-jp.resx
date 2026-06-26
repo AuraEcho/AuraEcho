@@ -609,4 +609,7 @@
   <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
     <value>をお読みください。</value>
   </data>
+  <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
+    <value>{0} のインストール中にエラーが発生しました</value>
+  </data>
 </root>

@@ -664,15 +664,6 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 正在安装... 的本地化字符串。
-        /// </summary>
-        public static string MarketplacePluginDetails_Installing {
-            get {
-                return ResourceManager.GetString("MarketplacePluginDetails_Installing", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   查找类似 {0} 安装过程中遇到了错误 的本地化字符串。
         /// </summary>
         public static string MarketplacePluginDetails_InstallError {
@@ -680,7 +671,16 @@ namespace AuraEcho.Core.Strings {
                 return ResourceManager.GetString("MarketplacePluginDetails_InstallError", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   查找类似 正在安装... 的本地化字符串。
+        /// </summary>
+        public static string MarketplacePluginDetails_Installing {
+            get {
+                return ResourceManager.GetString("MarketplacePluginDetails_Installing", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   查找类似 上次更新日期 的本地化字符串。
         /// </summary>

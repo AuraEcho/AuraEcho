@@ -262,7 +262,7 @@
     <value>Your account is signed in on another device and this device has been signed out. If this was not you, your password may have been compromised. Please change it as soon as possible.</value>
   </data>
   <data name="MainWindow_KickedOutTitle" xml:space="preserve">
-    <value>Account signed in on another device</value>
+    <value>Signed in elsewhere</value>
   </data>
   <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
     <value>Latest version: </value>

@@ -12,8 +12,9 @@
              Background="{DynamicResource Brushes.Scrim}"
              Foreground="{DynamicResource Brushes.OnSurface}"
              mc:Ignorable="d">
-    <Border Width="360"
+    <Border MinWidth="360"
             MinHeight="220"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{DynamicResource Brushes.SurfaceContainerHighest}"
             BorderBrush="{DynamicResource Brushes.OutlineVariant}"
@@ -33,19 +34,25 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid x:Name="TitleContainer" Grid.Row="0" Margin="0,0,0,20">
                     <TextBlock VerticalAlignment="Top"
                                d:Text="灵光回声仍在运行"
                                FontSize="18"
+                               HorizontalAlignment="Left"
+                               Margin="0, 0, 32, 0"
                                FontWeight="Bold"
-                               Text="{Binding Parameter.Title}" />
+                               Text="{Binding Parameter.Title}"
+                               TextWrapping="NoWrap" />
                 </Grid>
-                <TextBlock Grid.Row="1"
-                           d:Text="灵光回声仍在运行，正在等待灵光回声退出，选择继续以退出灵光回声继续安装。"
-                           FontSize="14"
-                           Foreground="{DynamicResource Brushes.OnSurface}"
-                           Text="{Binding Parameter.Message}"
-                           TextWrapping="Wrap" />
+                <Grid Grid.Row="1">
+                    <TextBlock Margin="0,0,0,16"
+                               d:Text="灵光回声仍在运行，正在等待灵光回声退出，选择继续以退出灵光回声继续安装。"
+                               FontSize="14"
+                               Foreground="{DynamicResource Brushes.OnSurface}"
+                               Text="{Binding Parameter.Message}"
+                               TextWrapping="Wrap"
+                               MaxWidth="{Binding ActualWidth, ElementName=TitleContainer}" />
+                </Grid>
                 <UniformGrid Grid.Row="2" Columns="2">
 
                     <Button Height="32"

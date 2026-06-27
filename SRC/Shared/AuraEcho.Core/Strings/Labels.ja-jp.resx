@@ -262,7 +262,7 @@
     <value>お客様のアカウントが別のデバイスでログインされたため、このデバイスはログアウトされました。お客様ご自身の操作でない場合、パスワードが漏洩した可能性がありますので、早急にパスワードを変更してください。</value>
   </data>
   <data name="MainWindow_KickedOutTitle" xml:space="preserve">
-    <value>別のデバイスでアカウントがログインされました</value>
+    <value>別端末でログインされました</value>
   </data>
   <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
     <value>最新バージョン：</value>

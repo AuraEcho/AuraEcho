@@ -53,13 +53,13 @@
                                     <i:ChangePropertyAction PropertyName="FontWeight" Value="SemiBold" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Monthly}">
-                                    <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_MonthlyLicense}" />
+                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_MonthlyLicense}" PropertyName="Text" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Yearly}">
-                                    <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_YearlyLicense}" />
+                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_YearlyLicense}" PropertyName="Text" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Lifetime}">
-                                    <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_LifetimeLicense}" />
+                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_LifetimeLicense}" PropertyName="Text" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
                         </TextBlock>
@@ -166,7 +166,7 @@
                                         <TextBlock Margin="0,0,0,4"
                                                    d:Text="插件名称"
                                                    Style="{DynamicResource TitleSmallTextBlockStyle}"
-                                                   Text="{Binding CurrentPlugin.Name}" />
+                                                   Text="{Binding CurrentPlugin.Name, StringFormat={} {0}}" />
                                         <TextBlock FontSize="{DynamicResource FontSize.Body.Medium}" Foreground="{DynamicResource Brushes.OnSurfaceVariant}">
                                             <i:Interaction.Triggers>
                                                 <i:DataTrigger Binding="{Binding CurrentPluginLicense}" Value="{x:Null}">
@@ -446,17 +446,18 @@
                                                             <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                                         </i:DataTrigger>
                                                     </i:Interaction.Triggers>
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                                Margin="8">
+                                                    <StackPanel Margin="8"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center">
                                                         <TextBlock Margin="0,0,0,8"
                                                                    Foreground="#FFFFFF"
-                                                                   TextWrapping="Wrap"
                                                                    Style="{DynamicResource TitleMediumTextBlockStyle}"
-                                                                   Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_QRCodeExpired}" />
+                                                                   Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_QRCodeExpired}"
+                                                                   TextWrapping="Wrap" />
                                                         <TextBlock Foreground="#FFFFFF"
-                                                                   TextWrapping="Wrap"
                                                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                                   Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ClickQRToRefresh}" />
+                                                                   Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ClickQRToRefresh}"
+                                                                   TextWrapping="Wrap" />
                                                     </StackPanel>
                                                 </Border>
                                             </Border>
@@ -623,10 +624,10 @@
                                             <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}">
                                                 <i:Interaction.Triggers>
                                                     <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
-                                                        <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" />
+                                                        <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" PropertyName="Text" />
                                                     </i:DataTrigger>
                                                     <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
-                                                        <ui:SetBindingAction PropertyName="Text" Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" />
+                                                        <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" PropertyName="Text" />
                                                     </i:DataTrigger>
                                                 </i:Interaction.Triggers>
                                             </TextBlock>

@@ -21,15 +21,18 @@ public class ClientSession : BindableBase, IClientSession
     private readonly SemaphoreSlim _refreshLock = new(1, 1);
     private readonly IClock _clock;
     private readonly IEventAggregator _eventAggregator;
+    private readonly CloudPushService _cloudPushService;
 
-    public ClientSession(IClock clock, IAppLogger logger, IEventAggregator eventAggregator)
+    public ClientSession(IClock clock, IAppLogger logger, IEventAggregator eventAggregator, CloudPushService cloudPushService)
     {
         _clock = clock;
-        var logHandler = new LoggingHandler(logger);
-        logHandler.InnerHandler = new HttpClientHandler();
-        _httpClient = new HttpClient(logHandler);
-
+        _cloudPushService = cloudPushService;
         _eventAggregator = eventAggregator;
+
+        _httpClient = new HttpClient(new LoggingHandler(logger)
+        {
+            InnerHandler = new HttpClientHandler()
+        });
     }
 
     public bool IsSignedIn => AppToken is not null;
@@ -49,24 +52,33 @@ public class ClientSession : BindableBase, IClientSession
 
     public void SignIn(AuthResponse authResponse)
     {
+        UpdateAuth(authResponse);
+
+        _eventAggregator.GetEvent<SignedInEvent>().Publish();
+
+        _ = _cloudPushService.ConnectAsync(() => Task.FromResult(AppToken?.AccessToken));
+    }
+
+    private void UpdateAuth(AuthResponse authResponse)
+    {
         AppToken = new AppToken
         {
             AccessToken = authResponse.AccessToken,
             RefreshToken = authResponse.RefreshToken,
             ExpiresAt = authResponse.ExpiresAt
         };
-        CurrentUser = authResponse.User.ToUserProfile();
+        UpdateUserProfile(authResponse.User.ToUserProfile());
         SecureStore.Save(SecureStoreKeys.RefreshToken, AppToken.RefreshToken);
-
-        _eventAggregator.GetEvent<SignedInEvent>().Publish();
     }
 
     public void UpdateUserProfile(UserProfile userProfile)
     {
         CurrentUser = userProfile;
     }
+
     public void SignOut()
     {
+        _ = _cloudPushService.DisconnectAsync();
         CurrentUser = null;
         AppToken = null;
         SecureStore.Delete(SecureStoreKeys.RefreshToken);
@@ -98,7 +110,7 @@ public class ClientSession : BindableBase, IClientSession
             if (token is null)
                 return false;
 
-            SignIn(token.Data);
+            UpdateAuth(token.Data);
 
             return true;
         }

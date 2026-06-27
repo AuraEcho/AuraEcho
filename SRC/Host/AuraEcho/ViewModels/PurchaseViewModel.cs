@@ -1,15 +1,15 @@
 ﻿using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Api.Models.V1.Order;
-using AuraEcho.Api.Models.V1.Plugin;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Strings;
+using AuraEcho.Core.Events;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Repositories;
+using AuraEcho.Core.Strings;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.UIToolkit.RegionDialog;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -19,7 +19,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace AuraEcho.ViewModels;
 
@@ -27,6 +26,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
 {
     private Guid _resourceId;
     private readonly ISkuRepository _skuRepository;
+    private readonly IEventAggregator _eventAggregator;
     private readonly ILicenseRepository _licenseRepository;
     private readonly IOrderRepository _orderRepository;
     private readonly IAuraToastService _auraToastService;
@@ -106,10 +106,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         set => SetProperty(ref field, value);
     }
 
-    /// <summary>
-    /// 当前订单信息
-    /// </summary>
-    public GetOrderByIdResult CurrentOrderInfo
+    public OrderPaymentDetails OrderPaymentDetails
     {
         get;
         set => SetProperty(ref field, value);
@@ -188,30 +185,6 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
             }));
     }
 
-    private async Task CheckOrderStatusAsync()
-    {
-        while (!_orderStatusTaskToken.IsCancellationRequested)
-        {
-            try
-            {
-                await Task.Delay(2000, _orderStatusTaskToken.Token);
-                if (!QRCodeIsValid || IsOrderCreating || _newestOrderId is null) continue;
-
-                CurrentOrderInfo = await _orderRepository.GetOrderByIdAsync(_newestOrderId.Value);
-                if (CurrentOrderInfo is null) continue;
-
-                if (CurrentOrderInfo.Status != OrderStatus.Paid) continue;
-
-                _auraToastService.Show(Labels.Purchase_OrderPaidSuccess, ToastLevel.Success);
-                break;
-            }
-            catch (Exception ex)
-            {
-                // TODO: log ex to file
-            }
-        }
-    }
-
     public DelegateCommand OkCommand { get; }
     private void Ok()
     {
@@ -236,21 +209,23 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
     public event Action<RegionDialogResult> RequestClose;
 
     public PurchaseViewModel(
+        IClock clock,
+        IEventAggregator eventAggregator,
         ISkuRepository skuRepository,
         IOrderRepository orderRepository,
         IAuraToastService auraToastService,
         ILicenseRepository licenseRepository,
-        IClock clock,
         IRemotePluginRepository remotePluginRepository,
         ISkuOrderCacheService skuOrderCacheService)
     {
+        _clock = clock;
+        _eventAggregator = eventAggregator;
         _skuRepository = skuRepository;
         _orderRepository = orderRepository;
         _auraToastService = auraToastService;
         _remotePluginRepository = remotePluginRepository;
         _skuOrderCacheService = skuOrderCacheService;
         _licenseRepository = licenseRepository;
-        _clock = clock;
 
         OkCommand = new DelegateCommand(Ok);
         CancelCommand = new DelegateCommand(Cancel);
@@ -260,7 +235,14 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         RefreshPayQRCodeCommand = new DelegateCommand(RefershQRCode);
         OpenSubscriptionTermsCommand = new DelegateCommand(OpenSubscriptionTerms);
 
-        _ = CheckOrderStatusAsync();
+        _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OnOrderPaid);
+    }
+
+    private void OnOrderPaid(OrderPaymentDetails orderPaymentDetails)
+    {
+        Debug.WriteLine("OnOrderPaid");
+        OrderPaymentDetails = orderPaymentDetails;
+        IsPaid = true;
     }
 
     private async Task LoadPluginInfo(Guid pluginId)

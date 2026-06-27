@@ -545,8 +545,8 @@
                     <!-- 支付成功 -->
                     <Border Grid.Row="1"
                             Padding="24"
-                            Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-                            Visibility="Hidden">
+                            Visibility="Hidden"
+                            Background="{DynamicResource Brushes.SurfaceContainerHighest}">
                         <Border.Resources>
                             <Storyboard x:Key="PaidIconAnimation">
                                 <DoubleAnimation FillBehavior="HoldEnd"
@@ -558,7 +558,7 @@
                             </Storyboard>
                         </Border.Resources>
                         <i:Interaction.Triggers>
-                            <i:DataTrigger Binding="{Binding CurrentOrderInfo.Status}" Value="{x:Static acm:OrderStatus.Paid}">
+                            <i:DataTrigger Binding="{Binding IsPaid}" Value="True">
                                 <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
                                 <i:ControlStoryboardAction Storyboard="{StaticResource PaidIconAnimation}" />
                             </i:DataTrigger>
@@ -607,7 +607,7 @@
                                                        Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_OrderNumber}" />
                                             <TextBlock HorizontalAlignment="Right"
                                                        d:Text="2026061116224445384999291"
-                                                       Text="{Binding CurrentOrderInfo.OrderNumber}" />
+                                                       Text="{Binding OrderPaymentDetails.OrderNumber}" />
                                         </DockPanel>
                                         <DockPanel Margin="0,0,0,4" LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
@@ -615,7 +615,7 @@
                                                        Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentTime}" />
                                             <TextBlock HorizontalAlignment="Right"
                                                        d:Text="2026/06/10 10:06:33"
-                                                       Text="{Binding CurrentOrderInfo.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
+                                                       Text="{Binding OrderPaymentDetails.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
                                         </DockPanel>
                                         <DockPanel LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
@@ -623,10 +623,10 @@
                                                        Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentMethod}" />
                                             <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}">
                                                 <i:Interaction.Triggers>
-                                                    <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
+                                                    <i:DataTrigger Binding="{Binding OrderPaymentDetails.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
                                                         <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" PropertyName="Text" />
                                                     </i:DataTrigger>
-                                                    <i:DataTrigger Binding="{Binding CurrentOrderInfo.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
+                                                    <i:DataTrigger Binding="{Binding OrderPaymentDetails.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
                                                         <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" PropertyName="Text" />
                                                     </i:DataTrigger>
                                                 </i:Interaction.Triggers>

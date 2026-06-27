@@ -83,6 +83,7 @@ public partial class App : PrismApplication
         });
 
         containerRegistry.RegisterInstance(_logger);
+        containerRegistry.RegisterSingleton<CloudPushService>();
         containerRegistry.RegisterSingleton<IClock, ServerClock>();
         containerRegistry.RegisterSingleton<IPathProvider, PathProvider>();
         containerRegistry.RegisterSingleton<IFileDialogService, FileDialogService>();

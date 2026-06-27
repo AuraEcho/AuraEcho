@@ -4,7 +4,7 @@ namespace AuraEcho.Core.Constants;
 
 public static class Urls
 {
-    private static string ServerUrl => "http://localhost:5177";
+    public static string ServerUrl => "http://localhost:5177";
 
     #region AppPackage
     public static string CreatePackage() => $"{ServerUrl}/v1/package/create";

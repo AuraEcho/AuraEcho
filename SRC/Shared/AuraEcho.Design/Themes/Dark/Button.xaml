@@ -30,12 +30,39 @@
                                     Background="Transparent"
                                     CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ui:ControlHelper.CornerRadius)}"
                                     IsHitTestVisible="False">
-                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  Margin="{TemplateBinding Padding}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   Focusable="False"
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Border>
+                            <!-- Busy -->
+                            <StackPanel x:Name="BusyIndicator"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Visibility="Collapsed"
+                                        Margin="{TemplateBinding Padding}">
+                                <Ellipse x:Name="LoadingIcon"
+                                         Width="20"
+                                         Height="20"
+                                         HorizontalAlignment="Left"
+                                         RenderTransformOrigin=".5, .5"
+                                         Stroke="{TemplateBinding Foreground}"
+                                         StrokeDashArray="20, 40"
+                                         StrokeThickness="2">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform x:Name="LoadingIconTransform" />
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <TextBlock x:Name="BusyContentText"
+                                           Margin="8,0,0,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Text="{Binding (ui:ControlHelper.BusyContent), RelativeSource={RelativeSource TemplatedParent}}" />
+                            </StackPanel>
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -68,11 +95,39 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="LoadingAnimation" RepeatBehavior="Forever">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingIcon" Storyboard.TargetProperty="StrokeDashOffset">
+                                <DoubleAnimationUsingKeyFrames.KeyFrames>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="20" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="0" />
+                                </DoubleAnimationUsingKeyFrames.KeyFrames>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimation Storyboard.TargetName="LoadingIconTransform"
+                                             Storyboard.TargetProperty="Angle"
+                                             From="0"
+                                             To="720"
+                                             Duration="0:0:1.4" />
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding (ui:ControlHelper.IsBusy), RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="BusyIndicator" Property="Visibility" Value="Visible" />
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard x:Name="LoadingAnimationBegin" Storyboard="{StaticResource LoadingAnimation}" />
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <StopStoryboard BeginStoryboardName="LoadingAnimationBegin" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-     <!--图标按钮样式--> 
+    <!-- 图标按钮样式 -->
     <Style x:Key="IconButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="5" />
         <Setter Property="BorderThickness" Value="0" />
@@ -135,7 +190,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-     <!--标题栏按钮样式--> 
+    <!-- 标题栏按钮样式 -->
     <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="5" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -195,7 +250,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-     <!--默认按钮样式--> 
+    <!-- 默认按钮样式 -->
     <Style TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="5" />
         <Setter Property="BorderThickness" Value="1" />
@@ -205,7 +260,7 @@
         <Setter Property="ui:ControlHelper.CornerRadius" Value="4" />
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}"/>
+                <SolidColorBrush Color="{DynamicResource Colors.Overlay.Level2}" />
             </Setter.Value>
         </Setter>
         <Setter Property="Foreground" Value="{DynamicResource Brushes.OnSurface}" />

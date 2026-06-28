@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:ui="http://ui.auraecho.com/"
-             d:DesignHeight="1417.167"
+             d:DesignHeight="1585.167"
              d:DesignWidth="914"
              d:Height="450"
              d:Width="800"
@@ -37,8 +37,8 @@
                 <Button Width="47"
                         FontSize="14"
                         IsTabStop="False"
-                        ToolTip="最小化"
                         Style="{DynamicResource WindowButtonStyle}"
+                        ToolTip="最小化"
                         WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -170,6 +170,12 @@
                                 <Button Margin="0,0,8,0"
                                         Padding="24,8"
                                         Content="Primary"
+                                        Style="{DynamicResource PrimaryButtonStyle}" />
+                                <Button Margin="0,0,8,0"
+                                        Padding="24,8"
+                                        Content="Primary Loading"
+                                        ui:ControlHelper.IsBusy="True"
+                                        ui:ControlHelper.BusyContent="Loading"
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                                 <Button Margin="0,0,8,0"
                                         Padding="24,8"
@@ -360,8 +366,8 @@
                                          Height="40"
                                          Margin="8"
                                          Padding="12,8"
-                                         ui:InputBoxHelper.FloatingBackground="#191919"
                                          ui:ControlHelper.PlaceHolder="浮动水印"
+                                         ui:InputBoxHelper.FloatingBackground="#191919"
                                          FontSize="16"
                                          Style="{DynamicResource FloatingLabelTextBoxStyle}" />
                                 <TextBox Width="150"
@@ -388,8 +394,8 @@
                                              Margin="8"
                                              Padding="12,8"
                                              ui:ControlHelper.PlaceHolder="密码"
-                                             FontSize="16"
                                              ui:InputBoxHelper.FloatingBackground="#191919"
+                                             FontSize="16"
                                              Style="{DynamicResource FloatingLabelPasswordBoxStyle}" />
                                 <PasswordBox Width="150"
                                              Margin="8"
@@ -403,7 +409,8 @@
                                              Padding="12,8"
                                              ui:ControlHelper.PlaceHolder="请输入密码"
                                              FontSize="16" />
-                                <PasswordBox Width="150" Height="40"
+                                <PasswordBox Width="150"
+                                             Height="40"
                                              ui:ControlHelper.PlaceHolder="请输入密码"
                                              IsEnabled="False" />
                             </WrapPanel>
@@ -478,6 +485,57 @@
                                     IsEnabled="False"
                                     Maximum="10"
                                     Value="3" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Loading Button -->
+                    <Border Margin="16,8"
+                            Padding="16"
+                            Background="{DynamicResource Brushes.SurfaceContainer}"
+                            CornerRadius="4">
+                        <StackPanel Margin="0,0,0,16">
+
+                            <StackPanel.Resources>
+                                <Storyboard x:Key="LoadingAnimation" RepeatBehavior="Forever">
+                                    <!--<DoubleAnimation Storyboard.TargetName="LoadingIcon"
+                                                     Storyboard.TargetProperty="StrokeDashOffset"
+                                                     From="0"
+                                                     To="20"
+                                                     Duration="0:0:1" />-->
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingIcon" Storyboard.TargetProperty="StrokeDashOffset">
+                                        <DoubleAnimationUsingKeyFrames.KeyFrames>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="20" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="0" />
+                                        </DoubleAnimationUsingKeyFrames.KeyFrames>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="LoadingIconTransform"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     From="0"
+                                                     To="720"
+                                                     Duration="0:0:1.4" />
+                                </Storyboard>
+                            </StackPanel.Resources>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:ControlStoryboardAction Storyboard="{StaticResource LoadingAnimation}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <TextBlock Margin="0,0,0,8"
+                                       Foreground="{DynamicResource Brushes.OnSurface}"
+                                       Text="Loading Buttons" />
+                            <Ellipse x:Name="LoadingIcon"
+                                     Width="24"
+                                     Height="24"
+                                     HorizontalAlignment="Left"
+                                     RenderTransformOrigin=".5, .5"
+                                     Stroke="Black"
+                                     StrokeDashArray="24, 48"
+                                     StrokeThickness="2">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform x:Name="LoadingIconTransform" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
                         </StackPanel>
                     </Border>
                 </StackPanel>

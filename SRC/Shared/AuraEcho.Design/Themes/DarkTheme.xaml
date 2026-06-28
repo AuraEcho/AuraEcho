@@ -5,6 +5,7 @@
         <ResourceDictionary Source="Dark/Brushes.xaml" />
         <ResourceDictionary Source="Dark/Typography.xaml" />
         <ResourceDictionary Source="Dark/TextBlock.xaml" />
+        <ResourceDictionary Source="Dark/ProgressBar.xaml" />
         <ResourceDictionary Source="Dark/Button.xaml" />
         <ResourceDictionary Source="Dark/ToggleButton.xaml" />
         <ResourceDictionary Source="Dark/RadioButton.xaml" />
@@ -14,7 +15,6 @@
         <ResourceDictionary Source="Dark/Textbox.xaml" />
         <ResourceDictionary Source="Dark/PasswordBox.xaml" />
         <ResourceDictionary Source="Dark/ComboBox.xaml" />
-        <ResourceDictionary Source="Dark/ProgressBar.xaml" />
         <ResourceDictionary Source="Dark/MenuItem.xaml" />
         <ResourceDictionary Source="Dark/Menu.xaml" />
         <ResourceDictionary Source="Dark/ContextMenu.xaml" />

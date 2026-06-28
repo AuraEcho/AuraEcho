@@ -60,5 +60,45 @@ namespace AuraEcho.Design.AttachedProperties
             control.SetValue(PlaceHolderProperty, value);
         }
         #endregion
+
+        #region IsBusy
+
+        public static readonly DependencyProperty IsBusyProperty =
+            DependencyProperty.RegisterAttached(
+                "IsBusy",
+                typeof(bool),
+                typeof(ControlHelper),
+                new PropertyMetadata(false));
+
+        public static bool GetIsBusy(Control control)
+        {
+            return (bool)control.GetValue(IsBusyProperty);
+        }
+
+        public static void SetIsBusy(Control control, bool value)
+        {
+            control.SetValue(IsBusyProperty, value);
+        }
+        #endregion
+
+        #region BusyContent
+
+        public static readonly DependencyProperty BusyContentProperty =
+            DependencyProperty.RegisterAttached(
+                "BusyContent",
+                typeof(string),
+                typeof(ControlHelper),
+                new PropertyMetadata(string.Empty));
+
+        public static string GetBusyContent(Control control)
+        {
+            return (string)control.GetValue(BusyContentProperty);
+        }
+
+        public static void SetBusyContent(Control control, string value)
+        {
+            control.SetValue(BusyContentProperty, value);
+        }
+        #endregion
     }
 }

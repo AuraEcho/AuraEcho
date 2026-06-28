@@ -5,6 +5,7 @@
         <ResourceDictionary Source="Light/Brushes.xaml" />
         <ResourceDictionary Source="Light/Typography.xaml" />
         <ResourceDictionary Source="Light/TextBlock.xaml" />
+        <ResourceDictionary Source="Light/ProgressBar.xaml" />
         <ResourceDictionary Source="Light/Button.xaml" />
         <ResourceDictionary Source="Light/ToggleButton.xaml" />
         <ResourceDictionary Source="Light/CheckBox.xaml" />
@@ -14,7 +15,6 @@
         <ResourceDictionary Source="Light/ContextMenu.xaml" />
         <ResourceDictionary Source="Light/TextBox.xaml" />
         <ResourceDictionary Source="Light/PasswordBox.xaml" />
-        <ResourceDictionary Source="Light/ProgressBar.xaml" />
         <ResourceDictionary Source="Light/Hyperlink.xaml" />
         <ResourceDictionary Source="Light/ScrollViewer.xaml" />
         <ResourceDictionary Source="Light/RadioButton.xaml" />

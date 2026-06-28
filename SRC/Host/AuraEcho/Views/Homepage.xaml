@@ -34,11 +34,45 @@
                     <ContextMenu>
                         <MenuItem Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}" />
+                                  FontSize="{DynamicResource FontSize.Label.Medium}"
+                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <Canvas Width="24"
+                                            Height="24"
+                                            UseLayoutRounding="False">
+                                        <Path Fill="{DynamicResource Brushes.Success}">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 18.5 11.13 C 19.17 11.52 19.17 12.48 18.5 12.87 L 8 18.93 C 7.33 19.31 6.5 18.83 6.5 18.06 L 6.5 5.94 C 6.5 5.17 7.33 4.69 8 5.07 L 18.5 11.13 Z" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem x:Name="UninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
+                                  FontSize="{DynamicResource FontSize.Label.Medium}"
                                   Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginUninstall}">
+                            <MenuItem.Icon>
+                                <Viewbox Stretch="Uniform">
+                                    <Canvas Width="24.0"
+                                            Height="24.0"
+                                            UseLayoutRounding="False">
+                                        <Path Stroke="#ffde4949"
+                                              StrokeDashCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="1.5">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 4.5 7 H 6.17 M 6.17 7 H 19.5 M 6.17 7 V 18.67 C 6.17 19.11 6.34 19.53 6.65 19.85 C 6.97 20.16 7.39 20.33 7.83 20.33 H 16.17 C 16.61 20.33 17.03 20.16 17.35 19.85 C 17.66 19.53 17.83 19.11 17.83 18.67 V 7 M 8.67 7 V 5.33 C 8.67 4.89 8.84 4.47 9.15 4.15 C 9.47 3.84 9.89 3.67 10.33 3.67 H 13.67 C 14.11 3.67 14.53 3.84 14.85 4.15 C 15.16 4.47 15.33 4.89 15.33 5.33 V 7 M 10.33 11.17 V 16.17 M 13.67 11.17 V 16.17" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -53,7 +87,24 @@
                         <MenuItem x:Name="CancelUninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CancelPluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
+                                  FontSize="{DynamicResource FontSize.Label.Medium}"
                                   Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginCancelUninstall}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <Canvas Width="24"
+                                            Height="24"
+                                            UseLayoutRounding="False">
+                                        <Path Stroke="{DynamicResource Brushes.OnSurface}"
+                                              StrokeEndLineCap="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="1">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 6.36 17.68 L 17.64 6.32 M 6.32 6.36 L 17.68 17.64" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
@@ -132,11 +183,43 @@
                     <ContextMenu>
                         <MenuItem Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}" />
+                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <Canvas Width="24"
+                                            Height="24"
+                                            UseLayoutRounding="False">
+                                        <Path Fill="{DynamicResource Brushes.Success}">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 18.5 11.13 C 19.17 11.52 19.17 12.48 18.5 12.87 L 8 18.93 C 7.33 19.31 6.5 18.83 6.5 18.06 L 6.5 5.94 C 6.5 5.17 7.33 4.69 8 5.07 L 18.5 11.13 Z" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem x:Name="UninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
                                   Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginUninstall}">
+                            <MenuItem.Icon>
+                                <Viewbox Stretch="Uniform">
+                                    <Canvas Width="24.0"
+                                            Height="24.0"
+                                            UseLayoutRounding="False">
+                                        <Path Stroke="#ffde4949"
+                                              StrokeDashCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="1.5">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 4.5 7 H 6.17 M 6.17 7 H 19.5 M 6.17 7 V 18.67 C 6.17 19.11 6.34 19.53 6.65 19.85 C 6.97 20.16 7.39 20.33 7.83 20.33 H 16.17 C 16.61 20.33 17.03 20.16 17.35 19.85 C 17.66 19.53 17.83 19.11 17.83 18.67 V 7 M 8.67 7 V 5.33 C 8.67 4.89 8.84 4.47 9.15 4.15 C 9.47 3.84 9.89 3.67 10.33 3.67 H 13.67 C 14.11 3.67 14.53 3.84 14.85 4.15 C 15.16 4.47 15.33 4.89 15.33 5.33 V 7 M 10.33 11.17 V 16.17 M 13.67 11.17 V 16.17" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -152,6 +235,22 @@
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CancelPluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
                                   Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginCancelUninstall}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <Canvas Width="24"
+                                            Height="24"
+                                            UseLayoutRounding="False">
+                                        <Path Stroke="{DynamicResource Brushes.OnSurface}"
+                                              StrokeEndLineCap="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="1">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 6.36 17.68 L 17.64 6.32 M 6.32 6.36 L 17.68 17.64" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
@@ -228,11 +327,43 @@
                     <ContextMenu>
                         <MenuItem Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}" />
+                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <Canvas Width="24"
+                                            Height="24"
+                                            UseLayoutRounding="False">
+                                        <Path Fill="{DynamicResource Brushes.Success}">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 18.5 11.13 C 19.17 11.52 19.17 12.48 18.5 12.87 L 8 18.93 C 7.33 19.31 6.5 18.83 6.5 18.06 L 6.5 5.94 C 6.5 5.17 7.33 4.69 8 5.07 L 18.5 11.13 Z" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem x:Name="UninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
                                   Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginUninstall}">
+                            <MenuItem.Icon>
+                                <Viewbox Stretch="Uniform">
+                                    <Canvas Width="24.0"
+                                            Height="24.0"
+                                            UseLayoutRounding="False">
+                                        <Path Stroke="#ffde4949"
+                                              StrokeDashCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="1.5">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 4.5 7 H 6.17 M 6.17 7 H 19.5 M 6.17 7 V 18.67 C 6.17 19.11 6.34 19.53 6.65 19.85 C 6.97 20.16 7.39 20.33 7.83 20.33 H 16.17 C 16.61 20.33 17.03 20.16 17.35 19.85 C 17.66 19.53 17.83 19.11 17.83 18.67 V 7 M 8.67 7 V 5.33 C 8.67 4.89 8.84 4.47 9.15 4.15 C 9.47 3.84 9.89 3.67 10.33 3.67 H 13.67 C 14.11 3.67 14.53 3.84 14.85 4.15 C 15.16 4.47 15.33 4.89 15.33 5.33 V 7 M 10.33 11.17 V 16.17 M 13.67 11.17 V 16.17" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -248,6 +379,22 @@
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CancelPluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
                                   Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginCancelUninstall}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <Canvas Width="24"
+                                            Height="24"
+                                            UseLayoutRounding="False">
+                                        <Path Stroke="{DynamicResource Brushes.OnSurface}"
+                                              StrokeEndLineCap="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="1">
+                                            <Path.Data>
+                                                <PathGeometry Figures="M 6.36 17.68 L 17.64 6.32 M 6.32 6.36 L 17.68 17.64" FillRule="Nonzero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </MenuItem.Icon>
                             <i:Interaction.Triggers>
                                 <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />

@@ -228,14 +228,9 @@
                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInOrRegisterButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
-                                                Style="{DynamicResource PrimaryButtonStyle}">
-                                            <Button.IsEnabled>
-                                                <Binding Path="IsSigningInByCode">
-                                                    <Binding.Converter>
-                                                        <ui:ReverseBooleanConverter />
-                                                    </Binding.Converter>
-                                                </Binding>
-                                            </Button.IsEnabled>
+                                                Style="{DynamicResource PrimaryButtonStyle}"
+                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
+                                                ui:ControlHelper.IsBusy="{Binding IsBusy}">
                                         </Button>
                                     </StackPanel>
                                 </Grid>
@@ -289,14 +284,9 @@
                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
-                                                Style="{DynamicResource PrimaryButtonStyle}">
-                                            <Button.IsEnabled>
-                                                <Binding Path="IsSigningInByPassword">
-                                                    <Binding.Converter>
-                                                        <ui:ReverseBooleanConverter />
-                                                    </Binding.Converter>
-                                                </Binding>
-                                            </Button.IsEnabled>
+                                                Style="{DynamicResource PrimaryButtonStyle}"
+                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
+                                                ui:ControlHelper.IsBusy="{Binding IsBusy}">
                                         </Button>
                                     </StackPanel>
                                 </Grid>

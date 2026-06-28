@@ -28,13 +28,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     private readonly IAuraToastService _toastService;
     private readonly Dictionary<string, List<string>> _errors = [];
 
-    public bool IsSigningInByCode
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
-
-    public bool IsSigningInByPassword
+    public bool IsBusy
     {
         get;
         set => SetProperty(ref field, value);
@@ -106,48 +100,50 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand SignInByCodeCommand { get; }
     private async void SignInByCode()
     {
-        // TODO：发生异常时，确保 IsSigningInByCode 能够被正确重置。
-        IsSigningInByCode = true;
+        if (IsBusy) return;
 
-        ClearErrors(nameof(Email));
-        ClearErrors(nameof(EmailCode));
-        if (ValidateCore(nameof(Email)) is string emailError && emailError != String.Empty)
+        IsBusy = true;
+        try
         {
-            _errors[nameof(Email)] = [emailError];
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
-            IsSigningInByCode = false;
-            return;
-        }
+            ClearErrors(nameof(Email));
+            ClearErrors(nameof(EmailCode));
+            if (ValidateCore(nameof(Email)) is string emailError && emailError != String.Empty)
+            {
+                _errors[nameof(Email)] = [emailError];
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+                return;
+            }
 
-        if (ValidateCore(nameof(EmailCode)) is string emailCodeError && emailCodeError != String.Empty)
+            if (ValidateCore(nameof(EmailCode)) is string emailCodeError && emailCodeError != String.Empty)
+            {
+                _errors[nameof(EmailCode)] = [emailCodeError];
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
+                return;
+            }
+
+            ResponseResult<CodeSignInResponse>? result =
+                await _authRepository.SignInByCodeAsync(new CodeSignInRequest(Email.Trim(), EmailCode.Trim()));
+
+            if (result?.Status == ResultStatus.EmailCodeError)
+            {
+                _errors[nameof(EmailCode)] = [Labels.SignIn_CodeError];
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
+                return;
+            }
+
+            if (result is null || result.Status != ResultStatus.Success || result.Data is null)
+            {
+                _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
+                return;
+            }
+
+            _clientSession.SignIn(result.Data.Data);
+            _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
+        }
+        finally
         {
-            _errors[nameof(EmailCode)] = [emailCodeError];
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
-            IsSigningInByCode = false;
-            return;
+            IsBusy = false;
         }
-
-        ResponseResult<CodeSignInResponse>? result =
-            await _authRepository.SignInByCodeAsync(new CodeSignInRequest(Email.Trim(), EmailCode.Trim()));
-
-        if (result?.Status == ResultStatus.EmailCodeError)
-        {
-            _errors[nameof(EmailCode)] = [Labels.SignIn_CodeError];
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
-            IsSigningInByCode = false;
-            return;
-        }
-
-        if (result is null || result.Status != ResultStatus.Success || result.Data is null)
-        {
-            _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
-            IsSigningInByCode = false;
-            return;
-        }
-
-        _clientSession.SignIn(result.Data.Data);
-        IsSigningInByCode = false;
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
     }
     public DelegateCommand<string> ClearErrorsCommand { get; }
     private void ClearErrors(string propertyName)
@@ -175,46 +171,50 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand SignInByPasswordCommand { get; }
     private async void SignInByPassword()
     {
-        IsSigningInByPassword = true;
-        ClearErrors(nameof(Email));
-        ClearErrors(nameof(Password));
-        if (ValidateCore(nameof(Email)) is string emailError && emailError != String.Empty)
+        if (IsBusy) return;
+
+        IsBusy = true;
+        try
         {
-            _errors[nameof(Email)] = [emailError];
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
-            IsSigningInByPassword = false;
-            return;
-        }
+            ClearErrors(nameof(Email));
+            ClearErrors(nameof(Password));
+            if (ValidateCore(nameof(Email)) is string emailError && emailError != String.Empty)
+            {
+                _errors[nameof(Email)] = [emailError];
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+                return;
+            }
 
-        if (ValidateCore(nameof(Password)) is string passwordError && passwordError != String.Empty)
+            if (ValidateCore(nameof(Password)) is string passwordError && passwordError != String.Empty)
+            {
+                _errors[nameof(Password)] = [passwordError];
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Password)));
+                return;
+            }
+
+            ResponseResult<AuthResponse>? result =
+                await _authRepository.SignInByPasswordAsync(new PasswordSignInRequest(Email.Trim(), Password.Trim()));
+
+            if (result?.Status == ResultStatus.PasswordError)
+            {
+                _errors[nameof(Email)] = [Labels.SignIn_AccountOrPasswordError];
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
+                return;
+            }
+
+            if (result is null || result.Status != ResultStatus.Success || result.Data is null)
+            {
+                _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
+                return;
+            }
+
+            _clientSession.SignIn(result.Data);
+            _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
+        }
+        finally
         {
-            _errors[nameof(Password)] = [passwordError];
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Password)));
-            IsSigningInByPassword = false;
-            return;
+            IsBusy = false;
         }
-
-        ResponseResult<AuthResponse>? result =
-            await _authRepository.SignInByPasswordAsync(new PasswordSignInRequest(Email.Trim(), Password.Trim()));
-
-        if (result?.Status == ResultStatus.PasswordError)
-        {
-            _errors[nameof(Email)] = [Labels.SignIn_AccountOrPasswordError];
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
-            IsSigningInByPassword = false;
-            return;
-        }
-
-        if (result is null || result.Status != ResultStatus.Success || result.Data is null)
-        {
-            _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
-            IsSigningInByPassword = false;
-            return;
-        }
-
-        _clientSession.SignIn(result.Data);
-        IsSigningInByPassword = false;
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
     }
 
     public DelegateCommand NavigationToResetPasswordCommand { get; }

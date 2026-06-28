@@ -487,57 +487,6 @@
                                     Value="3" />
                         </StackPanel>
                     </Border>
-
-                    <!-- Loading Button -->
-                    <Border Margin="16,8"
-                            Padding="16"
-                            Background="{DynamicResource Brushes.SurfaceContainer}"
-                            CornerRadius="4">
-                        <StackPanel Margin="0,0,0,16">
-
-                            <StackPanel.Resources>
-                                <Storyboard x:Key="LoadingAnimation" RepeatBehavior="Forever">
-                                    <!--<DoubleAnimation Storyboard.TargetName="LoadingIcon"
-                                                     Storyboard.TargetProperty="StrokeDashOffset"
-                                                     From="0"
-                                                     To="20"
-                                                     Duration="0:0:1" />-->
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingIcon" Storyboard.TargetProperty="StrokeDashOffset">
-                                        <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="20" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="0" />
-                                        </DoubleAnimationUsingKeyFrames.KeyFrames>
-                                    </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimation Storyboard.TargetName="LoadingIconTransform"
-                                                     Storyboard.TargetProperty="Angle"
-                                                     From="0"
-                                                     To="720"
-                                                     Duration="0:0:1.4" />
-                                </Storyboard>
-                            </StackPanel.Resources>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Loaded">
-                                    <i:ControlStoryboardAction Storyboard="{StaticResource LoadingAnimation}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <TextBlock Margin="0,0,0,8"
-                                       Foreground="{DynamicResource Brushes.OnSurface}"
-                                       Text="Loading Buttons" />
-                            <Ellipse x:Name="LoadingIcon"
-                                     Width="24"
-                                     Height="24"
-                                     HorizontalAlignment="Left"
-                                     RenderTransformOrigin=".5, .5"
-                                     Stroke="Black"
-                                     StrokeDashArray="24, 48"
-                                     StrokeThickness="2">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform x:Name="LoadingIconTransform" />
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                        </StackPanel>
-                    </Border>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

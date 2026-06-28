@@ -579,6 +579,9 @@
   <data name="SignIn_SignInOrRegisterButton" xml:space="preserve">
     <value>ログイン / 登録</value>
   </data>
+  <data name="SignIn_SigningIn" xml:space="preserve">
+    <value>ログイン中...</value>
+  </data>
   <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
     <value>認証コード</value>
   </data>

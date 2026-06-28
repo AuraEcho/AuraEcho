@@ -1463,6 +1463,15 @@ namespace AuraEcho.Core.Strings {
                 return ResourceManager.GetString("SignIn_SignInOrRegisterButton", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 正在登录... 的本地化字符串。
+        /// </summary>
+        public static string SignIn_SigningIn {
+            get {
+                return ResourceManager.GetString("SignIn_SigningIn", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 验证码 的本地化字符串。

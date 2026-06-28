@@ -23,7 +23,7 @@
 
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border x:Name="Border"
-                Padding="12,4"
+                Padding="{TemplateBinding Padding}"
                 Background="Transparent"
                 CornerRadius="4">
             <Grid>
@@ -59,7 +59,7 @@
                     <Grid>
                         <Border x:Name="SubmenuBorder"
                                 Margin="12,0,12,18"
-                                Padding="0,3,0,3"
+                                Padding="{TemplateBinding Padding}"
                                 Background="{DynamicResource Brushes.SurfaceContainerHigh}"
                                 BorderBrush="{DynamicResource Brushes.OutlineShadow}"
                                 BorderThickness="1"
@@ -137,7 +137,7 @@
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border x:Name="Border"
                 Height="{TemplateBinding Height}"
-                Padding="12,4"
+                Padding="{TemplateBinding Padding}"
                 Background="Transparent"
                 CornerRadius="4">
             <Grid>
@@ -201,7 +201,7 @@
                     CornerRadius="4">
                 <Grid x:Name="MenuItemContent"
                       MinWidth="80"
-                      Margin="8,6,8,6">
+                      Margin="{TemplateBinding Padding}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -247,7 +247,7 @@
                 <Grid>
                     <Border x:Name="SubmenuBorder"
                             Margin="8,10,12,18"
-                            Padding="4"
+                            Padding="{TemplateBinding Padding}"
                             Background="{DynamicResource Brushes.SurfaceContainerHigh}"
                             BorderBrush="{DynamicResource Brushes.OutlineShadow}"
                             BorderThickness="1"
@@ -322,7 +322,7 @@
         <Border x:Name="Border"
                 Background="Transparent"
                 CornerRadius="4">
-            <Grid MinWidth="60" Margin="8,6,8,6">
+            <Grid MinWidth="60" Margin="{TemplateBinding Padding}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -347,7 +347,7 @@
 
                 <ContentPresenter x:Name="Icon"
                                   Grid.Column="1"
-                                  Margin="0,0,6,0"
+                                  Margin="0,0,4,0"
                                   VerticalAlignment="Center"
                                   Content="{TemplateBinding Icon}"
                                   KeyboardNavigation.IsTabStop="False" />

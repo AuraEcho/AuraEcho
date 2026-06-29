@@ -24,6 +24,9 @@
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
                 <Grid>
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07"/>
+                    </i:Interaction.Behaviors>
                     <Border Width="80"
                             Height="80"
                             Margin="0,0,0,12"
@@ -56,7 +59,11 @@
                            FontFamily="Microsoft YaHei UI"
                            Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"
                            Style="{DynamicResource DisplayLargeTextBlockStyle}"
-                           Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
+                           Text="{Binding Source={StaticResource R}, Path=Labels.AppName}">
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.14" />
+                    </i:Interaction.Behaviors>
+                </TextBlock>
 
                 <Border Width="400"
                         Height="320"
@@ -64,6 +71,9 @@
                         BorderBrush="{DynamicResource Brushes.Special.HighlightOutline}"
                         BorderThickness="1"
                         CornerRadius="8">
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.20" />
+                    </i:Interaction.Behaviors>
                     <Grid Margin="24,20">
                         <StackPanel VerticalAlignment="Top">
                             <Grid x:Name="SignModeLayout" Margin="0,0,0,16">
@@ -224,14 +234,13 @@
                                             </Grid>
                                         </Grid>
                                         <Button Height="45"
+                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
+                                                ui:ControlHelper.IsBusy="{Binding IsBusy}"
                                                 Command="{Binding SignInByCodeCommand}"
                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInOrRegisterButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
-                                                Style="{DynamicResource PrimaryButtonStyle}"
-                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
-                                                ui:ControlHelper.IsBusy="{Binding IsBusy}">
-                                        </Button>
+                                                Style="{DynamicResource PrimaryButtonStyle}" />
                                     </StackPanel>
                                 </Grid>
                                 <!-- 密码登录 -->
@@ -280,14 +289,13 @@
                                             </TextBlock>
                                         </StackPanel>
                                         <Button Height="45"
+                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
+                                                ui:ControlHelper.IsBusy="{Binding IsBusy}"
                                                 Command="{Binding SignInByPasswordCommand}"
                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
-                                                Style="{DynamicResource PrimaryButtonStyle}"
-                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
-                                                ui:ControlHelper.IsBusy="{Binding IsBusy}">
-                                        </Button>
+                                                Style="{DynamicResource PrimaryButtonStyle}" />
                                     </StackPanel>
                                 </Grid>
                             </Grid>

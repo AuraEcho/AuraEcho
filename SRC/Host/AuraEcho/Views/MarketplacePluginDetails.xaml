@@ -142,9 +142,41 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <Storyboard x:Key="ShowDetailsStoryboard">
+            <DoubleAnimation Storyboard.TargetName="ContentContainerStackPanel"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="DetailStackPanel"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0:0:0.35">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="DetailStackPanel"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             To="0"
+                             Duration="0:0:0.35">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:ControlStoryboardAction Storyboard="{StaticResource ShowDetailsStoryboard}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <ScrollViewer ui:ScrollViewerHelper.VerticalScrollBarMargin="0, 36, 0, 0" Background="{DynamicResource Brushes.SurfaceContainerLowest}">
-        <StackPanel x:Name="ContentContainerStackPanel">
+        <StackPanel x:Name="ContentContainerStackPanel"
+                    Opacity="0">
             <Grid>
                 <i:Interaction.Triggers>
                     <i:DataTrigger Binding="{Binding ElementName=ContentContainerStackPanel, Path=ActualWidth}"
@@ -329,7 +361,12 @@
             </Grid>
             <StackPanel x:Name="DetailStackPanel"
                         MaxWidth="1200"
-                        Margin="88,0,88,32">
+                        Margin="88,0,88,32"
+                        Opacity="0"
+                        RenderTransformOrigin="0.5, 0">
+                <StackPanel.RenderTransform>
+                    <TranslateTransform Y="24" />
+                </StackPanel.RenderTransform>
                 <Border Margin="0,0,0,16"
                         Background="{DynamicResource Brushes.SurfaceContainer}"
                         CornerRadius="4">

@@ -95,6 +95,9 @@
         </ScrollViewer>
         <ScrollViewer Grid.Column="1" MaxWidth="1000">
             <ContentControl prism:RegionManager.RegionName="{x:Static cc:HostRegionNames.SettingsContentRegion}">
+                <i:Interaction.Behaviors>
+                    <auraecho:ContentChangeAnimationBehavior />
+                </i:Interaction.Behaviors>
                 <d:ContentControl.Content>
                     <views:GeneralSettings />
                 </d:ContentControl.Content>

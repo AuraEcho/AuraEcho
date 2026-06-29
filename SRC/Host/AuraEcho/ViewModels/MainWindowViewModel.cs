@@ -96,6 +96,10 @@ public class MainWindowViewModel : BindableBase
             NavigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
             return;
         }
+        
+        // TODO：用于解决登录界面的入场动画卡顿的问题，具体原理待研究
+        await Task.Delay(1);
+
         NavigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.SignIn, canBack: false);
     }
 

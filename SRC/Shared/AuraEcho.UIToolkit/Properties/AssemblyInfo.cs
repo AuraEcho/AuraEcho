@@ -11,5 +11,6 @@ using System.Windows.Markup;
 )]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.UIToolkit.Converters")]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.UIToolkit.Behaviors")]
+[assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.UIToolkit.EntranceEffects")]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.UIToolkit.Tools")]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.UIToolkit.MarkupExtensions")]

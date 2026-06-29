@@ -9,94 +9,251 @@
              d:DataContext="{d:DesignInstance Type=local:ConfirmDialogViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             Background="{DynamicResource Brushes.Scrim}"
              Foreground="{DynamicResource Brushes.OnSurface}"
              mc:Ignorable="d">
-    <Border MinWidth="360"
-            MinHeight="220"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-            BorderBrush="{DynamicResource Brushes.OutlineVariant}"
-            BorderThickness="1"
-            CornerRadius="4"
-            UseLayoutRounding="True">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="40"
-                              Direction="270"
-                              Opacity="0.15"
-                              Color="Black" />
-        </Border.Effect>
-        <Grid>
-            <Grid Margin="24">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid x:Name="TitleContainer" Grid.Row="0" Margin="0,0,0,20">
-                    <TextBlock VerticalAlignment="Top"
-                               d:Text="灵光回声仍在运行"
-                               FontSize="18"
-                               HorizontalAlignment="Left"
-                               Margin="0, 0, 32, 0"
-                               FontWeight="Bold"
-                               Text="{Binding Parameter.Title}"
-                               TextWrapping="NoWrap" />
+    <UserControl.Resources>
+        <Storyboard x:Key="EntryAnimation">
+            <DoubleAnimation Storyboard.TargetName="ScrimBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1"
+                             Duration="0:0:0.12" />
+            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1"
+                             Duration="0:0:0.12" />
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="1.05"
+                             To="1"
+                             Duration="0:0:0.12">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="1.05"
+                             To="1"
+                             Duration="0:0:0.12">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ConfirmAnimation">
+            <DoubleAnimation Storyboard.TargetName="ScrimBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="CancelAnimation">
+            <DoubleAnimation Storyboard.TargetName="ScrimBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="CloseAnimation">
+            <DoubleAnimation Storyboard.TargetName="ScrimBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:ControlStoryboardAction Storyboard="{StaticResource EntryAnimation}" />
+        </i:EventTrigger>
+        <i:StoryboardCompletedTrigger Storyboard="{StaticResource ConfirmAnimation}">
+            <i:InvokeCommandAction Command="{Binding OkCommand}" />
+        </i:StoryboardCompletedTrigger>
+        <i:StoryboardCompletedTrigger Storyboard="{StaticResource CancelAnimation}">
+            <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+        </i:StoryboardCompletedTrigger>
+        <i:StoryboardCompletedTrigger Storyboard="{StaticResource CloseAnimation}">
+            <i:InvokeCommandAction Command="{Binding CloseCommand}" />
+        </i:StoryboardCompletedTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Border x:Name="ScrimBorder" Background="{DynamicResource Brushes.Scrim}" />
+        <Border x:Name="ContentBorder"
+                MinWidth="360"
+                MinHeight="220"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                d:Opacity="1"
+                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                BorderBrush="{DynamicResource Brushes.OutlineVariant}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Opacity="0"
+                RenderTransformOrigin=".5, .5"
+                UseLayoutRounding="True">
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="ContentTransform" ScaleX="1.05" ScaleY="1.05" />
+            </Border.RenderTransform>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="40"
+                                  Direction="270"
+                                  Opacity="0.15"
+                                  Color="Black" />
+            </Border.Effect>
+            <Grid>
+                <Grid Margin="24">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="TitleContainer"
+                          Grid.Row="0"
+                          Margin="0,0,0,20">
+                        <TextBlock Margin="0,0,32,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   d:Text="灵光回声仍在运行"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Text="{Binding Parameter.Title}"
+                                   TextWrapping="NoWrap" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <TextBlock MaxWidth="{Binding ActualWidth, ElementName=TitleContainer}"
+                                   Margin="0,0,0,16"
+                                   d:Text="灵光回声仍在运行，正在等待灵光回声退出，选择继续以退出灵光回声继续安装。"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource Brushes.OnSurface}"
+                                   Text="{Binding Parameter.Message}"
+                                   TextWrapping="Wrap" />
+                    </Grid>
+                    <UniformGrid Grid.Row="2" Columns="2">
+
+                        <Button Height="32"
+                                Margin="0,0,8,0"
+                                d:Content="取消"
+                                Content="{Binding Parameter.CancelText}"
+                                FontSize="14">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:ControlStoryboardAction Storyboard="{StaticResource CancelAnimation}" />
+                                </i:EventTrigger>
+                                <i:DataTrigger Binding="{Binding Parameter.CancelText}" Value="{x:Null}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding Parameter.CancelText}"
+                                               Comparison="NotEqual"
+                                               Value="{x:Null}">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button Height="32"
+                                d:Content="确定"
+                                Content="{Binding Parameter.ConfirmText}"
+                                FontSize="14"
+                                Style="{DynamicResource PrimaryButtonStyle}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:ControlStoryboardAction Storyboard="{StaticResource ConfirmAnimation}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                    </UniformGrid>
                 </Grid>
-                <Grid Grid.Row="1">
-                    <TextBlock Margin="0,0,0,16"
-                               d:Text="灵光回声仍在运行，正在等待灵光回声退出，选择继续以退出灵光回声继续安装。"
-                               FontSize="14"
-                               Foreground="{DynamicResource Brushes.OnSurface}"
-                               Text="{Binding Parameter.Message}"
-                               TextWrapping="Wrap"
-                               MaxWidth="{Binding ActualWidth, ElementName=TitleContainer}" />
-                </Grid>
-                <UniformGrid Grid.Row="2" Columns="2">
-
-                    <Button Height="32"
-                            Margin="0,0,8,0"
-                            d:Content="取消"
-                            Command="{Binding CancelCommand}"
-                            Content="{Binding Parameter.CancelText}"
-                            FontSize="14">
-                        <i:Interaction.Triggers>
-                            <i:DataTrigger Binding="{Binding Parameter.CancelText}" Value="{x:Null}">
-                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
-                            </i:DataTrigger>
-                            <i:DataTrigger Binding="{Binding Parameter.CancelText}"
-                                           Comparison="NotEqual"
-                                           Value="{x:Null}">
-                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                            </i:DataTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-                    <Button Height="32"
-                            d:Content="确定"
-                            Command="{Binding OkCommand}"
-                            Content="{Binding Parameter.ConfirmText}"
-                            FontSize="14"
-                            Style="{DynamicResource PrimaryButtonStyle}" />
-
-                </UniformGrid>
-
+                <Button Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Width="40"
+                        Height="40"
+                        Margin="8"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource IconButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:ControlStoryboardAction Storyboard="{StaticResource CloseAnimation}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox Width="24" Height="24">
+                        <Canvas Width="16" Height="16">
+                            <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
             </Grid>
-            <Button Grid.Row="0"
-                    Grid.RowSpan="3"
-                    Width="40"
-                    Height="40"
-                    Margin="8"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Command="{Binding CloseCommand}"
-                    Style="{DynamicResource IconButtonStyle}">
-                <Viewbox Width="24" Height="24">
-                    <Canvas Width="16" Height="16">
-                        <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                    </Canvas>
-                </Viewbox>
-            </Button>
-        </Grid>
-    </Border>
+        </Border>
+    </Grid>
 </UserControl>

@@ -476,10 +476,10 @@
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" Orientation="Horizontal">
                         <i:Interaction.Behaviors>
-                            <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.5">
-                                <i:FluidMoveBehavior.EaseX>
+                            <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.2">
+                                <!--<i:FluidMoveBehavior.EaseX>
                                     <CubicEase EasingMode="EaseOut" />
-                                </i:FluidMoveBehavior.EaseX>
+                                </i:FluidMoveBehavior.EaseX>-->
                                 <i:FluidMoveBehavior.EaseY>
                                     <CubicEase EasingMode="EaseOut" />
                                 </i:FluidMoveBehavior.EaseY>

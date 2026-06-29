@@ -218,9 +218,9 @@
                                          Columns="4"
                                          IsItemsHost="True">
                                 <i:Interaction.Behaviors>
-                                    <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.1">
+                                    <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.15">
                                         <i:FluidMoveBehavior.EaseY>
-                                            <CubicEase EasingMode="EaseOut" />
+                                            <CircleEase EasingMode="EaseOut" />
                                         </i:FluidMoveBehavior.EaseY>
                                     </i:FluidMoveBehavior>
                                 </i:Interaction.Behaviors>

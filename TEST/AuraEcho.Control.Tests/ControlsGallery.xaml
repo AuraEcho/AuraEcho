@@ -173,9 +173,9 @@
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                                 <Button Margin="0,0,8,0"
                                         Padding="24,8"
-                                        Content="Primary Loading"
-                                        ui:ControlHelper.IsBusy="True"
                                         ui:ControlHelper.BusyContent="Loading"
+                                        ui:ControlHelper.IsBusy="True"
+                                        Content="Primary Loading"
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                                 <Button Margin="0,0,8,0"
                                         Padding="24,8"
@@ -485,6 +485,31 @@
                                     IsEnabled="False"
                                     Maximum="10"
                                     Value="3" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- LoadingOverlay -->
+                    <Border Margin="16,8"
+                            Padding="16"
+                            Background="{DynamicResource Brushes.SurfaceContainer}"
+                            CornerRadius="4">
+                        <i:Interaction.Behaviors>
+                            <ui:LoadingOverlayBehavior IsLoading="True" LoadingContent="Loading" />
+                        </i:Interaction.Behaviors>
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Margin="0,0,0,8"
+                                       Foreground="{DynamicResource Brushes.OnSurface}"
+                                       Text="LoadingOverlay" />
+                            <StackPanel Orientation="Horizontal">
+
+                                <Button Margin="0,0,8,0"
+                                        Padding="24,8"
+                                        Content="默认" />
+                                <Button Margin="0,0,8,0"
+                                        Padding="24,8"
+                                        Content="默认" />
+                            </StackPanel>
+
                         </StackPanel>
                     </Border>
                 </StackPanel>

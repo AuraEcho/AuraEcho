@@ -204,6 +204,9 @@
                               d:ItemsSource="{d:SampleData ItemCount=10}"
                               ItemTemplate="{StaticResource PluginTemplate}"
                               ItemsSource="{Binding Plugins}">
+                    <i:Interaction.Behaviors>
+                        <ui:EntranceAnimationBehavior />
+                    </i:Interaction.Behaviors>
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="{x:Type ContentPresenter}">
                             <Setter Property="Margin" Value="8" />
@@ -214,6 +217,13 @@
                             <UniformGrid x:Name="PluginItemGrid"
                                          Columns="4"
                                          IsItemsHost="True">
+                                <i:Interaction.Behaviors>
+                                    <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.1">
+                                        <i:FluidMoveBehavior.EaseY>
+                                            <CubicEase EasingMode="EaseOut" />
+                                        </i:FluidMoveBehavior.EaseY>
+                                    </i:FluidMoveBehavior>
+                                </i:Interaction.Behaviors>
                                 <i:Interaction.Triggers>
                                     <i:DataTrigger Binding="{Binding ElementName=PluginItemGrid, Path=ActualWidth}"
                                                    Comparison="GreaterThanOrEqual"

@@ -463,6 +463,9 @@
     </UserControl.Resources>
     <Grid RowDefinitions="36, *">
         <ItemsControl Grid.Row="1" Margin="24,12,24,24">
+            <i:Interaction.Behaviors>
+                <auraecho:EntranceAnimationBehavior />
+            </i:Interaction.Behaviors>
             <ItemsControl.ItemTemplateSelector>
                 <selectors:AppPluginDataTemplateSelector LocalWebPluginTemplate="{StaticResource WebPluginTemplate}"
                                                          NativePluginTemplate="{StaticResource NativePluginTemplate}"
@@ -471,7 +474,18 @@
             </ItemsControl.ItemTemplateSelector>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+                    <WrapPanel IsItemsHost="True" Orientation="Horizontal">
+                        <i:Interaction.Behaviors>
+                            <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.5">
+                                <i:FluidMoveBehavior.EaseX>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </i:FluidMoveBehavior.EaseX>
+                                <i:FluidMoveBehavior.EaseY>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </i:FluidMoveBehavior.EaseY>
+                            </i:FluidMoveBehavior>
+                        </i:Interaction.Behaviors>
+                    </WrapPanel>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemsSource>

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Extensions;
@@ -16,6 +12,10 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AuraEcho.ViewModels;
 
@@ -47,7 +47,6 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         List<Guid> installedPluginIds = _pluginManager.Plugins.Select(p => p.PluginId).ToList();
         List<MarketPluginInstallTask> inProcessTasks = [.. _transferManager.AllTasks.OfType<MarketPluginInstallTask>()];
         ObservableCollection<MarketPlugin> marketPlugins = result.Select(ToMarketPlugin).ToObservableCollection();
-
         Plugins = [.. marketPlugins];
 
         MarketPlugin ToMarketPlugin(RemotePlugin plugin)

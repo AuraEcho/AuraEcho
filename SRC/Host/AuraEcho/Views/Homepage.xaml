@@ -11,6 +11,7 @@
              xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:selectors="clr-namespace:AuraEcho.Selectors"
+             xmlns:local="clr-namespace:AuraEcho.Models"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              d:Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              d:DataContext="{d:DesignInstance Type=viewmodels:HomepageViewModel}"
@@ -459,6 +460,29 @@
                 </Grid>
             </Button>
         </DataTemplate>
+        <DataTemplate x:Key="MarketplaceNavigationTemplate" DataType="{x:Type local:MarketplaceNavigationItem}">
+            <Button Width="120"
+                    Height="120"
+                    Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToPluginsMarketplaceCommand}"
+                    FontSize="12"
+                    Style="{DynamicResource IconButtonStyle}">
+                <DockPanel LastChildFill="True">
+                    <Viewbox Width="64"
+                             Height="64"
+                             Margin="0,0,0,8"
+                             DockPanel.Dock="Top">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M12,13A5,5 0 0,1 7,8H9A3,3 0 0,0 12,11A3,3 0 0,0 15,8H17A5,5 0 0,1 12,13M12,3A3,3 0 0,1 15,6H9A3,3 0 0,1 12,3M19,6H17A5,5 0 0,0 12,1A5,5 0 0,0 7,6H5C3.89,6 3,6.89 3,8V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V8C21,6.89 20.1,6 19,6Z" Fill="#AAAAAA" />
+                        </Canvas>
+                    </Viewbox>
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace}"
+                               TextTrimming="CharacterEllipsis" />
+                </DockPanel>
+            </Button>
+        </DataTemplate>
         <CollectionViewSource x:Key="PluginsSource" Source="{Binding Plugins}" />
     </UserControl.Resources>
     <Grid RowDefinitions="36, *">
@@ -468,6 +492,7 @@
             </i:Interaction.Behaviors>
             <ItemsControl.ItemTemplateSelector>
                 <selectors:AppPluginDataTemplateSelector LocalWebPluginTemplate="{StaticResource WebPluginTemplate}"
+                                                         MarketplaceNavigationTemplate="{StaticResource MarketplaceNavigationTemplate}"
                                                          NativePluginTemplate="{StaticResource NativePluginTemplate}"
                                                          RemoteWebPluginTemplate="{StaticResource WebPluginTemplate}"
                                                          StandalonePluginTemplate="{StaticResource StandalonePluginTemplate}" />
@@ -477,9 +502,6 @@
                     <WrapPanel IsItemsHost="True" Orientation="Horizontal">
                         <i:Interaction.Behaviors>
                             <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.2">
-                                <!--<i:FluidMoveBehavior.EaseX>
-                                    <CubicEase EasingMode="EaseOut" />
-                                </i:FluidMoveBehavior.EaseX>-->
                                 <i:FluidMoveBehavior.EaseY>
                                     <CubicEase EasingMode="EaseOut" />
                                 </i:FluidMoveBehavior.EaseY>
@@ -491,27 +513,7 @@
             <ItemsControl.ItemsSource>
                 <CompositeCollection>
                     <CollectionContainer d:Collection="{d:SampleData ItemCount=5}" Collection="{Binding Source={StaticResource PluginsSource}}" />
-                    <Button Width="120"
-                            Height="120"
-                            Command="{Binding NavigationToPluginsMarketplaceCommand}"
-                            FontSize="12"
-                            Style="{DynamicResource IconButtonStyle}">
-                        <DockPanel LastChildFill="True">
-                            <Viewbox Width="64"
-                                     Height="64"
-                                     Margin="0,0,0,8"
-                                     DockPanel.Dock="Top">
-                                <Canvas Width="24" Height="24">
-                                    <Path Data="M12,13A5,5 0 0,1 7,8H9A3,3 0 0,0 12,11A3,3 0 0,0 15,8H17A5,5 0 0,1 12,13M12,3A3,3 0 0,1 15,6H9A3,3 0 0,1 12,3M19,6H17A5,5 0 0,0 12,1A5,5 0 0,0 7,6H5C3.89,6 3,6.89 3,8V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V8C21,6.89 20.1,6 19,6Z" Fill="#AAAAAA" />
-                                </Canvas>
-                            </Viewbox>
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="14"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </DockPanel>
-                    </Button>
+                    <local:MarketplaceNavigationItem />
                 </CompositeCollection>
             </ItemsControl.ItemsSource>
         </ItemsControl>

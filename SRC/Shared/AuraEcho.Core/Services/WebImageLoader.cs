@@ -1,7 +1,9 @@
 ﻿using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
+using Serilog.Core;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -94,6 +96,11 @@ public class WebImageLoader : IWebImageLoader
             _ = File.WriteAllBytesAsync(filePath, bytes);
 
             return bytes;
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine("图片加载失败");
+            return null;
         }
         finally
         {

@@ -13,10 +13,11 @@ using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace AuraEcho.ViewModels;
 
-public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorInfo
+public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorInfo, IRegionMemberLifetime
 {
     #region private members
     private readonly IClientSession _clientSession;
@@ -113,6 +114,9 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
     public bool HasErrors => _errors.Count != 0;
     public DelegateCommand<string> ClearErrorsCommand { get; }
+
+    public bool KeepAlive => false;
+
     private void ClearErrors(string propertyName)
     {
         if (!_errors.Remove(propertyName)) return;

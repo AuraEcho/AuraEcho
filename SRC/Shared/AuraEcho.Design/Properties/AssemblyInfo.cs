@@ -13,3 +13,4 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Design.Decorators")]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Design.Shaders")]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Design.Themes")]
+[assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Design.Controls")]

@@ -281,4 +281,8 @@
 
     <SolidColorBrush x:Key="Brushes.Special.FloatingBackground" Color="{StaticResource Colors.Neutral-99}" />
     <!--#endregion-->
+
+    <!-- 骨架屏 -->
+    <Color x:Key="Colors.SkeletonShimmer">#66FFFFFF</Color>
+    <SolidColorBrush x:Key="Brushes.SkeletonBase" Color="{StaticResource Colors.Neutral-90}" />
 </ResourceDictionary>

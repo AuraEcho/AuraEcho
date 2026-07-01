@@ -1,0 +1,93 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ap="clr-namespace:AuraEcho.Design.AttachedProperties"
+                    xmlns:controls="clr-namespace:AuraEcho.Design.Controls">
+    <Style TargetType="{x:Type controls:SkeletonContainer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:SkeletonContainer}">
+                    <Grid>
+                        <!-- 真实内容 -->
+                        <ContentPresenter x:Name="PART_RealContent"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                        <!-- 骨架占位 -->
+                        <Grid x:Name="PART_SkeletonContent" Visibility="Collapsed">
+                            <ContentPresenter x:Name="PART_SkeletonShapes" Content="{TemplateBinding Skeleton}" />
+                            <!-- 高光 -->
+                            <Border x:Name="ShimmerOverlay"
+                                    ap:VisualMask.Source="{Binding ElementName=PART_SkeletonShapes}"
+                                    IsHitTestVisible="False">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Offset="0" Color="Transparent" />
+                                        <GradientStop Offset="0.4" Color="Transparent" />
+                                        <GradientStop Offset="0.5" Color="{DynamicResource Colors.SkeletonShimmer}" />
+                                        <GradientStop Offset="0.6" Color="Transparent" />
+                                        <GradientStop Offset="1" Color="Transparent" />
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TranslateTransform x:Name="ShimmerTransform" X="-1" />
+                                        </LinearGradientBrush.RelativeTransform>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="LoadingStates">
+                                <VisualState x:Name="Loading">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RealContent" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_SkeletonContent" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="PART_SkeletonContent"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_RealContent"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0" />
+                                        <!-- 高光 -->
+                                        <DoubleAnimation RepeatBehavior="Forever"
+                                                         Storyboard.TargetName="ShimmerTransform"
+                                                         Storyboard.TargetProperty="X"
+                                                         From="-1"
+                                                         To="1"
+                                                         Duration="0:0:1.5">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Loaded">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RealContent" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_SkeletonContent" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="PART_RealContent"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="ShimmerTransform"
+                                                         Storyboard.TargetProperty="X"
+                                                         To="0"
+                                                         Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,6 +1,5 @@
 using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace AuraEcho.Design.AttachedProperties
 {
@@ -15,19 +14,19 @@ namespace AuraEcho.Design.AttachedProperties
         /// <returns>
         /// 角的圆化程度，表示为 CornerRadius 的值结构。
         /// </returns>
-        public static CornerRadius GetCornerRadius(Control control)
+        public static CornerRadius GetCornerRadius(DependencyObject obj)
         {
-            return (CornerRadius)control.GetValue(CornerRadiusProperty);
+            return (CornerRadius)obj.GetValue(CornerRadiusProperty);
         }
 
         /// <summary>
         /// 设置控件圆角的半径。
         /// </summary>
-        /// <param name="control">要设置附加属性的元素。</param>
+        /// <param name="obj">要设置附加属性的元素。</param>
         /// <param name="value">要设置的属性值。</param>
-        public static void SetCornerRadius(Control control, CornerRadius value)
+        public static void SetCornerRadius(DependencyObject obj, CornerRadius value)
         {
-            control.SetValue(CornerRadiusProperty, value);
+            obj.SetValue(CornerRadiusProperty, value);
         }
 
         /// <summary>
@@ -50,14 +49,14 @@ namespace AuraEcho.Design.AttachedProperties
                 typeof(ControlHelper),
                 new PropertyMetadata(String.Empty));
 
-        public static string GetPlaceHolder(Control control)
+        public static string GetPlaceHolder(DependencyObject obj)
         {
-            return (string)control.GetValue(PlaceHolderProperty);
+            return (string)obj.GetValue(PlaceHolderProperty);
         }
 
-        public static void SetPlaceHolder(Control control, string value)
+        public static void SetPlaceHolder(DependencyObject obj, string value)
         {
-            control.SetValue(PlaceHolderProperty, value);
+            obj.SetValue(PlaceHolderProperty, value);
         }
         #endregion
 
@@ -70,14 +69,14 @@ namespace AuraEcho.Design.AttachedProperties
                 typeof(ControlHelper),
                 new PropertyMetadata(false));
 
-        public static bool GetIsBusy(Control control)
+        public static bool GetIsBusy(DependencyObject obj)
         {
-            return (bool)control.GetValue(IsBusyProperty);
+            return (bool)obj.GetValue(IsBusyProperty);
         }
 
-        public static void SetIsBusy(Control control, bool value)
+        public static void SetIsBusy(DependencyObject obj, bool value)
         {
-            control.SetValue(IsBusyProperty, value);
+            obj.SetValue(IsBusyProperty, value);
         }
         #endregion
 
@@ -90,14 +89,14 @@ namespace AuraEcho.Design.AttachedProperties
                 typeof(ControlHelper),
                 new PropertyMetadata(string.Empty));
 
-        public static string GetBusyContent(Control control)
+        public static string GetBusyContent(DependencyObject obj)
         {
-            return (string)control.GetValue(BusyContentProperty);
+            return (string)obj.GetValue(BusyContentProperty);
         }
 
-        public static void SetBusyContent(Control control, string value)
+        public static void SetBusyContent(DependencyObject obj, string value)
         {
-            control.SetValue(BusyContentProperty, value);
+            obj.SetValue(BusyContentProperty, value);
         }
         #endregion
     }

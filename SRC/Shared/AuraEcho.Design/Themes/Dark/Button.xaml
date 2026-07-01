@@ -112,16 +112,16 @@
                         </Storyboard>
                     </ControlTemplate.Resources>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding (ui:ControlHelper.IsBusy), RelativeSource={RelativeSource Self}}" Value="True">
+                        <Trigger Property="ui:ControlHelper.IsBusy" Value="True">
                             <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="BusyIndicator" Property="Visibility" Value="Visible" />
-                            <DataTrigger.EnterActions>
+                            <Trigger.EnterActions>
                                 <BeginStoryboard x:Name="LoadingAnimationBegin" Storyboard="{StaticResource LoadingAnimation}" />
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
                                 <StopStoryboard BeginStoryboardName="LoadingAnimationBegin" />
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
+                            </Trigger.ExitActions>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

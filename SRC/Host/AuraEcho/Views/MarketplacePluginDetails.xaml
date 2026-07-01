@@ -176,7 +176,8 @@
     </i:Interaction.Triggers>
     <ScrollViewer ui:ScrollViewerHelper.VerticalScrollBarMargin="0, 36, 0, 0" Background="{DynamicResource Brushes.SurfaceContainerLowest}">
         <StackPanel x:Name="ContentContainerStackPanel"
-                    Opacity="0">
+                    Opacity="0"
+                    d:Opacity="1">
             <Grid>
                 <i:Interaction.Triggers>
                     <i:DataTrigger Binding="{Binding ElementName=ContentContainerStackPanel, Path=ActualWidth}"
@@ -363,6 +364,7 @@
                         MaxWidth="1200"
                         Margin="88,0,88,32"
                         Opacity="0"
+                        d:Opacity="1"
                         RenderTransformOrigin="0.5, 0">
                 <StackPanel.RenderTransform>
                     <TranslateTransform Y="24" />
@@ -462,12 +464,15 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="8">
+                                                <Grid.Resources>
+                                                    <ui:BindingProxy x:Key="DataContextProxy" Data="{Binding}"/>
+                                                </Grid.Resources>
                                                 <Border Width="488"
                                                         Height="252"
                                                         CornerRadius="4">
                                                     <Border.Background>
                                                         <ImageBrush pcap:WebImageHelper.DecodePixelWidth="976"
-                                                                    pcap:WebImageHelper.Url="{Binding FileUrl}"
+                                                                    pcap:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.FileUrl}"
                                                                     Stretch="UniformToFill" />
                                                     </Border.Background>
                                                 </Border>

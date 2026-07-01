@@ -24,6 +24,7 @@
         <DataTemplate x:Key="PluginTemplate" DataType="{x:Type models:MarketPlugin}">
             <Grid Background="Transparent">
                 <Grid.Resources>
+                    <ui:BindingProxy x:Key="DataContextProxy" Data="{Binding}"/>
                     <Storyboard x:Key="MouseEnterStoryboard">
                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                          Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
@@ -71,7 +72,7 @@
                                 <Border Grid.Row="0" CornerRadius="4, 4, 0, 0">
                                     <Border.Background>
                                         <ImageBrush pcap:WebImageHelper.DecodePixelHeight="210"
-                                                    pcap:WebImageHelper.Url="{Binding PluginInfo.BannerFileUrl}"
+                                                    pcap:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.PluginInfo.BannerFileUrl}"
                                                     Stretch="UniformToFill" />
                                     </Border.Background>
                                 </Border>
@@ -86,7 +87,7 @@
                                             DockPanel.Dock="Left">
                                         <Border.Background>
                                             <ImageBrush pcap:WebImageHelper.DecodePixelWidth="64"
-                                                        pcap:WebImageHelper.Url="{Binding PluginInfo.IconFileUrl}"
+                                                        pcap:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.PluginInfo.IconFileUrl}"
                                                         Stretch="UniformToFill" />
                                         </Border.Background>
                                     </Border>

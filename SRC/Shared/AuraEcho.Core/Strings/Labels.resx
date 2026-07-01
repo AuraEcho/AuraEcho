@@ -145,7 +145,7 @@
     <value>选择图像文件</value>
   </data>
   <data name="AccountSettings_Title" xml:space="preserve">
-    <value>账户</value>
+    <value>账号</value>
   </data>
   <data name="AccountSettings_Uploading" xml:space="preserve">
     <value>上传中...</value>
@@ -514,7 +514,7 @@
     <value>设置</value>
   </data>
   <data name="Settings_NavAccount" xml:space="preserve">
-    <value>账户</value>
+    <value>账号</value>
   </data>
   <data name="Settings_NavGeneral" xml:space="preserve">
     <value>常规</value>

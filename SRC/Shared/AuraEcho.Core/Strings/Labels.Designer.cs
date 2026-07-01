@@ -142,7 +142,7 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 账户 的本地化字符串。
+        ///   查找类似 账号 的本地化字符串。
         /// </summary>
         public static string AccountSettings_Title {
             get {
@@ -1267,7 +1267,7 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 账户 的本地化字符串。
+        ///   查找类似 账号 的本地化字符串。
         /// </summary>
         public static string Settings_NavAccount {
             get {

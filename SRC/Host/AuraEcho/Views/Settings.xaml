@@ -86,7 +86,7 @@
                 <ItemsControl ItemTemplate="{StaticResource SettingsItemTemplate}" ItemsSource="{Binding SettingsItems}">
                     <d:ItemsControl.ItemsSource>
                         <x:Array Type="{x:Type pm:PluginSettingsItem}">
-                            <pm:PluginSettingsItem Name="账户" />
+                            <pm:PluginSettingsItem Name="账号" />
                             <pm:PluginSettingsItem Name="常规" />
                         </x:Array>
                     </d:ItemsControl.ItemsSource>

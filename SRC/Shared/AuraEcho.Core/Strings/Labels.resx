@@ -139,7 +139,7 @@
     <value>个人信息更新成功</value>
   </data>
   <data name="AccountSettings_SaveChanges" xml:space="preserve">
-    <value>保存修改</value>
+    <value>保存</value>
   </data>
   <data name="AccountSettings_SelectImageFile" xml:space="preserve">
     <value>选择图像文件</value>

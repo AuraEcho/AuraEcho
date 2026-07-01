@@ -124,7 +124,7 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 保存修改 的本地化字符串。
+        ///   查找类似 保存 的本地化字符串。
         /// </summary>
         public static string AccountSettings_SaveChanges {
             get {

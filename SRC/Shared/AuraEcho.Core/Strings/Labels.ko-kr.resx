@@ -139,7 +139,7 @@
     <value>프로필이 성공적으로 업데이트되었습니다</value>
   </data>
   <data name="AccountSettings_SaveChanges" xml:space="preserve">
-    <value>변경 사항 저장</value>
+    <value>저장</value>
   </data>
   <data name="AccountSettings_SelectImageFile" xml:space="preserve">
     <value>이미지 파일 선택</value>

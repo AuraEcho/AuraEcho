@@ -139,7 +139,7 @@
     <value>プロフィールが正常に更新されました</value>
   </data>
   <data name="AccountSettings_SaveChanges" xml:space="preserve">
-    <value>変更を保存</value>
+    <value>保存</value>
   </data>
   <data name="AccountSettings_SelectImageFile" xml:space="preserve">
     <value>画像ファイルを選択</value>

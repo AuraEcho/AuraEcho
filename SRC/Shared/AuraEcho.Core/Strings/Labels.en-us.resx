@@ -139,7 +139,7 @@
     <value>Profile updated successfully</value>
   </data>
   <data name="AccountSettings_SaveChanges" xml:space="preserve">
-    <value>Save Changes</value>
+    <value>Save</value>
   </data>
   <data name="AccountSettings_SelectImageFile" xml:space="preserve">
     <value>Select image file</value>

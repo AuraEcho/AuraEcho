@@ -147,6 +147,9 @@
   <data name="AccountSettings_Title" xml:space="preserve">
     <value>Account</value>
   </data>
+  <data name="AccountSettings_Uploading" xml:space="preserve">
+    <value>Uploading...</value>
+  </data>
   <data name="AccountSettings_UserName" xml:space="preserve">
     <value>Username</value>
   </data>

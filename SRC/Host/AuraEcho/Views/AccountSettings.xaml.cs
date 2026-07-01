@@ -17,6 +17,10 @@ namespace AuraEcho.Views
 
         private void SelectAvatarFileButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (DataContext is not AccountSettingsViewModel vm) return;
+
+            if (vm.IsUploadingAvatar) return;
+
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
                 Title = Labels.AccountSettings_SelectImageFile,
@@ -24,7 +28,7 @@ namespace AuraEcho.Views
             };
             if (dialog.ShowDialog() != true) return;
 
-            (DataContext as AccountSettingsViewModel)?.UploadAvatarCommand.Execute(dialog.FileName);
+            vm.UploadAvatarCommand.Execute(dialog.FileName);
         }
     }
 }

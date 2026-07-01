@@ -149,7 +149,16 @@ namespace AuraEcho.Core.Strings {
                 return ResourceManager.GetString("AccountSettings_Title", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 上传中... 的本地化字符串。
+        /// </summary>
+        public static string AccountSettings_Uploading {
+            get {
+                return ResourceManager.GetString("AccountSettings_Uploading", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 用户名 的本地化字符串。
         /// </summary>

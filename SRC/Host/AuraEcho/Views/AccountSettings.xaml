@@ -56,9 +56,11 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
                                 Background="{DynamicResource Brushes.SurfaceContainerLowest}"
-                                CornerRadius="2">
+                                CornerRadius="4">
                             <Button x:Name="SelectAvatarFileButton"
-                                    Padding="8,4"
+                                    Padding="8, 4"
+                                    ui:ControlHelper.IsBusy="{Binding IsUploadingAvatar}"
+                                    ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_Uploading}"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Click="SelectAvatarFileButton_Click">

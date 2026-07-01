@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using AuraEcho.Api.Models.V1.Auth;
 using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Core.Contracts;
@@ -27,7 +28,13 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
     private readonly Dictionary<string, List<string>> _errors = [];
     #endregion
 
-    public bool IsBusy
+    public bool IsSubmitting
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public bool IsUploadingAvatar
     {
         get;
         set => SetProperty(ref field, value);
@@ -56,11 +63,11 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
 
     public DelegateCommand UpdateProfileCommand { get; }
     public bool CanUpdateProfile()
-        => !IsBusy && HasChanges();
+        => !IsSubmitting && HasChanges() && !IsUploadingAvatar;
 
     private async void UpdateProfile()
     {
-        IsBusy = true;
+        IsSubmitting = true;
         try
         {
             ClearErrors(nameof(NewUserName));
@@ -89,26 +96,40 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
         }
         finally
         {
-            IsBusy = false;
+            IsSubmitting = false;
         }
     }
 
     public DelegateCommand<string> UploadAvatarCommand { get; }
     private async void UploadAvatar(string filePath)
     {
-        var fileInfo = new FileInfo(filePath);
+        if (IsUploadingAvatar) return;
 
-        if (fileInfo.Length > 2 * 1024 * 1024) throw new Exception(Labels.AccountSettings_AvatarSizeExceeded);
-
-        var uploadResult = await _storageRepository.UploadFileAsync(filePath);
-        if (uploadResult is null)
+        IsUploadingAvatar = true;
+        try
         {
-            _toastService.Show(Labels.AccountSettings_AvatarUploadFailed, ToastLevel.Error);
-            return;
-        }
+            var fileInfo = new FileInfo(filePath);
 
-        NewAvatarFileUrl = uploadResult.FileUrl;
-        NewAvatarFileId = uploadResult.FileId;
+            if (fileInfo.Length > 2 * 1024 * 1024)
+            {
+                _toastService.Show(Labels.AccountSettings_AvatarSizeExceeded, ToastLevel.Error);
+                return;
+            }
+
+            var uploadResult = await _storageRepository.UploadFileAsync(filePath);
+            if (uploadResult is null)
+            {
+                _toastService.Show(Labels.AccountSettings_AvatarUploadFailed, ToastLevel.Error);
+                return;
+            }
+
+            NewAvatarFileUrl = uploadResult.FileUrl;
+            NewAvatarFileId = uploadResult.FileId;
+        }
+        finally
+        {
+            IsUploadingAvatar = false;
+        }
     }
 
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
@@ -149,7 +170,8 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
 
         UpdateProfileCommand =
             new DelegateCommand(UpdateProfile, CanUpdateProfile)
-            .ObservesProperty(() => IsBusy)
+            .ObservesProperty(() => IsSubmitting)
+            .ObservesProperty(() => IsUploadingAvatar)
             .ObservesProperty(() => NewAvatarFileId)
             .ObservesProperty(() => NewUserName);
 

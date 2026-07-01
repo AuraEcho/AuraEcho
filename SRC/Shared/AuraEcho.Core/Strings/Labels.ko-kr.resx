@@ -147,6 +147,9 @@
   <data name="AccountSettings_Title" xml:space="preserve">
     <value>계정</value>
   </data>
+  <data name="AccountSettings_Uploading" xml:space="preserve">
+    <value>업로드 중...</value>
+  </data>
   <data name="AccountSettings_UserName" xml:space="preserve">
     <value>사용자 이름</value>
   </data>

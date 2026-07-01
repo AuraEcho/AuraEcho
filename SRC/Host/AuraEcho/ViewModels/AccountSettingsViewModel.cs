@@ -78,13 +78,14 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
                 return;
             }
 
-            var result = await _authRepository.UpdateProfileAsync(new UpdateProfileRequest
+            var updateProfileTask = _authRepository.UpdateProfileAsync(new UpdateProfileRequest
             {
                 AvatarFileId = NewAvatarFileId,
                 UserName = NewUserName
             });
+            await Task.WhenAll(updateProfileTask, Task.Delay(TimeSpan.FromSeconds(0.3)));
 
-            if (result.Status != ResultStatus.Success)
+            if (updateProfileTask.Result.Status != ResultStatus.Success)
             {
                 _toastService.Show(Labels.AccountSettings_ProfileUpdateFailed, ToastLevel.Error);
                 return;

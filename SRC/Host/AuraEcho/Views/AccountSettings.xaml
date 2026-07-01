@@ -122,6 +122,8 @@
                     </TextBlock>
                     <Button Padding="24,8"
                             HorizontalAlignment="Left"
+                            ui:ControlHelper.IsBusy="{Binding IsSubmitting}"
+                            ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_SaveChanges}"
                             Command="{Binding UpdateProfileCommand}"
                             Content="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_SaveChanges}"
                             FontSize="{DynamicResource FontSize.Label.Medium}"

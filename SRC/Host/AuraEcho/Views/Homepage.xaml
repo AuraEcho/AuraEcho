@@ -128,11 +128,7 @@
                               Margin="0,0,0,8"
                               DockPanel.Dock="Top">
 
-                            <Rectangle RadiusX="16" RadiusY="16">
-                                <Rectangle.Fill>
-                                    <ImageBrush ImageSource="{Binding Path=., Converter={converters:PluginIconConverter}}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
+                            <Rectangle RadiusX="16" RadiusY="16" Fill="{Binding Converter={converters:PluginIconConverter}}" />
                             <Border Padding="2"
                                     Background="#A0000000"
                                     CornerRadius="16"
@@ -274,11 +270,7 @@
                               Margin="0,0,0,8"
                               DockPanel.Dock="Top">
 
-                            <Rectangle RadiusX="16" RadiusY="16">
-                                <Rectangle.Fill>
-                                    <ImageBrush ImageSource="{Binding Path=., Converter={converters:PluginIconConverter}}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
+                            <Rectangle RadiusX="16" RadiusY="16" Fill="{Binding Converter={converters:PluginIconConverter}}" />
                             <Border Padding="2"
                                     Background="#A0000000"
                                     CornerRadius="16"
@@ -418,11 +410,7 @@
                               Margin="0,0,0,8"
                               DockPanel.Dock="Top">
 
-                            <Rectangle RadiusX="16" RadiusY="16">
-                                <Rectangle.Fill>
-                                    <ImageBrush ImageSource="{Binding Path=., Converter={converters:PluginIconConverter}}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
+                            <Rectangle RadiusX="16" RadiusY="16" Fill="{Binding Converter={converters:PluginIconConverter}}" />
                             <Border Padding="2"
                                     Background="#A0000000"
                                     CornerRadius="16"

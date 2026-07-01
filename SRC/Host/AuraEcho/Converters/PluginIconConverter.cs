@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
 using AuraEcho.Core.Models;
 using AuraEcho.UIToolkit.Converters;
 
@@ -20,7 +21,7 @@ public class PluginIconConverter : MarkupExtension, IValueConverter
 
         var iconPath = new PathCombineConverter().Convert([pr.WorkingDirectory, pr.Icon], null, null, null);
         var imageSource = new StringToImageSourceConverter().Convert(iconPath, null, null, null);
-        return imageSource;
+        return imageSource is ImageSource source ? new ImageBrush(source) : null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

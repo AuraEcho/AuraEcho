@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:ui="http://ui.auraecho.com/"
-             d:DesignHeight="1585.167"
+             d:DesignHeight="1629.167"
              d:DesignWidth="914"
              d:Height="450"
              d:Width="800"
@@ -509,6 +509,53 @@
                                         Padding="24,8"
                                         Content="默认" />
                             </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                    <!-- LoadingOverlay -->
+                    <Border Margin="16,8"
+                            Padding="16"
+                            Background="{DynamicResource Brushes.SurfaceContainer}"
+                            CornerRadius="4">
+                        <StackPanel>
+                            <TextBlock Margin="0,0,0,8"
+                                       Foreground="{DynamicResource Brushes.OnSurface}"
+                                       Text="LoadingOverlay" />
+                            <Grid>
+                                <ui:SkeletonContainer IsLoading="True">
+                                    <ui:SkeletonContainer.Skeleton>
+                                        <StackPanel HorizontalAlignment="Left">
+                                            <ui:SkeletonRectangle Width="280"
+                                                                  Height="20"
+                                                                  Margin="0,0,0,8"
+                                                                  HorizontalAlignment="Left"
+                                                                  VerticalAlignment="Center" />
+                                            <ui:SkeletonRectangle Width="380"
+                                                                  Height="20"
+                                                                  Margin="0,0,0,8"
+                                                                  VerticalAlignment="Center" />
+                                            <ui:SkeletonRectangle Width="340"
+                                                                  Height="20"
+                                                                  Margin="0,0,0,8"
+                                                                  HorizontalAlignment="Left"
+                                                                  VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </ui:SkeletonContainer.Skeleton>
+                                    <StackPanel x:Name="SourceShape" Orientation="Horizontal">
+
+                                        <Button Margin="0,0,8,0"
+                                                Padding="24,8"
+                                                VerticalAlignment="Center"
+                                                Content="Button"
+                                                Style="{DynamicResource PrimaryButtonStyle}" />
+                                        <Button Margin="0,0,8,0"
+                                                Padding="24,8"
+                                                VerticalAlignment="Center"
+                                                Content="Button"
+                                                Style="{DynamicResource PrimaryButtonStyle}" />
+                                    </StackPanel>
+                                </ui:SkeletonContainer>
+                            </Grid>
 
                         </StackPanel>
                     </Border>

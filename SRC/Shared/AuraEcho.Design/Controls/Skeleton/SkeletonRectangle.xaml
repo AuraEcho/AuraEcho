@@ -3,12 +3,13 @@
                     xmlns:controls="clr-namespace:AuraEcho.Design.Controls">
     <Style TargetType="{x:Type controls:SkeletonRectangle}">
         <Setter Property="Height" Value="12" />
+        <Setter Property="Background" Value="{DynamicResource Brushes.SkeletonBase}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:SkeletonRectangle}">
                     <Border Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}"
-                            Background="{DynamicResource Brushes.SkeletonBase}"
+                            Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}" />
                 </ControlTemplate>
             </Setter.Value>

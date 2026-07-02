@@ -13,7 +13,7 @@ namespace AuraEcho.Design.Controls
                 nameof(CornerRadius),
                 typeof(CornerRadius),
                 typeof(SkeletonRectangle),
-                new PropertyMetadata(new CornerRadius(4)));
+                new PropertyMetadata(new CornerRadius(2)));
 
         public CornerRadius CornerRadius
         {

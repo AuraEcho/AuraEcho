@@ -1,9 +1,10 @@
-﻿using AuraEcho.Api.Models.V1.Common;
+using AuraEcho.Api.Models.V1.Common;
 using AuraEcho.Api.Models.V1.Order;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Strings;
+using AuraEcho.Enums;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
@@ -22,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
 
-public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAware
+public class PurchaseViewModel : BindableBase, IRegionDialogAware
 {
     private Guid _resourceId;
     private readonly ISkuRepository _skuRepository;
@@ -33,17 +34,29 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
     private readonly IRemotePluginRepository _remotePluginRepository;
     private readonly ISkuOrderCacheService _skuOrderCacheService;
     private readonly IClock _clock;
-    private Guid? _newestOrderId;
-    private int _currentOrderCreatingTaskId;
+
+    private int _currentOrderTaskId;
     private readonly CancellationTokenSource _orderStatusTaskToken = new();
 
-    public ResourceLicense CurrentPluginLicense
+    public PurchaseState State
     {
         get;
         set => SetProperty(ref field, value);
     }
 
+    public bool IsInitializing
+    {
+        get;
+        set => SetProperty(ref field, value);
+    } = true;
+
     public RemotePlugin CurrentPlugin
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public ResourceLicense CurrentPluginLicense
     {
         get;
         set => SetProperty(ref field, value);
@@ -60,12 +73,11 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         get;
         set
         {
-            bool isUpdated = SetProperty(ref field, value);
-
-            if (!isUpdated) return;
+            if (!SetProperty(ref field, value)) return;
             if (value is null) return;
+            if (IsInitializing) return;
 
-            SubmitOrder();
+            RefreshOrderAsync();
         }
     }
 
@@ -74,11 +86,9 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         get;
         set
         {
-            bool isUpdated = SetProperty(ref field, value);
-            if (!isUpdated) return;
-            if (SelectedSku is null) return;
+            if (!SetProperty(ref field, value)) return;
 
-            SubmitOrder();
+            RefreshOrderAsync();
         }
     } = PaymentChannel.Wxpay;
 
@@ -88,25 +98,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         set => SetProperty(ref field, value);
     } = "QRPlaceHolderQRPlaceHolderQRPlaceHolder";
 
-    public bool QRCodeIsValid
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
-
-    public bool IsOrderCreating
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
-
-    public bool IsPaid
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
-
-    public OrderPaymentDetails OrderPaymentDetails
+    public OrderPaymentDetails PaymentResult
     {
         get;
         set => SetProperty(ref field, value);
@@ -118,71 +110,12 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         SelectedSku = sku;
     }
 
-    public DelegateCommand SubmitOrderCommand { get; }
-    private async void SubmitOrder()
+    public DelegateCommand RefreshOrderCommand { get; }
+    private async void RefreshOrderAsync()
     {
         if (SelectedSku is null) return;
 
-        IsOrderCreating = true;
-
-        Task<ResponseResult<CreateOrderResponse>?> createOrderTask =
-            _skuOrderCacheService.GetOrFetchSkuOrderAsync(
-                SelectedSku.Id,
-                PaymentChannel,
-                async (skuId, paymentChannel) =>
-                    await _orderRepository.CreateOrderAsync(new CreateOrderRequest
-                    {
-                        SkuId = SelectedSku.Id,
-                        Channel = PaymentChannel
-                    }));
-        _currentOrderCreatingTaskId = createOrderTask.Id;
-        await Task.WhenAll([createOrderTask, Task.Delay(TimeSpan.FromSeconds(0.3))]);
-
-        if (_currentOrderCreatingTaskId != createOrderTask.Id) return;
-
-        ResponseResult<CreateOrderResponse>? result = createOrderTask.Result;
-
-        if (result is null)
-        {
-            QRCodeIsValid = false;
-            IsOrderCreating = false;
-            _auraToastService.Show(Labels.Purchase_QRCodeGenerateFailed, ToastLevel.Error);
-            return;
-        }
-
-        if (result.Status != ResultStatus.Success)
-        {
-            QRCodeIsValid = false;
-            IsOrderCreating = false;
-            _auraToastService.Show(result.Message, ToastLevel.Error);
-            return;
-        }
-
-        _newestOrderId = result.Data?.OrderId;
-        QRCode = result.Data!.QRCode;
-        QRCodeIsValid = true;
-        IsOrderCreating = false;
-    }
-
-    public DelegateCommand RefreshPayQRCodeCommand { get; }
-    private void RefershQRCode()
-    {
-        _skuOrderCacheService.InvalidateCache(SelectedSku.Id, PaymentChannel);
-        SubmitOrder();
-    }
-
-    public DelegateCommand OpenSubscriptionTermsCommand { get; }
-    private void OpenSubscriptionTerms()
-    {
-        string currentFolderPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        string filePath = Path.Combine(currentFolderPath, "Assets/PDF/SubscriptionTerms.pdf");
-
-        Task.Run(() =>
-            Process.Start(new ProcessStartInfo
-            {
-                UseShellExecute = true,
-                FileName = filePath
-            }));
+        await CreateOrderAsync();
     }
 
     public DelegateCommand OkCommand { get; }
@@ -205,6 +138,7 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         _orderStatusTaskToken.Cancel();
         RequestClose?.Invoke(RegionDialogResult.Close);
     }
+    public DelegateCommand OpenSubscriptionTermsCommand { get; }
 
     public event Action<RegionDialogResult> RequestClose;
 
@@ -223,71 +157,129 @@ public class PurchaseViewModel : BindableBase, INavigationAware, IRegionDialogAw
         _skuRepository = skuRepository;
         _orderRepository = orderRepository;
         _auraToastService = auraToastService;
+        _licenseRepository = licenseRepository;
         _remotePluginRepository = remotePluginRepository;
         _skuOrderCacheService = skuOrderCacheService;
-        _licenseRepository = licenseRepository;
 
         OkCommand = new DelegateCommand(Ok);
         CancelCommand = new DelegateCommand(Cancel);
         CloseCommand = new DelegateCommand(Close);
-        SubmitOrderCommand = new DelegateCommand(SubmitOrder);
         SelectSkuCommand = new DelegateCommand<Sku>(SelectSku);
-        RefreshPayQRCodeCommand = new DelegateCommand(RefershQRCode);
+        RefreshOrderCommand = new DelegateCommand(RefreshOrderAsync);
         OpenSubscriptionTermsCommand = new DelegateCommand(OpenSubscriptionTerms);
 
         _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OnOrderPaid);
     }
 
-    private void OnOrderPaid(OrderPaymentDetails orderPaymentDetails)
-    {
-        Debug.WriteLine("OnOrderPaid");
-        OrderPaymentDetails = orderPaymentDetails;
-        IsPaid = true;
-    }
-
-    private async Task LoadPluginInfo(Guid pluginId)
-    {
-        CurrentPlugin = await _remotePluginRepository.GetPluginByIdAsync(pluginId);
-    }
-
-    private async Task LoadSkus(Guid pluginId)
-    {
-        var skuList = await _skuRepository.GetResourceSkusAsync(pluginId);
-
-        Skus = [.. skuList.Where(s => s.IsActive)];
-        SelectedSku = Skus.FirstOrDefault();
-    }
-
-    private async Task LoadLicenseInfo(Guid pluginId)
-    {
-        var licenseInfo = await _licenseRepository.GetResourceLicenseAsync(pluginId);
-        if (!licenseInfo.IsValid || licenseInfo.ExpiredAt < _clock.UtcNow)
-        {
-            CurrentPluginLicense = null;
-            return;
-        }
-
-        CurrentPluginLicense = licenseInfo;
-    }
-
-    public void OnDialogOpened(NavigationParameters parameters)
+    public async void OnDialogOpened(NavigationParameters parameters)
     {
         _resourceId = parameters.GetValue<Guid>("ResourceId");
-
-        _ = LoadPluginInfo(_resourceId);
-        _ = LoadSkus(_resourceId);
-        _ = LoadLicenseInfo(_resourceId);
+        await InitializeAsync(_resourceId);
     }
 
-    public void OnNavigatedTo(NavigationContext navigationContext)
+    private async Task InitializeAsync(Guid resourceId)
     {
+        try
+        {
+            State = PurchaseState.Loading;
+
+            var minTimeTask = Task.Delay(TimeSpan.FromSeconds(.5));
+            
+            var tPlugin = _remotePluginRepository.GetPluginByIdAsync(resourceId);
+            var tSkus = _skuRepository.GetResourceSkusAsync(resourceId);
+            var tLicense = GetLicenseInfo(resourceId);
+            await Task.WhenAll(tPlugin, tSkus, tLicense);
+
+            CurrentPlugin = tPlugin.Result;
+            CurrentPluginLicense = tLicense.Result;
+            Skus = new ObservableCollection<Sku>(tSkus.Result.Where(s => s.IsActive));
+
+            if (Skus.Count == 0)
+            {
+                State = PurchaseState.Ready;
+                return;
+            }
+
+            SelectedSku = Skus.First();
+
+            if (SelectedSku is not null)
+                await CreateOrderAsync();
+
+            await minTimeTask;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[Purchase] Init load failed: {ex}");
+            _auraToastService.Show(Labels.Purchase_QRCodeGenerateFailed, ToastLevel.Error);
+            State = PurchaseState.OrderFailed;
+        }
+        finally
+        {
+            IsInitializing = false;
+        }
     }
 
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-        => true;
-
-    public void OnNavigatedFrom(NavigationContext navigationContext)
+    private async Task<bool> CreateOrderAsync()
     {
-        _orderStatusTaskToken.Cancel();
+        if (SelectedSku is null) return false;
+
+        State = PurchaseState.CreatingOrder;
+
+        var task = _skuOrderCacheService.GetOrFetchSkuOrderAsync(
+            SelectedSku.Id,
+            PaymentChannel,
+            async (skuId, channel) =>
+                await _orderRepository.CreateOrderAsync(new CreateOrderRequest
+                {
+                    SkuId = SelectedSku.Id,
+                    Channel = PaymentChannel
+                }));
+
+        int taskId = task.Id;
+        _currentOrderTaskId = taskId;
+        await Task.WhenAll(task, Task.Delay(TimeSpan.FromSeconds(0.3)));
+
+        if (_currentOrderTaskId != taskId) return false;
+
+        var result = task.Result;
+        if (result?.Status == ResultStatus.Success && result.Data is not null)
+        {
+            QRCode = result.Data.QRCode;
+            State = PurchaseState.Ready;
+            return true;
+        }
+
+        State = PurchaseState.OrderFailed;
+        _auraToastService.Show(
+            result?.Message ?? Labels.Purchase_QRCodeGenerateFailed,
+            ToastLevel.Error);
+        return false;
+    }
+
+
+    private async Task<ResourceLicense> GetLicenseInfo(Guid pluginId)
+    {
+        var license = await _licenseRepository.GetResourceLicenseAsync(pluginId);
+        if (!license.IsValid || license.ExpiredAt < _clock.UtcNow)
+            return null;
+        return license;
+    }
+
+    private void OpenSubscriptionTerms()
+    {
+        string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        string path = Path.Combine(folder, "Assets/PDF/SubscriptionTerms.pdf");
+        Task.Run(() => Process.Start(new ProcessStartInfo
+        {
+            UseShellExecute = true,
+            FileName = path
+        }));
+    }
+
+    private void OnOrderPaid(OrderPaymentDetails details)
+    {
+        Debug.WriteLine("OnOrderPaid");
+        PaymentResult = details;
+        State = PurchaseState.Paid;
     }
 }

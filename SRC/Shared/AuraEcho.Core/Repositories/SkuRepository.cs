@@ -37,4 +37,22 @@ public class SkuRepository : ISkuRepository
 
         return skus;
     }
+
+    public async Task<Sku> GetSkuByIdAsync(Guid skuId)
+    {
+        var result = await _httpHelper.GetAsync<SkuInfo>(Urls.GetSkuById(skuId));
+        if (result is null) return null;
+        Sku sku = new Sku
+        {
+            Id = result.Id.Value,
+            SalePrice = result.SalePrice,
+            OriginalPrice = result.OriginalPrice,
+            ResourceId = result.ResourceId,
+            ResourceType = result.ResourceType,
+            Type = (LicenseType)(int)result.Type,
+            IsActive = result.IsActive,
+            Ordinal = result.Ordianl
+        };
+        return sku;
+    }
 }

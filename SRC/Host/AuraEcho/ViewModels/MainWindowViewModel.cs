@@ -21,6 +21,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using AuraEcho.Interfaces;
+using AuraEcho.Api.Models.V1.Order;
 
 namespace AuraEcho.ViewModels;
 
@@ -30,6 +32,7 @@ public class MainWindowViewModel : BindableBase
     private readonly IAuthRepository _authRepository;
     private readonly IRegionDialogService _regionDialogService;
     public IAuraToastService ToastService { get; }
+    private readonly ISkuOrderCacheService _skuOrderCacheService;
     private readonly Task _autoSignInTask;
     #endregion
 
@@ -109,9 +112,11 @@ public class MainWindowViewModel : BindableBase
         IAuthRepository authRepository,
         IClientSession clientSession,
         IAuraToastService auraToastService,
-        IRegionDialogService regionDialogService)
+        IRegionDialogService regionDialogService,
+        ISkuOrderCacheService skuOrderCacheService)
     {
         _regionDialogService = regionDialogService;
+        _skuOrderCacheService = skuOrderCacheService;
         ToastService = auraToastService;
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
@@ -126,6 +131,7 @@ public class MainWindowViewModel : BindableBase
         _eventAggregator.GetEvent<KickedOutEvent>().Subscribe(KickedOut);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Subscribe(PluginCancelUninstall, ThreadOption.UIThread);
+        _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OrderPid);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
         SignOutCommand = new DelegateCommand(SignOut);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
@@ -140,6 +146,11 @@ public class MainWindowViewModel : BindableBase
 
         _autoSignInTask = AutoSignInAsync();
         CurrentVersion = GetCurrentVersion();
+    }
+
+    private async void OrderPid(OrderPaymentDetails details)
+    {
+        _skuOrderCacheService.InvalidateCache(details.ResourceId, details.SkuId, details.PaymentMethod);
     }
 
     private async void KickedOut()

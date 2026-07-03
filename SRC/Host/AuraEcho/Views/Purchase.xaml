@@ -117,7 +117,7 @@
                                     Background="#44000000"
                                     CornerRadius="8">
 
-                                <ui:SkeletonContainer d:IsLoading="true" IsLoading="{Binding IsInitializing}">
+                                <ui:SkeletonContainer IsLoading="{Binding IsInitializing}">
                                     <ui:SkeletonContainer.Skeleton>
                                         <StackPanel Width="294"
                                                     HorizontalAlignment="Right"
@@ -167,11 +167,11 @@
                     </Border>
                     <!-- MainContent -->
                     <Border Grid.Row="1" Padding="24,16,24,24">
-                        <Grid ColumnDefinitions="*, Auto"  RowDefinitions="Auto, *">
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
                             <Grid Grid.Row="0"
                                   Grid.Column="0"
                                   Grid.ColumnSpan="2">
-                                <ui:SkeletonContainer d:IsLoading="True" IsLoading="{Binding IsInitializing}">
+                                <ui:SkeletonContainer IsLoading="{Binding IsInitializing}">
                                     <ui:SkeletonContainer.Skeleton>
                                         <StackPanel Orientation="Horizontal">
                                             <ui:SkeletonRectangle Width="42"
@@ -275,9 +275,7 @@
                                 <TextBlock Margin="0,0,0,8"
                                            Style="{DynamicResource BodyMediumTextBlockStyle}"
                                            Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ChooseSubscription}" />
-                                <ui:SkeletonContainer Margin="0,0,0,16"
-                                                      d:IsLoading="True"
-                                                      IsLoading="{Binding IsInitializing}">
+                                <ui:SkeletonContainer Margin="0,0,0,16" IsLoading="{Binding IsInitializing}">
 
                                     <ui:SkeletonContainer.Skeleton>
                                         <StackPanel Orientation="Horizontal">
@@ -353,7 +351,7 @@
                                     <TextBlock Margin="0,0,0,8"
                                                Style="{DynamicResource BodyMediumTextBlockStyle}"
                                                Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentMethod}" />
-                                    <ui:SkeletonContainer d:IsLoading="True" IsLoading="{Binding IsInitializing}">
+                                    <ui:SkeletonContainer IsLoading="{Binding IsInitializing}">
                                         <ui:SkeletonContainer.Skeleton>
                                             <StackPanel>
                                                 <Border Height="40"
@@ -441,7 +439,6 @@
                                                   Grid.RowSpan="2"
                                                   Grid.Column="1"
                                                   Width="180"
-                                                  d:IsLoading="True"
                                                   IsLoading="{Binding IsInitializing}">
                                 <ui:SkeletonContainer.Skeleton>
                                     <Grid RowDefinitions="*, Auto">
@@ -541,12 +538,12 @@
                                                                 </i:DataTrigger>
                                                             </i:Interaction.Triggers>
                                                             <Border.BorderBrush>
-                                                                <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
-                                                                    <GradientStop Offset="0" Color="Transparent" />
-                                                                    <GradientStop Offset="0.1" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
-                                                                    <GradientStop Offset="0.9" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
-                                                                    <GradientStop Offset="1" Color="Transparent" />
-                                                                </LinearGradientBrush>
+                                                                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                                                        <GradientStop Offset="0" Color="Transparent" />
+                                                                        <GradientStop Offset="0.1" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                        <GradientStop Offset="0.9" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                        <GradientStop Offset="1" Color="Transparent" />
+                                                                    </LinearGradientBrush>
                                                             </Border.BorderBrush>
                                                             <Border.Background>
                                                                 <RadialGradientBrush Center="0.5, 1.2" GradientOrigin="0.5, 1.2" RadiusX="1" RadiusY="0.4">

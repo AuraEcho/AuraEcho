@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -53,7 +54,14 @@ public class GeneralSettingsViewModel : BindableBase
 
         ApplicationResources.ChangeCulture(targetCultureInfo);
 
-        _eventAggregator.GetEvent<AppLanguageChangedEvent>().Publish(language);
+        try
+        {
+            _eventAggregator.GetEvent<AppLanguageChangedEvent>().Publish(language);
+        } 
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"{nameof(LanguageChanged)}: {ex}");
+        }
     }
 
     public AppTheme AppTheme

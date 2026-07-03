@@ -22,6 +22,26 @@ namespace AuraEcho.UIToolkit.Behaviors
             set => SetValue(IsLoadingProperty, value);
         }
 
+        public Brush Overlay
+        {
+            get => (Brush)GetValue(OverlayProperty);
+            set => SetValue(OverlayProperty, value);
+        }
+        public static readonly DependencyProperty OverlayProperty =
+            DependencyProperty.Register(
+                nameof(Overlay),
+                typeof(Brush),
+                typeof(LoadingOverlayBehavior),
+                new PropertyMetadata(null, OnOverlayChanged));
+
+        private static void OnOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is LoadingOverlayBehavior behavior && behavior._adorner != null)
+            {
+                behavior._adorner.Background = e.NewValue as Brush;
+            }
+        }
+
         public CornerRadius CornerRadius { get; set; }
 
         public static readonly DependencyProperty IsLoadingProperty =
@@ -125,7 +145,8 @@ namespace AuraEcho.UIToolkit.Behaviors
             _adorner = new LoadingAdorner(AssociatedObject)
             {
                 LoadingContent = LoadingContent,
-                CornerRadius = CornerRadius
+                CornerRadius = CornerRadius,
+                Background = Overlay
             };
 
             layer.Add(_adorner);
@@ -155,7 +176,27 @@ namespace AuraEcho.UIToolkit.Behaviors
             private readonly TextBlock _loadingText;
             private Storyboard _animation;
 
-            public CornerRadius CornerRadius { get; set; }
+            private Brush _background;
+            public Brush Background 
+            {
+                get => _background;
+                set
+                {
+                    _background = value;
+                    _overlay.Background = _background;
+                }
+            }
+
+            private CornerRadius _cornerRadius;
+            public CornerRadius CornerRadius 
+            {
+                get => _cornerRadius;
+                set
+                {
+                    _cornerRadius = value;
+                    _overlay.CornerRadius = value;
+                }
+            }
 
             public LoadingAdorner(UIElement adornedElement) : base(adornedElement)
             {
@@ -167,9 +208,9 @@ namespace AuraEcho.UIToolkit.Behaviors
                     StrokeDashArray = new DoubleCollection(new[] { 20.0, 40.0 }),
                     StrokeThickness = 2,
                     RenderTransformOrigin = new Point(0.5, 0.5),
-                    RenderTransform = new RotateTransform()
+                    RenderTransform = new RotateTransform(),
+                    Stroke = new SolidColorBrush(Colors.White)
                 };
-                _spinner.SetResourceReference(Shape.StrokeProperty, "Brushes.OnSurface");
 
                 // 加载文字
                 _loadingText = new TextBlock
@@ -198,7 +239,14 @@ namespace AuraEcho.UIToolkit.Behaviors
                     CornerRadius = CornerRadius
                 };
 
-                _overlay.SetResourceReference(Border.BackgroundProperty, "Brushes.Scrim");
+                if (Background is null)
+                {
+                    _overlay.SetResourceReference(Border.BackgroundProperty, "Brushes.Scrim");
+                }
+                else
+                {
+                    _overlay.Background = Background;
+                }
 
                 AddVisualChild(_overlay);
                 AddLogicalChild(_overlay);

@@ -51,7 +51,7 @@ public class EditExternalToolViewModel : BindableBase, INavigationAware
 
 
         _eventAggregator.GetEvent<ExternalToolUpdatedEvent>().Publish(newExternalTool);
-        _regionManager.Regions[HostRegionNames.ContentDialogRegion].RemoveAll();
+        _regionManager.Regions[HostRegionNames.DialogRegion].RemoveAll();
     }
 
     private string FixCommand(string command)
@@ -68,7 +68,7 @@ public class EditExternalToolViewModel : BindableBase, INavigationAware
     public DelegateCommand CancelCommand { get; }
     private void Cancel()
     {
-        _regionManager.Regions[HostRegionNames.ContentDialogRegion].RemoveAll();
+        _regionManager.Regions[HostRegionNames.DialogRegion].RemoveAll();
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext)

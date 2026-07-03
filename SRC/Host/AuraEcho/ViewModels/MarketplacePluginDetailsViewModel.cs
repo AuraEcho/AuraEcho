@@ -88,7 +88,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     private void NavigationToViewScreenshot(PluginScreenshot ss)
     {
         _navigationService.RequestNavigate(
-            HostRegionNames.ContentDialogRegion,
+            HostRegionNames.DialogRegion,
             ViewNames.ImageViewer,
             new NavigationParameters
             {

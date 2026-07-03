@@ -15,7 +15,7 @@ public class SignInExpiredViewModel : BindableBase
     public DelegateCommand SignInCommand { get; }
     private void SignIn()
     {
-        _regionManager.Regions[HostRegionNames.ContentDialogRegion].RemoveAll();
+        _regionManager.Regions[HostRegionNames.DialogRegion].RemoveAll();
         _regionManager.Regions[HostRegionNames.MainRegion].RemoveAll();
         _navigationService.Reset();
         _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, canBack: false);

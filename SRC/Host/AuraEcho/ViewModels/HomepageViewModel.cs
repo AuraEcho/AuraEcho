@@ -86,7 +86,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
 
         RegionDialogResult dialogResult =
             await _regionDialogService.ShowDialogAsync(
-                HostRegionNames.ContentDialogRegion,
+                HostRegionNames.DialogRegion,
                 ViewNames.ConfirmDialog,
                 new NavigationParameters
                 {

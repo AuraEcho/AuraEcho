@@ -55,7 +55,7 @@ public class ExternalToolsHomeViewModel : BindableBase
     public DelegateCommand AddExternalToolCommand { get; }
     private void AddExternalTool()
     {
-        _regionManager.RequestNavigate(HostRegionNames.ContentDialogRegion, ExternalToolsViewNames.AddExternalTool);
+        _regionManager.RequestNavigate(HostRegionNames.DialogRegion, ExternalToolsViewNames.AddExternalTool);
     }
 
     public DelegateCommand<ExternalTool> RemoveExternalToolCommand { get; }
@@ -72,7 +72,7 @@ public class ExternalToolsHomeViewModel : BindableBase
     private void EditExternalTool(ExternalTool tool)
     {
         _regionManager.RequestNavigate(
-            HostRegionNames.ContentDialogRegion,
+            HostRegionNames.DialogRegion,
             ExternalToolsViewNames.EditExternalTool,
             new NavigationParameters
             {

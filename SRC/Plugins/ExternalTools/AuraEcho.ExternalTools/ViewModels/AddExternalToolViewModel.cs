@@ -48,7 +48,7 @@ public class AddExternalToolViewModel : BindableBase
         newExternalTool.Type = ShellHelper.CheckExternalToolType(newExternalTool.Command);
 
         _eventAggregator.GetEvent<ExternalToolAddedEvent>().Publish(newExternalTool);
-        _regionManager.Regions[HostRegionNames.ContentDialogRegion].RemoveAll();
+        _regionManager.Regions[HostRegionNames.DialogRegion].RemoveAll();
     }
 
     private string FixCommand(string command)
@@ -65,7 +65,7 @@ public class AddExternalToolViewModel : BindableBase
     public DelegateCommand CancelCommand { get; }
     private void Cancel()
     {
-        _regionManager.Regions[HostRegionNames.ContentDialogRegion].RemoveAll();
+        _regionManager.Regions[HostRegionNames.DialogRegion].RemoveAll();
     }
 
     public AddExternalToolViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)

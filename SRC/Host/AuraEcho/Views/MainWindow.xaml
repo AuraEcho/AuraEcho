@@ -768,7 +768,7 @@
             <!-- 提示消息区域 -->
             <ContentControl Grid.Row="0"
                             Grid.RowSpan="2"
-                            prism:RegionManager.RegionName="{x:Static constants:HostRegionNames.ContentDialogRegion}" />
+                            prism:RegionManager.RegionName="{x:Static constants:HostRegionNames.DialogRegion}" />
 
             <!--#region 错误消息区域-->
             <ContentControl Grid.Row="0"

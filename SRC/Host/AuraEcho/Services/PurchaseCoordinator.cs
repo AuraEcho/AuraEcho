@@ -21,7 +21,7 @@ public class PurchaseCoordinator : IPurchaseCoordinator
     {
         RegionDialogResult dialogResult =
             await _regionDialogService.ShowDialogAsync(
-                HostRegionNames.ContentDialogRegion,
+                HostRegionNames.DialogRegion,
                 ViewNames.Purchase,
                 new NavigationParameters
                 {

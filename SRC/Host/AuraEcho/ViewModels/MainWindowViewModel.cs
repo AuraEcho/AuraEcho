@@ -159,7 +159,7 @@ public class MainWindowViewModel : BindableBase
 
         RegionDialogResult dialogResult =
             await _regionDialogService.ShowDialogAsync(
-                HostRegionNames.ContentDialogRegion,
+                HostRegionNames.DialogRegion,
                 ViewNames.ConfirmDialog,
                 new NavigationParameters
                 {
@@ -185,7 +185,7 @@ public class MainWindowViewModel : BindableBase
     {
         RegionDialogResult dialogResult =
             await _regionDialogService.ShowDialogAsync(
-                HostRegionNames.ContentDialogRegion,
+                HostRegionNames.DialogRegion,
                 ViewNames.ConfirmDialog,
                 new NavigationParameters
                 {

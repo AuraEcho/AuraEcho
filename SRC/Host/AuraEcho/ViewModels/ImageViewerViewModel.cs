@@ -18,7 +18,7 @@ public class ImageViewerViewModel : BindableBase, INavigationAware, IRegionMembe
     public DelegateCommand CloseCommand { get; }
     public void Close()
     {
-        _regionManager.Regions[HostRegionNames.ContentDialogRegion].RemoveAll();
+        _regionManager.Regions[HostRegionNames.DialogRegion].RemoveAll();
     }
 
     public ImageViewerViewModel(IRegionManager regionManager)

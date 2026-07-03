@@ -327,7 +327,9 @@
                                    Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <StackPanel Grid.Column="2"
+                            Margin="0,0,141,0"
+                            Orientation="Horizontal">
                     <ToggleButton x:Name="RestartTipsButton"
                                   Width="47"
                                   Padding="0"
@@ -430,111 +432,6 @@
                             </Grid>
                         </Border>
                     </ToggleButton>
-                    <Button Width="47"
-                            auraecho:ControlHelper.CornerRadius="0"
-                            IsTabStop="False"
-                            Style="{DynamicResource IconButtonStyle}"
-                            ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Minimize}"
-                            WindowChrome.IsHitTestVisibleInChrome="True">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:ChangePropertyAction PropertyName="WindowState"
-                                                        TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                                        Value="Minimized" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <Canvas Width="16" Height="16">
-                            <Rectangle Canvas.Left="2.0"
-                                       Canvas.Top="8.0"
-                                       Width="12.0"
-                                       Height="1.0"
-                                       Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
-                                       RadiusX="0.5"
-                                       RadiusY="0.5" />
-                        </Canvas>
-                    </Button>
-                    <Button x:Name="MinMaxWindowButton"
-                            Width="47"
-                            auraecho:ControlHelper.CornerRadius="0"
-                            Click="MaxWin_MouseClick"
-                            IsTabStop="False"
-                            Style="{DynamicResource IconButtonStyle}"
-                            WindowChrome.IsHitTestVisibleInChrome="True">
-
-                        <Grid>
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}" Value="{x:Static WindowState.Normal}">
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="MaxWindowIcon"
-                                                            Value="{x:Static Visibility.Visible}" />
-                                    <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Maximize}"
-                                                               PropertyName="ToolTip"
-                                                               TargetName="MinMaxWindowButton" />
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="RestoreWindowIcon"
-                                                            Value="{x:Static Visibility.Hidden}" />
-                                </i:DataTrigger>
-                                <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}"
-                                               Comparison="NotEqual"
-                                               Value="{x:Static WindowState.Normal}">
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="MaxWindowIcon"
-                                                            Value="{x:Static Visibility.Hidden}" />
-                                    <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Reduction}"
-                                                               PropertyName="ToolTip"
-                                                               TargetName="MinMaxWindowButton" />
-                                    <i:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetName="RestoreWindowIcon"
-                                                            Value="{x:Static Visibility.Visible}" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                            <Viewbox x:Name="MaxWindowIcon"
-                                     Width="12"
-                                     Height="12"
-                                     Visibility="Hidden">
-                                <Canvas Width="10" Height="10">
-                                    <Path Data="M 10 1 C 10 0.45 9.55 0 9 0 H 1 C 0.45 0 0 0.45 0 1 V 9 C 0 9.55 0.45 10 1 10 H 9 C 9.55 10 10 9.55 10 9 V 1 Z M 1 1 H 9 V 9 H 1 V 1 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                                </Canvas>
-                            </Viewbox>
-
-                            <Viewbox x:Name="RestoreWindowIcon"
-                                     Width="16"
-                                     Height="16">
-                                <Canvas Width="16.0" Height="16.0">
-                                    <Rectangle Canvas.Left="2.5"
-                                               Canvas.Top="4.5"
-                                               Width="9.0"
-                                               Height="9.0"
-                                               RadiusX="0.5"
-                                               RadiusY="0.5"
-                                               Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
-                                               StrokeDashCap="Flat"
-                                               StrokeThickness="1.0" />
-                                    <Path Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
-                                          StrokeDashCap="Round"
-                                          StrokeEndLineCap="Round"
-                                          StrokeStartLineCap="Round"
-                                          StrokeThickness="1.0">
-                                        <Path.Data>
-                                            <PathGeometry Figures="M 5.5 4.48421 L 5.5 3 C 5.5 2.72386 5.72386 2.5 6 2.5 H 13 C 13.2761 2.5 13.5 2.72386 13.5 3 V 10 C 13.5 10.2761 13.2761 10.5 13 10.5 H 11.5102" FillRule="Nonzero" />
-                                        </Path.Data>
-                                    </Path>
-                                </Canvas>
-                            </Viewbox>
-                        </Grid>
-                    </Button>
-                    <Button Width="47"
-                            auraecho:ControlHelper.CornerRadius="0"
-                            BorderThickness="0"
-                            Click="CloseWindowButton_Click"
-                            IsTabStop="False"
-                            Style="{DynamicResource IconButtonStyle}"
-                            ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
-                            WindowChrome.IsHitTestVisibleInChrome="True">
-                        <Canvas Width="16" Height="16">
-                            <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                        </Canvas>
-                    </Button>
 
                     <Popup x:Name="PendingRestartPopup"
                            AllowsTransparency="True"
@@ -769,7 +666,117 @@
             <ContentControl Grid.Row="0"
                             Grid.RowSpan="2"
                             prism:RegionManager.RegionName="{x:Static constants:HostRegionNames.DialogRegion}" />
+            <!-- 窗口控制按钮 -->
+            <StackPanel Height="36"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button Width="47"
+                        auraecho:ControlHelper.CornerRadius="0"
+                        IsTabStop="False"
+                        Style="{DynamicResource IconButtonStyle}"
+                        ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Minimize}"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:ChangePropertyAction PropertyName="WindowState"
+                                                    TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                    Value="Minimized" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Canvas Width="16" Height="16">
+                        <Rectangle Canvas.Left="2.0"
+                                   Canvas.Top="8.0"
+                                   Width="12.0"
+                                   Height="1.0"
+                                   Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                                   RadiusX="0.5"
+                                   RadiusY="0.5" />
+                    </Canvas>
+                </Button>
+                <Button x:Name="MinMaxWindowButton"
+                        Width="47"
+                        auraecho:ControlHelper.CornerRadius="0"
+                        Click="MaxWin_MouseClick"
+                        IsTabStop="False"
+                        Style="{DynamicResource IconButtonStyle}"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
 
+                    <Grid>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}" Value="{x:Static WindowState.Normal}">
+                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                        TargetName="MaxWindowIcon"
+                                                        Value="{x:Static Visibility.Visible}" />
+                                <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Maximize}"
+                                                           PropertyName="ToolTip"
+                                                           TargetName="MinMaxWindowButton" />
+                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                        TargetName="RestoreWindowIcon"
+                                                        Value="{x:Static Visibility.Hidden}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}"
+                                           Comparison="NotEqual"
+                                           Value="{x:Static WindowState.Normal}">
+                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                        TargetName="MaxWindowIcon"
+                                                        Value="{x:Static Visibility.Hidden}" />
+                                <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Reduction}"
+                                                           PropertyName="ToolTip"
+                                                           TargetName="MinMaxWindowButton" />
+                                <i:ChangePropertyAction PropertyName="Visibility"
+                                                        TargetName="RestoreWindowIcon"
+                                                        Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Viewbox x:Name="MaxWindowIcon"
+                                 Width="12"
+                                 Height="12"
+                                 Visibility="Hidden">
+                            <Canvas Width="10" Height="10">
+                                <Path Data="M 10 1 C 10 0.45 9.55 0 9 0 H 1 C 0.45 0 0 0.45 0 1 V 9 C 0 9.55 0.45 10 1 10 H 9 C 9.55 10 10 9.55 10 9 V 1 Z M 1 1 H 9 V 9 H 1 V 1 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                            </Canvas>
+                        </Viewbox>
+
+                        <Viewbox x:Name="RestoreWindowIcon"
+                                 Width="16"
+                                 Height="16">
+                            <Canvas Width="16.0" Height="16.0">
+                                <Rectangle Canvas.Left="2.5"
+                                           Canvas.Top="4.5"
+                                           Width="9.0"
+                                           Height="9.0"
+                                           RadiusX="0.5"
+                                           RadiusY="0.5"
+                                           Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                                           StrokeDashCap="Flat"
+                                           StrokeThickness="1.0" />
+                                <Path Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"
+                                      StrokeDashCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="1.0">
+                                    <Path.Data>
+                                        <PathGeometry Figures="M 5.5 4.48421 L 5.5 3 C 5.5 2.72386 5.72386 2.5 6 2.5 H 13 C 13.2761 2.5 13.5 2.72386 13.5 3 V 10 C 13.5 10.2761 13.2761 10.5 13 10.5 H 11.5102" FillRule="Nonzero" />
+                                    </Path.Data>
+                                </Path>
+                            </Canvas>
+                        </Viewbox>
+                    </Grid>
+                </Button>
+                <Button Width="47"
+                        auraecho:ControlHelper.CornerRadius="0"
+                        BorderThickness="0"
+                        Click="CloseWindowButton_Click"
+                        IsTabStop="False"
+                        Style="{DynamicResource IconButtonStyle}"
+                        ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
+                    <Canvas Width="16" Height="16">
+                        <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                    </Canvas>
+                </Button>
+            </StackPanel>
+            
             <!--#region 错误消息区域-->
             <ContentControl Grid.Row="0"
                             Height="36"

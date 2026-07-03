@@ -226,6 +226,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         State = PurchaseState.CreatingOrder;
 
         var task = _skuOrderCacheService.GetOrFetchSkuOrderAsync(
+            _resourceId,
             SelectedSku.Id,
             PaymentChannel,
             async (skuId, channel) =>

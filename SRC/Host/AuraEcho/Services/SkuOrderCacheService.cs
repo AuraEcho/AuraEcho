@@ -10,7 +10,7 @@ namespace AuraEcho.Services;
 public class SkuOrderCacheService : ISkuOrderCacheService
 {
     private readonly MemoryCache _cache;
-    private static readonly TimeSpan CacheDuration = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
     public SkuOrderCacheService()
     {
@@ -20,13 +20,13 @@ public class SkuOrderCacheService : ISkuOrderCacheService
         });
     }
 
-
     public async Task<ResponseResult<CreateOrderResponse>?> GetOrFetchSkuOrderAsync(
+        Guid ResourceId,
         Guid skuId, 
         PaymentChannel paymentChannel,
         Func<Guid, PaymentChannel, Task<ResponseResult<CreateOrderResponse>>?> orderFetcher)
     {
-        string cacheKey = $"sku_payurl:{skuId:N}:{paymentChannel}";
+        string cacheKey = $"sku_payurl:{ResourceId:N}:{skuId:N}:{paymentChannel}";
 
         return await _cache.GetOrCreateAsync(cacheKey, async entry =>
         {
@@ -40,11 +40,13 @@ public class SkuOrderCacheService : ISkuOrderCacheService
     }
 
     /// <summary>
-    /// 移除 sku 对应的缓存
+    /// 移除缓存
     /// </summary>
+    /// <param name="ResourceId"></param>
     /// <param name="skuId"></param>
-    public void InvalidateCache(Guid skuId, PaymentChannel paymentChannel)
+    /// <param name="paymentChannel"></param>
+    public void InvalidateCache(Guid ResourceId, Guid skuId, PaymentChannel paymentChannel)
     {
-        _cache.Remove($"sku_payurl:{skuId:N}:{paymentChannel}");
+        _cache.Remove($"sku_payurl:{ResourceId:N}:{skuId:N}:{paymentChannel}");
     }
 }

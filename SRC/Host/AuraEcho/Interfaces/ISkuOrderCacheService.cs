@@ -8,9 +8,10 @@ namespace AuraEcho.Interfaces;
 public interface ISkuOrderCacheService
 {
     Task<ResponseResult<CreateOrderResponse>?> GetOrFetchSkuOrderAsync(
+        Guid ResourceId,
         Guid skuId, 
         PaymentChannel paymentChannel,
         Func<Guid, PaymentChannel,Task<ResponseResult<CreateOrderResponse>>?> priceUrlFetcher);
 
-    void InvalidateCache(Guid skuId, PaymentChannel paymentChannel);
+    void InvalidateCache(Guid ResourceId, Guid skuId, PaymentChannel paymentChannel);
 }

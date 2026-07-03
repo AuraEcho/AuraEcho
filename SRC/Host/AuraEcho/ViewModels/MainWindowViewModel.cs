@@ -96,14 +96,14 @@ public class MainWindowViewModel : BindableBase
         await _autoSignInTask;
         if (ClientSession.IsSignedIn)
         {
-            NavigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
+            NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage);
             return;
         }
         
         // TODO：用于解决登录界面的入场动画卡顿的问题，具体原理待研究
         await Task.Delay(1);
 
-        NavigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.SignIn, canBack: false);
+        NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, canBack: false);
     }
 
     public MainWindowViewModel(

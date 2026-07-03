@@ -20,19 +20,12 @@ namespace AuraEcho.Core.Services
             RaisePropertyChanged(nameof(CanGoBack));
         }
 
-        public bool CanGoBack => _stack.Count > 0;
+        public bool CanGoBack => _stack.Count > 1;
 
         public void GoBack()
         {
             if (_stack.Count == 0)
                 return;
-
-            if (_stack.Count == 1)
-            {
-                _regionManager.Regions[_stack.Pop().RegionName].RemoveAll();
-                RaisePropertyChanged(nameof(CanGoBack));
-                return;
-            }
 
             var topEntry = _stack.Pop();
             var entry = _stack.Peek();

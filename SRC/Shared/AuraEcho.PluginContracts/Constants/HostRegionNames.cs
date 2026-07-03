@@ -6,7 +6,6 @@ namespace AuraEcho.PluginContracts.Constants
     public static class HostRegionNames
     {
         public const string MainRegion = nameof(MainRegion);
-        public const string HomeRegion = nameof(HomeRegion);
         public const string HomeContentRegion = nameof(HomeContentRegion);
         public const string SettingsContentRegion = nameof(SettingsContentRegion);
         public const string ContentDialogRegion = nameof(ContentDialogRegion);

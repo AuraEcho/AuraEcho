@@ -476,7 +476,15 @@
     <Grid RowDefinitions="36, *">
         <ItemsControl Grid.Row="1" Margin="24,12,24,24">
             <i:Interaction.Behaviors>
-                <auraecho:EntranceAnimationBehavior />
+                <auraecho:EntranceAnimationBehavior>
+                    <auraecho:EntranceAnimationBehavior.EntranceEffect>
+                        <auraecho:SlideFadeEntranceEffect Duration="0:0:0.2">
+                            <auraecho:SlideFadeEntranceEffect.Easing>
+                                <CircleEase EasingMode="EaseOut"/>
+                            </auraecho:SlideFadeEntranceEffect.Easing>
+                        </auraecho:SlideFadeEntranceEffect>
+                    </auraecho:EntranceAnimationBehavior.EntranceEffect>
+                </auraecho:EntranceAnimationBehavior>
             </i:Interaction.Behaviors>
             <ItemsControl.ItemTemplateSelector>
                 <selectors:AppPluginDataTemplateSelector LocalWebPluginTemplate="{StaticResource WebPluginTemplate}"

@@ -166,13 +166,13 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
             return;
         }
         IsSubmitting = false;
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.PasswordResetCompleted, null, false);
+        _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.PasswordResetCompleted, null, false);
     }
 
     public DelegateCommand BackToSignInCommand { get; }
     private void BackToSignIn()
     {
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.SignIn, null, false);
+        _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, null, false);
     }
 
     public DelegateCommand<string> ClearErrorsCommand { get; }

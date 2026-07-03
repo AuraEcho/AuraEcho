@@ -13,7 +13,7 @@ public class PasswordResetCompletedViewModel : BindableBase, IRegionMemberLifeti
     public DelegateCommand BackToSignInCommand { get; }
     private void BackToSignIn()
     {
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.SignIn, canBack: false);
+        _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, canBack: false);
     }
 
     public PasswordResetCompletedViewModel(INavigationService navigationService)

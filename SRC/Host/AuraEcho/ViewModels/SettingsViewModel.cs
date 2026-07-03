@@ -20,7 +20,7 @@ using AuraEcho.Models;
 
 namespace AuraEcho.ViewModels;
 
-public class SettingsViewModel : BindableBase
+public class SettingsViewModel : BindableBase, IRegionMemberLifetime
 {
     #region private members
     private readonly IRegionManager _regionManager;
@@ -93,6 +93,7 @@ public class SettingsViewModel : BindableBase
     }
 
     public DelegateCommand SignOutCommand { get; }
+
     private void SignOut()
     {
         _clientSession.SignOut();
@@ -102,6 +103,8 @@ public class SettingsViewModel : BindableBase
 
         _eventAggregator.GetEvent<AppRestartEvent>().Publish();
     }
+
+    public bool KeepAlive => false;
 
     public SettingsViewModel(
         IRegionManager regionManager, 

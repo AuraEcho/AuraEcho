@@ -213,10 +213,6 @@
               Background="Transparent"
               RowDefinitions="Auto, *">
 
-            <!-- 首页区域 -->
-            <ContentControl Grid.Row="0"
-                            Grid.RowSpan="2"
-                            prism:RegionManager.RegionName="{x:Static constants:HostRegionNames.HomeRegion}" />
             <!-- 内容区域 -->
             <ContentControl Grid.Row="0"
                             Grid.RowSpan="2"

@@ -18,7 +18,7 @@ public class SignInExpiredViewModel : BindableBase
         _regionManager.Regions[HostRegionNames.ContentDialogRegion].RemoveAll();
         _regionManager.Regions[HostRegionNames.MainRegion].RemoveAll();
         _navigationService.Reset();
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.SignIn, canBack: false);
+        _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, canBack: false);
     }
 
     public SignInExpiredViewModel(INavigationService navigationService, IRegionManager regionManager)

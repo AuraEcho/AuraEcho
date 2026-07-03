@@ -20,7 +20,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 namespace AuraEcho.ViewModels;
 
-public class HomepageViewModel : BindableBase
+public class HomepageViewModel : BindableBase, IRegionMemberLifetime
 {
     private string _title = "AuraEcho";
     private readonly ILocalPluginRepository _localPluginRepository;
@@ -114,6 +114,7 @@ public class HomepageViewModel : BindableBase
     }
 
     public DelegateCommand<AppPlugin> SwitchPluginCommand { get; }
+    public bool KeepAlive => false;
 
     private void SwitchPlugin(AppPlugin plugin)
     {

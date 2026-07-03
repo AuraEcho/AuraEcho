@@ -138,7 +138,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             }
 
             _clientSession.SignIn(result.Data.Data);
-            _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
+            _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage, canBack: false);
         }
         finally
         {
@@ -209,7 +209,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             }
 
             _clientSession.SignIn(result.Data);
-            _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.Homepage, canBack: false);
+            _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage, canBack: false);
         }
         finally
         {
@@ -220,7 +220,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     public DelegateCommand NavigationToResetPasswordCommand { get; }
     private void NavigationToResetPassword()
     {
-        _navigationService.RequestNavigate(HostRegionNames.HomeRegion, ViewNames.ResetPassword, null, false);
+        _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.ResetPassword, null, false);
     }
 
     public DelegateCommand ResetDataCommand { get; set; }

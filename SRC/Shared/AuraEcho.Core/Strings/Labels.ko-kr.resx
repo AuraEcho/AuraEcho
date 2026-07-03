@@ -415,7 +415,7 @@
     <value>결제 QR 코드 생성 실패</value>
   </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
-    <value>결제 전에 </value>
+    <value>결제 시 </value>
   </data>
   <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
     <value>구독하여 </value>
@@ -436,7 +436,7 @@
     <value>의 지속적인 개발과 유지 관리를 지원합니다. 감사합니다!</value>
   </data>
   <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
-    <value>회원 구독 서비스 약관</value>
+    <value>구독 서비스 약관</value>
   </data>
   <data name="Purchase_WeChatPay" xml:space="preserve">
     <value>WeChat Pay</value>
@@ -613,7 +613,7 @@
     <value>복원</value>
   </data>
   <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
-    <value>을(를) 읽어주세요.</value>
+    <value>에 동의하게 됩니다.</value>
   </data>
   <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
     <value>{0} 설치 중 오류가 발생했습니다</value>

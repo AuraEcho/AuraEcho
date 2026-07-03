@@ -415,7 +415,7 @@
     <value>支払いQRコードの生成に失敗しました</value>
   </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
-    <value>お支払い前に</value>
+    <value>お支払いをもって、</value>
   </data>
   <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
     <value>サブスクライブして</value>
@@ -436,7 +436,7 @@
     <value>の開発の励みになります。感謝！</value>
   </data>
   <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
-    <value>会員サブスクリプションサービス規約</value>
+    <value>利用規約</value>
   </data>
   <data name="Purchase_WeChatPay" xml:space="preserve">
     <value>WeChat Pay</value>
@@ -613,7 +613,7 @@
     <value>元に戻す</value>
   </data>
   <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
-    <value>をお読みください。</value>
+    <value>に同意したものとみなされます。</value>
   </data>
   <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
     <value>{0} のインストール中にエラーが発生しました</value>

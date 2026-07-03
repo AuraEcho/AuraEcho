@@ -415,7 +415,7 @@
     <value>支付二维码生成失败</value>
   </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
-    <value>支付前请阅读《</value>
+    <value>支付即代表您同意《</value>
   </data>
   <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
     <value>开通订阅，解锁</value>
@@ -436,7 +436,7 @@
     <value>的持续开发与维护，感谢！</value>
   </data>
   <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
-    <value>会员订阅服务协议</value>
+    <value>订阅服务协议</value>
   </data>
   <data name="Purchase_WeChatPay" xml:space="preserve">
     <value>微信支付</value>

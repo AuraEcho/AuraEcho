@@ -415,7 +415,7 @@
     <value>Failed to generate payment QR code</value>
   </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
-    <value>Please read the </value>
+    <value>By paying, you agree to the </value>
   </data>
   <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
     <value>Subscribe to unlock all of </value>
@@ -436,7 +436,7 @@
     <value> updated and maintained. Thank you!</value>
   </data>
   <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
-    <value>Membership Agreement </value>
+    <value>Terms of Service</value>
   </data>
   <data name="Purchase_WeChatPay" xml:space="preserve">
     <value>WeChat Pay</value>
@@ -613,7 +613,7 @@
     <value>Reduction</value>
   </data>
   <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
-    <value> before paying.</value>
+    <value>.</value>
   </data>
   <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
     <value>An error occurred during the installation of {0}</value>

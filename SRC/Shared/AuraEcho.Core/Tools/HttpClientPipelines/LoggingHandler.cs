@@ -21,16 +21,26 @@ public sealed class LoggingHandler : DelegatingHandler
         request.Headers.Add("X-Request-Id", Guid.NewGuid().ToString("N"));
 
         var sw = Stopwatch.StartNew();
-        var response = await base.SendAsync(request, cancellationToken);
-        sw.Stop();
+        try
+        {
+            var response = await base.SendAsync(request, cancellationToken);
+            sw.Stop();
 
-        var logText = await BuildLogString(request, response, sw.Elapsed, cancellationToken);
-        _logger.Debug(logText);
+            var logText = await BuildLogString(request, response, sw.Elapsed, cancellationToken);
+            _logger.Debug(logText);
 
-        return response;
+            return response;
+        }
+        catch (Exception ex)
+        {
+            sw.Stop();
+            var logText = BuildErrorLogString(request, ex, sw.Elapsed);
+            _logger.Error(logText);
+            throw;
+        }
     }
 
-    private async Task<string> BuildLogString(HttpRequestMessage request, HttpResponseMessage response, TimeSpan elapsed, CancellationToken ct)
+    private static async Task<string> BuildLogString(HttpRequestMessage request, HttpResponseMessage response, TimeSpan elapsed, CancellationToken ct)
     {
         var sb = new StringBuilder(8192);
 
@@ -100,6 +110,55 @@ public sealed class LoggingHandler : DelegatingHandler
                mediaType.Equals("application/javascript", StringComparison.OrdinalIgnoreCase) ||
                mediaType.Equals("application/xhtml+xml", StringComparison.OrdinalIgnoreCase) ||
                mediaType.Equals("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string BuildErrorLogString(HttpRequestMessage request, Exception ex, TimeSpan elapsed)
+    {
+        var sb = new StringBuilder(4096);
+
+        sb.AppendLine();
+        sb.AppendLine("┌─────────────────────────────────────────────────────────────────────────────");
+        sb.AppendLine($"│ API Request FAILED: [{request.Method}] {request.RequestUri}");
+        sb.AppendLine("├─────────────────────────────────────────────────────────────────────────────");
+
+        // Request headers
+        sb.AppendLine("├─ Request Headers");
+        foreach (var h in request.Headers)
+            sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+
+        if (request.Content != null)
+        {
+            foreach (var h in request.Content.Headers)
+                sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+        }
+
+        // Exception info
+        sb.AppendLine("├─ Exception");
+        sb.AppendLine($"│  Type: {ex.GetType().FullName}");
+        sb.AppendLine($"│  Message: {ex.Message}");
+
+        if (ex is HttpRequestException httpEx && httpEx.StatusCode.HasValue)
+            sb.AppendLine($"│  StatusCode: {(int)httpEx.StatusCode.Value} {httpEx.StatusCode.Value}");
+
+        if (ex.InnerException != null)
+            sb.AppendLine($"│  Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+
+        // Stack trace (trimmed for readability)
+        var stackTrace = ex.StackTrace ?? string.Empty;
+        if (stackTrace.Length > 0)
+        {
+            sb.AppendLine("│  Stack:");
+            foreach (var line in stackTrace.Split('\n'))
+            {
+                var trimmed = line.Trim();
+                if (!string.IsNullOrWhiteSpace(trimmed))
+                    sb.AppendLine($"│    {trimmed}");
+            }
+        }
+
+        sb.AppendLine($"└─────────────────────────────────Elapsed: {elapsed.TotalMilliseconds:0000} ms─────────────────────────────");
+
+        return sb.ToString();
     }
 }
 

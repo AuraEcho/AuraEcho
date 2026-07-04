@@ -15,15 +15,6 @@ public class FishyTimeModule : IPlugin
 
     public string EntryViewName => nameof(FishyTimeHome);
 
-    public PluginSettingsItem GetSettings()
-    {
-        return new PluginSettingsItem
-        {
-            Name = "FISHYTIME",
-            ViewName = nameof(FishyTimeSettings)
-        };
-    }
-
     public ResourceDictionary GetThemeResource(AppTheme theme)
     {
         return theme switch

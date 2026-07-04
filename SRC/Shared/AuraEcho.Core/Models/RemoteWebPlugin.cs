@@ -16,6 +16,4 @@ public class RemoteWebPlugin : AppPlugin
     }
 
     public override ResourceDictionary? GetThemeResource(AppTheme theme) => null;
-
-    public override PluginSettingsItem? GetSettings() => null;
 }

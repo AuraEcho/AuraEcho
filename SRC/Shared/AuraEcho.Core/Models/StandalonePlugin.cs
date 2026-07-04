@@ -51,7 +51,5 @@ public class StandalonePlugin : AppPlugin
         Process.Start();
     }
 
-    public override PluginSettingsItem? GetSettings() => null;
-
     public override ResourceDictionary? GetThemeResource(AppTheme theme) => null;
 }

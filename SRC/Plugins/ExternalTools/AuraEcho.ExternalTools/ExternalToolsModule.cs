@@ -21,15 +21,6 @@ public class ExternalToolsModule : IPlugin
 
     public string EntryViewName => nameof(ExternalToolsHome);
 
-    public PluginSettingsItem GetSettings()
-    {
-        return new()
-        {
-            Name = "EXTERNAL TOOLS",
-            ViewName = nameof(ExternalToolsSettings),
-        };
-    }
-
     public ResourceDictionary GetThemeResource(AppTheme theme)
     {
         return theme switch

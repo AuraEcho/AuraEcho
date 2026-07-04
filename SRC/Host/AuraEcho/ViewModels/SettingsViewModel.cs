@@ -67,14 +67,6 @@ public class SettingsViewModel : BindableBase, IRegionMemberLifetime
             }
         ];
 
-        foreach (var plugin in _pluginManager.Plugins)
-        {
-            var pluginSettingsItem = plugin.GetSettings();
-            if (pluginSettingsItem is null) continue;
-            if (SettingsItems.Contains(pluginSettingsItem)) continue;
-
-            SettingsItems.Add(pluginSettingsItem);
-        }
         CurrentSettingItem = SettingsItems.First();
     }
 

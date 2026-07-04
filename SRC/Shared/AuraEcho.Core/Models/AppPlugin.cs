@@ -71,7 +71,6 @@ public abstract class AppPlugin : BindableBase
     }
 
     public abstract ResourceDictionary? GetThemeResource(AppTheme theme);
-    public abstract PluginSettingsItem? GetSettings();
 
     protected AppPlugin(PluginManifest manifest)
     {

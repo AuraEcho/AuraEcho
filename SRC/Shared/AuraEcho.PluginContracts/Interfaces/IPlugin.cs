@@ -1,8 +1,7 @@
-using System.Threading.Tasks;
-using System.Windows;
 using AuraEcho.PluginContracts.Models;
 using Prism.Ioc;
-using Prism.Modularity;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace AuraEcho.PluginContracts.Interfaces
 {
@@ -10,7 +9,6 @@ namespace AuraEcho.PluginContracts.Interfaces
     {
         string EntryViewName { get; }
         ResourceDictionary GetThemeResource(AppTheme theme);
-        PluginSettingsItem GetSettings();
         Task SetupAsync(IContainerProvider containerProvider);
         void RegisterTypes(IContainerRegistry containerProvider);
         void OnInitialized(IContainerProvider containerProvider);

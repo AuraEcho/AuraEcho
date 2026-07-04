@@ -1,5 +1,5 @@
-using AuraEcho.Api.Models.V1.Common;
-using AuraEcho.Api.Models.V1.Plugin;
+using AuraEcho.ClientApi.V1.Common;
+using AuraEcho.ClientApi.V1.Plugin;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;

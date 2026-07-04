@@ -1,4 +1,4 @@
-using AuraEcho.Api.Models.V1.File;
+using AuraEcho.ClientApi.V1.File;
 
 namespace AuraEcho.Core.Contracts;
 

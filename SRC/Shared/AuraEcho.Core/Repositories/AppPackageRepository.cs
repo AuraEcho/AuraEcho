@@ -1,4 +1,4 @@
-using AuraEcho.Api.Models.V1.AppPackage;
+using AuraEcho.ClientApi.V1.AppPackage;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;

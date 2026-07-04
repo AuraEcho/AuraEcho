@@ -1,4 +1,4 @@
-﻿using AuraEcho.Api.Models.V1.Order;
+﻿using AuraEcho.ClientApi.V1.Order;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Events;
 using AuraEcho.PluginContracts.Interfaces;

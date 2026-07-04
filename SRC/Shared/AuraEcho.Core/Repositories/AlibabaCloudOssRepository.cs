@@ -7,7 +7,7 @@ using AlibabaCloud.OSS.V2;
 using AlibabaCloud.OSS.V2.Credentials;
 using AlibabaCloud.OSS.V2.IO;
 using AlibabaCloud.OSS.V2.Models;
-using AuraEcho.Api.Models.V1.File;
+using AuraEcho.ClientApi.V1.File;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;

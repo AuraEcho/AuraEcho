@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using AuraEcho.Api.Models.V1.Plugin;
+using AuraEcho.ClientApi.V1.Plugin;
 using AuraEcho.Core.Models;
 using AuraEcho.Models;
 

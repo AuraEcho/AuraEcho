@@ -1,4 +1,4 @@
-using AuraEcho.Api.Models.V1.Auth;
+using AuraEcho.ClientApi.V1.Auth;
 using AuraEcho.Core.Models;
 
 namespace AuraEcho.Core.Extensions;

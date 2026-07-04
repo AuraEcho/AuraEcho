@@ -46,6 +46,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
     <ProjectReference Include="..\alibabacloud-oss-csharp-sdk-v2\src\AlibabaCloud.OSS.V2\AlibabaCloud.OSS.V2.csproj" />
-    <ProjectReference Include="..\AuraEcho.Api.Models\AuraEcho.Api.Models\AuraEcho.Api.Models.csproj" />
+    <ProjectReference Include="..\AuraEcho.ClientApi\AuraEcho.ClientApi\AuraEcho.ClientApi.csproj" />
   </ItemGroup>
 </Project>

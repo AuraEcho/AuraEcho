@@ -1,4 +1,4 @@
-using AuraEcho.Api.Models.V1.Auth;
+using AuraEcho.ClientApi.V1.Auth;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
@@ -22,7 +22,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AuraEcho.Interfaces;
-using AuraEcho.Api.Models.V1.Order;
+using AuraEcho.ClientApi.V1.Order;
 
 namespace AuraEcho.ViewModels;
 

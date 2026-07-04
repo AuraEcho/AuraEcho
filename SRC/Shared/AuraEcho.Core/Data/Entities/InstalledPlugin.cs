@@ -1,4 +1,4 @@
-using AuraEcho.Api.Models.V1.Plugin;
+using AuraEcho.ClientApi.V1.Plugin;
 
 namespace AuraEcho.Core.Data.Entities;
 

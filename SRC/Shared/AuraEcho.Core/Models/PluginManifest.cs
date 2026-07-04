@@ -1,4 +1,4 @@
-using AuraEcho.Api.Models.V1.Plugin;
+using AuraEcho.ClientApi.V1.Plugin;
 using Prism.Mvvm;
 
 namespace AuraEcho.Core.Models;

@@ -1,5 +1,5 @@
-﻿using AuraEcho.Api.Models.V1.Common;
-using AuraEcho.Api.Models.V1.Order;
+﻿using AuraEcho.ClientApi.V1.Common;
+using AuraEcho.ClientApi.V1.Order;
 using System;
 using System.Threading.Tasks;
 

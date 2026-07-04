@@ -1,5 +1,3 @@
-using AuraEcho.Api.Models.V1.Order;
-
 namespace AuraEcho.Core.Constants;
 
 public static class Urls

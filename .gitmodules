@@ -1,6 +1,6 @@
-[submodule "SRC/Shared/AuraEcho.Api.Models"]
-	path = SRC/Shared/AuraEcho.Api.Models
-	url = git@github.com:Suence/AuraEcho.Api.Models.git
+[submodule "SRC/Shared/AuraEcho.ClientApi"]
+	path = SRC/Shared/AuraEcho.ClientApi
+	url = git@github.com:AuraEcho/AuraEcho.ClientApi.git
 [submodule "SRC/Shared/alibabacloud-oss-csharp-sdk-v2"]
 	path = SRC/Shared/alibabacloud-oss-csharp-sdk-v2
 	url = git@github.com:Suence/alibabacloud-oss-csharp-sdk-v2.git

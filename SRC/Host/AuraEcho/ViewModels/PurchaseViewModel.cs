@@ -1,7 +1,9 @@
-using AuraEcho.ClientApi.V1.Common;
-using AuraEcho.ClientApi.V1.Order;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Models.Common;
+using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
+using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Strings;
 using AuraEcho.Enums;
@@ -26,12 +28,9 @@ namespace AuraEcho.ViewModels;
 public class PurchaseViewModel : BindableBase, IRegionDialogAware
 {
     private Guid _resourceId;
-    private readonly ISkuRepository _skuRepository;
     private readonly IEventAggregator _eventAggregator;
-    private readonly ILicenseRepository _licenseRepository;
-    private readonly IOrderRepository _orderRepository;
+    private readonly ApiClient _apiClient;
     private readonly IAuraToastService _auraToastService;
-    private readonly IRemotePluginRepository _remotePluginRepository;
     private readonly ISkuOrderCacheService _skuOrderCacheService;
     private readonly IClock _clock;
 
@@ -145,20 +144,14 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     public PurchaseViewModel(
         IClock clock,
         IEventAggregator eventAggregator,
-        ISkuRepository skuRepository,
-        IOrderRepository orderRepository,
+        ApiClient apiClient,
         IAuraToastService auraToastService,
-        ILicenseRepository licenseRepository,
-        IRemotePluginRepository remotePluginRepository,
         ISkuOrderCacheService skuOrderCacheService)
     {
         _clock = clock;
         _eventAggregator = eventAggregator;
-        _skuRepository = skuRepository;
-        _orderRepository = orderRepository;
+        _apiClient = apiClient;
         _auraToastService = auraToastService;
-        _licenseRepository = licenseRepository;
-        _remotePluginRepository = remotePluginRepository;
         _skuOrderCacheService = skuOrderCacheService;
 
         OkCommand = new DelegateCommand(Ok);
@@ -185,14 +178,15 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
             var minTimeTask = Task.Delay(TimeSpan.FromSeconds(.5));
             
-            var tPlugin = _remotePluginRepository.GetPluginByIdAsync(resourceId);
-            var tSkus = _skuRepository.GetResourceSkusAsync(resourceId);
+            var tPlugin = _apiClient.Plugin.GetPluginByIdAsync(resourceId);
+            var tSkus = _apiClient.Sku.GetResourceSkusAsync(resourceId);
             var tLicense = GetLicenseInfo(resourceId);
             await Task.WhenAll(tPlugin, tSkus, tLicense);
 
-            CurrentPlugin = tPlugin.Result;
+            CurrentPlugin = tPlugin.Result?.ToRemotePlugin();
             CurrentPluginLicense = tLicense.Result;
-            Skus = new ObservableCollection<Sku>(tSkus.Result.Where(s => s.IsActive));
+            var skuList = tSkus.Result?.Skus?.Select(s => s.ToSku()).Where(s => s.IsActive).OrderBy(s => s.Ordinal);
+            Skus = new ObservableCollection<Sku>(skuList ?? Enumerable.Empty<Sku>());
 
             if (Skus.Count == 0)
             {
@@ -230,7 +224,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             SelectedSku.Id,
             PaymentChannel,
             async (skuId, channel) =>
-                await _orderRepository.CreateOrderAsync(new CreateOrderRequest
+                await _apiClient.Order.CreateOrderAsync(new CreateOrderRequest
                 {
                     SkuId = SelectedSku.Id,
                     Channel = PaymentChannel
@@ -260,8 +254,9 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
     private async Task<ResourceLicense> GetLicenseInfo(Guid pluginId)
     {
-        var license = await _licenseRepository.GetResourceLicenseAsync(pluginId);
-        if (!license.IsValid || license.ExpiredAt < _clock.UtcNow)
+        var response = await _apiClient.License.GetResourceLicenseAsync(pluginId);
+        var license = response?.ToResourceLicense();
+        if (license is null || !license.IsValid || license.ExpiredAt < _clock.UtcNow)
             return null;
         return license;
     }

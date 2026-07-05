@@ -2,9 +2,11 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AuraEcho.ClientApi.V1.Plugin;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Models.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
+using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;
@@ -19,7 +21,7 @@ namespace AuraEcho.ViewModels;
 
 public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
 {
-    private readonly IRemotePluginRepository _pluginRepository;
+    private readonly ApiClient _apiClient;
     private readonly ITransferManager _transferManager;
     private readonly IPluginInstallService _pluginInstallService;
     private readonly INavigationService _navigationService;
@@ -99,25 +101,25 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
 
     private async Task LoadPluginScreenshotsAsync()
     {
-        var screenshots = await _pluginRepository.GetScreenshotsAsync(MarketPlugin.PluginInfo.Id);
-        MarketPlugin.PluginInfo.Screenshots = screenshots;
+        var response = await _apiClient.Plugin.GetScreenshotsAsync(MarketPlugin.PluginInfo.Id);
+        MarketPlugin.PluginInfo.Screenshots = response?.Screenshots?.Select(s => s.ToPluginScreenshot()).ToList();
     }
 
     private async Task LoadPluginDetails()
     {
-        var result = await _pluginRepository.GetLatestAsync(MarketPlugin.PluginInfo.Id);
-        MarketPlugin.PluginInfo.LatestVersion = result;
+        var response = await _apiClient.Plugin.GetLatestAsync(MarketPlugin.PluginInfo.Id);
+        MarketPlugin.PluginInfo.LatestVersion = response?.ToPluginPackage();
     }
 
     public MarketplacePluginDetailsViewModel(
-        IRemotePluginRepository pluginRepository,
+        ApiClient apiClient,
         INavigationService navigationService,
         IEventAggregator eventAggregator,
         IPluginInstallService pluginInstallService,
         IPluginManager pluginManager,
         ITransferManager transferManager)
     {
-        _pluginRepository = pluginRepository;
+        _apiClient = apiClient;
         _pluginInstallService = pluginInstallService;
         _navigationService = navigationService;
         _pluginManager = pluginManager;

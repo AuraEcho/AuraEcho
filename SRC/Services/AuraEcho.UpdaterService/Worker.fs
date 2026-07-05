@@ -5,6 +5,8 @@ open System.IO
 open System.Threading
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
+open AuraEcho.Cloud.V1
+open AuraEcho.Cloud.V1.EndPoints
 open AuraEcho.Core.Contracts
 open AuraEcho.PluginContracts.Interfaces
 open AuraEcho.UpdaterService.Utils
@@ -35,14 +37,13 @@ type Worker(logger: IAppLogger, scopeFactory: IServiceScopeFactory) =
                 let sp = scope.ServiceProvider
 
                 // 解析依赖项
-                let appRepo = sp.GetRequiredService<IAppPackageRepository>()
+                let apiClient = sp.GetRequiredService<ApiClient>()
                 let localPluginRepo = sp.GetRequiredService<ILocalPluginRepository>()
-                let remotePluginRepo = sp.GetRequiredService<IRemotePluginRepository>()
                 let pluginInstaller = sp.GetRequiredService<IPluginInstallService>()
-                let storageRepository = sp.GetRequiredService<IStorageRepository>()
+                let storageRepository = sp.GetRequiredService<IFileEndpoint>()
 
-                do! updateAppAsync logger appRepo storageRepository paths.AppCache
-                do! updatePluginsAsync logger localPluginRepo remotePluginRepo storageRepository pluginInstaller  paths.PluginCache
+                do! updateAppAsync logger apiClient paths.AppCache
+                do! updatePluginsAsync logger localPluginRepo apiClient pluginInstaller  paths.PluginCache
                 
             with
             | :? OperationCanceledException -> 

@@ -1,15 +1,14 @@
 ﻿<UserControl x:Class="AuraEcho.Views.Purchase"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:acm="clr-namespace:AuraEcho.ClientApi.V1.Common;assembly=AuraEcho.ClientApi"
-             xmlns:apiOrder="clr-namespace:AuraEcho.ClientApi.V1.Order;assembly=AuraEcho.ClientApi"
+             xmlns:acm="clr-namespace:AuraEcho.Cloud.V1.Models.Common;assembly=AuraEcho.Cloud"
              xmlns:converters="clr-namespace:AuraEcho.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:enums="clr-namespace:AuraEcho.Enums"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
-             xmlns:ocm="clr-namespace:AuraEcho.ClientApi.V1.Order;assembly=AuraEcho.ClientApi"
+             xmlns:ocm="clr-namespace:AuraEcho.Cloud.V1.Models.Order;assembly=AuraEcho.Cloud"
              xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:pcm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
@@ -384,7 +383,7 @@
                                                          Margin="0,0,0,4"
                                                          HorizontalContentAlignment="Left"
                                                          GroupName="PaymentChannelGroup"
-                                                         IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Wxpay}}"
+                                                         IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static ocm:PaymentChannel.Wxpay}}"
                                                          Style="{DynamicResource CardRadioButtonStyle}"
                                                          UseLayoutRounding="True">
                                                 <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
@@ -409,7 +408,7 @@
                                             <RadioButton Height="40"
                                                          HorizontalContentAlignment="Left"
                                                          GroupName="PaymentChannelGroup"
-                                                         IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static apiOrder:PaymentChannel.Alipay}}"
+                                                         IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static ocm:PaymentChannel.Alipay}}"
                                                          Style="{DynamicResource CardRadioButtonStyle}">
                                                 <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
                                                     <Border Width="24"
@@ -624,7 +623,7 @@
                                                     BorderThickness="1"
                                                     CornerRadius="4">
                                                 <i:Interaction.Triggers>
-                                                    <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Alipay}">
+                                                    <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Alipay}">
                                                         <i:ChangePropertyAction PropertyName="Text"
                                                                                 TargetName="PaymentChannelTipText"
                                                                                 Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_AlipayScanTip}" />
@@ -640,7 +639,7 @@
                                                             </i:ChangePropertyAction.Value>
                                                         </i:ChangePropertyAction>
                                                     </i:DataTrigger>
-                                                    <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static apiOrder:PaymentChannel.Wxpay}">
+                                                    <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
                                                         <i:ChangePropertyAction PropertyName="Text"
                                                                                 TargetName="PaymentChannelTipText"
                                                                                 Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatScanTip}" />

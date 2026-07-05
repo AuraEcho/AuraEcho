@@ -1,4 +1,3 @@
-using AuraEcho.ClientApi.V1.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Strings;
@@ -18,6 +17,7 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using AuraEcho.Cloud.V1.Models.Plugin;
 namespace AuraEcho.ViewModels;
 
 public class HomepageViewModel : BindableBase, IRegionMemberLifetime

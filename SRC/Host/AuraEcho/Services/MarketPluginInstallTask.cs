@@ -17,18 +17,20 @@ using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using Prism.Events;
 using Prism.Mvvm;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.EndPoints;
+using AuraEcho.Core.Extensions;
 
 namespace AuraEcho.Services;
 
 public class MarketPluginInstallTask : BindableBase, ITransferTask
 {
-    private readonly IRemotePluginRepository _remotePluginRepository;
+    private readonly ApiClient _apiClient;
     private readonly IPluginInstallService _pluginInstallService;
     private readonly IPluginManager _pluginManager;
     private readonly IEventAggregator _eventAggregator;
     private readonly IClientSession _clientSession;
     private readonly ILocalPluginRepository _localPluginRepository;
-    private readonly IStorageRepository _storageRepository;
     private readonly IAuraToastService _auraToastService;
     private readonly MarketPlugin _plugin;
     protected CancellationTokenSource _cts;
@@ -113,7 +115,8 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
 
     private async Task<(bool, InstalledPluginModel?)> IsInstalled(MarketPlugin mp)
     {
-        var latestVersionPackInfo = await _remotePluginRepository.GetLatestAsync(mp.PluginInfo.Id);
+        var latestResponse = await _apiClient.Plugin.GetLatestAsync(mp.PluginInfo.Id);
+        var latestVersionPackInfo = latestResponse?.ToPluginPackage();
         Version? marketPluginLatestVersion =
             latestVersionPackInfo is null
             ? null
@@ -146,13 +149,12 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     }
 
     public MarketPluginInstallTask(
-        IRemotePluginRepository remotePluginRepository,
+        ApiClient apiClient,
         IPluginInstallService pluginInstallService,
         IPluginManager pluginManager,
         IEventAggregator eventAggregator,
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
-        IStorageRepository storageRepository,
         IAuraToastService auraToastService,
         MarketPlugin plugin)
     {
@@ -160,21 +162,20 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         _clientSession = clientSession;
         _auraToastService = auraToastService;
         _localPluginRepository = localPluginRepository;
-        _remotePluginRepository = remotePluginRepository;
+        _apiClient = apiClient;
         _pluginInstallService = pluginInstallService;
         _pluginManager = pluginManager;
         _eventAggregator = eventAggregator;
-        _storageRepository = storageRepository;
     }
 
     // 获取
     private async Task AcquireAsync()
     {
-        Task<bool> acquireTask = _remotePluginRepository.AcquireAsync(_plugin.PluginInfo.Id);
+        var acquireTask = _apiClient.Plugin.AcquireAsync(_plugin.PluginInfo.Id);
         await Task.WhenAll(Task.Delay(TimeSpan.FromSeconds(1)), acquireTask);
-        bool isSuccess = await acquireTask;
+        var result = await acquireTask;
 
-        if (!isSuccess) throw new Exception("Plugin acquire failed");
+        if (result is null) throw new Exception("Plugin acquire failed");
     }
 
     // 下载
@@ -193,10 +194,11 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         Progress<double> progressHandler = new Progress<double>(p => Progress = p);
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        PluginPackage latestVersionPackInfo = await _remotePluginRepository.GetLatestAsync(_plugin.PluginInfo.Id);
+        var latestResponse = await _apiClient.Plugin.GetLatestAsync(_plugin.PluginInfo.Id);
+        PluginPackage latestVersionPackInfo = latestResponse?.ToPluginPackage();
 
         Task<bool> downloadTask =
-            _storageRepository.DownloadFileAsync(
+            _apiClient.File.DownloadFileAsync(
                 latestVersionPackInfo.FileUrl,
                 pluginInstallerFilePath,
                 progressHandler);

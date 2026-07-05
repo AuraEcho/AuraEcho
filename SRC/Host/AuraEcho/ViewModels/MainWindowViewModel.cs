@@ -1,11 +1,17 @@
-using AuraEcho.ClientApi.V1.Auth;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Models.Auth;
+using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Constants;
-using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Strings;
 using AuraEcho.Core.Events;
-using AuraEcho.Core.Tools;
+using AuraEcho.Core.Strings;
 using AuraEcho.Events;
+using AuraEcho.Interfaces;
 using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Events;
@@ -16,22 +22,16 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using AuraEcho.Interfaces;
-using AuraEcho.ClientApi.V1.Order;
 
 namespace AuraEcho.ViewModels;
 
 public class MainWindowViewModel : BindableBase
 {
     #region private members
-    private readonly IAuthRepository _authRepository;
+    private readonly ApiClient _apiClient;
     private readonly IRegionDialogService _regionDialogService;
     public IAuraToastService ToastService { get; }
+    private readonly ITokenProvider _tokenProvider;
     private readonly ISkuOrderCacheService _skuOrderCacheService;
     private readonly Task _autoSignInTask;
     #endregion
@@ -109,7 +109,8 @@ public class MainWindowViewModel : BindableBase
     public MainWindowViewModel(
         INavigationService navigationService,
         IEventAggregator eventAggregator,
-        IAuthRepository authRepository,
+        ApiClient apiClient,
+        ITokenProvider tokenProvider,
         IClientSession clientSession,
         IAuraToastService auraToastService,
         IRegionDialogService regionDialogService,
@@ -120,8 +121,9 @@ public class MainWindowViewModel : BindableBase
         ToastService = auraToastService;
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
-        _authRepository = authRepository;
+        _apiClient = apiClient;
         ClientSession = clientSession;
+        _tokenProvider = tokenProvider;
 
         GoBackCommand = new DelegateCommand(GoBack, CanGoBack);
         RequestRestartAppCommand = new DelegateCommand(RequestRestartApp);
@@ -200,7 +202,6 @@ public class MainWindowViewModel : BindableBase
 
         if (dialogResult == RegionDialogResult.OK)
         {
-            ClientSession.SignOut();
             _eventAggregator.GetEvent<AppRestartEvent>().Publish();
             return;
         }
@@ -234,17 +235,16 @@ public class MainWindowViewModel : BindableBase
 
     private async Task AutoSignInAsync()
     {
-        var refreshToken = SecureStore.Load(SecureStoreKeys.RefreshToken);
-        if (refreshToken is null) return;
+        if (_tokenProvider.RefreshToken is null) return;
 
-        var result = await _authRepository.RefreshTokenAsync(new RefreshTokenRequest
+        var result = await _apiClient.Auth.RefreshTokenAsync(new RefreshTokenRequest
         {
-            RefreshToken = refreshToken
+            RefreshToken = _tokenProvider.RefreshToken
         });
 
         if (result is null || result.Data is null)
         {
-            SecureStore.Delete(SecureStoreKeys.RefreshToken);
+            _tokenProvider.ClearToken();
             return;
         }
 

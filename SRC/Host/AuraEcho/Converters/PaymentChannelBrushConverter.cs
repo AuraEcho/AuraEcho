@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
-using AuraEcho.ClientApi.V1.Order;
+using AuraEcho.Cloud.V1.Models.Order;
 
 namespace AuraEcho.Converters;
 

@@ -1,5 +1,5 @@
-﻿using AuraEcho.ClientApi.V1.Common;
-using AuraEcho.ClientApi.V1.Order;
+﻿using AuraEcho.Cloud.V1.Models.Common;
+using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using System;

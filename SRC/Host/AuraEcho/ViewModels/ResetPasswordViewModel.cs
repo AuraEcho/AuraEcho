@@ -1,14 +1,3 @@
-using AuraEcho.ClientApi.V1.Auth;
-using AuraEcho.ClientApi.V1.Common;
-using AuraEcho.Constants;
-using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Strings;
-using AuraEcho.PluginContracts.Constants;
-using AuraEcho.PluginContracts.Interfaces;
-using AuraEcho.PluginContracts.Models;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,13 +5,24 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Models.Auth;
+using AuraEcho.Cloud.V1.Models.Common;
+using AuraEcho.Constants;
+using AuraEcho.Core.Strings;
+using AuraEcho.PluginContracts.Constants;
+using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Models;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace AuraEcho.ViewModels;
 
 public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo, IRegionMemberLifetime
 {
     private readonly INavigationService _navigationService;
-    private readonly IAuthRepository _authRepository;
+    private readonly ApiClient _apiClient;
     private readonly IAuraToastService _toastService;
     private readonly Dictionary<string, List<string>> _errors = [];
 
@@ -71,7 +71,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         SendEmailCodeCooldown = 60;
         ResponseResult<string> requestResult =
-            await _authRepository.SendEmailVerificationCodeAsync(
+            await _apiClient.Auth.SendEmailVerificationCodeAsync(
                 new SendEmailCodeRequest(
                     Email.Trim(), 
                     EmailCodeScene.ResetPassword));
@@ -136,7 +136,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
         }
 
         ResponseResult<string>? result =
-            await _authRepository.ResetPasswordAsync(new ResetPasswordRequest
+            await _apiClient.Auth.ResetPasswordAsync(new ResetPasswordRequest
             {
                 Email = Email,
                 EmailCode = EmailCode,
@@ -214,11 +214,11 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
     public bool KeepAlive => false;
 
 
-    public ResetPasswordViewModel(INavigationService navigationService, IAuthRepository authRepository, IAuraToastService auraToastService)
+    public ResetPasswordViewModel(INavigationService navigationService, ApiClient apiClient, IAuraToastService auraToastService)
     {
         _toastService = auraToastService;
         _navigationService = navigationService;
-        _authRepository = authRepository;
+        _apiClient = apiClient;
 
         SendEmailCodeCommand = new DelegateCommand(SendEmailCode);
         ResetPasswordCommand = new DelegateCommand(ResetPassword);

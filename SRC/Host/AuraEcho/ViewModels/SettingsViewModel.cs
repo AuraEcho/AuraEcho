@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AuraEcho.Models;
+using AuraEcho.Cloud.V1;
 
 namespace AuraEcho.ViewModels;
 
@@ -25,7 +26,7 @@ public class SettingsViewModel : BindableBase, IRegionMemberLifetime
     #region private members
     private readonly IRegionManager _regionManager;
     private readonly IPluginManager _pluginManager;
-    private readonly IAuthRepository _authRepository;
+    private readonly ApiClient _apiClient;
     private readonly IClientSession _clientSession;
     private readonly INavigationService _navigationService;
     private readonly IEventAggregator _eventAggregator;
@@ -101,7 +102,7 @@ public class SettingsViewModel : BindableBase, IRegionMemberLifetime
     public SettingsViewModel(
         IRegionManager regionManager, 
         IPluginManager pluginManager, 
-        IAuthRepository authRepository, 
+        ApiClient apiClient,
         IClientSession clientSession,
         IEventAggregator eventAggregator,
         INavigationService navigationService)
@@ -109,7 +110,7 @@ public class SettingsViewModel : BindableBase, IRegionMemberLifetime
         _eventAggregator = eventAggregator;
         _regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
         _pluginManager = pluginManager ?? throw new ArgumentNullException(nameof(pluginManager));
-        _authRepository = authRepository ?? throw new ArgumentNullException(nameof(authRepository));
+        _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
         _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
         _clientSession = clientSession;
 
@@ -123,7 +124,7 @@ public class SettingsViewModel : BindableBase, IRegionMemberLifetime
 
     private async Task LoadCurrentUserProfileAsync()
     {
-        var profile = await _authRepository.GetCurrentUserAsync();
+        var profile = await _apiClient.Auth.GetCurrentUserAsync();
         if (profile is null) return;
 
         CurrentUser = profile.ToUserProfile();

@@ -1,3 +1,20 @@
+using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.IO.Pipes;
+using System.Linq;
+using System.Net.Http;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Threading;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Hub;
 using AuraEcho.Constants;
 using AuraEcho.Core.Attributes;
 using AuraEcho.Core.Constants;
@@ -29,21 +46,6 @@ using Prism.DryIoc;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.IO.Pipes;
-using System.Linq;
-using System.Net.Http;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace AuraEcho;
 
@@ -69,22 +71,25 @@ public partial class App : PrismApplication
     {
         containerRegistry.Register<AuraEchoDbContext>(provider => DbContextFactory.CreateDbContext());
 
-        containerRegistry.RegisterSingleton<HttpClient>(c =>
+        containerRegistry.RegisterInstance(_logger);
+        containerRegistry.RegisterSingleton<IClock, ServerClock>();
+        containerRegistry.RegisterSingleton<ITokenProvider, TokenProvider>();
+        containerRegistry.RegisterSingleton<IHubTokenProvider>(c => c.Resolve<ITokenProvider>());
+        containerRegistry.RegisterSingleton<IHubClient, HubClient>();
+
+        containerRegistry.RegisterSingleton<ApiClient>(c =>
         {
-            var log = c.Resolve<LoggingHandler>();
-            var serverTime = c.Resolve<ServerTimeHandler>();
-            var auth = c.Resolve<AuthHandler>();
+            var logHandler = new LoggingHandler(c.Resolve<IAppLogger>());
+            var serverTimeHandler = new ServerTimeHandler(c.Resolve<IClock>());
+            var authHandler = c.Resolve<AuthHandler>();
 
-            log.InnerHandler = serverTime;
-            serverTime.InnerHandler = auth;
-            auth.InnerHandler = new HttpClientHandler();
+            logHandler.InnerHandler = serverTimeHandler;
+            serverTimeHandler.InnerHandler = authHandler;
+            authHandler.InnerHandler = new HttpClientHandler();
 
-            return new HttpClient(log);
+            return new ApiClient(logHandler);
         });
 
-        containerRegistry.RegisterInstance(_logger);
-        containerRegistry.RegisterSingleton<CloudPushService>();
-        containerRegistry.RegisterSingleton<IClock, ServerClock>();
         containerRegistry.RegisterSingleton<IPathProvider, PathProvider>();
         containerRegistry.RegisterSingleton<IFileDialogService, FileDialogService>();
         containerRegistry.RegisterSingleton<IPluginManager, PluginManager>();
@@ -96,18 +101,10 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IPluginInstallService, PluginInstallService>();
         containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
 
-        //containerRegistry.RegisterSingleton<IStorageRepository, AlibabaCloudOssRepository>();
-        containerRegistry.RegisterSingleton<IStorageRepository, DebugAlibabaCloudOssRepository>();
         containerRegistry.RegisterSingleton<ITransferManager, TransferManager>();
         containerRegistry.RegisterSingleton<IClientSession, ClientSession>();
-        containerRegistry.RegisterSingleton<IAuthRepository, AuthRepository>();
-        containerRegistry.RegisterSingleton<IAppPackageRepository, AppPackageRepository>();
-        containerRegistry.RegisterSingleton<IRemotePluginRepository, RemotePluginRepository>();
-        containerRegistry.RegisterSingleton<ISkuRepository, SkuRepository>();
-        containerRegistry.RegisterSingleton<ILicenseRepository, LicenseRepository>();
-        containerRegistry.RegisterSingleton<ILicenseService, LicenseRepository>();
+        containerRegistry.RegisterSingleton<ILicenseService, HostLicenseService>();
         containerRegistry.RegisterSingleton<IPurchaseCoordinator, PurchaseCoordinator>();
-        containerRegistry.RegisterSingleton<IOrderRepository, OrderRepository>();
         containerRegistry.RegisterSingleton<IWebImageLoader, WebImageLoader>();
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
         containerRegistry.RegisterSingleton<ISkuOrderCacheService, SkuOrderCacheService>();

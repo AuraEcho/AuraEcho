@@ -5,8 +5,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AuraEcho.ClientApi.V1.Auth;
-using AuraEcho.ClientApi.V1.Common;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Models.Auth;
+using AuraEcho.Cloud.V1.Models.Common;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Strings;
@@ -22,8 +23,7 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
 {
     #region private members
     private readonly IClientSession _clientSession;
-    private readonly IAuthRepository _authRepository;
-    private readonly IStorageRepository _storageRepository;
+    private readonly ApiClient _apiClient;
     private readonly IAuraToastService _toastService;
     private readonly Dictionary<string, List<string>> _errors = [];
     #endregion
@@ -78,7 +78,7 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
                 return;
             }
 
-            var updateProfileTask = _authRepository.UpdateProfileAsync(new UpdateProfileRequest
+            var updateProfileTask = _apiClient.Auth.UpdateProfileAsync(new UpdateProfileRequest
             {
                 AvatarFileId = NewAvatarFileId,
                 UserName = NewUserName
@@ -91,7 +91,7 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
                 return;
             }
 
-            var userInfo = await _authRepository.GetCurrentUserAsync();
+            var userInfo = await _apiClient.Auth.GetCurrentUserAsync();
             _clientSession.UpdateUserProfile(userInfo.ToUserProfile());
             _toastService.Show(Labels.AccountSettings_ProfileUpdateSucceeded, ToastLevel.Success);
         }
@@ -117,7 +117,7 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
                 return;
             }
 
-            var uploadResult = await _storageRepository.UploadFileAsync(filePath);
+            var uploadResult = await _apiClient.File.UploadFileAsync(filePath);
             if (uploadResult is null)
             {
                 _toastService.Show(Labels.AccountSettings_AvatarUploadFailed, ToastLevel.Error);
@@ -162,11 +162,10 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
         return _errors.TryGetValue(propertyName, out List<string>? value) ? value : null;
     }
 
-    public AccountSettingsViewModel(IClientSession clientSession, IAuthRepository authRepository, IStorageRepository fileRepository, IAuraToastService toastService)
+    public AccountSettingsViewModel(IClientSession clientSession, ApiClient apiClient, IAuraToastService toastService)
     {
         _clientSession = clientSession;
-        _authRepository = authRepository;
-        _storageRepository = fileRepository;
+        _apiClient = apiClient;
         _toastService = toastService;
 
         UpdateProfileCommand =

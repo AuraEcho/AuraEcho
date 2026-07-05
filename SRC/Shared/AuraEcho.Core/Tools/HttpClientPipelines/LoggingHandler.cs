@@ -27,7 +27,7 @@ public sealed class LoggingHandler : DelegatingHandler
             sw.Stop();
 
             var logText = await BuildLogString(request, response, sw.Elapsed, cancellationToken);
-            _logger.Debug(logText);
+            _logger?.Debug(logText);
 
             return response;
         }
@@ -35,7 +35,7 @@ public sealed class LoggingHandler : DelegatingHandler
         {
             sw.Stop();
             var logText = BuildErrorLogString(request, ex, sw.Elapsed);
-            _logger.Error(logText);
+            _logger?.Error(logText);
             throw;
         }
     }
@@ -49,7 +49,7 @@ public sealed class LoggingHandler : DelegatingHandler
         sb.AppendLine($"│ API Request: [{request.Method}] {request.RequestUri}");
         sb.AppendLine("├─────────────────────────────────────────────────────────────────────────────");
 
-        // ========== Response ==========
+        // ========== Request ==========
         sb.AppendLine("├─ Request");
         foreach (var h in request.Headers)
             sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
@@ -70,7 +70,6 @@ public sealed class LoggingHandler : DelegatingHandler
         }
 
         sb.AppendLine("│");
-        //sb.AppendLine("├─────────────────────────────────────────────────────────────────────────────");
 
         // ========== Response ==========
         sb.AppendLine("├─ Response");
@@ -161,4 +160,3 @@ public sealed class LoggingHandler : DelegatingHandler
         return sb.ToString();
     }
 }
-

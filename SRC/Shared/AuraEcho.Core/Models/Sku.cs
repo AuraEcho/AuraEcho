@@ -1,4 +1,4 @@
-﻿using AuraEcho.ClientApi.V1.Common;
+﻿using AuraEcho.Cloud.V1.Models.Common;
 using AuraEcho.PluginContracts.Models;
 
 namespace AuraEcho.Core.Models;

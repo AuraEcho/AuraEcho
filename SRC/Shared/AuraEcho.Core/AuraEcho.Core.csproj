@@ -30,7 +30,6 @@
     <Folder Include="Native\Externals\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
@@ -45,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
-    <ProjectReference Include="..\alibabacloud-oss-csharp-sdk-v2\src\AlibabaCloud.OSS.V2\AlibabaCloud.OSS.V2.csproj" />
-    <ProjectReference Include="..\AuraEcho.ClientApi\AuraEcho.ClientApi\AuraEcho.ClientApi.csproj" />
+    <ProjectReference Include="..\AuraEcho.Cloud\AuraEcho.Cloud\AuraEcho.Cloud.csproj" />
   </ItemGroup>
 </Project>

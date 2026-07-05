@@ -53,7 +53,7 @@
   </Folder>
   <Folder Name="/SRC/Shared/">
     <Project Path="SRC/Shared/alibabacloud-oss-csharp-sdk-v2/src/AlibabaCloud.OSS.V2/AlibabaCloud.OSS.V2.csproj" />
-    <Project Path="SRC/Shared/AuraEcho.ClientApi/AuraEcho.ClientApi/AuraEcho.ClientApi.csproj" />
+    <Project Path="SRC/Shared/AuraEcho.Cloud/AuraEcho.Cloud/AuraEcho.Cloud.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Core/AuraEcho.Core.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Design/AuraEcho.Design.csproj" />
     <Project Path="SRC/Shared/AuraEcho.PluginContracts/AuraEcho.PluginContracts.csproj" Id="88f69dd3-259f-4c4d-b8e2-f23f4baa8823" />

@@ -1,3 +1,5 @@
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.EndPoints;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Extensions;
@@ -21,7 +23,7 @@ namespace AuraEcho.ViewModels;
 
 public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
 {
-    private readonly IRemotePluginRepository _pluginRespository;
+    private readonly ApiClient _apiClient;
     private readonly INavigationService _navigationService;
     private readonly IEventAggregator _eventAggregator;
     private readonly IPluginManager _pluginManager;
@@ -29,7 +31,6 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     private readonly ITransferManager _transferManager;
     private readonly ILocalPluginRepository _localPluginRespository;
     private readonly IClientSession _clientSession;
-    private readonly IStorageRepository _storageRepository;
     private readonly IAuraToastService _auraToastService;
 
     public ObservableCollection<MarketPlugin> Plugins
@@ -41,8 +42,9 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     public DelegateCommand LoadPluginsCommand { get; }
     private async void LoadPlugins()
     {
-        var result = await _pluginRespository.GetPluginsAsync();
-        if (result is null) return;
+        var response = await _apiClient.Plugin.GetPluginsAsync();
+        if (response?.Data is null) return;
+        var result = response.Data.Select(p => p.ToRemotePlugin()).ToList();
 
         List<Guid> installedPluginIds = _pluginManager.Plugins.Select(p => p.PluginId).ToList();
         List<MarketPluginInstallTask> inProcessTasks = [.. _transferManager.AllTasks.OfType<MarketPluginInstallTask>()];
@@ -70,13 +72,12 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
             marketPlugin.InstallContext =
                 inProcessTasks.FirstOrDefault(t => t.Id == plugin.Id.ToString())
                 ?? new MarketPluginInstallTask(
-                    _pluginRespository,
+                    _apiClient,
                     _pluginInstallService,
                     _pluginManager,
                     _eventAggregator,
                     _localPluginRespository,
                     _clientSession,
-                    _storageRepository,
                     _auraToastService,
                     marketPlugin);
             return marketPlugin;
@@ -98,21 +99,19 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     public PluginsMarketplaceViewModel(
         IPluginManager pluginManager,
         INavigationService navigationService,
-        IRemotePluginRepository pluginRespository,
+        ApiClient apiClient,
         IPluginInstallService pluginInstallService,
         IEventAggregator eventAggregator,
         ITransferManager transferManager,
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
-        IStorageRepository storageRepository,
         IAuraToastService auraToastService)
     {
         _clientSession = clientSession;
         _localPluginRespository = localPluginRepository;
         _transferManager = transferManager;
         _eventAggregator = eventAggregator;
-        _storageRepository = storageRepository;
-        _pluginRespository = pluginRespository;
+        _apiClient = apiClient;
         _pluginInstallService = pluginInstallService;
         _navigationService = navigationService;
         _pluginManager = pluginManager;

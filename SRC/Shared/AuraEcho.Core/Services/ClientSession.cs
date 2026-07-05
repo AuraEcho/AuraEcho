@@ -1,122 +1,126 @@
-using AuraEcho.ClientApi.V1.Auth;
-using AuraEcho.ClientApi.V1.Common;
-using AuraEcho.Core.Constants;
+using System.Diagnostics;
+using AuraEcho.Cloud.V1.Hub;
+using AuraEcho.Cloud.V1.Hub.Messages;
+using AuraEcho.Cloud.V1.Models.Auth;
+using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Tools;
-using AuraEcho.Core.Tools.HttpClientPipelines;
-using AuraEcho.PluginContracts.Interfaces;
 using Prism.Events;
 using Prism.Mvvm;
-using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace AuraEcho.Core.Services;
 
+/// <summary>
+/// <see cref="IClientSession"/> 的默认实现。
+/// 作为薄协调层，将 Token 管理委托给 <see cref="ITokenProvider"/>，
+/// 自身只负责用户资料、Hub 连接与事件发布。
+/// </summary>
 public class ClientSession : BindableBase, IClientSession
 {
-    private readonly HttpClient _httpClient;
-    private readonly SemaphoreSlim _refreshLock = new(1, 1);
-    private readonly IClock _clock;
+    private readonly ITokenProvider _tokenProvider;
+    private readonly IHubClient _cloudHubClient;
     private readonly IEventAggregator _eventAggregator;
-    private readonly CloudPushService _cloudPushService;
 
-    public ClientSession(IClock clock, IAppLogger logger, IEventAggregator eventAggregator, CloudPushService cloudPushService)
+    public ClientSession(
+        IEventAggregator eventAggregator,
+        IHubClient cloudHubClient,
+        ITokenProvider tokenProvider)
     {
-        _clock = clock;
-        _cloudPushService = cloudPushService;
         _eventAggregator = eventAggregator;
+        _cloudHubClient = cloudHubClient;
+        _tokenProvider = tokenProvider;
 
-        _httpClient = new HttpClient(new LoggingHandler(logger)
-        {
-            InnerHandler = new HttpClientHandler()
-        });
+        _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignOut);
     }
 
-    public bool IsSignedIn => AppToken is not null;
+    /// <inheritdoc />
+    public bool IsSignedIn => _tokenProvider.IsSignedIn;
 
-    public AppToken? AppToken { get; private set; }
-
+    /// <inheritdoc />
     public UserProfile? CurrentUser
     {
         get;
         private set => SetProperty(ref field, value);
     }
 
-    private bool IsExpired()
-    {
-        return _clock.UtcNow.AddSeconds(5) >= AppToken.ExpiresAt;
-    }
-
+    /// <inheritdoc />
     public void SignIn(AuthResponse authResponse)
     {
-        UpdateAuth(authResponse);
+        _tokenProvider.SetToken(
+            authResponse.AccessToken,
+            authResponse.RefreshToken,
+            authResponse.ExpiresAt);
+
+        UpdateUserProfile(authResponse.User.ToUserProfile());
 
         _eventAggregator.GetEvent<SignedInEvent>().Publish();
 
-        _ = _cloudPushService.ConnectAsync(() => Task.FromResult(AppToken?.AccessToken));
+        _ = ConnectCloudHubAsync();
     }
 
-    private void UpdateAuth(AuthResponse authResponse)
+    /// <summary>
+    /// 连接 CloudHub
+    /// </summary>
+    /// <returns></returns>
+    private async Task ConnectCloudHubAsync()
     {
-        AppToken = new AppToken
+        try
         {
-            AccessToken = authResponse.AccessToken,
-            RefreshToken = authResponse.RefreshToken,
-            ExpiresAt = authResponse.ExpiresAt
-        };
-        UpdateUserProfile(authResponse.User.ToUserProfile());
-        SecureStore.Save(SecureStoreKeys.RefreshToken, AppToken.RefreshToken);
+            SubScribeCloudHubEvents();
+            await _cloudHubClient.ConnectAsync();
+            Debug.WriteLine($"CloudHub 已连接");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"CloudHub 连接失败 {ex.Message}");
+        }
+
+        // 订阅 CloudHub 事件
+        void SubScribeCloudHubEvents()
+        {
+            _cloudHubClient.Subscribe<OrderPaidMessage, OrderPaymentDetails>(
+                payload =>
+                {
+                    Debug.WriteLine($"收到订单支付成功消息，订单号：{payload.OrderId}");
+                    _eventAggregator.GetEvent<OrderPaidEvent>().Publish(payload);
+                });
+        }
     }
 
+
+    /// <summary>
+    /// 断开 CloudHub 连接
+    /// </summary>
+    /// <returns></returns>
+    private async Task DisconnectCloudHubAsync()
+    {
+        try
+        {
+            _cloudHubClient.ClearSubscriptions();
+            await _cloudHubClient.DisconnectAsync();
+            Debug.WriteLine($"CloudHub 已断开连接");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"CloudHub 断开连接失败 {ex.Message}");
+        }
+    }
+
+    /// <inheritdoc />
     public void UpdateUserProfile(UserProfile userProfile)
     {
         CurrentUser = userProfile;
     }
 
+    /// <inheritdoc />
     public void SignOut()
     {
-        _ = _cloudPushService.DisconnectAsync();
+        _ = DisconnectCloudHubAsync();
         CurrentUser = null;
-        AppToken = null;
-        SecureStore.Delete(SecureStoreKeys.RefreshToken);
+        _tokenProvider.ClearToken();
 
         _eventAggregator.GetEvent<SignedOutEvent>().Publish();
-    }
-
-    public async Task<bool> TryRefreshTokenAsync()
-    {
-        await _refreshLock.WaitAsync();
-        try
-        {
-            if (!IsExpired())
-                return true;
-
-            if (string.IsNullOrWhiteSpace(AppToken?.RefreshToken))
-                return false;
-
-            var response = await _httpClient.PostAsJsonAsync(
-                Urls.RefreshToken(),
-                new RefreshTokenRequest
-                {
-                    RefreshToken = AppToken.RefreshToken
-                });
-            if (!response.IsSuccessStatusCode)
-                return false;
-
-            var token = await response.Content.ReadFromJsonAsync<ResponseResult<AuthResponse>>();
-            if (token is null)
-                return false;
-
-            UpdateAuth(token.Data);
-
-            return true;
-        }
-        finally
-        {
-            _refreshLock.Release();
-        }
     }
 }

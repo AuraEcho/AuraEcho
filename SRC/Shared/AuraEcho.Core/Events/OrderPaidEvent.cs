@@ -1,4 +1,4 @@
-﻿using AuraEcho.ClientApi.V1.Order;
+﻿using AuraEcho.Cloud.V1.Models.Order;
 using Prism.Events;
 
 namespace AuraEcho.Core.Events;

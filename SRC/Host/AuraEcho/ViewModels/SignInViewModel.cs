@@ -1,5 +1,14 @@
-using AuraEcho.ClientApi.V1.Auth;
-using AuraEcho.ClientApi.V1.Common;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Models.Auth;
+using AuraEcho.Cloud.V1.Models.Common;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Strings;
@@ -9,21 +18,13 @@ using AuraEcho.PluginContracts.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
 
 public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegionMemberLifetime
 {
     private readonly INavigationService _navigationService;
-    private readonly IAuthRepository _authRepository;
+    private readonly ApiClient _apiClient;
     private readonly IClientSession _clientSession;
     private readonly IAuraToastService _toastService;
     private readonly Dictionary<string, List<string>> _errors = [];
@@ -72,7 +73,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
         SendEmailCodeCooldown = 60;
         ResponseResult<string> requestResult =
-            await _authRepository.SendEmailVerificationCodeAsync(
+            await _apiClient.Auth.SendEmailVerificationCodeAsync(
                 new SendEmailCodeRequest(
                     Email.Trim(),
                     EmailCodeScene.SignIn));
@@ -122,7 +123,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             }
 
             ResponseResult<CodeSignInResponse>? result =
-                await _authRepository.SignInByCodeAsync(new CodeSignInRequest(Email.Trim(), EmailCode.Trim()));
+                await _apiClient.Auth.SignInByCodeAsync(new CodeSignInRequest(Email.Trim(), EmailCode.Trim()));
 
             if (result?.Status == ResultStatus.EmailCodeError)
             {
@@ -193,7 +194,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             }
 
             ResponseResult<AuthResponse>? result =
-                await _authRepository.SignInByPasswordAsync(new PasswordSignInRequest(Email.Trim(), Password.Trim()));
+                await _apiClient.Auth.SignInByPasswordAsync(new PasswordSignInRequest(Email.Trim(), Password.Trim()));
 
             if (result?.Status == ResultStatus.PasswordError)
             {
@@ -263,12 +264,12 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
     public SignInViewModel(
         INavigationService navigationService,
-        IAuthRepository authRepository,
+        ApiClient apiClient,
         IClientSession clientSession,
         IAuraToastService auraToastService)
     {
         _navigationService = navigationService;
-        _authRepository = authRepository;
+        _apiClient = apiClient;
         _clientSession = clientSession;
         _toastService = auraToastService;
 

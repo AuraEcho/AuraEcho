@@ -47,6 +47,9 @@
     <Project Path="SRC/Plugins/FishyTime/AuraEcho.FishyTime.Themes/AuraEcho.FishyTime.Themes.csproj" Id="3ea07b88-81a0-4819-95ad-55220defbf59" />
     <Project Path="SRC/Plugins/FishyTime/AuraEcho.FishyTime/AuraEcho.FishyTime.csproj" />
   </Folder>
+  <Folder Name="/SRC/Plugins/Oasis/">
+    <Project Path="SRC/Plugins/Oasis/SRC/AuraEcho.Oasis/AuraEcho.Oasis.csproj" Id="3c444ddb-8b5d-4b2a-9327-b7981482ce98" />
+  </Folder>
   <Folder Name="/SRC/Services/">
     <Project Path="SRC/Services/AuraEcho.LauncherService/AuraEcho.LauncherService.fsproj" Id="4daa4c66-2268-4427-8f23-d639b6a5d739" />
     <Project Path="SRC/Services/AuraEcho.UpdaterService/AuraEcho.UpdaterService.fsproj" Id="f522eebc-7ca7-4b1c-94ee-57fb452206ea" />

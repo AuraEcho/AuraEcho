@@ -7,3 +7,6 @@
 [submodule "SRC/Shared/AuraEcho.Design"]
 	path = SRC/Shared/AuraEcho.Design
 	url = git@github.com:AuraEcho/AuraEcho.Design.git
+[submodule "SRC/Plugins/Oasis"]
+	path = SRC/Plugins/Oasis
+	url = git@github.com:AuraEcho/AuraEcho.Oasis.git

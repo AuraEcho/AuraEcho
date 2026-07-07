@@ -64,5 +64,6 @@
   </Folder>
   <Folder Name="/TEST/">
     <Project Path="SRC/Shared/AuraEcho.Design/Samples/AuraEcho.Design.Gallery/AuraEcho.Design.Gallery.csproj" />
+    <Project Path="TEST/AuraEcho.UIToolkit.Tests/AuraEcho.UIToolkit.Tests.csproj" Id="28614b62-3bb6-417b-849b-868e2a8c9161" />
   </Folder>
 </Solution>

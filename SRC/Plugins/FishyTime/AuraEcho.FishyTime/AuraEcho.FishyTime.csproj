@@ -19,7 +19,7 @@
 		<Folder Include="Events\" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Shared\AuraEcho.Design\AuraEcho.Design.csproj" />
+		<ProjectReference Include="..\..\..\Shared\AuraEcho.Design\SRC\AuraEcho.Design\AuraEcho.Design.csproj" />
 		<ProjectReference Include="..\..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj">
 			<Private>false</Private>
 		</ProjectReference>

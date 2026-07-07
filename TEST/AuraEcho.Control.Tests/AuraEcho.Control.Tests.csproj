@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SRC\Shared\AuraEcho.Design\AuraEcho.Design.csproj" />
+    <ProjectReference Include="..\..\SRC\Shared\AuraEcho.Design\SRC\AuraEcho.Design\AuraEcho.Design.csproj" />
     <ProjectReference Include="..\..\SRC\Shared\AuraEcho.UIToolkit\AuraEcho.UIToolkit.csproj" />
   </ItemGroup>
 

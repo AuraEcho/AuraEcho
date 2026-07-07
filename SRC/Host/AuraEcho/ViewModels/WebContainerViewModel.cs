@@ -3,13 +3,14 @@ using Prism.Regions;
 
 namespace AuraEcho.ViewModels;
 
-public class WebContainerViewModel : BindableBase, INavigationAware
+public class WebContainerViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
 {
     public string SourceUri
     {
         get;
         set => SetProperty(ref field, value);
     }
+    public bool KeepAlive => false;
 
     public WebContainerViewModel()
     {

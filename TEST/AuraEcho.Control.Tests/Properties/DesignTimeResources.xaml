@@ -1,9 +1,0 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:auraecho="http://ui.auraecho.com/">
-    <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/AuraEcho.Themes;component/Dark/Brushes.xaml" />
-        <ResourceDictionary Source="/AuraEcho.Themes;component/Dark/Button.xaml" />
-    </ResourceDictionary.MergedDictionaries>-->
-</ResourceDictionary>

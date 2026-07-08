@@ -48,8 +48,6 @@
                              Padding="12,0"
                              HorizontalContentAlignment="Left"
                              d:IsChecked="True"
-                             Command="{Binding Source={StaticResource BindingProxy}, Path=Data.NavigationToSettingsItemCommand}"
-                             CommandParameter="{Binding ViewName}"
                              Content="{Binding}"
                              FontSize="{DynamicResource FontSize.Label.Large}"
                              GroupName="SettingsGroup"

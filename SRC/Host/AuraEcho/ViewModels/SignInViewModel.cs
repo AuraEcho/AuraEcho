@@ -139,7 +139,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             }
 
             _clientSession.SignIn(result.Data.Data);
-            _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage, canBack: false);
+            _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage);
         }
         finally
         {
@@ -210,7 +210,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
             }
 
             _clientSession.SignIn(result.Data);
-            _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage, canBack: false);
+            _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage);
         }
         finally
         {

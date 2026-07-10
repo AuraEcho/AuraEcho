@@ -232,78 +232,6 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 简体中文 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_ChineseSimplified {
-            get {
-                return ResourceManager.GetString("AppLanguage_ChineseSimplified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 英语 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_en_US {
-            get {
-                return ResourceManager.GetString("AppLanguage_en_US", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 英语 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_English {
-            get {
-                return ResourceManager.GetString("AppLanguage_English", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 日语 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_ja_JP {
-            get {
-                return ResourceManager.GetString("AppLanguage_ja_JP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 日语 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_Japanese {
-            get {
-                return ResourceManager.GetString("AppLanguage_Japanese", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 韩语 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_ko_KR {
-            get {
-                return ResourceManager.GetString("AppLanguage_ko_KR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 韩语 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_Korean {
-            get {
-                return ResourceManager.GetString("AppLanguage_Korean", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 简体中文 的本地化字符串。
-        /// </summary>
-        public static string AppLanguage_zh_CN {
-            get {
-                return ResourceManager.GetString("AppLanguage_zh_CN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 灵光回声 的本地化字符串。
         /// </summary>
         public static string AppName {
@@ -925,15 +853,6 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 订单支付成功！ 的本地化字符串。
-        /// </summary>
-        public static string Purchase_OrderPaidSuccess {
-            get {
-                return ResourceManager.GetString("Purchase_OrderPaidSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 支付方式 的本地化字符串。
         /// </summary>
         public static string Purchase_PaymentMethod {
@@ -1515,33 +1434,6 @@ namespace AuraEcho.Core.Strings {
         public static string SignIn_VerificationCodePlaceholder {
             get {
                 return ResourceManager.GetString("SignIn_VerificationCodePlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 您的登录凭证已过期，请重新登录。 的本地化字符串。
-        /// </summary>
-        public static string SignInExpired_Message {
-            get {
-                return ResourceManager.GetString("SignInExpired_Message", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 登录 的本地化字符串。
-        /// </summary>
-        public static string SignInExpired_SignInButton {
-            get {
-                return ResourceManager.GetString("SignInExpired_SignInButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 登录已过期 的本地化字符串。
-        /// </summary>
-        public static string SignInExpired_Title {
-            get {
-                return ResourceManager.GetString("SignInExpired_Title", resourceCulture);
             }
         }
         

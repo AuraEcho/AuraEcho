@@ -174,30 +174,6 @@
   <data name="App_Exit" xml:space="preserve">
     <value>退出</value>
   </data>
-  <data name="AppLanguage_en_US" xml:space="preserve">
-    <value>英语</value>
-  </data>
-  <data name="AppLanguage_zh_CN" xml:space="preserve">
-    <value>简体中文</value>
-  </data>
-  <data name="AppLanguage_ko_KR" xml:space="preserve">
-    <value>韩语</value>
-  </data>
-  <data name="AppLanguage_ja_JP" xml:space="preserve">
-    <value>日语</value>
-  </data>
-  <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
-    <value>简体中文</value>
-  </data>
-  <data name="AppLanguage_English" xml:space="preserve">
-    <value>英语</value>
-  </data>
-  <data name="AppLanguage_Korean" xml:space="preserve">
-    <value>韩语</value>
-  </data>
-  <data name="AppLanguage_Japanese" xml:space="preserve">
-    <value>日语</value>
-  </data>
   <data name="AppTheme_Light" xml:space="preserve">
     <value>浅色</value>
   </data>
@@ -393,9 +369,6 @@
   <data name="Purchase_OrderNumber" xml:space="preserve">
     <value>订单编号</value>
   </data>
-  <data name="Purchase_OrderPaidSuccess" xml:space="preserve">
-    <value>订单支付成功！</value>
-  </data>
   <data name="Purchase_PaymentMethod" xml:space="preserve">
     <value>支付方式</value>
   </data>
@@ -587,15 +560,6 @@
   </data>
   <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
     <value>验证码</value>
-  </data>
-  <data name="SignInExpired_Message" xml:space="preserve">
-    <value>您的登录凭证已过期，请重新登录。</value>
-  </data>
-  <data name="SignInExpired_SignInButton" xml:space="preserve">
-    <value>登录</value>
-  </data>
-  <data name="SignInExpired_Title" xml:space="preserve">
-    <value>登录已过期</value>
   </data>
   <data name="WebContainer_Loading" xml:space="preserve">
     <value>正在加载...</value>

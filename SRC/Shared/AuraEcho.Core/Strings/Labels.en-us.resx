@@ -174,30 +174,6 @@
   <data name="App_Exit" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="AppLanguage_en_US" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="AppLanguage_zh_CN" xml:space="preserve">
-    <value>Chinese</value>
-  </data>
-  <data name="AppLanguage_ko_KR" xml:space="preserve">
-    <value>Korean</value>
-  </data>
-  <data name="AppLanguage_ja_JP" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
-  <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
-    <value>Chinese (Simplified)</value>
-  </data>
-  <data name="AppLanguage_English" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="AppLanguage_Korean" xml:space="preserve">
-    <value>Korean</value>
-  </data>
-  <data name="AppLanguage_Japanese" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
   <data name="AppTheme_Light" xml:space="preserve">
     <value>Light</value>
   </data>
@@ -393,9 +369,6 @@
   <data name="Purchase_OrderNumber" xml:space="preserve">
     <value>Order number</value>
   </data>
-  <data name="Purchase_OrderPaidSuccess" xml:space="preserve">
-    <value>Order paid successfully!</value>
-  </data>
   <data name="Purchase_PaymentMethod" xml:space="preserve">
     <value>Payment method</value>
   </data>
@@ -587,15 +560,6 @@
   </data>
   <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
     <value>Verification Code</value>
-  </data>
-  <data name="SignInExpired_Message" xml:space="preserve">
-    <value>Your session has expired. Please sign in again.</value>
-  </data>
-  <data name="SignInExpired_SignInButton" xml:space="preserve">
-    <value>Sign In</value>
-  </data>
-  <data name="SignInExpired_Title" xml:space="preserve">
-    <value>Session Expired</value>
   </data>
   <data name="WebContainer_Loading" xml:space="preserve">
     <value>Loading...</value>

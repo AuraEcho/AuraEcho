@@ -174,30 +174,6 @@
   <data name="App_Exit" xml:space="preserve">
     <value>終了</value>
   </data>
-  <data name="AppLanguage_en_US" xml:space="preserve">
-    <value>英語</value>
-  </data>
-  <data name="AppLanguage_zh_CN" xml:space="preserve">
-    <value>中国語（簡体字）</value>
-  </data>
-  <data name="AppLanguage_ko_KR" xml:space="preserve">
-    <value>韓国語</value>
-  </data>
-  <data name="AppLanguage_ja_JP" xml:space="preserve">
-    <value>日本語</value>
-  </data>
-  <data name="AppLanguage_ChineseSimplified" xml:space="preserve">
-    <value>中国語（簡体字）</value>
-  </data>
-  <data name="AppLanguage_English" xml:space="preserve">
-    <value>英語</value>
-  </data>
-  <data name="AppLanguage_Korean" xml:space="preserve">
-    <value>韓国語</value>
-  </data>
-  <data name="AppLanguage_Japanese" xml:space="preserve">
-    <value>日本語</value>
-  </data>
   <data name="AppTheme_Light" xml:space="preserve">
     <value>ライト</value>
   </data>
@@ -393,9 +369,6 @@
   <data name="Purchase_OrderNumber" xml:space="preserve">
     <value>注文番号</value>
   </data>
-  <data name="Purchase_OrderPaidSuccess" xml:space="preserve">
-    <value>注文の支払いが完了しました！</value>
-  </data>
   <data name="Purchase_PaymentMethod" xml:space="preserve">
     <value>支払い方法</value>
   </data>
@@ -587,15 +560,6 @@
   </data>
   <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
     <value>認証コード</value>
-  </data>
-  <data name="SignInExpired_Message" xml:space="preserve">
-    <value>ログインセッションの有効期限が切れました。再ログインしてください。</value>
-  </data>
-  <data name="SignInExpired_SignInButton" xml:space="preserve">
-    <value>ログイン</value>
-  </data>
-  <data name="SignInExpired_Title" xml:space="preserve">
-    <value>セッションの有効期限切れ</value>
   </data>
   <data name="WebContainer_Loading" xml:space="preserve">
     <value>読み込み中...</value>

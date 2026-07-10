@@ -618,4 +618,13 @@
   <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
     <value>{0} のインストール中にエラーが発生しました</value>
   </data>
+  <data name="AutoSignIn_SigningIn" xml:space="preserve">
+    <value>ログインしています...</value>
+  </data>
+  <data name="AutoSignIn_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="AutoSignIn_SignInExpired" xml:space="preserve">
+    <value>ログインの有効期限が切れました。再ログインしてください。</value>
+  </data>
 </root>

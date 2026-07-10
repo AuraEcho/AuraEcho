@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="AuraEcho.Views.AutoSignIn"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cc="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
+             xmlns:cm="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
+             xmlns:converters="clr-namespace:AuraEcho.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
+             xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AutoSignInViewModel}"
+             d:DesignHeight="640"
+             d:DesignWidth="960"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+             UseLayoutRounding="True"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Storyboard x:Key="LoadingAnimation">
+            <DoubleAnimation RepeatBehavior="Forever"
+                             BeginTime="0:0:0.1"
+                             Storyboard.TargetName="LoadingBrushTransform"
+                             Storyboard.TargetProperty="X"
+                             From="-1"
+                             To="1"
+                             Duration="0:0:1">
+                <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:ControlStoryboardAction Storyboard="{StaticResource LoadingAnimation}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <i:ControlStoryboardAction ControlStoryboardOption="Stop" Storyboard="{StaticResource LoadingAnimation}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Background="{DynamicResource Brushes.Special.Background}">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <Grid>
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07" />
+                    </i:Interaction.Behaviors>
+                    <Border Width="80"
+                            Height="80"
+                            Margin="0,0,0,12"
+                            Background="#7F9A3BFF"
+                            CornerRadius="8"
+                            Visibility="Visible">
+                        <Border.Effect>
+                            <BlurEffect Radius="100" />
+                        </Border.Effect>
+                    </Border>
+                    <Border Width="80"
+                            Height="80"
+                            Margin="0,0,0,12"
+                            CornerRadius="8">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Assets/Images/auraecho.png" />
+                        </Border.Background>
+                        <Border BorderThickness="1" CornerRadius="8">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0.5, 0.5" EndPoint="1, 0">
+                                    <GradientStop Offset="0" Color="#00FFFFFF" />
+                                    <GradientStop Offset="1" Color="#FFFFFFFF" />
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                    </Border>
+                </Grid>
+                <TextBlock Margin="0,0,0,40"
+                           HorizontalAlignment="Center"
+                           FontFamily="Microsoft YaHei UI"
+                           Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"
+                           Style="{DynamicResource DisplayLargeTextBlockStyle}"
+                           Text="{Binding Source={StaticResource R}, Path=Labels.AppName}">
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.14" />
+                    </i:Interaction.Behaviors>
+                </TextBlock>
+
+
+                <StackPanel>
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.20" />
+                    </i:Interaction.Behaviors>
+                    <TextBlock x:Name="LoadingText"
+                               Margin="0,0,0,8"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource FontSize.Headline.Small}"
+                               Text="{Binding Source={StaticResource R}, Path=Labels.AutoSignIn_SigningIn}">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                <GradientStop Offset="0" Color="Gray" />
+                                <GradientStop Offset="0.4" Color="White" />
+                                <GradientStop Offset="0.6" Color="White" />
+                                <GradientStop Offset="1" Color="Gray" />
+
+                                <LinearGradientBrush.RelativeTransform>
+                                    <TranslateTransform x:Name="LoadingBrushTransform" X="-0.3" />
+                                </LinearGradientBrush.RelativeTransform>
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="{DynamicResource FontSize.Body.Medium}">
+                        <Hyperlink Command="{Binding CancelSignInCommand}" Cursor="Hand">
+                            <Run Text="{Binding Source={StaticResource R}, Path=Labels.AutoSignIn_Cancel, Mode=OneWay}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

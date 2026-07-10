@@ -618,4 +618,13 @@
   <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
     <value>{0} 설치 중 오류가 발생했습니다</value>
   </data>
+  <data name="AutoSignIn_SigningIn" xml:space="preserve">
+    <value>로그인 중...</value>
+  </data>
+  <data name="AutoSignIn_Cancel" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="AutoSignIn_SignInExpired" xml:space="preserve">
+    <value>로그인이 만료되었습니다. 다시 로그인해 주세요.</value>
+  </data>
 </root>

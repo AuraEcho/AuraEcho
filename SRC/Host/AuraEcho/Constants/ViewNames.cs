@@ -33,9 +33,9 @@ public static class ViewNames
     public const string SignIn = nameof(Views.SignIn);
 
     /// <summary>
-    /// 登录失效
+    /// 自动登录
     /// </summary>
-    public const string SignInExpired = nameof(Views.SignInExpired);
+    public const string AutoSignIn = nameof(Views.AutoSignIn);
 
     /// <summary>
     /// 重置密码

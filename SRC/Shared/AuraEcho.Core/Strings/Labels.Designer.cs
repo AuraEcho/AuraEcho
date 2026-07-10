@@ -149,7 +149,7 @@ namespace AuraEcho.Core.Strings {
                 return ResourceManager.GetString("AccountSettings_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 上传中... 的本地化字符串。
         /// </summary>
@@ -158,7 +158,7 @@ namespace AuraEcho.Core.Strings {
                 return ResourceManager.GetString("AccountSettings_Uploading", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 用户名 的本地化字符串。
         /// </summary>
@@ -336,6 +336,33 @@ namespace AuraEcho.Core.Strings {
         public static string AppTheme_Light {
             get {
                 return ResourceManager.GetString("AppTheme_Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 取消 的本地化字符串。
+        /// </summary>
+        public static string AutoSignIn_Cancel {
+            get {
+                return ResourceManager.GetString("AutoSignIn_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录已失效，请重新登录。 的本地化字符串。
+        /// </summary>
+        public static string AutoSignIn_SignInExpired {
+            get {
+                return ResourceManager.GetString("AutoSignIn_SignInExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在登录... 的本地化字符串。
+        /// </summary>
+        public static string AutoSignIn_SigningIn {
+            get {
+                return ResourceManager.GetString("AutoSignIn_SigningIn", resourceCulture);
             }
         }
         
@@ -1015,7 +1042,7 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 会员订阅服务协议 的本地化字符串。
+        ///   查找类似 订阅服务协议 的本地化字符串。
         /// </summary>
         public static string Purchase_SubscriptionTermsLink {
             get {
@@ -1024,7 +1051,7 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 支付前请阅读《 的本地化字符串。
+        ///   查找类似 支付即代表您同意《 的本地化字符串。
         /// </summary>
         public static string Purchase_SubscriptionTermsPrefix {
             get {
@@ -1465,20 +1492,20 @@ namespace AuraEcho.Core.Strings {
         }
         
         /// <summary>
-        ///   查找类似 登录 / 注册 的本地化字符串。
-        /// </summary>
-        public static string SignIn_SignInOrRegisterButton {
-            get {
-                return ResourceManager.GetString("SignIn_SignInOrRegisterButton", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   查找类似 正在登录... 的本地化字符串。
         /// </summary>
         public static string SignIn_SigningIn {
             get {
                 return ResourceManager.GetString("SignIn_SigningIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录 / 注册 的本地化字符串。
+        /// </summary>
+        public static string SignIn_SignInOrRegisterButton {
+            get {
+                return ResourceManager.GetString("SignIn_SignInOrRegisterButton", resourceCulture);
             }
         }
         

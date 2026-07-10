@@ -618,4 +618,13 @@
   <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
     <value>An error occurred during the installation of {0}</value>
   </data>
+  <data name="AutoSignIn_SigningIn" xml:space="preserve">
+    <value>Signing in...</value>
+  </data>
+  <data name="AutoSignIn_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AutoSignIn_SignInExpired" xml:space="preserve">
+    <value>Session expired. Please sign in again.</value>
+  </data>
 </root>

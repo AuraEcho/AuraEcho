@@ -1,10 +1,3 @@
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using AuraEcho.Cloud.V1;
-using AuraEcho.Cloud.V1.Models.Auth;
 using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
@@ -22,18 +15,21 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
 
 public class MainWindowViewModel : BindableBase
 {
     #region private members
-    private readonly ApiClient _apiClient;
     private readonly IRegionDialogService _regionDialogService;
     public IAuraToastService ToastService { get; }
     private readonly ITokenProvider _tokenProvider;
     private readonly ISkuOrderCacheService _skuOrderCacheService;
-    private readonly Task _autoSignInTask;
     #endregion
 
     public Version CurrentVersion
@@ -93,23 +89,20 @@ public class MainWindowViewModel : BindableBase
     public DelegateCommand AutoSignInCommand { get; }
     private async void AutoSignIn()
     {
-        await _autoSignInTask;
-        if (ClientSession.IsSignedIn)
+        // TODO：用于解决登录界面的入场动画卡顿的问题，具体原理待研究
+        await Task.Yield();
+        if (_tokenProvider.RefreshToken is null)
         {
-            NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage);
+            NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, canBack: false);
             return;
         }
-        
-        // TODO：用于解决登录界面的入场动画卡顿的问题，具体原理待研究
-        await Task.Delay(1);
 
-        NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, canBack: false);
+        NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.AutoSignIn, canBack: false);
     }
 
     public MainWindowViewModel(
         INavigationService navigationService,
         IEventAggregator eventAggregator,
-        ApiClient apiClient,
         ITokenProvider tokenProvider,
         IClientSession clientSession,
         IAuraToastService auraToastService,
@@ -121,7 +114,6 @@ public class MainWindowViewModel : BindableBase
         ToastService = auraToastService;
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
-        _apiClient = apiClient;
         ClientSession = clientSession;
         _tokenProvider = tokenProvider;
 
@@ -146,8 +138,7 @@ public class MainWindowViewModel : BindableBase
             };
         }
 
-        _autoSignInTask = AutoSignInAsync();
-        CurrentVersion = GetCurrentVersion();
+        GetCurrentVersionAsync();
     }
 
     private async void OrderPid(OrderPaymentDetails details)
@@ -215,40 +206,27 @@ public class MainWindowViewModel : BindableBase
         PendingRestartItems.Remove(targetUninstallItem);
     }
 
-    private static Version GetCurrentVersion()
+    private async void GetCurrentVersionAsync()
     {
-        try
+        CurrentVersion = await Task.Run(() => GetCurrentVersion());
+
+        static Version GetCurrentVersion()
         {
-            using var key = Registry.LocalMachine.OpenSubKey(@"Software\AuraEcho");
-            if (key is null) return new Version(0, 0, 0, 0);
+            try
+            {
+                using var key = Registry.LocalMachine.OpenSubKey(@"Software\AuraEcho");
+                if (key is null) return new Version(0, 0, 0, 0);
 
-            string? currentVersionStr = key.GetValue("CurrentVersion")?.ToString();
-            if (String.IsNullOrWhiteSpace(currentVersionStr)) return new Version(0, 0, 0, 0);
+                string? currentVersionStr = key.GetValue("CurrentVersion")?.ToString();
+                if (String.IsNullOrWhiteSpace(currentVersionStr)) return new Version(0, 0, 0, 0);
 
-            return Version.TryParse(currentVersionStr, out Version version) ? version : new Version(0, 0, 0, 0);
+                return Version.TryParse(currentVersionStr, out Version version) ? version : new Version(0, 0, 0, 0);
+            }
+            catch
+            {
+                return new Version(0, 0, 0, 0);
+            }
         }
-        catch
-        {
-            return new Version(0, 0, 0, 0);
-        }
-    }
-
-    private async Task AutoSignInAsync()
-    {
-        if (_tokenProvider.RefreshToken is null) return;
-
-        var result = await _apiClient.Auth.RefreshTokenAsync(new RefreshTokenRequest
-        {
-            RefreshToken = _tokenProvider.RefreshToken
-        });
-
-        if (result is null || result.Data is null)
-        {
-            _tokenProvider.ClearToken();
-            return;
-        }
-
-        ClientSession.SignIn(result.Data);
     }
 
     private void NewPendingRestartItem(PendingRestartItem newItem)

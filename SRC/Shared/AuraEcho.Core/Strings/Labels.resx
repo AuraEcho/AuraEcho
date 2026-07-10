@@ -618,4 +618,13 @@
   <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
     <value>{0} 安装过程中遇到了错误</value>
   </data>
+  <data name="AutoSignIn_SigningIn" xml:space="preserve">
+    <value>正在登录...</value>
+  </data>
+  <data name="AutoSignIn_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="AutoSignIn_SignInExpired" xml:space="preserve">
+    <value>登录已失效，请重新登录。</value>
+  </data>
 </root>

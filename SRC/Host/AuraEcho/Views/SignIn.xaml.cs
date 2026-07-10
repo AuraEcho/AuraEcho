@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -20,7 +21,7 @@ public partial class SignIn : UserControl
         InitializeComponent();
     }
 
-    private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         double codeModeOffsetX = VisualTreeHelper.GetOffset(CodeModeRadioButton).X;
         double codeModeButtonCenterX = codeModeOffsetX + CodeModeRadioButton.ActualWidth / 2;

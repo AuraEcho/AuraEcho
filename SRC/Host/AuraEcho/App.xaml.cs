@@ -118,11 +118,11 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<SignIn>();
         containerRegistry.RegisterForNavigation<ResetPassword>();
         containerRegistry.RegisterForNavigation<PasswordResetCompleted>();
-        containerRegistry.RegisterForNavigation<SignInExpired>();
         containerRegistry.RegisterForNavigation<ImageViewer>();
         containerRegistry.RegisterForNavigation<Purchase>();
         containerRegistry.RegisterForNavigation<AccountSettings>();
         containerRegistry.RegisterForNavigation<WebContainer>();
+        containerRegistry.RegisterForNavigation<AutoSignIn>();
     }
 
     protected override void OnInitialized()

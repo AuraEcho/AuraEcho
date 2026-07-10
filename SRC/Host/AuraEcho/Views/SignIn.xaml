@@ -25,7 +25,7 @@
             <StackPanel>
                 <Grid>
                     <i:Interaction.Behaviors>
-                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07"/>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07" />
                     </i:Interaction.Behaviors>
                     <Border Width="80"
                             Height="80"

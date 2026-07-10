@@ -29,7 +29,7 @@
             <TextBlock Margin="0,0,0,24"
                        HorizontalAlignment="Left"
                        Style="{DynamicResource HeadlineLargeTextBlockStyle}"
-                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_Title}" />
+                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_Title}" />
             <Border Height="64"
                     Margin="0,0,0,4"
                     Padding="16,0"
@@ -70,11 +70,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_Language}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_Language}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_LanguageDescription}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_LanguageDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -98,13 +98,13 @@
                                 <TextBlock>
                                     <i:Interaction.Triggers>
                                         <i:DataTrigger Binding="{Binding}" Value="{x:Static pm:AppTheme.Light}">
-                                            <ub:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.AppTheme_Light}" PropertyName="Text" />
+                                            <ub:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.AppTheme_Light}" PropertyName="Text" />
                                         </i:DataTrigger>
                                         <i:DataTrigger Binding="{Binding}" Value="{x:Static pm:AppTheme.Dark}">
-                                            <ub:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.AppTheme_Dark}" PropertyName="Text" />
+                                            <ub:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.AppTheme_Dark}" PropertyName="Text" />
                                         </i:DataTrigger>
                                         <i:DataTrigger Binding="{Binding}" Value="{x:Static pm:AppTheme.FollowSystem}">
-                                            <ub:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.AppTheme_FollowSystem}" PropertyName="Text" />
+                                            <ub:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.AppTheme_FollowSystem}" PropertyName="Text" />
                                         </i:DataTrigger>
                                     </i:Interaction.Triggers>
                                 </TextBlock>
@@ -129,11 +129,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_Theme}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_Theme}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_ThemeDescription}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_ThemeDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -161,11 +161,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_HardwareAcceleration}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_HardwareAcceleration}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_HardwareAccelerationDescription}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_HardwareAccelerationDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -193,11 +193,11 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center"
                                        Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_RunAtBoot}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_RunAtBoot}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.GeneralSettings_RunAtBootDescription}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.GeneralSettings_RunAtBootDescription}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>

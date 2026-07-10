@@ -53,13 +53,13 @@
                                     <i:ChangePropertyAction PropertyName="FontWeight" Value="SemiBold" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Monthly}">
-                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_MonthlyLicense}" PropertyName="Text" />
+                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_MonthlyLicense}" PropertyName="Text" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Yearly}">
-                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_YearlyLicense}" PropertyName="Text" />
+                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_YearlyLicense}" PropertyName="Text" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding Type}" Value="{x:Static pcm:LicenseType.Lifetime}">
-                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_LifetimeLicense}" PropertyName="Text" />
+                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_LifetimeLicense}" PropertyName="Text" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
                         </TextBlock>
@@ -148,9 +148,9 @@
                                                    TextWrapping="Wrap">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0}{1}{2}">
-                                                    <Binding Path="Labels.Purchase_SubscriptionSupportMessagePrefix" Source="{StaticResource R}" />
+                                                    <Binding Path="Labels.Purchase_SubscriptionSupportMessagePrefix" Source="{StaticResource Loc}" />
                                                     <Binding Path="CurrentPlugin.Name" />
-                                                    <Binding Path="Labels.Purchase_SubscriptionSupportMessageSuffix" Source="{StaticResource R}" />
+                                                    <Binding Path="Labels.Purchase_SubscriptionSupportMessageSuffix" Source="{StaticResource Loc}" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -227,18 +227,18 @@
                                                 <TextBlock x:Name="HasnotLicenseRun" d:Text="开通订阅，解锁{插件名称}所有功能。">
                                                     <TextBlock.Text>
                                                         <MultiBinding StringFormat="{}{0}{1}{2}">
-                                                            <Binding Path="Labels.Purchase_SubscribeToUnlockPrefix" Source="{StaticResource R}" />
+                                                            <Binding Path="Labels.Purchase_SubscribeToUnlockPrefix" Source="{StaticResource Loc}" />
                                                             <Binding Path="CurrentPlugin.Name" />
-                                                            <Binding Path="Labels.Purchase_SubscribeToUnlockSuffix" Source="{StaticResource R}" />
+                                                            <Binding Path="Labels.Purchase_SubscribeToUnlockSuffix" Source="{StaticResource Loc}" />
                                                         </MultiBinding>
                                                     </TextBlock.Text>
                                                 </TextBlock>
                                                 <TextBlock x:Name="HasLicenseRun">
                                                     <TextBlock.Text>
                                                         <MultiBinding StringFormat="{}{0}{1:yyyy/MM/dd}{2}">
-                                                            <Binding Path="Labels.Purchase_SubscriptionExpiryPrefix" Source="{StaticResource R}" />
+                                                            <Binding Path="Labels.Purchase_SubscriptionExpiryPrefix" Source="{StaticResource Loc}" />
                                                             <Binding Path="CurrentPluginLicense.ExpiredAt" />
-                                                            <Binding Path="Labels.Purchase_SubscriptionExpirySuffix" Source="{StaticResource R}" />
+                                                            <Binding Path="Labels.Purchase_SubscriptionExpirySuffix" Source="{StaticResource Loc}" />
                                                         </MultiBinding>
                                                     </TextBlock.Text>
                                                 </TextBlock>
@@ -255,7 +255,7 @@
                                         FontSize="15"
                                         IsTabStop="False"
                                         Style="{DynamicResource IconButtonStyle}"
-                                        ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
+                                        ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Window_Close}"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Button.RenderTransform>
                                         <TranslateTransform X="8" Y="-8" />
@@ -273,7 +273,7 @@
                                         Margin="0,16,16,0">
                                 <TextBlock Margin="0,0,0,8"
                                            Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                           Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ChooseSubscription}" />
+                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ChooseSubscription}" />
                                 <ui:SkeletonContainer Margin="0,0,0,16" IsLoading="{Binding IsInitializing}">
 
                                     <ui:SkeletonContainer.Skeleton>
@@ -349,7 +349,7 @@
                                 <StackPanel Margin="0,0,8,0">
                                     <TextBlock Margin="0,0,0,8"
                                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentMethod}" />
+                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentMethod}" />
                                     <ui:SkeletonContainer IsLoading="{Binding IsInitializing}">
                                         <ui:SkeletonContainer.Skeleton>
                                             <StackPanel>
@@ -402,7 +402,7 @@
                                                     </Border>
                                                     <TextBlock VerticalAlignment="Center"
                                                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                               Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" />
+                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}" />
                                                 </StackPanel>
                                             </RadioButton>
                                             <RadioButton Height="40"
@@ -426,7 +426,7 @@
                                                     </Border>
                                                     <TextBlock VerticalAlignment="Center"
                                                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                               Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" />
+                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_Alipay}" />
                                                 </StackPanel>
                                             </RadioButton>
                                         </StackPanel>
@@ -604,11 +604,11 @@
                                                             <TextBlock Margin="0,0,0,8"
                                                                        Foreground="#FFFFFF"
                                                                        Style="{DynamicResource TitleMediumTextBlockStyle}"
-                                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_QRCodeExpired}"
+                                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_QRCodeExpired}"
                                                                        TextWrapping="Wrap" />
                                                             <TextBlock Foreground="#FFFFFF"
                                                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_ClickQRToRefresh}"
+                                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ClickQRToRefresh}"
                                                                        TextWrapping="Wrap" />
                                                         </StackPanel>
                                                     </Border>
@@ -626,7 +626,7 @@
                                                     <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Alipay}">
                                                         <i:ChangePropertyAction PropertyName="Text"
                                                                                 TargetName="PaymentChannelTipText"
-                                                                                Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_AlipayScanTip}" />
+                                                                                Value="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_AlipayScanTip}" />
                                                         <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
                                                             <i:ChangePropertyAction.Value>
                                                                 <ImageBrush>
@@ -642,7 +642,7 @@
                                                     <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
                                                         <i:ChangePropertyAction PropertyName="Text"
                                                                                 TargetName="PaymentChannelTipText"
-                                                                                Value="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatScanTip}" />
+                                                                                Value="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatScanTip}" />
                                                         <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
                                                             <i:ChangePropertyAction.Value>
                                                                 <ImageBrush>
@@ -685,11 +685,11 @@
                                                HorizontalAlignment="Center"
                                                FontSize="11"
                                                TextWrapping="Wrap">
-                                        <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_SubscriptionTermsPrefix, Mode=OneWay}" /><Hyperlink Command="{Binding OpenSubscriptionTermsCommand}"
+                                        <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsPrefix, Mode=OneWay}" /><Hyperlink Command="{Binding OpenSubscriptionTermsCommand}"
                                                    Cursor="Hand"
                                                    Foreground="{DynamicResource Brushes.OnSurface}">
-                                            <Run Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_SubscriptionTermsLink, Mode=OneWay}" />
-                                        </Hyperlink><Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_SubscriptionTermsSuffix, Mode=OneWay}" />
+                                            <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsLink, Mode=OneWay}" />
+                                        </Hyperlink><Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsSuffix, Mode=OneWay}" />
                                     </TextBlock>
                                 </Grid>
                             </ui:SkeletonContainer>
@@ -741,12 +741,12 @@
                                 <TextBlock Margin="0,0,0,12"
                                            HorizontalAlignment="Center"
                                            Style="{DynamicResource DisplaySmallTextBlockStyle}"
-                                           Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentSuccess}" />
+                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccess}" />
                                 <TextBlock Margin="0,0,0,12"
                                            HorizontalAlignment="Center"
                                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                            Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                           Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentSuccessMessage}" />
+                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccessMessage}" />
 
                                 <Border Width="320"
                                         Margin="0,0,0,24"
@@ -757,7 +757,7 @@
                                         <DockPanel Margin="0,0,0,4" LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_OrderNumber}" />
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
                                             <TextBlock HorizontalAlignment="Right"
                                                        d:Text="2026061116224445384999291"
                                                        Text="{Binding PaymentResult.OrderNumber}" />
@@ -765,7 +765,7 @@
                                         <DockPanel Margin="0,0,0,4" LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentTime}" />
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentTime}" />
                                             <TextBlock HorizontalAlignment="Right"
                                                        d:Text="2026/06/10 10:06:33"
                                                        Text="{Binding PaymentResult.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
@@ -773,14 +773,14 @@
                                         <DockPanel LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_PaymentMethod}" />
-                                            <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}">
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentMethod}" />
+                                            <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}">
                                                 <i:Interaction.Triggers>
                                                     <i:DataTrigger Binding="{Binding PaymentResult.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
-                                                        <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_Alipay}" PropertyName="Text" />
+                                                        <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_Alipay}" PropertyName="Text" />
                                                     </i:DataTrigger>
                                                     <i:DataTrigger Binding="{Binding PaymentResult.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
-                                                        <ui:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Purchase_WeChatPay}" PropertyName="Text" />
+                                                        <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}" PropertyName="Text" />
                                                     </i:DataTrigger>
                                                 </i:Interaction.Triggers>
                                             </TextBlock>
@@ -793,7 +793,7 @@
                                         Height="40"
                                         HorizontalAlignment="Center"
                                         Command="{Binding OkCommand}"
-                                        Content="{Binding Source={StaticResource R}, Path=Labels.Purchase_DoneButton}"
+                                        Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_DoneButton}"
                                         FontSize="{DynamicResource FontSize.Label.Large}"
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                             </StackPanel>

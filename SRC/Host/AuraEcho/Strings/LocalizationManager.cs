@@ -1,14 +1,15 @@
-using AuraEcho.Core.Strings;
-using Prism.Mvvm;
+using System;
 using System.Globalization;
+using System.Threading;
+using Prism.Mvvm;
 
-namespace AuraEcho.Core.Tools;
+namespace AuraEcho.Strings;
 
-public class ApplicationResources : BindableBase
+public class LocalizationManager : BindableBase
 {
-    public static ApplicationResources Current { get; private set; }
+    public static LocalizationManager Current { get; private set; }
 
-    public ApplicationResources()
+    public LocalizationManager()
     {
         Current = this;
         Labels = new Labels();

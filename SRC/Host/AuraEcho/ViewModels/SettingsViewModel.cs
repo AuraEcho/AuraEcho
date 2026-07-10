@@ -1,6 +1,6 @@
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Strings;
+using AuraEcho.Strings;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;

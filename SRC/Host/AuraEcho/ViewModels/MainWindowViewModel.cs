@@ -2,7 +2,7 @@ using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
-using AuraEcho.Core.Strings;
+using AuraEcho.Strings;
 using AuraEcho.Events;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;

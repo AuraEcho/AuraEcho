@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows.Controls;
-using AuraEcho.Core.Strings;
+using AuraEcho.Strings;
 using AuraEcho.ViewModels;
 
 namespace AuraEcho.Views

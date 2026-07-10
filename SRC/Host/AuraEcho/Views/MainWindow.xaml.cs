@@ -2,7 +2,7 @@ using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
 using AuraEcho.Core.Attributes;
 using AuraEcho.Core.Events;
-using AuraEcho.Core.Strings;
+using AuraEcho.Strings;
 using AuraEcho.ViewModels;
 using Prism.Events;
 namespace AuraEcho.Views;

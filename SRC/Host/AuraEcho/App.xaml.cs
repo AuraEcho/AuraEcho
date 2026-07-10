@@ -35,6 +35,7 @@ using AuraEcho.PluginContracts.Models;
 using AuraEcho.PluginContracts.Services;
 using AuraEcho.Services;
 using AuraEcho.Tools;
+using AuraEcho.Strings;
 using AuraEcho.UIToolkit.RegionDialog;
 using AuraEcho.ViewModels;
 using AuraEcho.Views;
@@ -184,7 +185,7 @@ public partial class App : PrismApplication
             AppLanguage.Japanese => new CultureInfo("ja-JP"),
             _ => CultureInfo.CurrentCulture
         };
-        ApplicationResources.ChangeCulture(targetCultureInfo);
+        LocalizationManager.ChangeCulture(targetCultureInfo);
 
         RenderOptions.ProcessRenderMode =
             hostSettings.HardwareAcceleration

@@ -145,7 +145,7 @@
                     <Border x:Name="SmallBannerLayout" d:Visibility="Hidden">
                         <TextBlock FontSize="28"
                                    FontWeight="SemiBold"
-                                   Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace}" />
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace}" />
                     </Border>
                     <Grid x:Name="NormalBannerLayout">
                         <Viewbox>
@@ -177,11 +177,11 @@
                                 <TextBlock FontSize="{DynamicResource FontSize.Headline.Large}"
                                            FontWeight="SemiBold"
                                            Foreground="White"
-                                           Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace}" />
+                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace}" />
                                 <TextBlock Margin="0,16,0,0"
                                            FontSize="{DynamicResource FontSize.Body.Large}"
                                            Foreground="White"
-                                           Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace_Subtitle}"
+                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace_Subtitle}"
                                            TextWrapping="Wrap">
                                     <i:Interaction.Triggers>
                                         <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"

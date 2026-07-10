@@ -5,14 +5,14 @@
                     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:prism="http://prismlibrary.com/"
                     xmlns:tb="http://www.hardcodet.net/taskbar"
-                    xmlns:tools="clr-namespace:AuraEcho.Core.Tools;assembly=AuraEcho.Core"
+                    xmlns:tools="clr-namespace:AuraEcho.Strings"
                     xmlns:vm="clr-namespace:AuraEcho.ViewModels">
     <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     <ContextMenu x:Key="SysTrayMenu">
         <MenuItem Command="{Binding GoToTargetViewCommand}"
                   CommandParameter="{x:Static constants:ViewNames.Settings}"
                   Visibility="{Binding IsSignedIn, Converter={StaticResource BoolToVisibility}}"
-                  Header="{Binding Source={x:Static tools:ApplicationResources.Current}, Path=Labels.Settings}">
+                  Header="{Binding Source={x:Static tools:LocalizationManager.Current}, Path=Labels.Settings}">
             <MenuItem.Icon>
                 <Viewbox>
                     <Canvas Width="24" Height="24">
@@ -23,7 +23,7 @@
         </MenuItem>
         <Separator Visibility="{Binding IsSignedIn, Converter={StaticResource BoolToVisibility}}"/>
         <MenuItem Command="{Binding ExitApplicationCommand}"
-                  Header="{Binding Source={x:Static tools:ApplicationResources.Current}, Path=Labels.App_Exit}">
+                  Header="{Binding Source={x:Static tools:LocalizationManager.Current}, Path=Labels.App_Exit}">
             <MenuItem.Icon>
                 <Viewbox>
                     <Canvas Width="24" Height="24">
@@ -34,12 +34,12 @@
         </MenuItem>
     </ContextMenu>
 
-    <!-- 为什么不能使用 StaticResource R 绑定资源的方式呢 -->
+    <!-- 为什么不能使用 StaticResource Loc 绑定资源的方式呢 -->
     <tb:TaskbarIcon x:Key="NotifyIcon"
                     ContextMenu="{StaticResource SysTrayMenu}"
                     DoubleClickCommand="{Binding ShowWindowCommand}"
                     IconSource="/Assets/Icons/AuraEcho.ico"
-                    ToolTipText="{Binding Source={x:Static tools:ApplicationResources.Current}, Path=Labels.AppName}">
+                    ToolTipText="{Binding Source={x:Static tools:LocalizationManager.Current}, Path=Labels.AppName}">
         <!--<tb:TaskbarIcon.DataContext>
             <vm:NotifyIconViewModel />
         </tb:TaskbarIcon.DataContext>-->

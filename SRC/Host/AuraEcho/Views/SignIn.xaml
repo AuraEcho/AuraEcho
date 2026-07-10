@@ -59,7 +59,7 @@
                            FontFamily="Microsoft YaHei UI"
                            Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"
                            Style="{DynamicResource DisplayLargeTextBlockStyle}"
-                           Text="{Binding Source={StaticResource R}, Path=Labels.AppName}">
+                           Text="{Binding Source={StaticResource Loc}, Path=Labels.AppName}">
                     <i:Interaction.Behaviors>
                         <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.14" />
                     </i:Interaction.Behaviors>
@@ -113,7 +113,7 @@
                                     <RadioButton x:Name="CodeModeRadioButton"
                                                  Margin="0,0,24,0"
                                                  Command="{Binding ResetDataCommand}"
-                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_CodeLoginTab}"
+                                                 Content="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_CodeLoginTab}"
                                                  FontSize="18"
                                                  IsChecked="True"
                                                  Style="{DynamicResource TextRadioButtonStyle}">
@@ -131,7 +131,7 @@
                                     </RadioButton>
                                     <RadioButton x:Name="PasswordModeRadioButton"
                                                  Command="{Binding ResetDataCommand}"
-                                                 Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_PasswordLoginTab}"
+                                                 Content="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_PasswordLoginTab}"
                                                  FontSize="18"
                                                  Style="{DynamicResource TextRadioButtonStyle}">
                                         <i:Interaction.Triggers>
@@ -155,7 +155,7 @@
                                         <TextBox Height="40"
                                                  Margin="0,0,0,24"
                                                  Padding="8,0"
-                                                 ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_EmailPlaceholder}"
+                                                 ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_EmailPlaceholder}"
                                                  ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                  FontSize="16"
                                                  MaxLength="40"
@@ -192,7 +192,7 @@
                                                 <TextBox Height="40"
                                                          Margin="0,0,0,2"
                                                          Padding="8,0"
-                                                         ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_VerificationCodePlaceholder}"
+                                                         ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_VerificationCodePlaceholder}"
                                                          ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                          FontSize="16"
                                                          InputMethod.IsInputMethodEnabled="False"
@@ -214,7 +214,7 @@
                                                            Foreground="#8c8c8c">
                                                     <TextBlock.Text>
                                                         <MultiBinding StringFormat="{}{0}({1})">
-                                                            <Binding Path="Labels.SignIn_ResendCode" Source="{StaticResource R}" />
+                                                            <Binding Path="Labels.SignIn_ResendCode" Source="{StaticResource Loc}" />
                                                             <Binding Path="SendEmailCodeCooldown" />
                                                         </MultiBinding>
                                                     </TextBlock.Text>
@@ -228,16 +228,16 @@
                                                     <Hyperlink Command="{Binding SendEmailCodeCommand}"
                                                                Cursor="Hand"
                                                                KeyboardNavigation.IsTabStop="False">
-                                                        <Run Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_GetCode, Mode=OneWay}" />
+                                                        <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_GetCode, Mode=OneWay}" />
                                                     </Hyperlink>
                                                 </TextBlock>
                                             </Grid>
                                         </Grid>
                                         <Button Height="45"
-                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
+                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
                                                 ui:ControlHelper.IsBusy="{Binding IsBusy}"
                                                 Command="{Binding SignInByCodeCommand}"
-                                                Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInOrRegisterButton}"
+                                                Content="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_SignInOrRegisterButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
                                                 Style="{DynamicResource PrimaryButtonStyle}" />
@@ -249,7 +249,7 @@
                                         <TextBox Height="40"
                                                  Margin="0,0,0,24"
                                                  Padding="8,0"
-                                                 ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_EmailPlaceholder}"
+                                                 ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_EmailPlaceholder}"
                                                  ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                  FontSize="16"
                                                  MaxLength="40"
@@ -266,7 +266,7 @@
                                                          Margin="0,0,0,2"
                                                          Padding="8,0"
                                                          VerticalAlignment="Top"
-                                                         ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource R}, Path=Labels.SignIn_PasswordPlaceholder}"
+                                                         ui:ControlHelper.PlaceHolder="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_PasswordPlaceholder}"
                                                          ui:InputBoxHelper.FloatingBackground="{DynamicResource Brushes.Special.FloatingBackground}"
                                                          ui:PasswordBoxHelper.Attach="True"
                                                          ui:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -284,15 +284,15 @@
 
                                             <TextBlock HorizontalAlignment="Right" FontSize="14">
                                                 <Hyperlink Command="{Binding NavigationToResetPasswordCommand}" Cursor="Hand">
-                                                    <Run Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_ForgotPassword, Mode=OneWay}" />
+                                                    <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_ForgotPassword, Mode=OneWay}" />
                                                 </Hyperlink>
                                             </TextBlock>
                                         </StackPanel>
                                         <Button Height="45"
-                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
+                                                ui:ControlHelper.BusyContent="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_SigningIn, Mode=OneWay}"
                                                 ui:ControlHelper.IsBusy="{Binding IsBusy}"
                                                 Command="{Binding SignInByPasswordCommand}"
-                                                Content="{Binding Source={StaticResource R}, Path=Labels.SignIn_SignInButton}"
+                                                Content="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_SignInButton}"
                                                 FontSize="{DynamicResource FontSize.Label.Large}"
                                                 IsDefault="True"
                                                 Style="{DynamicResource PrimaryButtonStyle}" />
@@ -304,11 +304,11 @@
                             <TextBlock Margin="0,0,0,2"
                                        FontSize="12"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_AutoRegisterHint}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_AutoRegisterHint}" />
                             <TextBlock FontSize="12" TextWrapping="Wrap">
-                                <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_AgreeToEULA, Mode=OneWay}" />
+                                <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_AgreeToEULA, Mode=OneWay}" />
                                 <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
-                                    <Run Text="{Binding Source={StaticResource R}, Path=Labels.SignIn_EULA, Mode=OneWay}" />
+                                    <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_EULA, Mode=OneWay}" />
                                 </Hyperlink>
                             </TextBlock>
                         </StackPanel>

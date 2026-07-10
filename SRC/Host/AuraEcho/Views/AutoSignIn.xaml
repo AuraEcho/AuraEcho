@@ -81,7 +81,7 @@
                            FontFamily="Microsoft YaHei UI"
                            Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"
                            Style="{DynamicResource DisplayLargeTextBlockStyle}"
-                           Text="{Binding Source={StaticResource R}, Path=Labels.AppName}">
+                           Text="{Binding Source={StaticResource Loc}, Path=Labels.AppName}">
                     <i:Interaction.Behaviors>
                         <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.14" />
                     </i:Interaction.Behaviors>
@@ -97,7 +97,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="{DynamicResource FontSize.Headline.Small}"
-                               Text="{Binding Source={StaticResource R}, Path=Labels.AutoSignIn_SigningIn}">
+                               Text="{Binding Source={StaticResource Loc}, Path=Labels.AutoSignIn_SigningIn}">
                         <TextBlock.Foreground>
                             <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
                                 <GradientStop Offset="0" Color="Gray" />
@@ -113,7 +113,7 @@
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center" FontSize="{DynamicResource FontSize.Body.Medium}">
                         <Hyperlink Command="{Binding CancelSignInCommand}" Cursor="Hand">
-                            <Run Text="{Binding Source={StaticResource R}, Path=Labels.AutoSignIn_Cancel, Mode=OneWay}" />
+                            <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.AutoSignIn_Cancel, Mode=OneWay}" />
                         </Hyperlink>
                     </TextBlock>
                 </StackPanel>

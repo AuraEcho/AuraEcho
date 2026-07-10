@@ -80,7 +80,7 @@
                 <TextBlock Margin="0,0,0,16"
                            HorizontalAlignment="Left"
                            Style="{DynamicResource TitleLargeTextBlockStyle}"
-                           Text="{Binding Source={StaticResource R}, Path=Labels.Settings}" />
+                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Settings}" />
                 <ItemsControl ItemTemplate="{StaticResource SettingsItemTemplate}" ItemsSource="{Binding SettingsItems}">
                     <d:ItemsControl.ItemsSource>
                         <x:Array Type="{x:Type pm:PluginSettingsItem}">

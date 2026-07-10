@@ -23,12 +23,12 @@
             <TextBlock Margin="0,0,0,24"
                        HorizontalAlignment="Left"
                        Style="{DynamicResource HeadlineLargeTextBlockStyle}"
-                       Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_Title}" />
+                       Text="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_Title}" />
             <WrapPanel>
                 <StackPanel Margin="0,0,0,24">
                     <TextBlock Margin="0,0,0,8"
                                Style="{DynamicResource BodyLargeTextBlockStyle}"
-                               Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_Avatar}" />
+                               Text="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_Avatar}" />
                     <Grid Width="150" Height="150">
                         <Border BorderBrush="{DynamicResource Brushes.Outline}"
                                 BorderThickness="1"
@@ -60,7 +60,7 @@
                             <Button x:Name="SelectAvatarFileButton"
                                     Padding="8, 4"
                                     ui:ControlHelper.IsBusy="{Binding IsUploadingAvatar}"
-                                    ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_Uploading}"
+                                    ui:ControlHelper.BusyContent="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_Uploading}"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Click="SelectAvatarFileButton_Click">
@@ -76,7 +76,7 @@
                                            Padding="0"
                                            VerticalAlignment="Center"
                                            VerticalContentAlignment="Center"
-                                           Content="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_ChangeAvatar}"
+                                           Content="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_ChangeAvatar}"
                                            FontSize="{DynamicResource FontSize.Label.Small}"
                                            Foreground="{DynamicResource Brushes.OnSurface}" />
                                 </StackPanel>
@@ -88,7 +88,7 @@
                 <StackPanel UseLayoutRounding="True">
                     <TextBlock Margin="0,0,0,8"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                               Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_UserName}" />
+                               Text="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_UserName}" />
                     <TextBox x:Name="NewUserNameTextBox"
                              Width="200"
                              Height="40"
@@ -109,9 +109,9 @@
                                Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                Style="{DynamicResource BodySmallTextBlockStyle}"
                                TextWrapping="Wrap">
-                        <Run Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_UserNameLengthHint, Mode=OneWay}" />
+                        <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_UserNameLengthHint, Mode=OneWay}" />
                         <LineBreak />
-                        <Run Text="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_UserNameSpecialCharHint, Mode=OneWay}" />
+                        <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_UserNameSpecialCharHint, Mode=OneWay}" />
                         <TextBlock.Visibility>
                             <Binding ElementName="NewUserNameTextBox" Path="(Validation.HasError)">
                                 <Binding.Converter>
@@ -123,9 +123,9 @@
                     <Button Padding="24,8"
                             HorizontalAlignment="Left"
                             ui:ControlHelper.IsBusy="{Binding IsSubmitting}"
-                            ui:ControlHelper.BusyContent="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_SaveChanges}"
+                            ui:ControlHelper.BusyContent="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_SaveChanges}"
                             Command="{Binding UpdateProfileCommand}"
-                            Content="{Binding Source={StaticResource R}, Path=Labels.AccountSettings_SaveChanges}"
+                            Content="{Binding Source={StaticResource Loc}, Path=Labels.AccountSettings_SaveChanges}"
                             FontSize="{DynamicResource FontSize.Label.Medium}"
                             Style="{DynamicResource PrimaryButtonStyle}" />
                 </StackPanel>

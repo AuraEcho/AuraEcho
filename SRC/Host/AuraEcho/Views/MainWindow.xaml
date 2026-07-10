@@ -14,7 +14,7 @@
         xmlns:selectors="clr-namespace:AuraEcho.Selectors"
         xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
         xmlns:views="clr-namespace:AuraEcho.Views"
-        Title="{Binding Source={StaticResource R}, Path=Labels.AppName}"
+        Title="{Binding Source={StaticResource Loc}, Path=Labels.AppName}"
         Width="960"
         Height="640"
         MinWidth="480"
@@ -81,7 +81,7 @@
                     <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Style="{DynamicResource BodyMediumTextBlockStyle}">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0}{1}">
-                                <Binding Path="Labels.MainWindow_CurrentVersionPrefix" Source="{StaticResource R}" />
+                                <Binding Path="Labels.MainWindow_CurrentVersionPrefix" Source="{StaticResource Loc}" />
                                 <Binding Path="Data.CurrentVersion" Source="{StaticResource BindingProxy}" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -92,14 +92,14 @@
                                    Style="{DynamicResource BodyMediumTextBlockStyle}">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0}{1}">
-                                    <Binding Path="Labels.MainWindow_LatestVersionPrefix" Source="{StaticResource R}" />
+                                    <Binding Path="Labels.MainWindow_LatestVersionPrefix" Source="{StaticResource Loc}" />
                                     <Binding Path="LatestVersion" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                         <TextBlock Foreground="{DynamicResource Brushes.Primary}"
                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}" />
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_PendingRestart}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -122,21 +122,21 @@
                                Text="{Binding Title}" />
                     <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                               Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_CurrentVersionPrefix, StringFormat={}{0}1.2.0}" />
+                               Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_CurrentVersionPrefix, StringFormat={}{0}1.2.0}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="0,0,8,0"
                                    Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                    Style="{DynamicResource BodyMediumTextBlockStyle}">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0}{1}">
-                                    <Binding Path="Labels.MainWindow_LatestVersionPrefix" Source="{StaticResource R}" />
+                                    <Binding Path="Labels.MainWindow_LatestVersionPrefix" Source="{StaticResource Loc}" />
                                     <Binding Path="LatestVersion" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                         <TextBlock Foreground="{DynamicResource Brushes.Primary}"
                                    Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                   Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}" />
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_PendingRestart}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -159,16 +159,16 @@
                                Text="{Binding Title}" />
                     <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                Style="{DynamicResource BodyMediumTextBlockStyle}"
-                               Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_UninstallPending}" />
+                               Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_UninstallPending}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Width="220" TextWrapping="Wrap">
                             <TextBlock Margin="0,0,8,0"
                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_ApplyAfterRestart}" />
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_ApplyAfterRestart}" />
                             <TextBlock Foreground="{DynamicResource Brushes.Primary}"
                                        Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                       Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}"
+                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_PendingRestart}"
                                        Visibility="Collapsed" />
                         </TextBlock>
                     </StackPanel>
@@ -324,7 +324,7 @@
                         <TextBlock VerticalAlignment="Center"
                                    Foreground="{DynamicResource Brushes.OnSurface}"
                                    Style="{DynamicResource BodySmallTextBlockStyle}"
-                                   Text="{Binding Source={StaticResource R}, Path=Labels.AppName}" />
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.AppName}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="2"
@@ -336,7 +336,7 @@
                                   Background="Transparent"
                                   BorderThickness="0"
                                   Foreground="{DynamicResource Brushes.Primary}"
-                                  ToolTip="{Binding Source={StaticResource R}, Path=Labels.MainWindow_PendingRestart}"
+                                  ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_PendingRestart}"
                                   WindowChrome.IsHitTestVisibleInChrome="True">
                         <i:Interaction.Triggers>
                             <i:DataTrigger Binding="{Binding PendingRestartItems.Count}" Value="0">
@@ -481,7 +481,7 @@
                                 <TextBlock Margin="0,0,0,8"
                                            FontSize="{DynamicResource FontSize.Body.Medium}"
                                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                           Text="{Binding Source={StaticResource R}, Path=Labels.MainWindow_RestartToUpdate}" />
+                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_RestartToUpdate}" />
                                 <ScrollViewer Grid.Row="1" Margin="0,0,0,12">
                                     <ItemsControl ItemsSource="{Binding PendingRestartItems}">
                                         <ItemsControl.ItemTemplateSelector>
@@ -500,7 +500,7 @@
                                 <Button Grid.Row="2"
                                         Padding="0,8"
                                         Command="{Binding Source={StaticResource BindingProxy}, Path=Data.RequestRestartAppCommand}"
-                                        Content="{Binding Source={StaticResource R}, Path=Labels.MainWindow_RestartNow}"
+                                        Content="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_RestartNow}"
                                         FontSize="{DynamicResource FontSize.Label.Medium}"
                                         Style="{DynamicResource PrimaryButtonStyle}" />
                             </Grid>
@@ -602,7 +602,7 @@
                                         <Button Margin="8,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 Command="{Binding SignOutCommand}"
-                                                Content="{Binding Source={StaticResource R}, Path=Labels.MainWindow_SignOut}"
+                                                Content="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_SignOut}"
                                                 FontSize="{DynamicResource FontSize.Label.Medium}"
                                                 Foreground="{DynamicResource Brushes.Primary}"
                                                 Style="{DynamicResource IconButtonStyle}" />
@@ -652,7 +652,7 @@
                                                           StrokeThickness="1.5" />
                                                 </Canvas>
                                             </Viewbox>
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource R}, Path=Labels.Settings}" />
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource Loc}, Path=Labels.Settings}" />
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
@@ -674,7 +674,7 @@
                         auraecho:ControlHelper.CornerRadius="0"
                         IsTabStop="False"
                         Style="{DynamicResource IconButtonStyle}"
-                        ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Minimize}"
+                        ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Window_Minimize}"
                         WindowChrome.IsHitTestVisibleInChrome="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -707,7 +707,7 @@
                                 <i:ChangePropertyAction PropertyName="Visibility"
                                                         TargetName="MaxWindowIcon"
                                                         Value="{x:Static Visibility.Visible}" />
-                                <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Maximize}"
+                                <auraecho:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Window_Maximize}"
                                                            PropertyName="ToolTip"
                                                            TargetName="MinMaxWindowButton" />
                                 <i:ChangePropertyAction PropertyName="Visibility"
@@ -720,7 +720,7 @@
                                 <i:ChangePropertyAction PropertyName="Visibility"
                                                         TargetName="MaxWindowIcon"
                                                         Value="{x:Static Visibility.Hidden}" />
-                                <auraecho:SetBindingAction Binding="{Binding Source={StaticResource R}, Path=Labels.Window_Reduction}"
+                                <auraecho:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Window_Reduction}"
                                                            PropertyName="ToolTip"
                                                            TargetName="MinMaxWindowButton" />
                                 <i:ChangePropertyAction PropertyName="Visibility"
@@ -769,7 +769,7 @@
                         Click="CloseWindowButton_Click"
                         IsTabStop="False"
                         Style="{DynamicResource IconButtonStyle}"
-                        ToolTip="{Binding Source={StaticResource R}, Path=Labels.Window_Close}"
+                        ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Window_Close}"
                         WindowChrome.IsHitTestVisibleInChrome="True">
                     <Canvas Width="16" Height="16">
                         <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />

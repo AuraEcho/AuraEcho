@@ -39,7 +39,7 @@
         <TextBlock x:Name="LoadingText" HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="{DynamicResource FontSize.Headline.Small}"
-                   Text="{Binding Source={StaticResource R}, Path=Labels.WebContainer_Loading}" >
+                   Text="{Binding Source={StaticResource Loc}, Path=Labels.WebContainer_Loading}" >
             <TextBlock.Foreground>
                 <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
                     <GradientStop Color="Gray" Offset="0"/>

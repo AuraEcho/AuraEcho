@@ -5,7 +5,7 @@ using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Strings;
+using AuraEcho.Strings;
 using AuraEcho.Enums;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;

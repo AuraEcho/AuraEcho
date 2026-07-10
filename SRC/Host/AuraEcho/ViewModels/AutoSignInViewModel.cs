@@ -4,7 +4,7 @@ using AuraEcho.Cloud.V1.Models.Common;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Services;
-using AuraEcho.Core.Strings;
+using AuraEcho.Strings;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using Prism.Commands;

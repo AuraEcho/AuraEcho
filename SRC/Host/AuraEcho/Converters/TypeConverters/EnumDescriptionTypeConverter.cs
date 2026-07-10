@@ -1,8 +1,9 @@
-using AuraEcho.Core.Strings;
+using System;
+using AuraEcho.Strings;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace AuraEcho.Core.Converters.TypeConverters;
+namespace AuraEcho.Converters.TypeConverters;
 
 public class EnumDescriptionTypeConverter : EnumConverter
 {

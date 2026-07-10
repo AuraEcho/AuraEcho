@@ -36,7 +36,7 @@
                         <MenuItem Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
                                   CommandParameter="{Binding}"
                                   FontSize="{DynamicResource FontSize.Label.Medium}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginOpen}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <Canvas Width="24"
@@ -55,7 +55,7 @@
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
                                   FontSize="{DynamicResource FontSize.Label.Medium}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginUninstall}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginUninstall}">
                             <MenuItem.Icon>
                                 <Viewbox Stretch="Uniform">
                                     <Canvas Width="24.0"
@@ -89,7 +89,7 @@
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CancelPluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
                                   FontSize="{DynamicResource FontSize.Label.Medium}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginCancelUninstall}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginCancelUninstall}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <Canvas Width="24"
@@ -132,7 +132,7 @@
                             <Border Padding="2"
                                     Background="#A0000000"
                                     CornerRadius="16"
-                                    ToolTip="{Binding Source={StaticResource R}, Path=Labels.Homepage_UninstallPending}">
+                                    ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_UninstallPending}">
                                 <i:Interaction.Triggers>
                                     <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -180,7 +180,7 @@
                     <ContextMenu>
                         <MenuItem Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginOpen}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <Canvas Width="24"
@@ -198,7 +198,7 @@
                         <MenuItem x:Name="UninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginUninstall}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginUninstall}">
                             <MenuItem.Icon>
                                 <Viewbox Stretch="Uniform">
                                     <Canvas Width="24.0"
@@ -231,7 +231,7 @@
                         <MenuItem x:Name="CancelUninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CancelPluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginCancelUninstall}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginCancelUninstall}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <Canvas Width="24"
@@ -274,7 +274,7 @@
                             <Border Padding="2"
                                     Background="#A0000000"
                                     CornerRadius="16"
-                                    ToolTip="{Binding Source={StaticResource R}, Path=Labels.Homepage_UninstallPending}">
+                                    ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_UninstallPending}">
                                 <i:Interaction.Triggers>
                                     <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -320,7 +320,7 @@
                     <ContextMenu>
                         <MenuItem Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SwitchPluginCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginOpen}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginOpen}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <Canvas Width="24"
@@ -338,7 +338,7 @@
                         <MenuItem x:Name="UninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.PluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginUninstall}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginUninstall}">
                             <MenuItem.Icon>
                                 <Viewbox Stretch="Uniform">
                                     <Canvas Width="24.0"
@@ -371,7 +371,7 @@
                         <MenuItem x:Name="CancelUninstallMenuItem"
                                   Command="{Binding Source={StaticResource BindingProxy}, Path=Data.CancelPluginPlanUninstallCommand}"
                                   CommandParameter="{Binding}"
-                                  Header="{Binding Source={StaticResource R}, Path=Labels.Homepage_PluginCancelUninstall}">
+                                  Header="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_PluginCancelUninstall}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <Canvas Width="24"
@@ -414,7 +414,7 @@
                             <Border Padding="2"
                                     Background="#A0000000"
                                     CornerRadius="16"
-                                    ToolTip="{Binding Source={StaticResource R}, Path=Labels.Homepage_UninstallPending}">
+                                    ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_UninstallPending}">
                                 <i:Interaction.Triggers>
                                     <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -466,7 +466,7 @@
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="14"
-                               Text="{Binding Source={StaticResource R}, Path=Labels.PluginsMarketplace}"
+                               Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace}"
                                TextTrimming="CharacterEllipsis" />
                 </DockPanel>
             </Button>

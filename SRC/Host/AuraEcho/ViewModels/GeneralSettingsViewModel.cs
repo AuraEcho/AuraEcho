@@ -6,6 +6,7 @@ using System.Windows.Media;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
+using AuraEcho.Strings;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Models;
@@ -52,7 +53,7 @@ public class GeneralSettingsViewModel : BindableBase
             _ => throw new ArgumentOutOfRangeException(nameof(language), language, null)
         };
 
-        ApplicationResources.ChangeCulture(targetCultureInfo);
+        LocalizationManager.ChangeCulture(targetCultureInfo);
 
         try
         {

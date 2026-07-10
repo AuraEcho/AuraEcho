@@ -9,7 +9,7 @@ using AuraEcho.Cloud.V1;
 using AuraEcho.Cloud.V1.Models.Auth;
 using AuraEcho.Cloud.V1.Models.Common;
 using AuraEcho.Constants;
-using AuraEcho.Core.Strings;
+using AuraEcho.Strings;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;

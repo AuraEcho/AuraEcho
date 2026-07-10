@@ -1,14 +1,14 @@
 <prism:PrismApplication x:Class="AuraEcho.App"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                        xmlns:I18N="clr-namespace:AuraEcho.Core.Tools;assembly=AuraEcho.Core"
+                        xmlns:I18N="clr-namespace:AuraEcho.Strings"
                         xmlns:local="clr-namespace:AuraEcho"
                         xmlns:sys="clr-namespace:System;assembly=mscorlib"
                         xmlns:auraecho="http://ui.auraecho.com/"
                         xmlns:prism="http://prismlibrary.com/">
     <Application.Resources>
         <ResourceDictionary>
-            <I18N:ApplicationResources x:Key="R" Language="zh-CN" />
+            <I18N:LocalizationManager x:Key="Loc" Language="zh-CN" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Views/NotifyIcon.xaml" />
             </ResourceDictionary.MergedDictionaries>

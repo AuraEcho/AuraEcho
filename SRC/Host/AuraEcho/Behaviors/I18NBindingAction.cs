@@ -56,7 +56,7 @@ public class I18NBindingAction : TargetedTriggerAction<FrameworkElement>
 
         Binding i18NBinding = new Binding
         {
-            Source = Application.Current.FindResource("R"),
+            Source = Application.Current.FindResource("Loc"),
             Path = new PropertyPath(I18NTokenName),
             Mode = BindingMode.OneWay
         };

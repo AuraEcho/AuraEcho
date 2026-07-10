@@ -699,6 +699,7 @@
                     <Border Grid.Row="1"
                             Padding="24"
                             Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                            CornerRadius="0, 0, 8, 8"
                             Visibility="Hidden">
                         <Border.Resources>
                             <Storyboard x:Key="PaidIconAnimation">
@@ -748,7 +749,8 @@
                                            Style="{DynamicResource BodyLargeTextBlockStyle}"
                                            Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccessMessage}" />
 
-                                <Border Width="320"
+                                <Border MinWidth="320"
+                                        HorizontalAlignment="Center"
                                         Margin="0,0,0,24"
                                         Padding="12"
                                         Background="{DynamicResource Brushes.SurfaceContainer}"
@@ -756,9 +758,10 @@
                                     <StackPanel TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
                                         <DockPanel Margin="0,0,0,4" LastChildFill="True">
                                             <TextBlock DockPanel.Dock="Left"
+                                                       Margin="0, 0, 8, 0"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                                        Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
-                                            <TextBlock HorizontalAlignment="Right"
+                                            <TextBlock HorizontalAlignment="Right" 
                                                        d:Text="2026061116224445384999291"
                                                        Text="{Binding PaymentResult.OrderNumber}" />
                                         </DockPanel>

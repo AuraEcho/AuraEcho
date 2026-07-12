@@ -74,6 +74,12 @@ public class MainWindowViewModel : BindableBase
         NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Settings);
     }
 
+    public DelegateCommand NavigationToSendFeedbackCommand { get; }
+    private void NavigationToSendFeedback()
+    {
+        NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SendFeedback);
+    }
+
     public DelegateCommand GoBackCommand { get; }
     public bool CanGoBack() => NavigationService.CanGoBack;
     private void GoBack()
@@ -129,6 +135,7 @@ public class MainWindowViewModel : BindableBase
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
         SignOutCommand = new DelegateCommand(SignOut);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
+        NavigationToSendFeedbackCommand = new DelegateCommand(NavigationToSendFeedback);
         if (NavigationService is INotifyPropertyChanged npc)
         {
             npc.PropertyChanged += (s, e) =>

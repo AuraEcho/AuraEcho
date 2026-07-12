@@ -71,4 +71,9 @@ public static class ViewNames
     /// Web 浏览器
     /// </summary>
     public const string WebContainer = nameof(Views.WebContainer);
+
+    /// <summary>
+    /// 反馈
+    /// </summary>
+    public const string SendFeedback = nameof(Views.SendFeedback);
 }

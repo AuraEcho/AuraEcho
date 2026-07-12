@@ -237,6 +237,9 @@
   <data name="MainWindow_CurrentVersionPrefix" xml:space="preserve">
     <value>Current version: </value>
   </data>
+  <data name="MainWindow_SendFeedback" xml:space="preserve">
+    <value>Send Feedback</value>
+  </data>
   <data name="MainWindow_KickedOutMessage" xml:space="preserve">
     <value>Your account is signed in on another device and this device has been signed out. If this was not you, your password may have been compromised. Please change it as soon as possible.</value>
   </data>
@@ -590,5 +593,38 @@
   </data>
   <data name="AutoSignIn_SignInExpired" xml:space="preserve">
     <value>Session expired. Please sign in again.</value>
+  </data>
+  <data name="SendFeedback_COLG" xml:space="preserve">
+    <value>COLG</value>
+  </data>
+  <data name="SendFeedback_COLGDescription" xml:space="preserve">
+    <value>Send a private message to the developer on COLG forum</value>
+  </data>
+  <data name="SendFeedback_Description" xml:space="preserve">
+    <value>Tell the developers what features you like, or what features need improvement.</value>
+  </data>
+  <data name="SendFeedback_FeedbackMethods" xml:space="preserve">
+    <value>You can send feedback through the following channels</value>
+  </data>
+  <data name="SendFeedback_GitHub" xml:space="preserve">
+    <value>GitHub</value>
+  </data>
+  <data name="SendFeedback_GitHubDescription" xml:space="preserve">
+    <value>You can submit feedback via GitHub Issues</value>
+  </data>
+  <data name="SendFeedback_GitHubIssue" xml:space="preserve">
+    <value>GitHub Issue</value>
+  </data>
+  <data name="SendFeedback_QQGroup" xml:space="preserve">
+    <value>QQ Group</value>
+  </data>
+  <data name="SendFeedback_QQGroupDescription" xml:space="preserve">
+    <value>Join the AuraEcho feedback group to share your thoughts with the developers</value>
+  </data>
+  <data name="SendFeedback_QQGroupQRCode" xml:space="preserve">
+    <value>Group QR Code</value>
+  </data>
+  <data name="SendFeedback_Title" xml:space="preserve">
+    <value>Help Improve AuraEcho</value>
   </data>
 </root>

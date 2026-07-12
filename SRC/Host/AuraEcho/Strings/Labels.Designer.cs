@@ -520,6 +520,15 @@ namespace AuraEcho.Strings {
         }
         
         /// <summary>
+        ///   查找类似 发送反馈 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_SendFeedback {
+            get {
+                return ResourceManager.GetString("MainWindow_SendFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 取消 的本地化字符串。
         /// </summary>
         public static string MainWindow_SignInExpiredCancel {
@@ -1479,6 +1488,105 @@ namespace AuraEcho.Strings {
         public static string Window_Reduction {
             get {
                 return ResourceManager.GetString("Window_Reduction", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 COLG 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_COLG {
+            get {
+                return ResourceManager.GetString("SendFeedback_COLG", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 在 COLG 论坛向开发者发送站内信 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_COLGDescription {
+            get {
+                return ResourceManager.GetString("SendFeedback_COLGDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 请告诉开发者你喜欢哪些功能，或者需要开发者对哪个功能做出改进。 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_Description {
+            get {
+                return ResourceManager.GetString("SendFeedback_Description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 您可以通过以下方式进行反馈 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_FeedbackMethods {
+            get {
+                return ResourceManager.GetString("SendFeedback_FeedbackMethods", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 GitHub 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_GitHub {
+            get {
+                return ResourceManager.GetString("SendFeedback_GitHub", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 您可以通过 GitHub Issue 进行反馈 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_GitHubDescription {
+            get {
+                return ResourceManager.GetString("SendFeedback_GitHubDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 GitHub issue 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_GitHubIssue {
+            get {
+                return ResourceManager.GetString("SendFeedback_GitHubIssue", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 QQ 群 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_QQGroup {
+            get {
+                return ResourceManager.GetString("SendFeedback_QQGroup", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 您可以加入灵光回声反馈群向开发者反馈 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_QQGroupDescription {
+            get {
+                return ResourceManager.GetString("SendFeedback_QQGroupDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 群二维码 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_QQGroupQRCode {
+            get {
+                return ResourceManager.GetString("SendFeedback_QQGroupQRCode", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 帮助改进灵光回声 的本地化字符串。
+        /// </summary>
+        public static string SendFeedback_Title {
+            get {
+                return ResourceManager.GetString("SendFeedback_Title", resourceCulture);
             }
         }
     }

@@ -237,6 +237,9 @@
   <data name="MainWindow_CurrentVersionPrefix" xml:space="preserve">
     <value>現在のバージョン：</value>
   </data>
+  <data name="MainWindow_SendFeedback" xml:space="preserve">
+    <value>フィードバックを送信</value>
+  </data>
   <data name="MainWindow_KickedOutMessage" xml:space="preserve">
     <value>お客様のアカウントが別のデバイスでログインされたため、このデバイスはログアウトされました。お客様ご自身の操作でない場合、パスワードが漏洩した可能性がありますので、早急にパスワードを変更してください。</value>
   </data>
@@ -590,5 +593,38 @@
   </data>
   <data name="AutoSignIn_SignInExpired" xml:space="preserve">
     <value>ログインの有効期限が切れました。再ログインしてください。</value>
+  </data>
+  <data name="SendFeedback_COLG" xml:space="preserve">
+    <value>COLG</value>
+  </data>
+  <data name="SendFeedback_COLGDescription" xml:space="preserve">
+    <value>COLGフォーラムで開発者にプライベートメッセージを送信</value>
+  </data>
+  <data name="SendFeedback_Description" xml:space="preserve">
+    <value>気に入っている機能や、改善が必要な機能について開発者にお知らせください。</value>
+  </data>
+  <data name="SendFeedback_FeedbackMethods" xml:space="preserve">
+    <value>以下の方法でフィードバックをお送りいただけます</value>
+  </data>
+  <data name="SendFeedback_GitHub" xml:space="preserve">
+    <value>GitHub</value>
+  </data>
+  <data name="SendFeedback_GitHubDescription" xml:space="preserve">
+    <value>GitHub Issueでフィードバックを送信できます</value>
+  </data>
+  <data name="SendFeedback_GitHubIssue" xml:space="preserve">
+    <value>GitHub Issue</value>
+  </data>
+  <data name="SendFeedback_QQGroup" xml:space="preserve">
+    <value>QQグループ</value>
+  </data>
+  <data name="SendFeedback_QQGroupDescription" xml:space="preserve">
+    <value>オーラエコーフィードバックグループに参加して開発者にご意見をお寄せください</value>
+  </data>
+  <data name="SendFeedback_QQGroupQRCode" xml:space="preserve">
+    <value>グループQRコード</value>
+  </data>
+  <data name="SendFeedback_Title" xml:space="preserve">
+    <value>オーラエコーの改善にご協力ください</value>
   </data>
 </root>

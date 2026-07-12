@@ -113,6 +113,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
         containerRegistry.RegisterForNavigation<GeneralSettings>();
+        containerRegistry.RegisterForNavigation<SendFeedback>();
         containerRegistry.RegisterForNavigation<ConfirmDialog>();
         containerRegistry.RegisterForNavigation<PluginsMarketplace>();
         containerRegistry.RegisterForNavigation<MarketplacePluginDetails>();

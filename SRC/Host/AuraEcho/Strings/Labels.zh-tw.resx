@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountSettings_Avatar" xml:space="preserve">
+    <value>頭像</value>
+  </data>
+  <data name="AccountSettings_AvatarSizeExceeded" xml:space="preserve">
+    <value>圖像大小不能超過2MB</value>
+  </data>
+  <data name="AccountSettings_AvatarUploadFailed" xml:space="preserve">
+    <value>上傳頭像失敗</value>
+  </data>
+  <data name="AccountSettings_ChangeAvatar" xml:space="preserve">
+    <value>更改</value>
+  </data>
+  <data name="AccountSettings_ImageFileFilter" xml:space="preserve">
+    <value>圖像檔案|*.jpg;*.png;*.jpeg;*.bmp</value>
+  </data>
+  <data name="AccountSettings_ProfileUpdateFailed" xml:space="preserve">
+    <value>個人資訊更新失敗</value>
+  </data>
+  <data name="AccountSettings_ProfileUpdateSucceeded" xml:space="preserve">
+    <value>個人資訊更新成功</value>
+  </data>
+  <data name="AccountSettings_SaveChanges" xml:space="preserve">
+    <value>儲存</value>
+  </data>
+  <data name="AccountSettings_SelectImageFile" xml:space="preserve">
+    <value>選擇圖像檔案</value>
+  </data>
+  <data name="AccountSettings_Title" xml:space="preserve">
+    <value>帳號</value>
+  </data>
+  <data name="AccountSettings_Uploading" xml:space="preserve">
+    <value>上傳中...</value>
+  </data>
+  <data name="AccountSettings_UserName" xml:space="preserve">
+    <value>使用者名稱</value>
+  </data>
+  <data name="AccountSettings_UserNameLengthHint" xml:space="preserve">
+    <value>使用者名稱長度應在4-16個字元之間</value>
+  </data>
+  <data name="AccountSettings_UserNameLengthInvalid" xml:space="preserve">
+    <value>使用者名稱長度應在4-16個字元之間</value>
+  </data>
+  <data name="AccountSettings_UserNameNoSpaces" xml:space="preserve">
+    <value>使用者名稱不能包含空格</value>
+  </data>
+  <data name="AccountSettings_UserNameNoSpecialChars" xml:space="preserve">
+    <value>使用者名稱不能包含特殊字元</value>
+  </data>
+  <data name="AccountSettings_UserNameRequired" xml:space="preserve">
+    <value>使用者名稱不能為空</value>
+  </data>
+  <data name="AccountSettings_UserNameSpecialCharHint" xml:space="preserve">
+    <value>使用者名稱不能包含特殊字元</value>
+  </data>
+  <data name="App_Exit" xml:space="preserve">
+    <value>結束</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>淺色</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="AppTheme_FollowSystem" xml:space="preserve">
+    <value>跟隨系統</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>靈光回聲</value>
+  </data>
+  <data name="GeneralSettings_HardwareAcceleration" xml:space="preserve">
+    <value>硬體加速</value>
+  </data>
+  <data name="GeneralSettings_HardwareAccelerationDescription" xml:space="preserve">
+    <value>在可用時使用 GPU 圖形加速</value>
+  </data>
+  <data name="GeneralSettings_Language" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="GeneralSettings_LanguageDescription" xml:space="preserve">
+    <value>選擇靈光回聲使用的語言</value>
+  </data>
+  <data name="GeneralSettings_RunAtBoot" xml:space="preserve">
+    <value>隨系統啟動</value>
+  </data>
+  <data name="GeneralSettings_RunAtBootDescription" xml:space="preserve">
+    <value>在啟動系統後自動啟動靈光回聲</value>
+  </data>
+  <data name="GeneralSettings_Theme" xml:space="preserve">
+    <value>主題</value>
+  </data>
+  <data name="GeneralSettings_ThemeDescription" xml:space="preserve">
+    <value>選擇靈光回聲使用的主題</value>
+  </data>
+  <data name="GeneralSettings_Title" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="Homepage_PluginCancelUninstall" xml:space="preserve">
+    <value>取消解除安裝</value>
+  </data>
+  <data name="Homepage_PluginOpen" xml:space="preserve">
+    <value>開啟</value>
+  </data>
+  <data name="Homepage_PluginUninstall" xml:space="preserve">
+    <value>解除安裝</value>
+  </data>
+  <data name="Homepage_UninstallConfirmAck" xml:space="preserve">
+    <value>我知道了</value>
+  </data>
+  <data name="Homepage_UninstallPending" xml:space="preserve">
+    <value>解除安裝掛起</value>
+  </data>
+  <data name="Homepage_UninstallPendingMessage" xml:space="preserve">
+    <value>此擴充的解除安裝操作已掛起，將在靈光回聲下次啟動時生效。</value>
+  </data>
+  <data name="MainWindow_ApplyAfterRestart" xml:space="preserve">
+    <value>將在重啟後應用</value>
+  </data>
+  <data name="MainWindow_CurrentVersionPrefix" xml:space="preserve">
+    <value>目前版本：</value>
+  </data>
+  <data name="MainWindow_KickedOutMessage" xml:space="preserve">
+    <value>您的帳號已在其他裝置登入，目前裝置已下線。如果這不是您本人的操作，那麼您的密碼可能已經洩露，請儘快修改密碼。</value>
+  </data>
+  <data name="MainWindow_KickedOutTitle" xml:space="preserve">
+    <value>帳號在其他裝置登入</value>
+  </data>
+  <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
+    <value>最新版本：</value>
+  </data>
+  <data name="MainWindow_MinimizedToTray" xml:space="preserve">
+    <value>程式已最小化到系統托盤</value>
+  </data>
+  <data name="MainWindow_PendingRestart" xml:space="preserve">
+    <value>等待重啟</value>
+  </data>
+  <data name="MainWindow_ReLogin" xml:space="preserve">
+    <value>重新登入</value>
+  </data>
+  <data name="MainWindow_RestartNow" xml:space="preserve">
+    <value>現在重啟</value>
+  </data>
+  <data name="MainWindow_RestartToUpdate" xml:space="preserve">
+    <value>重啟以更新</value>
+  </data>
+  <data name="MainWindow_SignInExpiredCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="MainWindow_SignInExpiredMessage" xml:space="preserve">
+    <value>您的登入狀態已過期，您可以繼續留在此介面，或者重新登入。</value>
+  </data>
+  <data name="MainWindow_SignInExpiredTitle" xml:space="preserve">
+    <value>登入已過期</value>
+  </data>
+  <data name="MainWindow_SignOut" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="MainWindow_TrayNotificationHint" xml:space="preserve">
+    <value>可前往個人化介面關閉推播通知</value>
+  </data>
+  <data name="MainWindow_UninstallPending" xml:space="preserve">
+    <value>解除安裝已掛起</value>
+  </data>
+  <data name="MarketplacePluginDetails_Acquire" xml:space="preserve">
+    <value>取得</value>
+  </data>
+  <data name="MarketplacePluginDetails_Acquiring" xml:space="preserve">
+    <value>正在取得...</value>
+  </data>
+  <data name="MarketplacePluginDetails_ApproximateSize" xml:space="preserve">
+    <value>近似大小</value>
+  </data>
+  <data name="MarketplacePluginDetails_Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="MarketplacePluginDetails_DownloadingPrefix" xml:space="preserve">
+    <value>正在下載(</value>
+  </data>
+  <data name="MarketplacePluginDetails_Install" xml:space="preserve">
+    <value>安裝</value>
+  </data>
+  <data name="MarketplacePluginDetails_Installing" xml:space="preserve">
+    <value>正在安裝...</value>
+  </data>
+  <data name="MarketplacePluginDetails_LastUpdateDate" xml:space="preserve">
+    <value>上次更新日期</value>
+  </data>
+  <data name="MarketplacePluginDetails_Open" xml:space="preserve">
+    <value>開啟</value>
+  </data>
+  <data name="MarketplacePluginDetails_OtherInfo" xml:space="preserve">
+    <value>其他資訊</value>
+  </data>
+  <data name="MarketplacePluginDetails_PublishDate" xml:space="preserve">
+    <value>發布日期</value>
+  </data>
+  <data name="MarketplacePluginDetails_Publisher" xml:space="preserve">
+    <value>發布者</value>
+  </data>
+  <data name="MarketplacePluginDetails_ReleaseNotes" xml:space="preserve">
+    <value>此版本的更新內容</value>
+  </data>
+  <data name="MarketplacePluginDetails_Screenshots" xml:space="preserve">
+    <value>螢幕截圖</value>
+  </data>
+  <data name="MarketplacePluginDetails_UserCount" xml:space="preserve">
+    <value>使用者數</value>
+  </data>
+  <data name="MarketplacePluginDetails_Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="PasswordResetCompleted_LoginPrompt" xml:space="preserve">
+    <value>現在可使用新的密碼登入到靈光回聲。</value>
+  </data>
+  <data name="PasswordResetCompleted_ReLoginButton" xml:space="preserve">
+    <value>重新登入</value>
+  </data>
+  <data name="PasswordResetCompleted_SuccessMessage" xml:space="preserve">
+    <value>密碼已重設完成！</value>
+  </data>
+  <data name="PasswordResetCompleted_Title" xml:space="preserve">
+    <value>密碼已重設</value>
+  </data>
+  <data name="PluginsMarketplace" xml:space="preserve">
+    <value>擴充商店</value>
+  </data>
+  <data name="PluginsMarketplace_Subtitle" xml:space="preserve">
+    <value>告別臃腫的預裝功能，只留下你真正需要的一切。</value>
+  </data>
+  <data name="Purchase_Alipay" xml:space="preserve">
+    <value>支付寶</value>
+  </data>
+  <data name="Purchase_AlipayScanTip" xml:space="preserve">
+    <value>請使用支付寶掃碼支付</value>
+  </data>
+  <data name="Purchase_ChooseSubscription" xml:space="preserve">
+    <value>選擇您的訂閱</value>
+  </data>
+  <data name="Purchase_ClickQRToRefresh" xml:space="preserve">
+    <value>請點擊QR碼重新整理</value>
+  </data>
+  <data name="Purchase_DoneButton" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Purchase_LifetimeLicense" xml:space="preserve">
+    <value>永久</value>
+  </data>
+  <data name="Purchase_MonthlyLicense" xml:space="preserve">
+    <value>月卡</value>
+  </data>
+  <data name="Purchase_OrderNumber" xml:space="preserve">
+    <value>訂單編號</value>
+  </data>
+  <data name="Purchase_PaymentMethod" xml:space="preserve">
+    <value>支付方式</value>
+  </data>
+  <data name="Purchase_PaymentSuccess" xml:space="preserve">
+    <value>支付成功</value>
+  </data>
+  <data name="Purchase_PaymentSuccessMessage" xml:space="preserve">
+    <value>感謝您的訂閱，訂單已支付成功。</value>
+  </data>
+  <data name="Purchase_PaymentTime" xml:space="preserve">
+    <value>付款時間</value>
+  </data>
+  <data name="Purchase_QRCodeExpired" xml:space="preserve">
+    <value>QR碼已失效</value>
+  </data>
+  <data name="Purchase_QRCodeGenerateFailed" xml:space="preserve">
+    <value>支付QR碼產生失敗</value>
+  </data>
+  <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
+    <value>支付即代表您同意《</value>
+  </data>
+  <data name="Purchase_SubscribeToUnlockPrefix" xml:space="preserve">
+    <value>開通訂閱，解鎖</value>
+  </data>
+  <data name="Purchase_SubscribeToUnlockSuffix" xml:space="preserve">
+    <value>所有功能。</value>
+  </data>
+  <data name="Purchase_SubscriptionExpiryPrefix" xml:space="preserve">
+    <value>訂閱將於</value>
+  </data>
+  <data name="Purchase_SubscriptionExpirySuffix" xml:space="preserve">
+    <value>過期，購買後有效期順延。</value>
+  </data>
+  <data name="Purchase_SubscriptionSupportMessagePrefix" xml:space="preserve">
+    <value>您的訂閱將直接支援</value>
+  </data>
+  <data name="Purchase_SubscriptionSupportMessageSuffix" xml:space="preserve">
+    <value>的持續開發與維護，感謝！</value>
+  </data>
+  <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
+    <value>訂閱服務協議</value>
+  </data>
+  <data name="Purchase_WeChatPay" xml:space="preserve">
+    <value>微信支付</value>
+  </data>
+  <data name="Purchase_WeChatScanTip" xml:space="preserve">
+    <value>請使用微信掃一掃支付</value>
+  </data>
+  <data name="Purchase_YearlyLicense" xml:space="preserve">
+    <value>年卡</value>
+  </data>
+  <data name="ResetPassword_BackButton" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="ResetPassword_CodeSentToEmail" xml:space="preserve">
+    <value>驗證碼已傳送至 {0}</value>
+  </data>
+  <data name="ResetPassword_EmailCodeInvalid" xml:space="preserve">
+    <value>驗證碼錯誤</value>
+  </data>
+  <data name="ResetPassword_EmailCodeRequired" xml:space="preserve">
+    <value>驗證碼不能為空！</value>
+  </data>
+  <data name="ResetPassword_EmailInvalidFormat" xml:space="preserve">
+    <value>請輸入有效的電子郵件格式</value>
+  </data>
+  <data name="ResetPassword_EmailPlaceholder" xml:space="preserve">
+    <value>電子郵件</value>
+  </data>
+  <data name="ResetPassword_EmailRequired" xml:space="preserve">
+    <value>電子郵件地址不能為空！</value>
+  </data>
+  <data name="ResetPassword_GetCode" xml:space="preserve">
+    <value>取得驗證碼</value>
+  </data>
+  <data name="ResetPassword_NewPasswordPlaceholder" xml:space="preserve">
+    <value>新密碼</value>
+  </data>
+  <data name="ResetPassword_PasswordHint" xml:space="preserve">
+    <value>新密碼應至少8個字元且包含字母和數字</value>
+  </data>
+  <data name="ResetPassword_PasswordMustContainLetterAndDigit" xml:space="preserve">
+    <value>密碼必須同時包含字母和數字！</value>
+  </data>
+  <data name="ResetPassword_PasswordNoSpaces" xml:space="preserve">
+    <value>密碼不能包含空格！</value>
+  </data>
+  <data name="ResetPassword_PasswordRequired" xml:space="preserve">
+    <value>密碼不能為空！</value>
+  </data>
+  <data name="ResetPassword_PasswordTooShort" xml:space="preserve">
+    <value>密碼長度過短！</value>
+  </data>
+  <data name="ResetPassword_ResendCode" xml:space="preserve">
+    <value>重新傳送</value>
+  </data>
+  <data name="ResetPassword_ResetButton" xml:space="preserve">
+    <value>重設密碼</value>
+  </data>
+  <data name="ResetPassword_ServerBusy" xml:space="preserve">
+    <value>伺服器繁忙，請稍後重試。</value>
+  </data>
+  <data name="ResetPassword_Title" xml:space="preserve">
+    <value>重設密碼</value>
+  </data>
+  <data name="ResetPassword_UserNotFound" xml:space="preserve">
+    <value>使用者不存在，請檢查電子郵件地址是否正確。</value>
+  </data>
+  <data name="ResetPassword_UserNotFoundShort" xml:space="preserve">
+    <value>使用者不存在</value>
+  </data>
+  <data name="ResetPassword_VerificationCodePlaceholder" xml:space="preserve">
+    <value>驗證碼</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Settings_NavAccount" xml:space="preserve">
+    <value>帳號</value>
+  </data>
+  <data name="Settings_NavGeneral" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="SignIn_AccountOrPasswordError" xml:space="preserve">
+    <value>帳號或密碼錯誤</value>
+  </data>
+  <data name="SignIn_AgreeToEULA" xml:space="preserve">
+    <value>登入或完成註冊即代表您同意</value>
+  </data>
+  <data name="SignIn_AutoRegisterHint" xml:space="preserve">
+    <value>未註冊電子郵件驗證後系統將自動註冊帳號</value>
+  </data>
+  <data name="SignIn_CodeError" xml:space="preserve">
+    <value>驗證碼錯誤</value>
+  </data>
+  <data name="SignIn_CodeLoginTab" xml:space="preserve">
+    <value>驗證碼登入</value>
+  </data>
+  <data name="SignIn_CodeRequired" xml:space="preserve">
+    <value>驗證碼不能為空！</value>
+  </data>
+  <data name="SignIn_CodeSendFailed" xml:space="preserve">
+    <value>傳送驗證碼時遇到了錯誤</value>
+  </data>
+  <data name="SignIn_CodeSent" xml:space="preserve">
+    <value>驗證碼已傳送至 {0}</value>
+  </data>
+  <data name="SignIn_EmailInvalidFormat" xml:space="preserve">
+    <value>請輸入有效的電子郵件格式</value>
+  </data>
+  <data name="SignIn_EmailPlaceholder" xml:space="preserve">
+    <value>電子郵件</value>
+  </data>
+  <data name="SignIn_EmailRequired" xml:space="preserve">
+    <value>電子郵件地址不能為空！</value>
+  </data>
+  <data name="SignIn_EULA" xml:space="preserve">
+    <value>終端使用者授權合約</value>
+  </data>
+  <data name="SignIn_ForgotPassword" xml:space="preserve">
+    <value>忘記密碼？</value>
+  </data>
+  <data name="SignIn_GetCode" xml:space="preserve">
+    <value>取得驗證碼</value>
+  </data>
+  <data name="SignIn_PasswordLoginTab" xml:space="preserve">
+    <value>密碼登入</value>
+  </data>
+  <data name="SignIn_PasswordPlaceholder" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="SignIn_PasswordRequired" xml:space="preserve">
+    <value>密碼不能為空！</value>
+  </data>
+  <data name="SignIn_ResendCode" xml:space="preserve">
+    <value>重新傳送</value>
+  </data>
+  <data name="SignIn_ServerBusy" xml:space="preserve">
+    <value>伺服器繁忙，請稍後重試。</value>
+  </data>
+  <data name="SignIn_SignInButton" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="SignIn_SignInOrRegisterButton" xml:space="preserve">
+    <value>登入 / 註冊</value>
+  </data>
+  <data name="SignIn_SigningIn" xml:space="preserve">
+    <value>正在登入...</value>
+  </data>
+  <data name="SignIn_VerificationCodePlaceholder" xml:space="preserve">
+    <value>驗證碼</value>
+  </data>
+  <data name="WebContainer_Loading" xml:space="preserve">
+    <value>正在載入...</value>
+  </data>
+  <data name="Window_Close" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="Window_Maximize" xml:space="preserve">
+    <value>最大化</value>
+  </data>
+  <data name="Window_Minimize" xml:space="preserve">
+    <value>最小化</value>
+  </data>
+  <data name="Window_Reduction" xml:space="preserve">
+    <value>還原</value>
+  </data>
+  <data name="Purchase_SubscriptionTermsSuffix" xml:space="preserve">
+    <value>》</value>
+  </data>
+  <data name="MarketplacePluginDetails_InstallError" xml:space="preserve">
+    <value>{0} 安裝過程中遇到了錯誤</value>
+  </data>
+  <data name="AutoSignIn_SigningIn" xml:space="preserve">
+    <value>正在登入...</value>
+  </data>
+  <data name="AutoSignIn_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="AutoSignIn_SignInExpired" xml:space="preserve">
+    <value>登入已失效，請重新登入。</value>
+  </data>
+</root>

@@ -17,6 +17,7 @@ public class LanguageDisplayNameConverter : IValueConverter
             AppLanguage.English => "English",
             AppLanguage.Korean => "한국어",
             AppLanguage.Japanese => "日本語",
+            AppLanguage.ChineseTraditional => "繁體中文",
             _ => throw new Exception("不支持的语言选项")
         };
     }

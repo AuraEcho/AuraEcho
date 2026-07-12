@@ -5,6 +5,7 @@ namespace AuraEcho.PluginContracts.Models
         ChineseSimplified = 0,
         English = 1,
         Korean = 2,
-        Japanese = 3
+        Japanese = 3,
+        ChineseTraditional = 4
     }
 }

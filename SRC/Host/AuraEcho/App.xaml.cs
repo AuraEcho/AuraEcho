@@ -183,6 +183,7 @@ public partial class App : PrismApplication
             AppLanguage.English => new CultureInfo("en-US"),
             AppLanguage.Korean => new CultureInfo("ko-KR"),
             AppLanguage.Japanese => new CultureInfo("ja-JP"),
+            AppLanguage.ChineseTraditional => new CultureInfo("zh-TW"),
             _ => CultureInfo.CurrentCulture
         };
         LocalizationManager.ChangeCulture(targetCultureInfo);

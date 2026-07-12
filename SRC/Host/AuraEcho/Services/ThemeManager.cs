@@ -83,8 +83,24 @@ public class ThemeManager : BindableBase, IThemeManager
         foreach (var plugin in _pluginManager.Plugins)
         {
             var pluginResource = plugin.GetThemeResource(appTheme);
-            if (pluginResource != null)
+            var fellBack = false;
+
+            // 如果插件不支持当前具体主题，尝试基础主题（Light/Dark）
+            if (pluginResource is null)
+            {
+                var baseTheme = appTheme.GetBaseTheme();
+                if (baseTheme != appTheme)
+                {
+                    pluginResource = plugin.GetThemeResource(baseTheme);
+                    fellBack = pluginResource is not null;
+                }
+            }
+
+            if (pluginResource is not null)
+            {
                 resources.Add(pluginResource);
+                _logger.Debug($"插件主题资源: {plugin.PluginName} -> {appTheme}{(fellBack ? $" (回退到 {appTheme.GetBaseTheme()})" : "")}");
+            }
         }
         return resources;
     }
@@ -123,6 +139,15 @@ public class ThemeManager : BindableBase, IThemeManager
     {
         AppTheme realTheme = CurrentTheme == AppTheme.FollowSystem ? GetSystemTheme() : CurrentTheme;
         var pluginThemeResource = plugin.GetThemeResource(realTheme);
+
+        // 如果插件不支持当前具体主题，尝试基础主题（Light/Dark）
+        if (pluginThemeResource is null)
+        {
+            var baseTheme = realTheme.GetBaseTheme();
+            if (baseTheme != realTheme)
+                pluginThemeResource = plugin.GetThemeResource(baseTheme);
+        }
+
         if (pluginThemeResource is null) return;
 
         Application.Current.Resources.MergedDictionaries.Add(pluginThemeResource);

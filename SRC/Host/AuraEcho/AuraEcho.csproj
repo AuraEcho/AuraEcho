@@ -54,9 +54,12 @@
 	  <Resource Include="Assets\Images\alipay_logo.png" />
 	  <Resource Include="Assets\Images\auraecho.png" />
 	  <Resource Include="Assets\Images\colg_bb.png" />
+	  <Resource Include="Assets\Images\marketplace_banner.jpg" />
 	  <Resource Include="Assets\Images\market_banner.png" />
 	  <Resource Include="Assets\Images\pay_banner.png" />
 	  <Resource Include="Assets\Images\pay_banner_shapes.png" />
+	  <Resource Include="Assets\Images\marketplace.png" />
+	  <Resource Include="Assets\Images\marketplace_dark.png" />
 	  <Resource Include="Assets\Images\qq_group.jpg" />
 	  <Resource Include="Assets\Images\wechat_logo.png" />
 	</ItemGroup>

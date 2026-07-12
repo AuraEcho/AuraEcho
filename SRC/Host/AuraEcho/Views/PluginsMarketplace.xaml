@@ -114,11 +114,10 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid x:Name="ContentPanel"
-          MaxWidth="1600"
           Margin="0,36,0,0"
           RowDefinitions="Auto, *">
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
+        <ScrollViewer Grid.Row="1" Margin="0, 0, 2, 2">
+            <StackPanel MaxWidth="1600">
                 <Grid Margin="48,16,48,24">
                     <i:Interaction.Triggers>
                         <i:DataTrigger Binding="{Binding ElementName=ContentPanel, Path=ActualWidth}"
@@ -152,12 +151,24 @@
                             <Grid Width="480"
                                   Height="100"
                                   UseLayoutRounding="True">
-                                <Border Margin="0,8,0,0"
-                                        Background="#A43C2F"
-                                        CornerRadius="4" />
+                                <Border Margin="0,0,0,0"
+                                        CornerRadius="4" >
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="/Assets/Images/marketplace_banner.jpg"/>
+                                    </Border.Background>
+                                </Border>
+                                <Border CornerRadius="4">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                            <GradientStop Color="#7F000000" Offset="0"/>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
                                 <Border Width="80"
                                         HorizontalAlignment="Right"
                                         CornerRadius="4"
+                                        Visibility="Hidden"
                                         UseLayoutRounding="False">
                                     <Border.Effect>
                                         <DropShadowEffect Direction="360"

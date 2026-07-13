@@ -363,6 +363,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
     CenterWindow(hwnd);
     ShowWindow(hwnd, nCmdShow);
 
+    SetForegroundWindow(hwnd);
+    SetFocus(hwnd);
+
     std::thread(StartApp, hwnd).detach();
 
     MSG msg = { };

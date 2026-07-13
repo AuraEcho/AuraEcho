@@ -6,6 +6,9 @@
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<ApplicationIcon>Assets\AuraEcho.ico</ApplicationIcon>
 		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+		<Version Condition="'$(DataMigratorVersion)' != ''">$(DataMigratorVersion)</Version>
+		<Product>灵光回声</Product>
+		<Copyright>© Suencesoft. All rights reserved.</Copyright>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 

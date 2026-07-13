@@ -5,6 +5,9 @@
 	  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	  <AssemblyName>$(MSBuildProjectName.Replace(".", ""))</AssemblyName>
 	  <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+	  <Version Condition="'$(UpdaterServiceVersion)' != ''">$(UpdaterServiceVersion)</Version>
+	  <Product>灵光回声</Product>
+	  <Copyright>© Suencesoft. All rights reserved.</Copyright>
   </PropertyGroup>
 
 

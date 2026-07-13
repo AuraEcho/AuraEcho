@@ -7,8 +7,10 @@
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<SatelliteResourceLanguages>zh-Hans;en-us</SatelliteResourceLanguages>
 		<Nullable>enable</Nullable>
+		<Version Condition="'$(AppVersion)' != ''">$(AppVersion)</Version>
 		<AssemblyTitle>灵光回声</AssemblyTitle>
 		<Product>灵光回声</Product>
+		<Copyright>© Suencesoft. All rights reserved.</Copyright>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 	<ItemGroup>

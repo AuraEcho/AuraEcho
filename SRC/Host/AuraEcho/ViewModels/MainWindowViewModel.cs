@@ -2,7 +2,6 @@ using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
-using AuraEcho.Strings;
 using AuraEcho.Events;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;
@@ -10,7 +9,7 @@ using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
-using Microsoft.Win32;
+using AuraEcho.Strings;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -19,6 +18,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace AuraEcho.ViewModels;
@@ -145,7 +145,7 @@ public class MainWindowViewModel : BindableBase
             };
         }
 
-        GetCurrentVersionAsync();
+        CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
     }
 
     private async void OrderPid(OrderPaymentDetails details)
@@ -211,29 +211,6 @@ public class MainWindowViewModel : BindableBase
             PendingRestartItems.OfType<PluginUninstallPendingRestart>()
                                .FirstOrDefault(item => item.PluginId == pluginId);
         PendingRestartItems.Remove(targetUninstallItem);
-    }
-
-    private async void GetCurrentVersionAsync()
-    {
-        CurrentVersion = await Task.Run(() => GetCurrentVersion());
-
-        static Version GetCurrentVersion()
-        {
-            try
-            {
-                using var key = Registry.LocalMachine.OpenSubKey(@"Software\AuraEcho");
-                if (key is null) return new Version(0, 0, 0, 0);
-
-                string? currentVersionStr = key.GetValue("CurrentVersion")?.ToString();
-                if (String.IsNullOrWhiteSpace(currentVersionStr)) return new Version(0, 0, 0, 0);
-
-                return Version.TryParse(currentVersionStr, out Version version) ? version : new Version(0, 0, 0, 0);
-            }
-            catch
-            {
-                return new Version(0, 0, 0, 0);
-            }
-        }
     }
 
     private void NewPendingRestartItem(PendingRestartItem newItem)

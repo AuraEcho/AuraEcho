@@ -9,6 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:tools="clr-namespace:AuraEcho.Tools"
              xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:SignInViewModel}"
@@ -307,7 +308,9 @@
                                        Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_AutoRegisterHint}" />
                             <TextBlock FontSize="12" TextWrapping="Wrap">
                                 <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_AgreeToEULA, Mode=OneWay}" />
-                                <Hyperlink Command="{Binding OpenEULACommand}" Cursor="Hand">
+                                <Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
+                                           CommandParameter="Assets/Docs/EULA.pdf"
+                                           Cursor="Hand">
                                     <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.SignIn_EULA, Mode=OneWay}" />
                                 </Hyperlink>
                             </TextBlock>

@@ -235,22 +235,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         ClearErrors(nameof(EmailCode));
         ClearErrors(nameof(Password));
     }
-    /// <summary>
-    /// 打开协议声明
-    /// </summary>
-    public DelegateCommand OpenEULACommand { get; }
-    private void OpenEULA()
-    {
-        string currentFolderPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        string filePath = Path.Combine(currentFolderPath, "Assets/Docs/EULA.pdf");
 
-        Task.Run(() =>
-            Process.Start(new ProcessStartInfo
-            {
-                UseShellExecute = true,
-                FileName = filePath
-            }));
-    }
     #region INotifyDataErrorInfo Implementation
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
     public IEnumerable GetErrors(string? propertyName)
@@ -276,7 +261,6 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         SendEmailCodeCommand = new DelegateCommand(SendEmailCode);
         SignInByCodeCommand = new DelegateCommand(SignInByCode);
         SignInByPasswordCommand = new DelegateCommand(SignInByPassword);
-        OpenEULACommand = new DelegateCommand(OpenEULA);
         ResetDataCommand = new DelegateCommand(ResetData);
         NavigationToResetPasswordCommand = new DelegateCommand(NavigationToResetPassword);
         ClearErrorsCommand = new DelegateCommand<string>(ClearErrors);

@@ -137,7 +137,6 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         _orderStatusTaskToken.Cancel();
         RequestClose?.Invoke(RegionDialogResult.Close);
     }
-    public DelegateCommand OpenSubscriptionTermsCommand { get; }
 
     public event Action<RegionDialogResult> RequestClose;
 
@@ -159,7 +158,6 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         CloseCommand = new DelegateCommand(Close);
         SelectSkuCommand = new DelegateCommand<Sku>(SelectSku);
         RefreshOrderCommand = new DelegateCommand(RefreshOrderAsync);
-        OpenSubscriptionTermsCommand = new DelegateCommand(OpenSubscriptionTerms);
 
         _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OnOrderPaid);
     }
@@ -259,17 +257,6 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         if (license is null || !license.IsValid || license.ExpiredAt < _clock.UtcNow)
             return null;
         return license;
-    }
-
-    private void OpenSubscriptionTerms()
-    {
-        string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        string path = Path.Combine(folder, "Assets/PDF/SubscriptionTerms.pdf");
-        Task.Run(() => Process.Start(new ProcessStartInfo
-        {
-            UseShellExecute = true,
-            FileName = path
-        }));
     }
 
     private void OnOrderPaid(OrderPaymentDetails details)

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:tools="clr-namespace:AuraEcho.Tools"
              xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
@@ -51,7 +52,7 @@
             <TextBlock Margin="0,0,0,8"
                        HorizontalAlignment="Center"
                        Style="{DynamicResource BodyLargeTextBlockStyle}">
-                <Hyperlink Command="{Binding OpenUrlCommand}"
+                <Hyperlink Command="{x:Static tools:GlobalCommands.OpenUrlCommand}"
                            CommandParameter="https://beian.miit.gov.cn"
                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}">
                     豫ICP备2025153568号-2
@@ -67,27 +68,27 @@
                        HorizontalAlignment="Center">
                 <TextBlock Margin="0,0,16,0"
                            Style="{DynamicResource BodyLargeTextBlockStyle}">
-                    <Hyperlink Command="{Binding OpenFileCommand}"
+                    <Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
                                CommandParameter="Assets/Docs/THIRD-PARTY-NOTICES.html">
                         <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.About_ThirdPartyNotices, Mode=OneWay}" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Margin="0,0,16,0"
                            Style="{DynamicResource BodyLargeTextBlockStyle}">
-                    <Hyperlink Command="{Binding OpenFileCommand}"
+                    <Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
                                CommandParameter="Assets/Docs/EULA.pdf">
                         <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.About_EULA, Mode=OneWay}" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Margin="0,0,16,0"
                            Style="{DynamicResource BodyLargeTextBlockStyle}">
-                    <Hyperlink Command="{Binding OpenFileCommand}"
+                    <Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
                                CommandParameter="Assets/Docs/PrivacyPolicy.pdf">
                         <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.About_PrivacyPolicy, Mode=OneWay}" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Style="{DynamicResource BodyLargeTextBlockStyle}">
-                    <Hyperlink Command="{Binding OpenFileCommand}"
+                    <Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
                                CommandParameter="Assets/Docs/SubscriptionTerms.pdf">
                         <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.About_SubscriptionTerms, Mode=OneWay}" />
                     </Hyperlink>
@@ -97,7 +98,7 @@
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Margin="0,0,16,0"
-                        Command="{Binding OpenUrlCommand}"
+                        Command="{x:Static tools:GlobalCommands.OpenUrlCommand}"
                         CommandParameter="https://uat.ae.suencesoft.com"
                         Style="{DynamicResource IconButtonStyle}"
                         ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.About_OfficialWebsite}">
@@ -116,7 +117,7 @@
                     </Border>
                 </Button>
                 <Button Margin="0,0,16,0"
-                        Command="{Binding OpenUrlCommand}"
+                        Command="{x:Static tools:GlobalCommands.OpenUrlCommand}"
                         CommandParameter="https://github.com/AuraEcho/AuraEcho"
                         Style="{DynamicResource IconButtonStyle}"
                         ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.About_GitHubRepo}">
@@ -152,7 +153,7 @@
                     </Viewbox>
                 </Button>
                 <Button Margin="0,0,16,0"
-                        Command="{Binding OpenUrlCommand}"
+                        Command="{x:Static tools:GlobalCommands.OpenUrlCommand}"
                         CommandParameter="https://bbs.colg.cn/home.php?mod=space&amp;do=profile&amp;cf=nav&amp;uid=3912363"
                         Style="{DynamicResource IconButtonStyle}"
                         ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.About_ColgProfile}">

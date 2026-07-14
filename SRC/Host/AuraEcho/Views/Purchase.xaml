@@ -12,6 +12,7 @@
              xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:pcm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:tools="clr-namespace:AuraEcho.Tools"
              xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:PurchaseViewModel}"
@@ -560,10 +561,9 @@
 
                                                 <Border>
                                                     <Border.Visibility>
-                                                        <Binding Path="IsInitializing" ConverterParameter="True">
+                                                        <Binding ConverterParameter="True" Path="IsInitializing">
                                                             <Binding.Converter>
-                                                                <ui:ValueEqualsParameterConverter EqualValue="{x:Static Visibility.Collapsed}"
-                                                                                                  NotEqualValue="{x:Static Visibility.Visible}"/>
+                                                                <ui:ValueEqualsParameterConverter EqualValue="{x:Static Visibility.Collapsed}" NotEqualValue="{x:Static Visibility.Visible}" />
                                                             </Binding.Converter>
                                                         </Binding>
                                                     </Border.Visibility>
@@ -685,7 +685,8 @@
                                                HorizontalAlignment="Center"
                                                FontSize="11"
                                                TextWrapping="Wrap">
-                                        <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsPrefix, Mode=OneWay}" /><Hyperlink Command="{Binding OpenSubscriptionTermsCommand}"
+                                        <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsPrefix, Mode=OneWay}" /><Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
+                                                   CommandParameter="Assets/Docs/SubscriptionTerms.pdf"
                                                    Cursor="Hand"
                                                    Foreground="{DynamicResource Brushes.OnSurface}">
                                             <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsLink, Mode=OneWay}" />
@@ -750,18 +751,18 @@
                                            Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccessMessage}" />
 
                                 <Border MinWidth="320"
-                                        HorizontalAlignment="Center"
                                         Margin="0,0,0,24"
                                         Padding="12"
+                                        HorizontalAlignment="Center"
                                         Background="{DynamicResource Brushes.SurfaceContainer}"
                                         CornerRadius="4">
                                     <StackPanel TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
                                         <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                                            <TextBlock DockPanel.Dock="Left"
-                                                       Margin="0, 0, 8, 0"
+                                            <TextBlock Margin="0,0,8,0"
+                                                       DockPanel.Dock="Left"
                                                        Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
                                                        Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
-                                            <TextBlock HorizontalAlignment="Right" 
+                                            <TextBlock HorizontalAlignment="Right"
                                                        d:Text="2026061116224445384999291"
                                                        Text="{Binding PaymentResult.OrderNumber}" />
                                         </DockPanel>

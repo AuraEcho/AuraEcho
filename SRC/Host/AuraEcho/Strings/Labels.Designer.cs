@@ -1303,7 +1303,7 @@ namespace AuraEcho.Strings {
         }
         
         /// <summary>
-        ///   查找类似 COLG 的本地化字符串。
+        ///   查找类似 COLG 论坛 的本地化字符串。
         /// </summary>
         public static string SendFeedback_COLG {
             get {

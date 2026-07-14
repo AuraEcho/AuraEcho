@@ -595,7 +595,7 @@
     <value>Session expired. Please sign in again.</value>
   </data>
   <data name="SendFeedback_COLG" xml:space="preserve">
-    <value>COLG</value>
+    <value>COLG Forum</value>
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
     <value>Send a private message to the developer on the COLG forum</value>

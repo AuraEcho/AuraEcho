@@ -595,7 +595,7 @@
     <value>登录已失效，请重新登录。</value>
   </data>
   <data name="SendFeedback_COLG" xml:space="preserve">
-    <value>COLG</value>
+    <value>COLG 论坛</value>
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
     <value>在 COLG 论坛私信开发者</value>

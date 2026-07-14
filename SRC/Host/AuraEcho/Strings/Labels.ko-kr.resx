@@ -595,7 +595,7 @@
     <value>로그인이 만료되었습니다. 다시 로그인해 주세요.</value>
   </data>
   <data name="SendFeedback_COLG" xml:space="preserve">
-    <value>COLG</value>
+    <value>COLG 포럼</value>
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
     <value>COLG 포럼에서 개발자에게 개인 메시지 보내기</value>

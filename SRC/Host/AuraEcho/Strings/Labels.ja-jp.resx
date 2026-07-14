@@ -595,7 +595,7 @@
     <value>ログインの有効期限が切れました。再ログインしてください。</value>
   </data>
   <data name="SendFeedback_COLG" xml:space="preserve">
-    <value>COLG</value>
+    <value>COLG フォーラム</value>
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
     <value>COLGフォーラムで開発者にプライベートメッセージを送る</value>

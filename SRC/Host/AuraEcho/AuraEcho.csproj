@@ -25,8 +25,8 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		</Content>
-		<Content Include="Assets\PDF\SubscriptionTerms.pdf">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<Content Include="Assets\Docs\SubscriptionTerms.pdf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Page Include="App.xaml" />
 	</ItemGroup>

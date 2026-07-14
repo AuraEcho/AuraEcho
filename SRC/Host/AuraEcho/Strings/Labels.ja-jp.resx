@@ -598,7 +598,7 @@
     <value>COLG</value>
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
-    <value>COLGフォーラムで開発者にプライベートメッセージを送信</value>
+    <value>COLGフォーラムで開発者にプライベートメッセージを送る</value>
   </data>
   <data name="SendFeedback_Description" xml:space="preserve">
     <value>気に入っている機能や、改善が必要な機能について開発者にお知らせください。</value>
@@ -610,7 +610,7 @@
     <value>GitHub</value>
   </data>
   <data name="SendFeedback_GitHubDescription" xml:space="preserve">
-    <value>GitHub Issueでフィードバックを送信できます</value>
+    <value>Issueを送信してバグ報告や機能要望を提出</value>
   </data>
   <data name="SendFeedback_GitHubIssue" xml:space="preserve">
     <value>GitHub Issue</value>
@@ -619,7 +619,7 @@
     <value>QQグループ</value>
   </data>
   <data name="SendFeedback_QQGroupDescription" xml:space="preserve">
-    <value>オーラエコーフィードバックグループに参加して開発者にご意見をお寄せください</value>
+    <value>グループに参加して開発者とリアルタイムで交流</value>
   </data>
   <data name="SendFeedback_QQGroupQRCode" xml:space="preserve">
     <value>グループQRコード</value>

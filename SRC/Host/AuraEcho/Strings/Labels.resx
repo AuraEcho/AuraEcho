@@ -598,7 +598,7 @@
     <value>COLG</value>
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
-    <value>在 COLG 论坛向开发者发送站内信</value>
+    <value>在 COLG 论坛私信开发者</value>
   </data>
   <data name="SendFeedback_Description" xml:space="preserve">
     <value>请告诉开发者你喜欢哪些功能，或者需要开发者对哪个功能做出改进。</value>
@@ -610,7 +610,7 @@
     <value>GitHub</value>
   </data>
   <data name="SendFeedback_GitHubDescription" xml:space="preserve">
-    <value>您可以通过 GitHub Issue 进行反馈</value>
+    <value>提交 Issue 反馈 Bug 或功能建议</value>
   </data>
   <data name="SendFeedback_GitHubIssue" xml:space="preserve">
     <value>GitHub issue</value>
@@ -619,7 +619,7 @@
     <value>QQ 群</value>
   </data>
   <data name="SendFeedback_QQGroupDescription" xml:space="preserve">
-    <value>您可以加入灵光回声反馈群向开发者反馈</value>
+    <value>加入交流群与开发者实时沟通</value>
   </data>
   <data name="SendFeedback_QQGroupQRCode" xml:space="preserve">
     <value>群二维码</value>

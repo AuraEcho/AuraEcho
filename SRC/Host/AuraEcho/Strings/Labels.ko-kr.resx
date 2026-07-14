@@ -599,6 +599,7 @@
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
     <value>COLG 포럼에서 개발자에게 개인 메시지 보내기</value>
+    <!-- placeholder -->
   </data>
   <data name="SendFeedback_Description" xml:space="preserve">
     <value>어떤 기능이 마음에 드는지, 또는 어떤 기능에 개선이 필요한지 개발자에게 알려주세요.</value>
@@ -610,7 +611,7 @@
     <value>GitHub</value>
   </data>
   <data name="SendFeedback_GitHubDescription" xml:space="preserve">
-    <value>GitHub Issue를 통해 피드백을 제출할 수 있습니다</value>
+    <value>Issue를 제출하여 버그 신고 또는 기능 제안</value>
   </data>
   <data name="SendFeedback_GitHubIssue" xml:space="preserve">
     <value>GitHub Issue</value>
@@ -619,7 +620,7 @@
     <value>QQ 그룹</value>
   </data>
   <data name="SendFeedback_QQGroupDescription" xml:space="preserve">
-    <value>아우라에코 피드백 그룹에 참여하여 개발자에게 의견을 보내세요</value>
+    <value>그룹에 참여하여 개발자와 실시간으로 소통</value>
   </data>
   <data name="SendFeedback_QQGroupQRCode" xml:space="preserve">
     <value>그룹 QR 코드</value>

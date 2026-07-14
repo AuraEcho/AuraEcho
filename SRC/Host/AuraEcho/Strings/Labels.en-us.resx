@@ -598,7 +598,7 @@
     <value>COLG</value>
   </data>
   <data name="SendFeedback_COLGDescription" xml:space="preserve">
-    <value>Send a private message to the developer on COLG forum</value>
+    <value>Send a private message to the developer on the COLG forum</value>
   </data>
   <data name="SendFeedback_Description" xml:space="preserve">
     <value>Tell the developers what features you like, or what features need improvement.</value>
@@ -610,7 +610,7 @@
     <value>GitHub</value>
   </data>
   <data name="SendFeedback_GitHubDescription" xml:space="preserve">
-    <value>You can submit feedback via GitHub Issues</value>
+    <value>Submit an Issue to report bugs or request features</value>
   </data>
   <data name="SendFeedback_GitHubIssue" xml:space="preserve">
     <value>GitHub Issue</value>
@@ -619,7 +619,7 @@
     <value>QQ Group</value>
   </data>
   <data name="SendFeedback_QQGroupDescription" xml:space="preserve">
-    <value>Join the AuraEcho feedback group to share your thoughts with the developers</value>
+    <value>Join the group chat to talk with the developer in real time</value>
   </data>
   <data name="SendFeedback_QQGroupQRCode" xml:space="preserve">
     <value>Group QR Code</value>

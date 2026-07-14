@@ -15,6 +15,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<ApplicationDefinition Remove="App.xaml" />
+		<None Remove="Assets\Docs\THIRD-PARTY-NOTICES.html" />
 		<None Remove="Assets\Icons\AuraEcho.ico" />
 		<None Remove="Assets\Images\colg_bb.png" />
 		<None Remove="Assets\Images\pay_banner.png" />
@@ -26,6 +27,9 @@
 		</Content>
 		</Content>
 		<Content Include="Assets\Docs\SubscriptionTerms.pdf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\Docs\THIRD-PARTY-NOTICES.html">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Page Include="App.xaml" />

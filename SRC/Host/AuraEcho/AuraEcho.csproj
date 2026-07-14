@@ -20,9 +20,10 @@
 		<None Remove="Assets\Images\pay_banner.png" />
 		<None Remove="Assets\Images\pay_banner_shapes.png" />
 		<None Remove="Assets\Images\qq_group.jpg" />
-		<None Remove="Assets\PDF\SubscriptionTerms.pdf" />
-		<Content Include="Assets\PDF\EULA.pdf">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<None Remove="Assets\Docs\SubscriptionTerms.pdf" />
+		<Content Include="Assets\Docs\EULA.pdf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 		</Content>
 		<Content Include="Assets\PDF\SubscriptionTerms.pdf">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>

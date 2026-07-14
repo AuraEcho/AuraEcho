@@ -627,4 +627,37 @@
   <data name="SendFeedback_Title" xml:space="preserve">
     <value>帮助改进灵光回声</value>
   </data>
+  <data name="Settings_NavAbout" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="About_VersionPrefix" xml:space="preserve">
+    <value>版本 </value>
+  </data>
+  <data name="About_VersionSuffix" xml:space="preserve">
+    <value> (64位)</value>
+  </data>
+  <data name="About_ThirdPartyNotices" xml:space="preserve">
+    <value>开源软件许可证声明</value>
+  </data>
+  <data name="About_EULA" xml:space="preserve">
+    <value>最终用户许可协议</value>
+  </data>
+  <data name="About_PrivacyPolicy" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="About_SubscriptionTerms" xml:space="preserve">
+    <value>订阅服务协议</value>
+  </data>
+  <data name="About_OfficialWebsite" xml:space="preserve">
+    <value>灵光回声官网</value>
+  </data>
+  <data name="About_GitHubRepo" xml:space="preserve">
+    <value>GitHub 项目主页</value>
+  </data>
+  <data name="About_QQGroup" xml:space="preserve">
+    <value>灵光回声 QQ 群</value>
+  </data>
+  <data name="About_ColgProfile" xml:space="preserve">
+    <value>COLG 开发者主页</value>
+  </data>
 </root>

@@ -412,7 +412,7 @@
     <value>の開発の励みになります。感謝！</value>
   </data>
   <data name="Purchase_SubscriptionTermsLink" xml:space="preserve">
-    <value>利用規約</value>
+    <value>サブスクリプション規約</value>
   </data>
   <data name="Purchase_WeChatPay" xml:space="preserve">
     <value>WeChat Pay</value>
@@ -626,5 +626,38 @@
   </data>
   <data name="SendFeedback_Title" xml:space="preserve">
     <value>オーラエコーの改善にご協力ください</value>
+  </data>
+  <data name="Settings_NavAbout" xml:space="preserve">
+    <value>アプリについて</value>
+  </data>
+  <data name="About_VersionPrefix" xml:space="preserve">
+    <value>バージョン </value>
+  </data>
+  <data name="About_VersionSuffix" xml:space="preserve">
+    <value> (64ビット)</value>
+  </data>
+  <data name="About_ThirdPartyNotices" xml:space="preserve">
+    <value>オープンソースライセンス</value>
+  </data>
+  <data name="About_EULA" xml:space="preserve">
+    <value>EULA</value>
+  </data>
+  <data name="About_PrivacyPolicy" xml:space="preserve">
+    <value>プライバシーポリシー</value>
+  </data>
+  <data name="About_SubscriptionTerms" xml:space="preserve">
+    <value>サブスクリプション規約</value>
+  </data>
+  <data name="About_OfficialWebsite" xml:space="preserve">
+    <value>オーラエコー公式サイト</value>
+  </data>
+  <data name="About_GitHubRepo" xml:space="preserve">
+    <value>GitHub プロジェクトホーム</value>
+  </data>
+  <data name="About_QQGroup" xml:space="preserve">
+    <value>オーラエコー QQ グループ</value>
+  </data>
+  <data name="About_ColgProfile" xml:space="preserve">
+    <value>COLG 開発者ホーム</value>
   </data>
 </root>

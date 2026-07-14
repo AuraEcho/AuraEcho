@@ -242,7 +242,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     private void OpenEULA()
     {
         string currentFolderPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        string filePath = Path.Combine(currentFolderPath, "Assets/PDF/EULA.pdf");
+        string filePath = Path.Combine(currentFolderPath, "Assets/Docs/EULA.pdf");
 
         Task.Run(() =>
             Process.Start(new ProcessStartInfo

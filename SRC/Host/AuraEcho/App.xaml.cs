@@ -123,6 +123,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<ImageViewer>();
         containerRegistry.RegisterForNavigation<Purchase>();
         containerRegistry.RegisterForNavigation<AccountSettings>();
+        containerRegistry.RegisterForNavigation<About>();
         containerRegistry.RegisterForNavigation<WebContainer>();
         containerRegistry.RegisterForNavigation<AutoSignIn>();
     }

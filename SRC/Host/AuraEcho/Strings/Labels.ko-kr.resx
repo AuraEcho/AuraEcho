@@ -627,4 +627,37 @@
   <data name="SendFeedback_Title" xml:space="preserve">
     <value>아우라에코 개선에 도움 주세요</value>
   </data>
+  <data name="Settings_NavAbout" xml:space="preserve">
+    <value>정보</value>
+  </data>
+  <data name="About_VersionPrefix" xml:space="preserve">
+    <value>버전 </value>
+  </data>
+  <data name="About_VersionSuffix" xml:space="preserve">
+    <value> (64비트)</value>
+  </data>
+  <data name="About_ThirdPartyNotices" xml:space="preserve">
+    <value>OSS 고지</value>
+  </data>
+  <data name="About_EULA" xml:space="preserve">
+    <value>EULA</value>
+  </data>
+  <data name="About_PrivacyPolicy" xml:space="preserve">
+    <value>개인정보 처리방침</value>
+  </data>
+  <data name="About_SubscriptionTerms" xml:space="preserve">
+    <value>구독 서비스 약관</value>
+  </data>
+  <data name="About_OfficialWebsite" xml:space="preserve">
+    <value>아우라에코 공식 웹사이트</value>
+  </data>
+  <data name="About_GitHubRepo" xml:space="preserve">
+    <value>GitHub 프로젝트 홈</value>
+  </data>
+  <data name="About_QQGroup" xml:space="preserve">
+    <value>아우라에코 QQ 그룹</value>
+  </data>
+  <data name="About_ColgProfile" xml:space="preserve">
+    <value>COLG 개발자 홈</value>
+  </data>
 </root>

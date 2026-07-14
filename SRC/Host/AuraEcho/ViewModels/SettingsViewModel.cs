@@ -65,6 +65,11 @@ public class SettingsViewModel : BindableBase, IRegionMemberLifetime
             {
                 Name = $"{nameof(Labels)}.{nameof(Labels.Settings_NavGeneral)}",
                 ViewName = ViewNames.GeneralSettings
+            },
+            new HostSettingsItem()
+            {
+                Name = $"{nameof(Labels)}.{nameof(Labels.Settings_NavAbout)}",
+                ViewName = ViewNames.About
             }
         ];
 

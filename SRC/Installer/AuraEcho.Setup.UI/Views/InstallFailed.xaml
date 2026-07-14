@@ -1,15 +1,17 @@
 <UserControl x:Class="AuraEcho.Setup.UI.Views.InstallFailed"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
-             av:DataContext="{av:DesignInstance Type=viewmodels:InstallFailedViewModel}"
-             av:DesignHeight="500"
-             av:DesignWidth="750"
+             d:DataContext="{av:DesignInstance Type=viewmodels:InstallFailedViewModel}"
+             d:DesignHeight="500"
+             d:DesignWidth="750"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="av">
+             mc:Ignorable="d">
     <Grid>
         <StackPanel Margin="0,0,0,100" VerticalAlignment="Bottom">
             <Border Margin="0,0,0,100"
@@ -19,6 +21,9 @@
                     BorderBrush="#FFAA4A"
                     BorderThickness="1"
                     CornerRadius="4">
+                <i:Interaction.Behaviors>
+                    <ui:LoadedEntranceAnimationBehavior />
+                </i:Interaction.Behaviors>
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Width="24"
                              Height="24"
@@ -37,7 +42,7 @@
                         </Canvas>
                     </Viewbox>
                     <TextBlock VerticalAlignment="Center"
-                               av:Text="此计算机已存在更高版本的灵光回声。"
+                               d:Text="此计算机已存在更高版本的灵光回声。"
                                FontSize="16"
                                Foreground="#FFAA4A"
                                Text="{Binding Message}" />
@@ -51,7 +56,11 @@
                     Command="{Binding FinishedCommand}"
                     Content="完成"
                     FontSize="18"
-                    Style="{DynamicResource PrimaryButtonStyle}" />
+                    Style="{DynamicResource PrimaryButtonStyle}">
+                <i:Interaction.Behaviors>
+                    <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07" />
+                </i:Interaction.Behaviors>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

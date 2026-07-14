@@ -94,8 +94,12 @@ namespace AuraEcho.Setup.UI.ViewModels
             Application.Current.Shutdown();
         }
 
-        public DelegateCommand CloseSplashScreenCommand { get; }
-        private void CloseSplashScreen() => _ba.Engine.CloseSplashScreen();
+        public DelegateCommand InitCommand { get; }
+        public void Init()
+        {
+            _ba.Engine.CloseSplashScreen();
+            _ba.Engine.Detect();
+        }
 
         /// <summary>
         /// 构造函数
@@ -107,10 +111,9 @@ namespace AuraEcho.Setup.UI.ViewModels
             _regionDialogService = regionDialogService;
             _regionManager = regionManager;
             ExitCommand = new DelegateCommand(Exit);
-            CloseSplashScreenCommand = new DelegateCommand(CloseSplashScreen);
+            InitCommand = new DelegateCommand(Init);
 
             _ba.OnActionRequested += DetectCompleted;
-            _ba.Engine.Detect();
         }
     }
 }

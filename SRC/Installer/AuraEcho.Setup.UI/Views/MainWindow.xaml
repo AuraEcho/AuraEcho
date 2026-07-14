@@ -35,7 +35,7 @@
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding CloseSplashScreenCommand}" />
+            <i:InvokeCommandAction Command="{Binding InitCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -45,6 +45,9 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                 <Grid>
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07" />
+                    </i:Interaction.Behaviors>
                     <Border Width="128"
                             Height="128"
                             Margin="0,0,0,24"
@@ -72,23 +75,28 @@
                         </Border>
                     </Border>
                 </Grid>
-                <TextBlock FontSize="64"
-                           FontWeight="Bold"
-                           Text="灵光回声"
-                           Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"/>
-                <TextBlock HorizontalAlignment="Center"
-                           d:Text="版本 1.2.0"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                           Text="{Binding Version, StringFormat=版本 {0}}" />
+                <StackPanel>
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.14" />
+                    </i:Interaction.Behaviors>
+                    <TextBlock FontSize="64"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource Brushes.Special.OnSurfaceLinear}"
+                               Text="灵光回声" />
+                    <TextBlock HorizontalAlignment="Center"
+                               d:Text="版本 1.2.0"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                               Text="{Binding Version, StringFormat=版本 {0}}" />
+                </StackPanel>
             </StackPanel>
 
         </Grid>
         <d:ContentControl>
             <views:InstallPreparation Background="Transparent" />
         </d:ContentControl>
-        <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MainRegion}" />
+        <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MainRegion}"/>
         <ContentControl prism:RegionManager.RegionName="{x:Static constants:InstallerRegionNames.MessageRegion}" />
         <Grid Height="36"
               VerticalAlignment="Top"

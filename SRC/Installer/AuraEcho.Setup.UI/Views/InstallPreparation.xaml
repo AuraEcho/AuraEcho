@@ -2,8 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:InstallPreparationViewModel}"
              d:DesignHeight="500"
@@ -78,9 +80,16 @@
                     Content="开始安装"
                     FontSize="16"
                     Style="{DynamicResource PrimaryButtonStyle}"
-                    TextOptions.TextFormattingMode="Display" />
+                    TextOptions.TextFormattingMode="Display">
+                <i:Interaction.Behaviors>
+                    <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.20" />
+                </i:Interaction.Behaviors>
+            </Button>
             <Grid>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.25" />
+                    </i:Interaction.Behaviors>
                     <TextBlock FontSize="14">
                         <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="点击开始安装，即代表您已同意" />
                         <Hyperlink Command="{Binding OpenEULACommand}">
@@ -89,6 +98,9 @@
                     </TextBlock>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <i:Interaction.Behaviors>
+                        <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.32" />
+                    </i:Interaction.Behaviors>
                     <TextBlock FontSize="14">
                         <Hyperlink x:Name="CustomInstallationHyperLink" Click="CustomInstallationHyperLink_Click">
                             <Run x:Name="CustomInstallationRun">自定义安装</Run>

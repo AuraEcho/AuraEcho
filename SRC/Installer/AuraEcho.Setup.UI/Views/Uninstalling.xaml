@@ -5,6 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:UninstallingViewModel}"
              d:DesignHeight="500"
@@ -35,24 +36,33 @@
             <TextBlock Margin="0,0,0,50"
                        HorizontalAlignment="Center"
                        FontSize="14"
-                       Text="正在将灵光回声从此计算机中移除，请耐心等待。" />
-            <ProgressBar x:Name="UninstallProgressBar"
-                         Height="4"
-                         Margin="0,0,0,8"
-                         d:Value="10"
-                         Maximum="100"
-                         Minimum="0" />
-            <DockPanel LastChildFill="True">
-                <TextBlock d:Text="10%"
-                           DockPanel.Dock="Right"
-                           Text="{Binding ElementName=UninstallProgressBar, Path=Value, StringFormat={}{0:N0}%}" />
-                <TextBlock Margin="0,0,20,0"
-                           d:Text="正在初始化..."
-                           DockPanel.Dock="Left"
-                           FontSize="14"
-                           Text="{Binding Message}"
-                           TextTrimming="CharacterEllipsis" />
-            </DockPanel>
+                       Text="正在将灵光回声从此计算机中移除，请耐心等待。">
+                <i:Interaction.Behaviors>
+                    <ui:LoadedEntranceAnimationBehavior />
+                </i:Interaction.Behaviors>
+            </TextBlock>
+            <StackPanel>
+                <i:Interaction.Behaviors>
+                    <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07" />
+                </i:Interaction.Behaviors>
+                <ProgressBar x:Name="UninstallProgressBar"
+                             Height="4"
+                             Margin="0,0,0,8"
+                             d:Value="10"
+                             Maximum="100"
+                             Minimum="0" />
+                <DockPanel LastChildFill="True">
+                    <TextBlock d:Text="10%"
+                               DockPanel.Dock="Right"
+                               Text="{Binding ElementName=UninstallProgressBar, Path=Value, StringFormat={}{0:N0}%}" />
+                    <TextBlock Margin="0,0,20,0"
+                               d:Text="正在初始化..."
+                               DockPanel.Dock="Left"
+                               FontSize="14"
+                               Text="{Binding Message}"
+                               TextTrimming="CharacterEllipsis" />
+                </DockPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

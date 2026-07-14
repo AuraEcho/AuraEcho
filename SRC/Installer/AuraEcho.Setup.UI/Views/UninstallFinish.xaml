@@ -5,6 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
              xmlns:viewmodels="clr-namespace:AuraEcho.Setup.UI.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:UninstallFinishViewModel}"
              d:DesignHeight="500"
@@ -21,6 +22,9 @@
                     BorderBrush="#00C853"
                     BorderThickness="1"
                     CornerRadius="4">
+                <i:Interaction.Behaviors>
+                    <ui:LoadedEntranceAnimationBehavior />
+                </i:Interaction.Behaviors>
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Width="16"
                              Height="16"
@@ -48,7 +52,11 @@
                     Command="{Binding FinishedCommand}"
                     Content="完成"
                     FontSize="18"
-                    Style="{DynamicResource PrimaryButtonStyle}" />
+                    Style="{DynamicResource PrimaryButtonStyle}">
+                <i:Interaction.Behaviors>
+                    <ui:LoadedEntranceAnimationBehavior Delay="0:0:0.07" />
+                </i:Interaction.Behaviors>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

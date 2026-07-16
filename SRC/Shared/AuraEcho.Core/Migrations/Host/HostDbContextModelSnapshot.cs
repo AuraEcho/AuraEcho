@@ -3,19 +3,16 @@ using System;
 using AuraEcho.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations
+namespace AuraEcho.Core.Migrations.Host
 {
-    [DbContext(typeof(AuraEchoDbContext))]
-    [Migration("20260604083117_RefactLocalPluginTable")]
-    partial class RefactLocalPluginTable
+    [DbContext(typeof(HostDbContext))]
+    partial class HostDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");

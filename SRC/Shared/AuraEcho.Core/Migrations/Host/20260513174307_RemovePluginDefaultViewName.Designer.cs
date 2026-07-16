@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations
+namespace AuraEcho.Core.Migrations.Host
 {
-    [DbContext(typeof(AuraEchoDbContext))]
-    [Migration("20260324184042_userPlugin")]
-    partial class userPlugin
+    [DbContext(typeof(HostDbContext))]
+    [Migration("20260513174307_RemovePluginDefaultViewName")]
+    partial class RemovePluginDefaultViewName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,9 @@ namespace AuraEcho.Core.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsSetup")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PluginFolder")
                         .IsRequired()
@@ -65,9 +68,6 @@ namespace AuraEcho.Core.Migrations
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Author")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("DefaultViewName")
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Description")

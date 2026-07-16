@@ -74,7 +74,7 @@ public partial class App : PrismApplication
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        containerRegistry.Register<AuraEchoDbContext>(provider => DbContextFactory.CreateDbContext());
+        containerRegistry.Register<HostDbContext>(provider => HostDbContextRuntimeFactory.CreateDbContext());
 
         containerRegistry.RegisterInstance(_logger);
         containerRegistry.RegisterSingleton<IClock, ServerClock>();
@@ -269,7 +269,7 @@ public partial class App : PrismApplication
     {
         if (File.Exists(ApplicationPaths.HostDataBase)) return;
 
-        using var pluginDbContext = DbContextFactory.CreateDbContext();
+        using var pluginDbContext = HostDbContextRuntimeFactory.CreateDbContext();
 
         _logger.Information("Begin Migrate");
         pluginDbContext.Database.Migrate();

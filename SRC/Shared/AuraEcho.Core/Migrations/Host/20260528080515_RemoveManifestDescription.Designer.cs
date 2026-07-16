@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations
+namespace AuraEcho.Core.Migrations.Host
 {
-    [DbContext(typeof(AuraEchoDbContext))]
+    [DbContext(typeof(HostDbContext))]
     [Migration("20260528080515_RemoveManifestDescription")]
     partial class RemoveManifestDescription
     {

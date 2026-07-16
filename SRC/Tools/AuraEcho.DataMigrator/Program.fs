@@ -9,7 +9,7 @@ let migrate (dbContext: DbContext) =
 [<EntryPoint>]
 let main _ =
 
-    use auraEchoDbContext = DbContextFactory.CreateDbContext()
+    use auraEchoDbContext = HostDbContextRuntimeFactory.CreateDbContext()
     migrate auraEchoDbContext
 
     use telemetryDbContext = TelemetryDbContextRuntimeFactory.CreateDbContext()

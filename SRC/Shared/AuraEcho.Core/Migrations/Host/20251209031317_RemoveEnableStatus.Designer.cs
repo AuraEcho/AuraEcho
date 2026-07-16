@@ -7,9 +7,9 @@ using AuraEcho.Core.Data;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations
+namespace AuraEcho.Core.Migrations.Host
 {
-    [DbContext(typeof(AuraEchoDbContext))]
+    [DbContext(typeof(HostDbContext))]
     [Migration("20251209031317_RemoveEnableStatus")]
     partial class RemoveEnableStatus
     {

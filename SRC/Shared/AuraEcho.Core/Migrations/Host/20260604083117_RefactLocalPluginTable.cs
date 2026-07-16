@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations
+namespace AuraEcho.Core.Migrations.Host
 {
     /// <inheritdoc />
     public partial class RefactLocalPluginTable : Migration

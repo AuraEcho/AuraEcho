@@ -7,11 +7,11 @@ using AuraEcho.Core.Data;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations
+namespace AuraEcho.Core.Migrations.Host
 {
-    [DbContext(typeof(AuraEchoDbContext))]
-    [Migration("20250902110507_Init")]
-    partial class Init
+    [DbContext(typeof(HostDbContext))]
+    [Migration("20251211084853_MoveDefaultView")]
+    partial class MoveDefaultView
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,19 +24,12 @@ namespace AuraEcho.Core.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DefaultView")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("PlanStatus")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PluginFolder")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -51,6 +44,9 @@ namespace AuraEcho.Core.Migrations
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Author")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("DefaultViewName")
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Description")

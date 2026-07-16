@@ -2,16 +2,16 @@
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations
+namespace AuraEcho.Core.Migrations.Host
 {
     /// <inheritdoc />
-    public partial class RemoveManifestDescription : Migration
+    public partial class RemovePluginDefaultViewName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Manifest_Description",
+                name: "Manifest_DefaultViewName",
                 table: "LocalPlugins");
         }
 
@@ -19,7 +19,7 @@ namespace AuraEcho.Core.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Manifest_Description",
+                name: "Manifest_DefaultViewName",
                 table: "LocalPlugins",
                 type: "TEXT",
                 nullable: true);

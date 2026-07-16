@@ -9,8 +9,8 @@ namespace AuraEcho.Core.Repositories;
 
 public class LocalPluginRepository : ILocalPluginRepository
 {
-    private readonly AuraEchoDbContext _dbContext;
-    public LocalPluginRepository(AuraEchoDbContext dbContext)
+    private readonly HostDbContext _dbContext;
+    public LocalPluginRepository(HostDbContext dbContext)
     {
         _dbContext = dbContext;
     }

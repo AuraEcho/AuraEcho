@@ -22,7 +22,7 @@ public static class ApplicationPaths
     public static string Config => Path.Combine(BasePath, "Config");
     public static string SecureStore => Path.Combine(BasePath, "SecureStore");
     public static string HostSettings => Path.Combine(Config, "global.cfg");
-    public static string HostDataBase => Path.Combine(Data, "auraecho.db");
+    public static string HostDataBase => Path.Combine(Data, "host.db");
     public static string TelemetryDataBase => Path.Combine(Data, "telemetry.db");
     public static string GetPluginPath(Guid pluginId) => Path.Combine(Plugins, pluginId.ToString());
     public static string LauncherPath { get; }

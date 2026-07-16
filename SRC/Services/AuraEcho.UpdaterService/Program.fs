@@ -29,7 +29,7 @@ module Program =
 
     let configureServices (services: IServiceCollection) =
         services.AddHostedService<Worker>()
-                .AddDbContext<AuraEchoDbContext>(fun options ->
+                .AddDbContext<HostDbContext>(fun options ->
                     options.UseSqlite $"Data Source={ApplicationPaths.HostDataBase}" |> ignore)
                 .AddSingleton<IAppLogger>(new Serilogger(logDir))
                 .AddSingleton<HttpClient>(fun sp ->

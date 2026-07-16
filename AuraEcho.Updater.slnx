@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="SRC/Services/AuraEcho.UpdaterService/AuraEcho.UpdaterService.fsproj" />
+  <Project Path="SRC/Shared/AuraEcho.Cloud/AuraEcho.Cloud/AuraEcho.Cloud.csproj" />
+  <Project Path="SRC/Shared/AuraEcho.Core/AuraEcho.Core.csproj" />
+  <Project Path="SRC/Shared/AuraEcho.PluginContracts/AuraEcho.PluginContracts.csproj" />
 </Solution>

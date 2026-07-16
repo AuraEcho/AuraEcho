@@ -5,9 +5,10 @@ using Prism.Regions;
 
 namespace AuraEcho.Core.Services
 {
-    public class NavigationService(IRegionManager regionManager) : BindableBase, INavigationService
+    public class NavigationService(IRegionManager regionManager, ITelemetryService telemetry) : BindableBase, INavigationService
     {
         private readonly IRegionManager _regionManager = regionManager;
+        private readonly ITelemetryService _telemetry = telemetry;
         private readonly Stack<NavigationHistoryEntry> _stack = new();
 
         public void RequestNavigate(string regionName, string target, NavigationParameters? navigationParameters = null, bool canBack = true)
@@ -18,6 +19,8 @@ namespace AuraEcho.Core.Services
 
             _regionManager.RequestNavigate(regionName, target, navigationParameters);
             RaisePropertyChanged(nameof(CanGoBack));
+
+            _telemetry.TrackPageView(target);
         }
 
         public bool CanGoBack => _stack.Count > 1;

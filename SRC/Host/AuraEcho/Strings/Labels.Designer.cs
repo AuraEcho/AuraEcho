@@ -419,7 +419,25 @@ namespace AuraEcho.Strings {
                 return ResourceManager.GetString("GeneralSettings_LanguageDescription", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 发送诊断数据 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_Telemetry {
+            get {
+                return ResourceManager.GetString("GeneralSettings_Telemetry", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 帮助改进灵光回声，匿名发送崩溃报告和使用统计数据 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_TelemetryDescription {
+            get {
+                return ResourceManager.GetString("GeneralSettings_TelemetryDescription", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 随系统启动 的本地化字符串。
         /// </summary>

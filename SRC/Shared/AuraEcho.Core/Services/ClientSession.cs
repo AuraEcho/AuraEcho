@@ -7,6 +7,7 @@ using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
+using AuraEcho.PluginContracts.Interfaces;
 using Prism.Events;
 using Prism.Mvvm;
 
@@ -22,15 +23,18 @@ public class ClientSession : BindableBase, IClientSession
     private readonly ITokenProvider _tokenProvider;
     private readonly IHubClient _cloudHubClient;
     private readonly IEventAggregator _eventAggregator;
+    private readonly ITelemetryService _telemetry;
 
     public ClientSession(
         IEventAggregator eventAggregator,
         IHubClient cloudHubClient,
-        ITokenProvider tokenProvider)
+        ITokenProvider tokenProvider,
+        ITelemetryService telemetry)
     {
         _eventAggregator = eventAggregator;
         _cloudHubClient = cloudHubClient;
         _tokenProvider = tokenProvider;
+        _telemetry = telemetry;
 
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignOut);
     }
@@ -56,6 +60,7 @@ public class ClientSession : BindableBase, IClientSession
         UpdateUserProfile(authResponse.User.ToUserProfile());
 
         _eventAggregator.GetEvent<SignedInEvent>().Publish();
+        _telemetry.TrackEvent("Auth.SignIn");
 
         _ = ConnectCloudHubAsync();
     }
@@ -122,5 +127,6 @@ public class ClientSession : BindableBase, IClientSession
         _tokenProvider.ClearToken();
 
         _eventAggregator.GetEvent<SignedOutEvent>().Publish();
+        _telemetry.TrackEvent("Auth.SignOut");
     }
 }

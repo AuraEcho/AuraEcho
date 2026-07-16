@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text.Json;
@@ -13,10 +14,12 @@ public class PluginInstallService : IPluginInstallService
     private const string MANIFEST_FILE_NAME = "plugin.manifest.json";
     private readonly ILocalPluginRepository _localPluginRepository;
     private readonly IAppLogger _logger;
-    public PluginInstallService(ILocalPluginRepository localPluginRepository, IAppLogger logger)
+    private readonly ITelemetryService _telemetry;
+    public PluginInstallService(ILocalPluginRepository localPluginRepository, IAppLogger logger, ITelemetryService telemetry)
     {
         _localPluginRepository = localPluginRepository;
         _logger = logger;
+        _telemetry = telemetry;
     }
 
     /// <summary>
@@ -80,6 +83,12 @@ public class PluginInstallService : IPluginInstallService
         }
 
         _logger.Debug("安装成功");
+        _telemetry.TrackEvent("Plugin.Installed", new Dictionary<string, string>
+        {
+            ["pluginId"] = manifest.Id.ToString("D"),
+            ["pluginType"] = manifest.Type.ToString(),
+            ["version"] = manifest.Version
+        });
         return installedPlugin;
     }
 }

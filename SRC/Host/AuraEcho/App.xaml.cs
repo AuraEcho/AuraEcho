@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -24,6 +25,7 @@ using AuraEcho.Core.Events;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Repositories;
 using AuraEcho.Core.Services;
+using AuraEcho.Core.Telemetry;
 using AuraEcho.Core.Tools;
 using AuraEcho.Core.Tools.HttpClientPipelines;
 using AuraEcho.Events;
@@ -60,6 +62,8 @@ public partial class App : PrismApplication
     private string[] _startupArgs;
     private TaskbarIcon _notifyIcon;
     private static IAppLogger _logger;
+    private static ITelemetryService _telemetry;
+    private static Stopwatch _startupStopwatch;
     protected override Window CreateShell()
     {
         LoggingAttribute.Logger = Container.Resolve<IAppLogger>();
@@ -110,6 +114,18 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
         containerRegistry.RegisterSingleton<ISkuOrderCacheService, SkuOrderCacheService>();
 
+        containerRegistry.RegisterSingleton<TelemetryBuffer>();
+        containerRegistry.RegisterSingleton<TelemetryContextFactory>();
+        containerRegistry.RegisterSingleton<ITelemetryService>(c =>
+        {
+            var service = new TelemetryService(c.Resolve<TelemetryBuffer>());
+
+            // 供异常处理器使用
+            _telemetry = service;
+            return service;
+        });
+        containerRegistry.RegisterSingleton<TelemetryFlushWorker>();
+
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
         containerRegistry.RegisterForNavigation<GeneralSettings>();
@@ -145,6 +161,9 @@ public partial class App : PrismApplication
 
         base.OnStartup(e);
 
+        var flushWorker = Container.Resolve<TelemetryFlushWorker>();
+        flushWorker.Start();
+
         StartPipeServer();
 
         _notifyIcon = (TaskbarIcon)FindResource("NotifyIcon");
@@ -164,11 +183,19 @@ public partial class App : PrismApplication
         });
 
         _ = WebViewEnvironment.InitAllEnvironmentsAsync();
+
+        // 记录启动耗时
+        _startupStopwatch.Stop();
+        _telemetry?.TrackMetric("App.StartupTime", _startupStopwatch.Elapsed.TotalMilliseconds);
+        _telemetry?.TrackEvent("App.Launch");
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
         ToastNotificationManagerCompat.Uninstall();
+        _telemetry?.TrackEvent("App.Shutdown");
+        _logger.Information("App.Shutdown");
+
         base.OnExit(e);
     }
 
@@ -194,6 +221,8 @@ public partial class App : PrismApplication
             hostSettings.HardwareAcceleration
             ? RenderMode.Default
             : RenderMode.SoftwareOnly;
+
+        _telemetry?.IsEnabled = hostSettings.TelemetryEnabled;
     }
 
     /// <summary>
@@ -202,6 +231,7 @@ public partial class App : PrismApplication
     [STAThread]
     static void Main(string[] args)
     {
+        _startupStopwatch = Stopwatch.StartNew();
         _logger = new Serilogger(ApplicationPaths.Logs);
         _logger.Debug("程序已启动");
 
@@ -352,7 +382,11 @@ public partial class App : PrismApplication
         }
     }
 
-    private static void RestartApp() => ExitInternal(true);
+    private static void RestartApp()
+    {
+        _telemetry?.TrackEvent("App.Restart");
+        ExitInternal(true);
+    }
 
     private static void ShutdownApp() => ExitInternal(false);
 
@@ -394,12 +428,12 @@ public partial class App : PrismApplication
         {
             if (e.Exception is Exception exception)
             {
-                HandleException(exception);
+                HandleException(exception, "TaskScheduler");
             }
         }
         catch (Exception ex)
         {
-            HandleException(ex);
+            HandleException(ex, "TaskScheduler");
         }
         finally
         {
@@ -416,11 +450,11 @@ public partial class App : PrismApplication
     {
         try
         {
-            HandleException(e.Exception);
+            HandleException(e.Exception, "Dispatcher");
         }
         catch (Exception ex)
         {
-            HandleException(ex);
+            HandleException(ex, "Dispatcher");
         }
         finally
         {
@@ -439,12 +473,12 @@ public partial class App : PrismApplication
         {
             if (e.ExceptionObject is Exception exception)
             {
-                HandleException(exception);
+                HandleException(exception, "AppDomain");
             }
         }
         catch (Exception ex)
         {
-            HandleException(ex);
+            HandleException(ex, "AppDomain");
         }
         finally
         {
@@ -456,8 +490,19 @@ public partial class App : PrismApplication
     /// 全局异常处理逻辑
     /// </summary>
     /// <param name="exception"></param>
-    private void HandleException(Exception exception)
+    private void HandleException(Exception exception, string source = "Unknown")
     {
-        _logger.Debug(exception.ToString());
+        _logger.Fatal($"未处理的应用程序异常: {exception}");
+
+        try
+        {
+            _telemetry?.TrackException(exception, new Dictionary<string, string>
+            {
+                ["source"] = source
+            });
+        }
+        catch
+        {
+        }
     }
 }

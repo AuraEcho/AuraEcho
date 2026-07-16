@@ -210,6 +210,12 @@
   <data name="GeneralSettings_ThemeDescription" xml:space="preserve">
     <value>选择灵光回声使用的主题</value>
   </data>
+  <data name="GeneralSettings_Telemetry" xml:space="preserve">
+    <value>发送诊断数据</value>
+  </data>
+  <data name="GeneralSettings_TelemetryDescription" xml:space="preserve">
+    <value>帮助改进灵光回声，匿名发送崩溃报告和使用统计数据</value>
+  </data>
   <data name="GeneralSettings_Title" xml:space="preserve">
     <value>常规</value>
   </data>

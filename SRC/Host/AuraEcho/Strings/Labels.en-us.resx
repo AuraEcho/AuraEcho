@@ -210,6 +210,12 @@
   <data name="GeneralSettings_ThemeDescription" xml:space="preserve">
     <value>Choose the theme used by AuraEcho</value>
   </data>
+  <data name="GeneralSettings_Telemetry" xml:space="preserve">
+    <value>Send Diagnostic Data</value>
+  </data>
+  <data name="GeneralSettings_TelemetryDescription" xml:space="preserve">
+    <value>Help improve AuraEcho by anonymously sending crash reports and usage statistics</value>
+  </data>
   <data name="GeneralSettings_Title" xml:space="preserve">
     <value>General</value>
   </data>

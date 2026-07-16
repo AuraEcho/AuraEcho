@@ -210,6 +210,12 @@
   <data name="GeneralSettings_ThemeDescription" xml:space="preserve">
     <value>AuraEcho에서 사용할 테마를 선택하세요</value>
   </data>
+  <data name="GeneralSettings_Telemetry" xml:space="preserve">
+    <value>진단 데이터 보내기</value>
+  </data>
+  <data name="GeneralSettings_TelemetryDescription" xml:space="preserve">
+    <value>충돌 보고서와 사용 통계를 익명으로 보내 AuraEcho 개선에 도움을 주세요</value>
+  </data>
   <data name="GeneralSettings_Title" xml:space="preserve">
     <value>일반</value>
   </data>

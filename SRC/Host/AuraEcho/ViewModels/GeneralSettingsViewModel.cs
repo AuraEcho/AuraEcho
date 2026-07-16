@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using AuraEcho.PluginContracts.Interfaces;
 
 namespace AuraEcho.ViewModels;
 
@@ -23,10 +24,12 @@ public class GeneralSettingsViewModel : BindableBase
     private readonly IEventAggregator _eventAggregator;
     private readonly IThemeManager _themeManager;
     private readonly IHostSettingsProvider _hostSettingsProvider;
+    private readonly ITelemetryService _telemetryService;
     private AppLanguage _appLanguage;
     private AppTheme _appTheme;
     private bool _runAtBoot;
     private bool _hardwareAcceleration;
+    private bool _telemetryEnabled;
     #endregion
 
     public AppLanguage AppLanguage
@@ -113,6 +116,19 @@ public class GeneralSettingsViewModel : BindableBase
         }
     }
 
+    public bool TelemetryEnabled
+    {
+        get => _telemetryEnabled;
+        set
+        {
+            if (SetProperty(ref _telemetryEnabled, value))
+            {
+                SaveSettings();
+                _telemetryService.IsEnabled = value;
+            }
+        }
+    }
+
     private static bool CheckRunAtBoot()
     {
         using RegistryKey itemKeyRoot =
@@ -154,6 +170,7 @@ public class GeneralSettingsViewModel : BindableBase
         AppTheme = settings.AppTheme;
         HardwareAcceleration = settings.HardwareAcceleration;
         RunAtBoot = CheckRunAtBoot();
+        TelemetryEnabled = settings.TelemetryEnabled;
     }
     private void SaveSettings()
     {
@@ -161,16 +178,22 @@ public class GeneralSettingsViewModel : BindableBase
         {
             AppLanguage = AppLanguage,
             AppTheme = AppTheme,
-            HardwareAcceleration = HardwareAcceleration
+            HardwareAcceleration = HardwareAcceleration,
+            TelemetryEnabled = TelemetryEnabled
         };
         _hostSettingsProvider.SaveHostSettings(settings);
     }
 
-    public GeneralSettingsViewModel(IEventAggregator eventAggregator, IThemeManager themeManager, IHostSettingsProvider hostSettingsProvider)
+    public GeneralSettingsViewModel(
+        IEventAggregator eventAggregator, 
+        IThemeManager themeManager, 
+        IHostSettingsProvider hostSettingsProvider,
+        ITelemetryService telemetryService)
     {
         _hostSettingsProvider = hostSettingsProvider;
         _eventAggregator = eventAggregator;
         _themeManager = themeManager;
+        _telemetryService = telemetryService;
 
         LoadSettingsCommand = new DelegateCommand(LoadSettings);
     }

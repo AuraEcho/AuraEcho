@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using AuraEcho.Cloud.V1.Models.Telemetry;
@@ -29,18 +28,17 @@ public class TelemetryContextFactory
             AppVersion = GetAppVersion(),
             OSVersion = RuntimeInformation.OSDescription,
             NetVersion = Environment.Version.ToString(),
-            SessionId = Guid.NewGuid().ToString("D"),
-            Culture = CultureInfo.CurrentCulture.Name
+            SessionId = Guid.NewGuid()
         };
 
-        static string GetInstallationId()
+        static Guid GetInstallationId()
         {
             var existing = SecureStore.Load(SecureStoreKeys.InstallationId);
-            if (!string.IsNullOrEmpty(existing))
-                return existing;
+            if (Guid.TryParse(existing, out var id))
+                return id;
 
-            var newId = Guid.NewGuid().ToString("D");
-            SecureStore.Save(SecureStoreKeys.InstallationId, newId);
+            var newId = Guid.NewGuid();
+            SecureStore.Save(SecureStoreKeys.InstallationId, newId.ToString());
             return newId;
         }
         

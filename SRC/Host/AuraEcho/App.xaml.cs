@@ -124,7 +124,6 @@ public partial class App : PrismApplication
             _telemetry = service;
             return service;
         });
-        containerRegistry.RegisterSingleton<TelemetryFlushWorker>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
@@ -160,9 +159,6 @@ public partial class App : PrismApplication
         _startupArgs = e.Args;
 
         base.OnStartup(e);
-
-        var flushWorker = Container.Resolve<TelemetryFlushWorker>();
-        flushWorker.Start();
 
         StartPipeServer();
 

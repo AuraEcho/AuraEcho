@@ -1,0 +1,9 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<StandardDirectory Id="ProgramFiles6432Folder">
+			<Directory Id="INSTALLFOLDER" Name="AuraEcho">
+				<Directory Id="TelemetryServiceFolder" Name="TelemetryService" />
+			</Directory>
+		</StandardDirectory>
+	</Fragment>
+</Wix>

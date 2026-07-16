@@ -1,3 +1,5 @@
+using AuraEcho.Cloud.V1.Models.Telemetry;
+
 namespace AuraEcho.Core.Data.Entities;
 
 /// <summary>
@@ -5,13 +7,43 @@ namespace AuraEcho.Core.Data.Entities;
 /// </summary>
 public class TelemetryEventEntity
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString("D");
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public DateTime Timestamp { get; set; }
 
-    public string Type { get; set; } = string.Empty;
+    public TelemetryEventType Type { get; set; }
 
     public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 客户端安装标识
+    /// </summary>
+    public Guid InstallationId { get; set; }
+
+    /// <summary>
+    /// 客户端版本
+    /// </summary>
+    public string AppVersion { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 操作系统版本
+    /// </summary>
+    public string OSVersion { get; set; } = string.Empty;
+
+    /// <summary>
+    /// .NET 运行时版本
+    /// </summary>
+    public string NetVersion { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 客户端会话标识
+    /// </summary>
+    public Guid SessionId { get; set; }
+
+    /// <summary>
+    /// 客户端区域信息
+    /// </summary>
+    public string Culture { get; set; } = string.Empty;
 
     /// <summary>
     /// 附加属性

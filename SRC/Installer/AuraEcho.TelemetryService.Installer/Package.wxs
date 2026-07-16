@@ -1,0 +1,16 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Package Name="AuraEchoTelemetryService"
+			 Manufacturer="Suencesoft"
+			 Version="$(var.Version)"
+			 Codepage="65001"
+			 Scope="perMachine"
+			 UpgradeCode="45AA2B9A-3A11-42A6-8623-96BAA55B94BD">
+		<MediaTemplate EmbedCab="yes" />
+
+		<MajorUpgrade DowngradeErrorMessage="不允许降级安装" />
+
+		<Feature Id="Main">
+			<ComponentGroupRef Id="TelemetryServiceFileComponents" />
+		</Feature>
+	</Package>
+</Wix>

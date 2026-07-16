@@ -39,9 +39,6 @@ public class TelemetryDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.Type)
-                  .IsRequired();
-
             entity.Property(e => e.Name)
                   .IsRequired();
 

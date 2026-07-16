@@ -19,10 +19,22 @@ namespace AuraEcho.Core.Migrations.Telemetry
 
             modelBuilder.Entity("AuraEcho.Core.Data.Entities.TelemetryEventEntity", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppVersion")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Culture")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("InstallationId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Metrics")
@@ -32,18 +44,28 @@ namespace AuraEcho.Core.Migrations.Telemetry
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NetVersion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OSVersion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Properties")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("RetryCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

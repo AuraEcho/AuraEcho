@@ -96,6 +96,14 @@
 						SourceFile="$(AuraEcho.LauncherService.Installer.TargetFileName)">
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
 			</MsiPackage>
+
+			<!-- Telemetry Service -->
+			<MsiPackage Id="AuraEchoTelemetryServiceMsi"
+						Visible="no"
+						Compressed="yes"
+						SourceFile="$(AuraEcho.TelemetryService.Installer.TargetFileName)">
+				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
+			</MsiPackage>
 		</Chain>
 	</Bundle>
 </Wix>

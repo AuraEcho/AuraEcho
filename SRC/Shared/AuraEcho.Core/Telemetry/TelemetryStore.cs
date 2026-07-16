@@ -12,13 +12,16 @@ namespace AuraEcho.Core.Telemetry;
 /// </summary>
 public class TelemetryStore
 {
-    public TelemetryStore()
+    private readonly TelemetryContextFactory _contextFactory;
+
+    public TelemetryStore(TelemetryContextFactory contextFactory)
     {
-        if (!File.Exists(ApplicationPaths.TelemetryDataBase))
-        {
-            using var db = CreateContext();
-            db.Database.Migrate();
-        }
+        _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
+
+        if (File.Exists(ApplicationPaths.TelemetryDataBase)) return;
+
+        using var db = CreateContext();
+        db.Database.Migrate();
     }
 
     private static TelemetryDbContext CreateContext() => TelemetryDbContextRuntimeFactory.CreateDbContext();
@@ -29,14 +32,14 @@ public class TelemetryStore
     public void Enqueue(TelemetryEvent evt)
     {
         using var db = CreateContext();
-        db.TelemetryEvents.Add(ToEntity(evt));
+        db.TelemetryEvents.Add(ToEntity(evt, _contextFactory.Context));
         db.SaveChanges();
     }
 
     /// <summary>
-    /// 取出最多 <paramref name="maxCount"/> 条未发送事件，按创建时间升序。
+    /// 取出最多 <paramref name="maxCount"/> 条未发送事件。
     /// </summary>
-    public List<TelemetryEvent> Dequeue(int maxCount)
+    public List<TelemetryEventRecord> Dequeue(int maxCount)
     {
         using var db = CreateContext();
         return db.TelemetryEvents
@@ -44,14 +47,14 @@ public class TelemetryStore
                  .OrderBy(e => e.CreatedAt)
                  .Take(maxCount)
                  .AsEnumerable()
-                 .Select(ToEvent)
+                 .Select(ToRecord)
                  .ToList();
     }
 
     /// <summary>
     /// 批量删除已成功发送的事件。
     /// </summary>
-    public void Delete(IEnumerable<string> ids)
+    public void Delete(IEnumerable<Guid> ids)
     {
         using var db = CreateContext();
         db.TelemetryEvents
@@ -62,7 +65,7 @@ public class TelemetryStore
     /// <summary>
     /// 递增指定事件的重试次数。
     /// </summary>
-    public void IncrementRetryCount(IEnumerable<string> ids)
+    public void IncrementRetryCount(IEnumerable<Guid> ids)
     {
         using var db = CreateContext();
         db.TelemetryEvents
@@ -90,25 +93,37 @@ public class TelemetryStore
         return db.TelemetryEvents.Count();
     }
 
-    private static TelemetryEventEntity ToEntity(TelemetryEvent evt) => new()
+    private static TelemetryEventEntity ToEntity(TelemetryEvent evt, TelemetryContext context) => new()
     {
         Id = evt.Id,
         Timestamp = evt.Timestamp,
-        Type = evt.Type.ToString(),
+        Type = evt.Type,
         Name = evt.Name,
         Properties = evt.Properties,
         Metrics = evt.Metrics,
+        Culture = evt.Culture,
+        InstallationId = context.InstallationId,
+        AppVersion = context.AppVersion,
+        OSVersion = context.OSVersion,
+        NetVersion = context.NetVersion,
+        SessionId = context.SessionId,
         RetryCount = 0,
         CreatedAt = DateTime.UtcNow
     };
 
-    private static TelemetryEvent ToEvent(TelemetryEventEntity entity) => new()
+    private static TelemetryEventRecord ToRecord(TelemetryEventEntity entity) => new()
     {
         Id = entity.Id,
         Timestamp = entity.Timestamp,
-        Type = Enum.Parse<TelemetryEventType>(entity.Type),
+        Type = entity.Type,
         Name = entity.Name,
+        Culture = entity.Culture,
         Properties = entity.Properties,
-        Metrics = entity.Metrics
+        Metrics = entity.Metrics,
+        InstallationId = entity.InstallationId,
+        AppVersion = entity.AppVersion,
+        OSVersion = entity.OSVersion,
+        NetVersion = entity.NetVersion,
+        SessionId = entity.SessionId
     };
 }

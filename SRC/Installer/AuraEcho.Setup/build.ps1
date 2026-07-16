@@ -27,6 +27,7 @@ $AppVersion = "1.3.1"
 $LauncherVersion = "1.3.1"
 $LauncherServiceVersion = "1.3.1"
 $UpdaterServiceVersion = "1.3.1"
+$TelemetryServiceVersion = "1.3.1"
 $DataMigratorVersion = $BundleVersion
 $BundleFileName = "AuraEchoSetup"
 
@@ -63,6 +64,7 @@ $buildArgs = @(
     "/p:DataMigratorVersion=$DataMigratorVersion",
     "/p:LauncherServiceVersion=$LauncherServiceVersion",
     "/p:UpdaterServiceVersion=$UpdaterServiceVersion",
+    "/p:TelemetryServiceVersion=$TelemetryServiceVersion",
     "/m" #并行构建
 )
 Write-Host "`n开始构建..." -ForegroundColor DarkGray

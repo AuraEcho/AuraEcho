@@ -1,3 +1,4 @@
+using System.Globalization;
 using AuraEcho.Cloud.V1.Models.Telemetry;
 using AuraEcho.PluginContracts.Interfaces;
 
@@ -60,6 +61,7 @@ public class TelemetryService : ITelemetryService
             {
                 Type = type,
                 Name = name,
+                Culture = CultureInfo.CurrentCulture.Name,
                 Properties = properties,
                 Metrics = metrics
             };

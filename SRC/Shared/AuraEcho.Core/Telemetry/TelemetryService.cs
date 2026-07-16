@@ -8,28 +8,28 @@ namespace AuraEcho.Core.Telemetry;
 /// </summary>
 public class TelemetryService : ITelemetryService
 {
-    private readonly TelemetryBuffer _buffer;
+    private readonly TelemetryStore _store;
 
-    public TelemetryService(TelemetryBuffer buffer)
+    public TelemetryService(TelemetryStore store)
     {
-        _buffer = buffer ?? throw new ArgumentNullException(nameof(buffer));
+        _store = store ?? throw new ArgumentNullException(nameof(store));
     }
 
     public bool IsEnabled { get; set; } = true;
 
-    public void TrackEvent(string name, IDictionary<string, string> properties = null)
+    public void TrackEvent(string name, Dictionary<string, string> properties = null)
     {
         if (!IsEnabled) return;
         Enqueue(TelemetryEventType.Event, name, properties, null);
     }
 
-    public void TrackMetric(string name, double value, IDictionary<string, string> properties = null)
+    public void TrackMetric(string name, double value, Dictionary<string, string> properties = null)
     {
         if (!IsEnabled) return;
         Enqueue(TelemetryEventType.Metric, name, properties, new Dictionary<string, double> { ["value"] = value });
     }
 
-    public void TrackException(Exception exception, IDictionary<string, string> properties = null)
+    public void TrackException(Exception exception, Dictionary<string, string> properties = null)
     {
         if (!IsEnabled) return;
         var props = new Dictionary<string, string>(properties ?? new Dictionary<string, string>())
@@ -45,14 +45,14 @@ public class TelemetryService : ITelemetryService
     public void TrackPageView(string pageName)
     {
         if (!IsEnabled) return;
-        Enqueue(TelemetryEventType.PageView, pageName, new Dictionary<string, string> { ["pageName"] = pageName }, null);
+        Enqueue(TelemetryEventType.PageView, pageName, null, null);
     }
 
     private void Enqueue(
         TelemetryEventType type,
         string name,
-        IDictionary<string, string>? properties,
-        IDictionary<string, double>? metrics)
+        Dictionary<string, string>? properties,
+        Dictionary<string, double>? metrics)
     {
         try
         {
@@ -60,11 +60,11 @@ public class TelemetryService : ITelemetryService
             {
                 Type = type,
                 Name = name,
-                Properties = properties as Dictionary<string, string> ?? new Dictionary<string, string>(properties ?? new Dictionary<string, string>()),
-                Metrics = metrics as Dictionary<string, double> ?? (metrics != null ? new Dictionary<string, double>(metrics) : null)
+                Properties = properties,
+                Metrics = metrics
             };
 
-            _buffer.Enqueue(evt);
+            _store.Enqueue(evt);
         }
         catch
         {

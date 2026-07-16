@@ -18,7 +18,7 @@ namespace AuraEcho.PluginContracts.Interfaces
         /// </summary>
         /// <param name="name">事件名称（如 "App.Launch", "Plugin.Installed"）</param>
         /// <param name="properties">附加字符串属性（可选）</param>
-        void TrackEvent(string name, IDictionary<string, string> properties = null);
+        void TrackEvent(string name, Dictionary<string, string> properties = null);
 
         /// <summary>
         /// 记录数值指标。
@@ -26,14 +26,14 @@ namespace AuraEcho.PluginContracts.Interfaces
         /// <param name="name">指标名称（如 "App.StartupTime", "Memory.WorkingSet"）</param>
         /// <param name="value">指标数值</param>
         /// <param name="properties">附加字符串属性（可选）</param>
-        void TrackMetric(string name, double value, IDictionary<string, string> properties = null);
+        void TrackMetric(string name, double value, Dictionary<string, string> properties = null);
 
         /// <summary>
         /// 记录异常事件。
         /// </summary>
         /// <param name="exception">异常对象</param>
         /// <param name="properties">附加字符串属性（可选，如 {"source": "Dispatcher"}）</param>
-        void TrackException(Exception exception, IDictionary<string, string> properties = null);
+        void TrackException(Exception exception, Dictionary<string, string> properties = null);
 
         /// <summary>
         /// 记录页面事件。

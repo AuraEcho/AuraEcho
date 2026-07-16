@@ -114,11 +114,11 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
         containerRegistry.RegisterSingleton<ISkuOrderCacheService, SkuOrderCacheService>();
 
-        containerRegistry.RegisterSingleton<TelemetryBuffer>();
+        containerRegistry.RegisterSingleton<TelemetryStore>();
         containerRegistry.RegisterSingleton<TelemetryContextFactory>();
         containerRegistry.RegisterSingleton<ITelemetryService>(c =>
         {
-            var service = new TelemetryService(c.Resolve<TelemetryBuffer>());
+            var service = new TelemetryService(c.Resolve<TelemetryStore>());
 
             // 供异常处理器使用
             _telemetry = service;

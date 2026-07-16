@@ -6,7 +6,7 @@ namespace AuraEcho.Core.Telemetry;
 
 public class TelemetryFlushWorker : IDisposable
 {
-    private readonly TelemetryBuffer _buffer;
+    private readonly TelemetryStore _store;
     private readonly TelemetryContextFactory _contextFactory;
     private readonly ApiClient _apiClient;
     private readonly IAppLogger _logger;
@@ -17,12 +17,12 @@ public class TelemetryFlushWorker : IDisposable
     private Task? _loopTask;
 
     public TelemetryFlushWorker(
-        TelemetryBuffer buffer,
+        TelemetryStore store,
         TelemetryContextFactory contextFactory,
         ApiClient apiClient,
         IAppLogger logger)
     {
-        _buffer = buffer ?? throw new ArgumentNullException(nameof(buffer));
+        _store = store ?? throw new ArgumentNullException(nameof(store));
         _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
         _logger = logger;
@@ -76,9 +76,9 @@ public class TelemetryFlushWorker : IDisposable
         try
         {
             // 清理死信事件
-            _buffer.PurgeDeadEvents(_options.MaxRetries);
+            _store.PurgeDeadEvents(_options.MaxRetries);
 
-            var events = _buffer.Dequeue(_options.BatchSize);
+            var events = _store.Dequeue(_options.BatchSize);
             if (events.Count == 0) return;
 
             var context = _contextFactory.Context;
@@ -94,12 +94,12 @@ public class TelemetryFlushWorker : IDisposable
 
             if (success)
             {
-                _buffer.Delete(events.Select(e => e.Id));
+                _store.Delete(events.Select(e => e.Id));
                 _logger?.Debug($"遥测批量发送成功: {events.Count} 条事件");
             }
             else
             {
-                _buffer.IncrementRetryCount(events.Select(e => e.Id));
+                _store.IncrementRetryCount(events.Select(e => e.Id));
                 _logger?.Warning("遥测批量发送失败，已标记重试");
             }
         }

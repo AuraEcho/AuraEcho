@@ -9,6 +9,7 @@ using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
+using AuraEcho.Services;
 using AuraEcho.Strings;
 using Prism.Commands;
 using Prism.Events;
@@ -29,7 +30,7 @@ public class MainWindowViewModel : BindableBase
     private readonly IRegionDialogService _regionDialogService;
     public IAuraToastService ToastService { get; }
     private readonly ITokenProvider _tokenProvider;
-    private readonly ISkuOrderCacheService _skuOrderCacheService;
+    private readonly OrderPayUrlCacheService _orderPayUrlCacheService;
     #endregion
 
     public Version CurrentVersion
@@ -113,15 +114,15 @@ public class MainWindowViewModel : BindableBase
         IClientSession clientSession,
         IAuraToastService auraToastService,
         IRegionDialogService regionDialogService,
-        ISkuOrderCacheService skuOrderCacheService)
+        OrderPayUrlCacheService orderPayUrlCacheService)
     {
         _regionDialogService = regionDialogService;
-        _skuOrderCacheService = skuOrderCacheService;
         ToastService = auraToastService;
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
         ClientSession = clientSession;
         _tokenProvider = tokenProvider;
+        _orderPayUrlCacheService = orderPayUrlCacheService;
 
         GoBackCommand = new DelegateCommand(GoBack, CanGoBack);
         RequestRestartAppCommand = new DelegateCommand(RequestRestartApp);
@@ -131,7 +132,7 @@ public class MainWindowViewModel : BindableBase
         _eventAggregator.GetEvent<KickedOutEvent>().Subscribe(KickedOut);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Subscribe(PluginCancelUninstall, ThreadOption.UIThread);
-        _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OrderPid);
+        _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OrderPaid);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
         SignOutCommand = new DelegateCommand(SignOut);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
@@ -148,9 +149,9 @@ public class MainWindowViewModel : BindableBase
         CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
     }
 
-    private async void OrderPid(OrderPaymentDetails details)
+    private async void OrderPaid(OrderPaymentDetails details)
     {
-        _skuOrderCacheService.InvalidateCache(details.ResourceId, details.SkuId, details.PaymentMethod);
+        _orderPayUrlCacheService.Remove(new(details.SkuId, details.PaymentMethod));
     }
 
     private async void KickedOut()

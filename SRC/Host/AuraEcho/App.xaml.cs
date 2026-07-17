@@ -112,7 +112,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IPurchaseCoordinator, PurchaseCoordinator>();
         containerRegistry.RegisterSingleton<IWebImageLoader, WebImageLoader>();
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
-        containerRegistry.RegisterSingleton<ISkuOrderCacheService, SkuOrderCacheService>();
+        containerRegistry.RegisterSingleton<OrderPayUrlCacheService>();
 
         containerRegistry.RegisterSingleton<TelemetryStore>();
         containerRegistry.RegisterSingleton<TelemetryContextFactory>();

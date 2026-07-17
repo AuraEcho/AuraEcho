@@ -5,11 +5,11 @@ using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
-using AuraEcho.Strings;
 using AuraEcho.Enums;
-using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
+using AuraEcho.Services;
+using AuraEcho.Strings;
 using AuraEcho.UIToolkit.RegionDialog;
 using Prism.Commands;
 using Prism.Events;
@@ -18,7 +18,6 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +30,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     private readonly IEventAggregator _eventAggregator;
     private readonly ApiClient _apiClient;
     private readonly IAuraToastService _auraToastService;
-    private readonly ISkuOrderCacheService _skuOrderCacheService;
+    private readonly OrderPayUrlCacheService _orderPayUrlCacheService;
     private readonly IClock _clock;
 
     private int _currentOrderTaskId;
@@ -145,13 +144,13 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         IEventAggregator eventAggregator,
         ApiClient apiClient,
         IAuraToastService auraToastService,
-        ISkuOrderCacheService skuOrderCacheService)
+        OrderPayUrlCacheService orderPayUrlCacheService)
     {
         _clock = clock;
         _eventAggregator = eventAggregator;
         _apiClient = apiClient;
         _auraToastService = auraToastService;
-        _skuOrderCacheService = skuOrderCacheService;
+        _orderPayUrlCacheService = orderPayUrlCacheService;
 
         OkCommand = new DelegateCommand(Ok);
         CancelCommand = new DelegateCommand(Cancel);
@@ -175,7 +174,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             State = PurchaseState.Loading;
 
             var minTimeTask = Task.Delay(TimeSpan.FromSeconds(.5));
-            
+
             var tPlugin = _apiClient.Plugin.GetPluginByIdAsync(resourceId);
             var tSkus = _apiClient.Sku.GetResourceSkusAsync(resourceId);
             var tLicense = GetLicenseInfo(resourceId);
@@ -217,16 +216,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
         State = PurchaseState.CreatingOrder;
 
-        var task = _skuOrderCacheService.GetOrFetchSkuOrderAsync(
-            _resourceId,
-            SelectedSku.Id,
-            PaymentChannel,
-            async (skuId, channel) =>
-                await _apiClient.Order.CreateOrderAsync(new CreateOrderRequest
-                {
-                    SkuId = SelectedSku.Id,
-                    Channel = PaymentChannel
-                }));
+        var task = GetOrFetchPayUrlAsync(new OrderPayUrlCacheKey(SelectedSku.Id, PaymentChannel)); ;
 
         int taskId = task.Id;
         _currentOrderTaskId = taskId;
@@ -234,19 +224,56 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
         if (_currentOrderTaskId != taskId) return false;
 
-        var result = task.Result;
-        if (result?.Status == ResultStatus.Success && result.Data is not null)
+        (ResultStatus resultStatus, string? payUrl) = task.Result;
+        if (resultStatus == ResultStatus.Success)
         {
-            QRCode = result.Data.QRCode;
+            QRCode = payUrl;
             State = PurchaseState.Ready;
             return true;
         }
 
         State = PurchaseState.OrderFailed;
         _auraToastService.Show(
-            result?.Message ?? Labels.Purchase_QRCodeGenerateFailed,
+            Labels.Purchase_QRCodeGenerateFailed,
             ToastLevel.Error);
         return false;
+
+        async Task<string?> OrderPayUrlFetcher(OrderPayUrlCacheKey key)
+        {
+            ResponseResult<CreateOrderResponse> response =
+                await _apiClient.Order.CreateOrderAsync(new CreateOrderRequest
+                {
+                    SkuId = SelectedSku.Id,
+                    Channel = PaymentChannel
+                });
+
+            return response?.Status == ResultStatus.Success && response.Data is not null
+            ? response.Data.PayUrl
+            : null;
+        }
+
+        async Task<(ResultStatus Status, string? PayUrl)> GetOrFetchPayUrlAsync(OrderPayUrlCacheKey key)
+        {
+            if (_orderPayUrlCacheService.TryGet(key, out string? payUrl))
+                return (ResultStatus.Success, payUrl);
+
+            ResponseResult<CreateOrderResponse> response =
+                await _apiClient.Order.CreateOrderAsync(new CreateOrderRequest
+                {
+                    SkuId = SelectedSku.Id,
+                    Channel = PaymentChannel
+                });
+
+            if (response is null) return (ResultStatus.OrderCreationFailed, null);
+
+            if (response.Status == ResultStatus.Success && response.Data is not null)
+            {
+                _orderPayUrlCacheService.Create(key, response.Data.QRCode);
+                return (response.Status, response.Data.QRCode);
+            }
+
+            return (response.Status, null);
+        }
     }
 
 

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0-windows10.0.18362.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AssemblyName>$(MSBuildProjectName.Replace(".", ""))</AssemblyName>
 		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>

@@ -6,7 +6,6 @@ open System.Threading
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
 open AuraEcho.Cloud.V1
-open AuraEcho.Cloud.V1.EndPoints
 open AuraEcho.Core.Contracts
 open AuraEcho.PluginContracts.Interfaces
 open AuraEcho.UpdaterService.Utils
@@ -40,7 +39,6 @@ type Worker(logger: IAppLogger, scopeFactory: IServiceScopeFactory) =
                 let apiClient = sp.GetRequiredService<ApiClient>()
                 let localPluginRepo = sp.GetRequiredService<ILocalPluginRepository>()
                 let pluginInstaller = sp.GetRequiredService<IPluginInstallService>()
-                let storageRepository = sp.GetRequiredService<IFileEndpoint>()
 
                 do! updateAppAsync logger apiClient paths.AppCache
                 do! updatePluginsAsync logger localPluginRepo apiClient pluginInstaller  paths.PluginCache

@@ -14,6 +14,7 @@ open AuraEcho.Core.Contracts
 open AuraEcho.Core.Data
 open AuraEcho.Core.Repositories
 open AuraEcho.Core.Services
+open AuraEcho.Core.Telemetry
 open AuraEcho.Core.Tools
 open AuraEcho.Core.Tools.HttpClientPipelines
 open AuraEcho.PluginContracts.Interfaces
@@ -41,6 +42,9 @@ module Program =
                 .AddSingleton<ApiClient>(fun sp ->
                     let logHandler = new LoggingHandler(null, InnerHandler = new HttpClientHandler())
                     new ApiClient(logHandler))
+                .AddSingleton<TelemetryContextFactory>()
+                .AddSingleton<TelemetryStore>()
+                .AddSingleton<ITelemetryService, TelemetryService>()
                 .AddScoped<ILocalPluginRepository, LocalPluginRepository>()
                 .AddScoped<IPluginInstallService, PluginInstallService>()
         |> ignore

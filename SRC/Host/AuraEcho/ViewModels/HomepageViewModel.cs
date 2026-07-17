@@ -1,6 +1,6 @@
+using AuraEcho.Cloud.V1.Models.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Strings;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
@@ -10,6 +10,7 @@ using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
+using AuraEcho.Strings;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -17,7 +18,7 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using AuraEcho.Cloud.V1.Models.Plugin;
+using System.Linq;
 namespace AuraEcho.ViewModels;
 
 public class HomepageViewModel : BindableBase, IRegionMemberLifetime
@@ -192,6 +193,9 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
 
     private void AddNewPlugin(AppPlugin newPlugin)
     {
+        if (Plugins.Any(p => p.PluginId == newPlugin.PluginId))
+            return;
+
         Plugins.Add(newPlugin);
     }
 }

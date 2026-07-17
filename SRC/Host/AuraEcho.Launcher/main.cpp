@@ -239,8 +239,28 @@ BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam) {
     }
     return TRUE;
 }
-static void StartApp(HWND hwndTarget) {
+static void StartApp(HWND hwndTarget, DWORD oldPid) {
     std::string appPath = GetAppInstallPath();
+
+    // 等待 APP 旧实例退出
+    if (oldPid != 0) {
+        WriteLog("等待旧实例退出，PID: " + std::to_string(oldPid));
+
+        HANDLE hOldProcess = OpenProcess(SYNCHRONIZE, FALSE, oldPid);
+        if (hOldProcess != NULL) {
+            DWORD waitResult = WaitForSingleObject(hOldProcess, 5000);
+            CloseHandle(hOldProcess);
+
+            if (waitResult == WAIT_TIMEOUT) {
+                WriteLog("等待旧实例退出超时，Launcher 退出");
+                PostMessage(hwndTarget, WM_CLOSE, 0, 0);
+                return;
+            }
+            WriteLog("旧实例已退出");
+        }
+        // OpenProcess 失败说明进程已经不存在，流程继续。
+    }
+
     bool sendResult = SendPipeMessage(LAUNCHER_SERVICE_PIPE_NAME, appPath);
 
     if (!sendResult) {
@@ -261,7 +281,7 @@ static void StartApp(HWND hwndTarget) {
         return;
     }
 
-    // 等待主窗口显示
+    // 等待主窗口显示 
     EnumData ed = { targetPid, NULL };
     for (int i = 0; i < 100; i++) {
         EnumWindows(EnumProc, (LPARAM)&ed);
@@ -313,6 +333,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 
     std::string cmdLine(pCmdLine);
     bool isHideRunning = cmdLine.find("-hide") != std::string::npos;
+
+    // APP 旧实例进程 ID
+    DWORD oldAppPid = 0;
+    const std::string OLD_PID_ARG = "-oldpid=";
+    size_t oldPidPos = cmdLine.find(OLD_PID_ARG);
+    if (oldPidPos != std::string::npos) {
+        oldAppPid = strtoul(cmdLine.c_str() + oldPidPos + OLD_PID_ARG.length(), nullptr, 10);
+    }
+
+    WriteLog("APP 旧实例进程 ID: " + std::to_string(oldAppPid));
 
     if (AppIsRunning()) {
         WriteLog("正在退出：App 正在运行");
@@ -366,7 +396,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
     SetForegroundWindow(hwnd);
     SetFocus(hwnd);
 
-    std::thread(StartApp, hwnd).detach();
+    std::thread(StartApp, hwnd, oldAppPid).detach();
 
     MSG msg = { };
     while (GetMessage(&msg, NULL, 0, 0)) {

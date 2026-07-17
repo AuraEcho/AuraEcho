@@ -74,6 +74,7 @@
     <LauncherVersionMajor Condition="'$(LauncherVersion)' != ''">$([System.Version]::Parse($(LauncherVersion)).Major)</LauncherVersionMajor>
     <LauncherVersionMinor Condition="'$(LauncherVersion)' != ''">$([System.Version]::Parse($(LauncherVersion)).Minor)</LauncherVersionMinor>
     <LauncherVersionBuild Condition="'$(LauncherVersion)' != ''">$([System.Version]::Parse($(LauncherVersion)).Build)</LauncherVersionBuild>
+    <LauncherVersionDefines Condition="'$(LauncherVersion)' != ''">VERSION_MAJOR=$(LauncherVersionMajor);VERSION_MINOR=$(LauncherVersionMinor);VERSION_BUILD=$(LauncherVersionBuild);</LauncherVersionDefines>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>bin\$(Configuration)\$(Platform)\</OutDir>
@@ -98,7 +99,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ResourceCompile>
-      <PreprocessorDefinitions>VERSION_MAJOR=$(LauncherVersionMajor);VERSION_MINOR=$(LauncherVersionMinor);VERSION_BUILD=$(LauncherVersionBuild);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(LauncherVersionDefines)%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -116,7 +117,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ResourceCompile>
-      <PreprocessorDefinitions>VERSION_MAJOR=$(LauncherVersionMajor);VERSION_MINOR=$(LauncherVersionMinor);VERSION_BUILD=$(LauncherVersionBuild);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(LauncherVersionDefines)%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,7 +133,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ResourceCompile>
-      <PreprocessorDefinitions>VERSION_MAJOR=$(LauncherVersionMajor);VERSION_MINOR=$(LauncherVersionMinor);VERSION_BUILD=$(LauncherVersionBuild);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(LauncherVersionDefines)%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +152,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ResourceCompile>
-      <PreprocessorDefinitions>VERSION_MAJOR=$(LauncherVersionMajor);VERSION_MINOR=$(LauncherVersionMinor);VERSION_BUILD=$(LauncherVersionBuild);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(LauncherVersionDefines)%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -395,7 +395,11 @@ public partial class App : PrismApplication
         _instanceMutex?.Dispose();
 
         if (isRestart)
+#if DEBUG
             Process.Start(Environment.ProcessPath!);
+#else
+            Process.Start(ApplicationPaths.LauncherPath);
+#endif
 
         Current.Shutdown();
     }

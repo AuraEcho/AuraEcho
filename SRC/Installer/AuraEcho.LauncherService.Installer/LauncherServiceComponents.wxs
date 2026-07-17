@@ -3,11 +3,10 @@
     <ComponentGroup Id="LauncherServiceFileComponents" Directory="LauncherServiceFolder">
 		<Files Include="$(var.AuraEcho.LauncherService.TargetDir)**">
 			<Exclude Files="*.pdb"/>
+			<Exclude Files="*.xml"/>
 			<Exclude Files="AuraEchoLauncherService.exe"/>
-
-			<Exclude Files="Microsoft.Windows.SDK.NET.dll"/>
 			<Exclude Files="System.Diagnostics.EventLog.Messages.dll"/>
-			<Exclude Files="WinRT.Runtime.dll"/>
+
 		</Files>
 		<Component Id="ProductComponent" Guid="1577B0BC-EFED-4FC6-AD98-68DE350FACBC">
 			<File Source="AuraEchoLauncherService.exe" />

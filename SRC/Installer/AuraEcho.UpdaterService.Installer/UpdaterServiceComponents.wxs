@@ -3,14 +3,25 @@
 		<ComponentGroup Id="UpdaterServiceFileComponents" Directory="UpdaterServiceFolder">
 			<Files Include="$(var.AuraEcho.UpdaterService.TargetDir)**">
 				<Exclude Files="*.pdb"/>
+				<Exclude Files="*.xml"/>
 				<Exclude Files="AuraEchoUpdaterService.exe"/>
 
+				<Exclude Files="Prism.Wpf.dll"/>
+				<Exclude Files="Rougamo.dll"/>
+				<Exclude Files="AlibabaCloud.OSS.V2.dll"/>
+				<Exclude Files="System.Diagnostics.EventLog.Messages.dll"/>
 				<Exclude Files="Microsoft.Extensions.DependencyModel.dll"/>
 				<Exclude Files="Microsoft.WindowsAPICodePack.dll"/>
 				<Exclude Files="Microsoft.WindowsAPICodePack.Shell.dll"/>
+				<Exclude Files="Microsoft.Aspnetcore.Connections.Abstractions.dll"/>
+				<Exclude Files="Microsoft.Aspnetcore.Http.Connections.Client.dll"/>
+				<Exclude Files="Microsoft.Aspnetcore.Http.Connections.Common.dll"/>
+				<Exclude Files="Microsoft.Aspnetcore.Signalr.Client.Core.dll"/>
+				<Exclude Files="Microsoft.Aspnetcore.Signalr.Client.dll"/>
+				<Exclude Files="Microsoft.Aspnetcore.Signalr.Common.dll"/>
+				<Exclude Files="Microsoft.Aspnetcore.Signalr.Protocols.Json.dll"/>
+				<Exclude Files="Microsoft.Extensions.Features.dll"/>
 				<Exclude Files="Microsoft.Xaml.Behaviors.dll"/>
-				<Exclude Files="Prism.Wpf.dll"/>
-				<Exclude Files="Rougamo.dll"/>
 			</Files>
 
 			<Component Id="ProductComponent" Guid="AAABBCB6-0D85-4F1B-88A3-234538A1845F">

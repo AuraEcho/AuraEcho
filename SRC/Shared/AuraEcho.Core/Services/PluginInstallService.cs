@@ -53,11 +53,11 @@ public class PluginInstallService : IPluginInstallService
             Directory.Delete(finalFolderPath, true);
         DirectoryUtils.SafeMoveDirectory(extractPath, finalFolderPath);
 
-        _logger.Error("查询已安装信息");
+        _logger.Debug("查询已安装信息");
         var installedPlugin = (await _localPluginRepository.GetLocalPluginsAsync()).FirstOrDefault(pr => pr.Id == manifest.Id);
         if (installedPlugin is not null)
         {
-            _logger.Error("正在更新插件信息");
+            _logger.Debug("正在更新插件信息");
             await _localPluginRepository.UpdateLocalPluginAsync(new InstalledPluginModel
             {
                 Id = installedPlugin.Id,

@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
+using AuraEcho.Design.Localization;
 using Prism.Mvvm;
 
 namespace AuraEcho.Strings;
@@ -38,6 +39,9 @@ public class LocalizationManager : BindableBase
         Thread.CurrentThread.CurrentUICulture = cultureInfo;
         Thread.CurrentThread.CurrentCulture = cultureInfo;
         Labels.Culture = cultureInfo;
+
+        // 刷新 AuraEcho.Design 库的本地化文本
+        DesignLocalization.Current.Culture = cultureInfo;
 
         Current?.RaisePropertyChanged(String.Empty);
     }

@@ -76,7 +76,7 @@
         <ScrollViewer Grid.Column="0">
             <StackPanel Grid.Column="0"
                         Width="200"
-                        Margin="24">
+                        Margin="24, 24, 0, 24">
                 <TextBlock Margin="0,0,0,16"
                            HorizontalAlignment="Left"
                            Style="{DynamicResource TitleLargeTextBlockStyle}"

@@ -11,12 +11,13 @@ open AuraEcho.PluginContracts.Interfaces
 type FlushOptions =
     { FlushInterval: TimeSpan
       BatchSize: int
-      MaxRetries: int }
+      // 本地缓存条数上限，超出后按最旧丢弃，防止长期离线导致本地库无限膨胀。
+      MaxStoredEvents: int }
 
     static member Default =
         { FlushInterval = TimeSpan.FromSeconds 30.0
           BatchSize = 50
-          MaxRetries = 5 }
+          MaxStoredEvents = 10000 }
 
 /// 将一条扁平存储记录映射为上传用的事件线路模型。
 let private toEvent (r: TelemetryEventRecord) =
@@ -51,34 +52,41 @@ let private groupByContext (records: TelemetryEventRecord list) =
         r.InstallationId, r.AppVersion, r.OSVersion, r.NetVersion, r.SessionId)
     |> List.map (snd >> toBatch)
 
-// 上传单个批次
-let private sendBatchAsync (apiClient: ApiClient) (batch: TelemetryBatch) = task {
-    let! success = apiClient.Telemetry.SendBatchAsync batch
-    return success, batch
+/// 依次发送各批次
+let rec private sendBatchesAsync (logger: IAppLogger) (store: TelemetryStore) (apiClient: ApiClient) (batches: TelemetryBatch list) = task {
+    match batches with
+    | [] -> return ()
+    | batch :: rest ->
+        let! status = apiClient.Telemetry.SendBatchAsync batch
+        let ids = batch.Events |> Seq.map (fun e -> e.Id)
+
+        match status with
+        | TelemetryDeliveryStatus.Accepted ->
+            store.Delete ids
+            logger.Debug $"遥测批量发送成功: {batch.Events.Count} 条事件"
+            return! sendBatchesAsync logger store apiClient rest
+        | TelemetryDeliveryStatus.Rejected ->
+            store.Delete ids
+            logger.Warning $"遥测批量被服务端拒绝，已丢弃 {batch.Events.Count} 条事件"
+            return! sendBatchesAsync logger store apiClient rest
+        | _ ->
+            // Deferred：暂时不可达，保留事件，中断本轮，等待下一轮
+            logger.Debug "遥测暂时不可达，事件保留待重试"
+            return ()
 }
 
 /// 从数据库缓存中获取遥测数据并发送
 let flushOnceAsync (logger: IAppLogger) (store: TelemetryStore) (apiClient: ApiClient) (options: FlushOptions) = task {
     try
-        // 清理重试超限的废弃事件
-        store.PurgeDeadEvents options.MaxRetries |> ignore
+        // 超出条数上限时丢弃最旧事件
+        store.TrimToCapacity options.MaxStoredEvents |> ignore
 
         let records = store.Dequeue options.BatchSize |> List.ofSeq
         if List.isEmpty records then
             return ()
         else
             let batches = groupByContext records
-
-            for batch in batches do
-                let! success, sent = sendBatchAsync apiClient batch
-                let ids = sent.Events |> Seq.map (fun e -> e.Id)
-
-                if success then
-                    store.Delete ids
-                    logger.Debug $"遥测批量发送成功: {sent.Events.Count} 条事件"
-                else
-                    store.IncrementRetryCount ids
-                    logger.Warning "遥测批量发送失败，已标记重试"
+            do! sendBatchesAsync logger store apiClient batches
     with ex ->
         logger.Error $"遥测刷新过程中发生异常: {ex}"
 }

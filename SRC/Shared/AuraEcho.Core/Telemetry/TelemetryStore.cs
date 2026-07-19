@@ -79,24 +79,26 @@ public class TelemetryStore
     }
 
     /// <summary>
-    /// 递增指定事件的重试次数。
+    /// 裁剪本地缓存，当总条数超过上限时，删除最旧的溢出部分。
     /// </summary>
-    public void IncrementRetryCount(IEnumerable<Guid> ids)
+    /// <returns>被删除的事件数。</returns>
+    public int TrimToCapacity(int maxEvents)
     {
-        using var db = CreateContext();
-        db.TelemetryEvents
-          .Where(e => ids.Contains(e.Id))
-          .ExecuteUpdate(setters => setters.SetProperty(e => e.RetryCount, e => e.RetryCount + 1));
-    }
+        if (maxEvents <= 0) return 0;
 
-    /// <summary>
-    /// 删除重试次数超过上限的废弃事件。
-    /// </summary>
-    public int PurgeDeadEvents(int maxRetries)
-    {
         using var db = CreateContext();
+
+        var total = db.TelemetryEvents.Count();
+        var overflow = total - maxEvents;
+        if (overflow <= 0) return 0;
+
+        var staleIds = db.TelemetryEvents
+                         .OrderBy(e => e.CreatedAt)
+                         .Take(overflow)
+                         .Select(e => e.Id);
+
         return db.TelemetryEvents
-                 .Where(e => e.RetryCount >= maxRetries)
+                 .Where(e => staleIds.Contains(e.Id))
                  .ExecuteDelete();
     }
 
@@ -123,7 +125,6 @@ public class TelemetryStore
         OSVersion = context.OSVersion,
         NetVersion = context.NetVersion,
         SessionId = context.SessionId,
-        RetryCount = 0,
         CreatedAt = DateTime.UtcNow
     };
 

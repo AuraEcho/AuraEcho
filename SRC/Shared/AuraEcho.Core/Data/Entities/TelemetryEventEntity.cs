@@ -55,7 +55,5 @@ public class TelemetryEventEntity
     /// </summary>
     public Dictionary<string, double>? Metrics { get; set; }
 
-    public int RetryCount { get; set; }
-
     public DateTime CreatedAt { get; set; }
 }

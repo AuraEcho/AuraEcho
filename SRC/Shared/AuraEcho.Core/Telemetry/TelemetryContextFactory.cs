@@ -1,3 +1,4 @@
+using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using AuraEcho.Cloud.V1.Models.Telemetry;
@@ -22,13 +23,20 @@ public class TelemetryContextFactory
 
     private static TelemetryContext BuildContext()
     {
+        var (screenResolution, screenDpi) = GetScreenInfo();
+
         return new TelemetryContext
         {
             InstallationId = GetInstallationId(),
             AppVersion = GetAppVersion(),
             OSVersion = RuntimeInformation.OSDescription,
             NetVersion = Environment.Version.ToString(),
-            SessionId = Guid.NewGuid()
+            SessionId = Guid.NewGuid(),
+            CpuModel = GetCpuModel(),
+            CpuCoreCount = Environment.ProcessorCount,
+            GpuModel = GetGpuModel(),
+            ScreenResolution = screenResolution,
+            ScreenDpi = screenDpi
         };
 
         static Guid GetInstallationId()
@@ -41,7 +49,7 @@ public class TelemetryContextFactory
             SecureStore.Save(SecureStoreKeys.InstallationId, newId.ToString());
             return newId;
         }
-        
+
         static string GetAppVersion()
         {
             try
@@ -61,5 +69,76 @@ public class TelemetryContextFactory
 
             return "0.0.0.0";
         }
+    }
+
+    private const int SM_CXSCREEN = 0;
+    private const int SM_CYSCREEN = 1;
+
+    [DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int nIndex);
+
+    [DllImport("user32.dll")]
+    private static extern uint GetDpiForSystem();
+
+    /// <summary>
+    /// 主屏物理分辨率与系统 DPI
+    /// </summary>
+    private static (string Resolution, int Dpi) GetScreenInfo()
+    {
+        try
+        {
+            var width = GetSystemMetrics(SM_CXSCREEN);
+            var height = GetSystemMetrics(SM_CYSCREEN);
+            var resolution = width > 0 && height > 0 ? $"{width}x{height}" : string.Empty;
+
+            int dpi;
+            try
+            {
+                dpi = (int)GetDpiForSystem();
+            }
+            catch
+            {
+                dpi = 0;
+            }
+
+            return (resolution, dpi);
+        }
+        catch
+        {
+            return (string.Empty, 0);
+        }
+    }
+
+    /// <summary>
+    /// CPU 型号
+    /// </summary>
+    private static string GetCpuModel() => QueryWmiString("Win32_Processor", "Name");
+
+    /// <summary>
+    /// 显卡型号
+    /// </summary>
+    private static string GetGpuModel() => QueryWmiString("Win32_VideoController", "Name");
+
+    /// <summary>
+    /// 查询指定 WMI 类的字符串属性，取首个非空结果。
+    /// </summary>
+    private static string QueryWmiString(string wmiClass, string property)
+    {
+        try
+        {
+            using var searcher = new ManagementObjectSearcher($"SELECT {property} FROM {wmiClass}");
+            foreach (var obj in searcher.Get())
+            {
+                var value = obj[property]?.ToString();
+                if (!string.IsNullOrWhiteSpace(value))
+                    return value.Trim();
+            }
+        }
+        catch
+        {
+            // 忽略 WMI 查询失败
+        }
+
+        return string.Empty;
     }
 }

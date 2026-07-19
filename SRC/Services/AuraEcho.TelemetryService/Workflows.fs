@@ -39,7 +39,12 @@ let private toBatch (records: TelemetryEventRecord list) =
             AppVersion = head.AppVersion,
             OSVersion = head.OSVersion,
             NetVersion = head.NetVersion,
-            SessionId = head.SessionId)
+            SessionId = head.SessionId,
+            CpuModel = head.CpuModel,
+            CpuCoreCount = head.CpuCoreCount,
+            GpuModel = head.GpuModel,
+            ScreenResolution = head.ScreenResolution,
+            ScreenDpi = head.ScreenDpi)
     TelemetryBatch(
         Context = context,
         Events = ResizeArray(records |> List.map toEvent),

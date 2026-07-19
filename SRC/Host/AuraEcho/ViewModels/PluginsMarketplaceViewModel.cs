@@ -32,6 +32,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     private readonly ILocalPluginRepository _localPluginRespository;
     private readonly IClientSession _clientSession;
     private readonly IAuraToastService _auraToastService;
+    private readonly ITelemetryService _telemetry;
 
     public ObservableCollection<MarketPlugin> Plugins
     {
@@ -79,6 +80,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
                     _localPluginRespository,
                     _clientSession,
                     _auraToastService,
+                    _telemetry,
                     marketPlugin);
             return marketPlugin;
         }
@@ -105,7 +107,8 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         ITransferManager transferManager,
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
-        IAuraToastService auraToastService)
+        IAuraToastService auraToastService,
+        ITelemetryService telemetry)
     {
         _clientSession = clientSession;
         _localPluginRespository = localPluginRepository;
@@ -116,6 +119,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         _navigationService = navigationService;
         _pluginManager = pluginManager;
         _auraToastService = auraToastService;
+        _telemetry = telemetry;
 
         LoadPluginsCommand = new DelegateCommand(LoadPlugins);
         NavigationToPluginDetailsCommand = new DelegateCommand<MarketPlugin>(NavigationToPluginDetails);

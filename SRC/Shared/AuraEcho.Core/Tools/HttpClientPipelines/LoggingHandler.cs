@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -7,11 +8,16 @@ namespace AuraEcho.Core.Tools.HttpClientPipelines;
 
 public sealed class LoggingHandler : DelegatingHandler
 {
-    private readonly IAppLogger _logger;
+    // 成功请求的遥测采样率（0~1）。失败请求恒上报，不受采样影响。
+    private const double SUCCESS_SAMPLE_RATE = 0.2;
 
-    public LoggingHandler(IAppLogger logger)
+    private readonly IAppLogger _logger;
+    private readonly ITelemetryService? _telemetry;
+
+    public LoggingHandler(IAppLogger logger, ITelemetryService? telemetry = null)
     {
         _logger = logger;
+        _telemetry = telemetry;
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(
@@ -29,6 +35,8 @@ public sealed class LoggingHandler : DelegatingHandler
             var logText = await BuildLogString(request, response, sw.Elapsed, cancellationToken);
             _logger?.Debug(logText);
 
+            TrackHttp(request, (int)response.StatusCode, sw.Elapsed, succeeded: response.IsSuccessStatusCode);
+
             return response;
         }
         catch (Exception ex)
@@ -36,8 +44,36 @@ public sealed class LoggingHandler : DelegatingHandler
             sw.Stop();
             var logText = BuildErrorLogString(request, ex, sw.Elapsed);
             _logger?.Error(logText);
+
+            TrackHttp(request, statusCode: 0, sw.Elapsed, succeeded: false, exceptionType: ex.GetType().Name);
             throw;
         }
+    }
+
+    /// <summary>
+    /// 上报网络请求指标。
+    /// </summary>
+    private void TrackHttp(HttpRequestMessage request, int statusCode, TimeSpan elapsed, bool succeeded, string? exceptionType = null)
+    {
+        if (_telemetry is null) return;
+
+        var path = request.RequestUri?.AbsolutePath ?? string.Empty;
+        if (path.Contains("/telemetry", StringComparison.OrdinalIgnoreCase)) return;
+
+        // 成功请求采样，失败请求全量
+        if (succeeded && Random.Shared.NextDouble() > SUCCESS_SAMPLE_RATE) return;
+
+        var props = new Dictionary<string, string>
+        {
+            ["path"] = path,
+            ["method"] = request.Method.Method,
+            ["statusCode"] = statusCode.ToString(),
+            ["succeeded"] = succeeded ? "true" : "false"
+        };
+        if (exceptionType is not null)
+            props["exceptionType"] = exceptionType;
+
+        _telemetry.TrackMetric("Http.Duration", elapsed.TotalMilliseconds, props);
     }
 
     private static async Task<string> BuildLogString(HttpRequestMessage request, HttpResponseMessage response, TimeSpan elapsed, CancellationToken ct)

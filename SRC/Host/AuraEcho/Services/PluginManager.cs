@@ -22,6 +22,7 @@ public class PluginManager : IPluginManager
     private readonly IClientSession _clientSession;
     private readonly IPluginLoader _pluginLoader;
     private readonly IContainerProvider _containerProvider;
+    private readonly ITelemetryService _telemetry;
 
     private List<AppPlugin> _plugins;
     public List<AppPlugin> Plugins
@@ -36,6 +37,7 @@ public class PluginManager : IPluginManager
         _pluginRepository = _containerProvider.Resolve<ILocalPluginRepository>();
         _logger = _containerProvider.Resolve<IAppLogger>();
         _pluginLoader = _containerProvider.Resolve<IPluginLoader>();
+        _telemetry = _containerProvider.Resolve<ITelemetryService>();
     }
 
     /// <summary>
@@ -83,6 +85,12 @@ public class PluginManager : IPluginManager
         catch (Exception ex)
         {
             _logger.Error($"加载插件 {pluginRegistryModel.LocalPlugin.PluginId} 失败: {ex.Message}");
+            _telemetry.TrackEvent("Plugin.LoadFailed", new Dictionary<string, string>
+            {
+                ["pluginId"] = pluginRegistryModel.LocalPlugin.PluginId.ToString(),
+                ["exceptionType"] = ex.GetType().Name,
+                ["reason"] = ex.Message
+            });
             return null;
         }
     }

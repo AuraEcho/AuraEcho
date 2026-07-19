@@ -27,6 +27,7 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
     private readonly ApiClient _apiClient;
     private readonly IClientSession _clientSession;
     private readonly IAuraToastService _toastService;
+    private readonly ITelemetryService _telemetry;
     private readonly Dictionary<string, List<string>> _errors = [];
 
     public bool IsBusy
@@ -81,10 +82,15 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         if (requestResult is null || requestResult.Status != ResultStatus.Success)
         {
             SendEmailCodeCooldown = 0;
+            _telemetry.TrackEvent("Auth.EmailCodeSendFailed", new Dictionary<string, string>
+            {
+                ["reason"] = requestResult?.Status.ToString() ?? "NoResponse"
+            });
             _toastService.Show(Labels.SignIn_CodeSendFailed, ToastLevel.Error);
             return;
         }
 
+        _telemetry.TrackEvent("Auth.EmailCodeSent");
         _toastService.Show(string.Format(Labels.SignIn_CodeSent, Email), ToastLevel.Info);
 
         _ = Task.Run(async () =>
@@ -127,6 +133,11 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
             if (result?.Status == ResultStatus.EmailCodeError)
             {
+                _telemetry.TrackEvent("Auth.SignInFailed", new Dictionary<string, string>
+                {
+                    ["method"] = "code",
+                    ["reason"] = ResultStatus.EmailCodeError.ToString()
+                });
                 _errors[nameof(EmailCode)] = [Labels.SignIn_CodeError];
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
                 return;
@@ -134,10 +145,16 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
             if (result is null || result.Status != ResultStatus.Success || result.Data is null)
             {
+                _telemetry.TrackEvent("Auth.SignInFailed", new Dictionary<string, string>
+                {
+                    ["method"] = "code",
+                    ["reason"] = result?.Status.ToString() ?? "NoResponse"
+                });
                 _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
                 return;
             }
 
+            _telemetry.TrackEvent("Auth.SignInByCode");
             _clientSession.SignIn(result.Data.Data);
             _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage);
         }
@@ -198,6 +215,11 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
             if (result?.Status == ResultStatus.PasswordError)
             {
+                _telemetry.TrackEvent("Auth.SignInFailed", new Dictionary<string, string>
+                {
+                    ["method"] = "password",
+                    ["reason"] = ResultStatus.PasswordError.ToString()
+                });
                 _errors[nameof(Email)] = [Labels.SignIn_AccountOrPasswordError];
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
                 return;
@@ -205,10 +227,16 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
 
             if (result is null || result.Status != ResultStatus.Success || result.Data is null)
             {
+                _telemetry.TrackEvent("Auth.SignInFailed", new Dictionary<string, string>
+                {
+                    ["method"] = "password",
+                    ["reason"] = result?.Status.ToString() ?? "NoResponse"
+                });
                 _toastService.Show(Labels.SignIn_ServerBusy, ToastLevel.Error);
                 return;
             }
 
+            _telemetry.TrackEvent("Auth.SignInByPassword");
             _clientSession.SignIn(result.Data);
             _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage);
         }
@@ -251,12 +279,14 @@ public partial class SignInViewModel : BindableBase, INotifyDataErrorInfo, IRegi
         INavigationService navigationService,
         ApiClient apiClient,
         IClientSession clientSession,
-        IAuraToastService auraToastService)
+        IAuraToastService auraToastService,
+        ITelemetryService telemetry)
     {
         _navigationService = navigationService;
         _apiClient = apiClient;
         _clientSession = clientSession;
         _toastService = auraToastService;
+        _telemetry = telemetry;
 
         SendEmailCodeCommand = new DelegateCommand(SendEmailCode);
         SignInByCodeCommand = new DelegateCommand(SignInByCode);

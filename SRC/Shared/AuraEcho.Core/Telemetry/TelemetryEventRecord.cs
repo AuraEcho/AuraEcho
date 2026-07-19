@@ -48,4 +48,29 @@ public class TelemetryEventRecord
     /// 客户端会话标识
     /// </summary>
     public Guid SessionId { get; init; }
+
+    /// <summary>
+    /// CPU 型号名称。
+    /// </summary>
+    public string CpuModel { get; init; } = string.Empty;
+
+    /// <summary>
+    /// CPU 逻辑核心数。
+    /// </summary>
+    public int CpuCoreCount { get; init; }
+
+    /// <summary>
+    /// 显卡型号名称。
+    /// </summary>
+    public string GpuModel { get; init; } = string.Empty;
+
+    /// <summary>
+    /// 主屏分辨率
+    /// </summary>
+    public string ScreenResolution { get; init; } = string.Empty;
+
+    /// <summary>
+    /// 主屏 DPI。
+    /// </summary>
+    public int ScreenDpi { get; init; }
 }

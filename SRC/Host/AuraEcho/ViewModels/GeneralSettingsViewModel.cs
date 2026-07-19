@@ -30,6 +30,7 @@ public class GeneralSettingsViewModel : BindableBase
     private bool _runAtBoot;
     private bool _hardwareAcceleration;
     private bool _telemetryEnabled;
+    private bool _isLoadingSettings;
     #endregion
 
     public AppLanguage AppLanguage
@@ -41,6 +42,7 @@ public class GeneralSettingsViewModel : BindableBase
             {
                 LanguageChanged(value);
                 SaveSettings();
+                TrackSettingChanged(nameof(AppLanguage), value.ToString());
             }
         }
     }
@@ -79,6 +81,7 @@ public class GeneralSettingsViewModel : BindableBase
             {
                 ApplyTheme();
                 SaveSettings();
+                TrackSettingChanged(nameof(AppTheme), value.ToString());
             }
         }
     }
@@ -97,6 +100,7 @@ public class GeneralSettingsViewModel : BindableBase
             {
                 HardwareAccelerationChanged(value);
                 SaveSettings();
+                TrackSettingChanged(nameof(HardwareAcceleration), value ? "true" : "false");
             }
         }
     }
@@ -111,8 +115,11 @@ public class GeneralSettingsViewModel : BindableBase
         get => _runAtBoot;
         set
         {
-            SetProperty(ref _runAtBoot, value);
-            SetRunAtBoot(value);
+            if (SetProperty(ref _runAtBoot, value))
+            {
+                SetRunAtBoot(value);
+                TrackSettingChanged(nameof(RunAtBoot), value ? "true" : "false");
+            }
         }
     }
 
@@ -123,6 +130,8 @@ public class GeneralSettingsViewModel : BindableBase
         {
             if (SetProperty(ref _telemetryEnabled, value))
             {
+                // 关闭前记录本次切换（关闭后事件将不再产生）
+                TrackSettingChanged(nameof(TelemetryEnabled), value ? "true" : "false");
                 SaveSettings();
                 _telemetryService.IsEnabled = value;
             }
@@ -165,12 +174,20 @@ public class GeneralSettingsViewModel : BindableBase
     public DelegateCommand LoadSettingsCommand { get; }
     private void LoadSettings()
     {
-        var settings = _hostSettingsProvider.LoadHostSettings();
-        AppLanguage = settings.AppLanguage;
-        AppTheme = settings.AppTheme;
-        HardwareAcceleration = settings.HardwareAcceleration;
-        RunAtBoot = CheckRunAtBoot();
-        TelemetryEnabled = settings.TelemetryEnabled;
+        _isLoadingSettings = true;
+        try
+        {
+            var settings = _hostSettingsProvider.LoadHostSettings();
+            AppLanguage = settings.AppLanguage;
+            AppTheme = settings.AppTheme;
+            HardwareAcceleration = settings.HardwareAcceleration;
+            RunAtBoot = CheckRunAtBoot();
+            TelemetryEnabled = settings.TelemetryEnabled;
+        }
+        finally
+        {
+            _isLoadingSettings = false;
+        }
     }
     private void SaveSettings()
     {
@@ -182,6 +199,19 @@ public class GeneralSettingsViewModel : BindableBase
             TelemetryEnabled = TelemetryEnabled
         };
         _hostSettingsProvider.SaveHostSettings(settings);
+    }
+
+    /// <summary>
+    /// 上报设置项变更。加载设置阶段（<see cref="_isLoadingSettings"/>）不上报，只记用户主动变更。
+    /// </summary>
+    private void TrackSettingChanged(string key, string value)
+    {
+        if (_isLoadingSettings) return;
+        _telemetryService.TrackEvent("Settings.Changed", new System.Collections.Generic.Dictionary<string, string>
+        {
+            ["key"] = key,
+            ["value"] = value
+        });
     }
 
     public GeneralSettingsViewModel(

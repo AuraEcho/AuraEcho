@@ -46,6 +46,31 @@ public class TelemetryEventEntity
     public string Culture { get; set; } = string.Empty;
 
     /// <summary>
+    /// CPU 型号名称。
+    /// </summary>
+    public string CpuModel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// CPU 逻辑核心数。
+    /// </summary>
+    public int CpuCoreCount { get; set; }
+
+    /// <summary>
+    /// 显卡型号名称。
+    /// </summary>
+    public string GpuModel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 主屏分辨率（如 "1920x1080"）。
+    /// </summary>
+    public string ScreenResolution { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 主屏 DPI。
+    /// </summary>
+    public int ScreenDpi { get; set; }
+
+    /// <summary>
     /// 附加属性
     /// </summary>
     public Dictionary<string, string>? Properties { get; set; }

@@ -28,6 +28,7 @@
     <PackageReference Include="Rougamo.Fody" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="System.Management" Version="9.0.6" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />

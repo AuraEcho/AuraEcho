@@ -16,6 +16,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -31,6 +32,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
     private readonly IThemeManager _themeManager;
     private readonly IAppLogger _logger;
     private readonly IClientSession _clientSession;
+    private readonly ITelemetryService _telemetry;
     private ObservableCollection<AppPlugin> _plugins;
 
     private readonly IPluginManager _pluginManager;
@@ -62,8 +64,15 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
     public DelegateCommand LoadPluginsCommand { get; }
     private async void LoadPlugins()
     {
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
         var plugins = await _pluginManager.LoadPluginsAsync();
+        stopwatch.Stop();
+
         Plugins = plugins.ToObservableCollection();
+        _telemetry.TrackMetric("Plugin.LoadDuration", stopwatch.Elapsed.TotalMilliseconds, new Dictionary<string, string>
+        {
+            ["pluginCount"] = Plugins.Count.ToString()
+        });
 
         _themeManager.AttachPluginThemes(Plugins);
     }
@@ -71,6 +80,12 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
     public DelegateCommand<AppPlugin> PluginPlanUninstallCommand { get; }
     private async void PluginPlanUninstall(AppPlugin plugin)
     {
+        _telemetry.TrackEvent("Plugin.UninstallPlanned", new Dictionary<string, string>
+        {
+            ["pluginId"] = plugin.PluginId.ToString(),
+            ["pluginType"] = plugin.PluginType.ToString()
+        });
+
         plugin.PlanStatus = PluginPlanStatus.UninstallPending;
         await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
@@ -105,6 +120,11 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
     {
         if (plugin.PlanStatus != PluginPlanStatus.UninstallPending) return;
 
+        _telemetry.TrackEvent("Plugin.UninstallCanceled", new Dictionary<string, string>
+        {
+            ["pluginId"] = plugin.PluginId.ToString()
+        });
+
         plugin.PlanStatus = PluginPlanStatus.None;
         await _localPluginRepository.UpdateUserPluginStatusAsync(
             _clientSession.CurrentUser.Id,
@@ -121,6 +141,12 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
     {
         if (plugin is null)
             return;
+
+        _telemetry.TrackEvent("Plugin.Opened", new Dictionary<string, string>
+        {
+            ["pluginId"] = plugin.PluginId.ToString(),
+            ["pluginType"] = plugin.PluginType.ToString()
+        });
 
         switch (plugin.PluginType)
         {
@@ -168,7 +194,8 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
         IThemeManager themeManager,
         IAppLogger logger,
         IRegionDialogService regionDialogService,
-        IClientSession clientSession)
+        IClientSession clientSession,
+        ITelemetryService telemetry)
     {
         _clientSession = clientSession;
         _navigationService = navigationService;
@@ -178,6 +205,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
         _logger = logger;
         _pluginManager = pluginManager;
         _regionDialogService = regionDialogService;
+        _telemetry = telemetry;
 
         LoadPluginsCommand = new DelegateCommand(LoadPlugins);
         SwitchPluginCommand = new DelegateCommand<AppPlugin>(SwitchPlugin);

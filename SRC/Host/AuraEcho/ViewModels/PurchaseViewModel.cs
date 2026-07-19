@@ -16,6 +16,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -32,8 +33,10 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     private readonly IAuraToastService _auraToastService;
     private readonly OrderPayUrlCacheService _orderPayUrlCacheService;
     private readonly IClock _clock;
+    private readonly ITelemetryService _telemetry;
 
     private int _currentOrderTaskId;
+    private bool _isPaid;
     private readonly CancellationTokenSource _orderStatusTaskToken = new();
 
     public PurchaseState State
@@ -86,6 +89,12 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         {
             if (!SetProperty(ref field, value)) return;
 
+            if (!IsInitializing)
+                _telemetry.TrackEvent("Purchase.PaymentChannelChanged", new Dictionary<string, string>
+                {
+                    ["channel"] = value.ToString()
+                });
+
             RefreshOrderAsync();
         }
     } = PaymentChannel.Wxpay;
@@ -106,6 +115,12 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     private void SelectSku(Sku sku)
     {
         SelectedSku = sku;
+        if (sku is not null && !IsInitializing)
+            _telemetry.TrackEvent("Purchase.SkuSelected", new Dictionary<string, string>
+            {
+                ["skuId"] = sku.Id.ToString(),
+                ["resourceId"] = _resourceId.ToString()
+            });
     }
 
     public DelegateCommand RefreshOrderCommand { get; }
@@ -126,6 +141,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     public DelegateCommand CancelCommand { get; }
     private void Cancel()
     {
+        TrackDialogClosed("cancel");
         _orderStatusTaskToken.Cancel();
         RequestClose?.Invoke(RegionDialogResult.Cancel);
     }
@@ -133,8 +149,22 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     public DelegateCommand CloseCommand { get; }
     private void Close()
     {
+        TrackDialogClosed("close");
         _orderStatusTaskToken.Cancel();
         RequestClose?.Invoke(RegionDialogResult.Close);
+    }
+
+    /// <summary>
+    /// 记录购买对话框关闭。未支付即关闭视为转化流失。
+    /// </summary>
+    private void TrackDialogClosed(string trigger)
+    {
+        if (_isPaid) return;
+        _telemetry.TrackEvent("Purchase.DialogClosedUnpaid", new Dictionary<string, string>
+        {
+            ["resourceId"] = _resourceId.ToString(),
+            ["trigger"] = trigger
+        });
     }
 
     public event Action<RegionDialogResult> RequestClose;
@@ -144,13 +174,15 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         IEventAggregator eventAggregator,
         ApiClient apiClient,
         IAuraToastService auraToastService,
-        OrderPayUrlCacheService orderPayUrlCacheService)
+        OrderPayUrlCacheService orderPayUrlCacheService,
+        ITelemetryService telemetry)
     {
         _clock = clock;
         _eventAggregator = eventAggregator;
         _apiClient = apiClient;
         _auraToastService = auraToastService;
         _orderPayUrlCacheService = orderPayUrlCacheService;
+        _telemetry = telemetry;
 
         OkCommand = new DelegateCommand(Ok);
         CancelCommand = new DelegateCommand(Cancel);
@@ -164,6 +196,10 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     public async void OnDialogOpened(NavigationParameters parameters)
     {
         _resourceId = parameters.GetValue<Guid>("ResourceId");
+        _telemetry.TrackEvent("Purchase.DialogOpened", new Dictionary<string, string>
+        {
+            ["resourceId"] = _resourceId.ToString()
+        });
         await InitializeAsync(_resourceId);
     }
 
@@ -216,6 +252,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
         State = PurchaseState.CreatingOrder;
 
+        var stopwatch = Stopwatch.StartNew();
         var task = GetOrFetchPayUrlAsync(new OrderPayUrlCacheKey(SelectedSku.Id, PaymentChannel)); ;
 
         int taskId = task.Id;
@@ -224,15 +261,28 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
         if (_currentOrderTaskId != taskId) return false;
 
+        stopwatch.Stop();
         (ResultStatus resultStatus, string? payUrl) = task.Result;
         if (resultStatus == ResultStatus.Success)
         {
             QRCode = payUrl;
             State = PurchaseState.Ready;
+            _telemetry.TrackEvent("Purchase.OrderCreated", new Dictionary<string, string>
+            {
+                ["skuId"] = SelectedSku.Id.ToString(),
+                ["channel"] = PaymentChannel.ToString()
+            });
+            _telemetry.TrackMetric("Purchase.OrderCreateDuration", stopwatch.Elapsed.TotalMilliseconds);
             return true;
         }
 
         State = PurchaseState.OrderFailed;
+        _telemetry.TrackEvent("Purchase.OrderFailed", new Dictionary<string, string>
+        {
+            ["skuId"] = SelectedSku.Id.ToString(),
+            ["channel"] = PaymentChannel.ToString(),
+            ["reason"] = resultStatus.ToString()
+        });
         _auraToastService.Show(
             Labels.Purchase_QRCodeGenerateFailed,
             ToastLevel.Error);
@@ -291,5 +341,11 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         Debug.WriteLine("OnOrderPaid");
         PaymentResult = details;
         State = PurchaseState.Paid;
+        _isPaid = true;
+        _telemetry.TrackEvent("Purchase.Paid", new Dictionary<string, string>
+        {
+            ["resourceId"] = _resourceId.ToString(),
+            ["skuId"] = SelectedSku?.Id.ToString() ?? string.Empty
+        });
     }
 }

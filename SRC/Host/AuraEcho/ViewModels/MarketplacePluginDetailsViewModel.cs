@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     private readonly INavigationService _navigationService;
     private readonly IEventAggregator _eventAggregator;
     private readonly IPluginManager _pluginManager;
+    private readonly ITelemetryService _telemetry;
 
     public MarketPlugin MarketPlugin
     {
@@ -37,6 +39,10 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     public DelegateCommand InstallCommand { get; }
     private void Install()
     {
+        _telemetry.TrackEvent("Marketplace.InstallClicked", new Dictionary<string, string>
+        {
+            ["pluginId"] = MarketPlugin.PluginInfo.Id.ToString()
+        });
         _transferManager.AddTask(MarketPlugin.InstallContext);
     }
 
@@ -117,7 +123,8 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
         IEventAggregator eventAggregator,
         IPluginInstallService pluginInstallService,
         IPluginManager pluginManager,
-        ITransferManager transferManager)
+        ITransferManager transferManager,
+        ITelemetryService telemetry)
     {
         _apiClient = apiClient;
         _pluginInstallService = pluginInstallService;
@@ -125,6 +132,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
         _pluginManager = pluginManager;
         _eventAggregator = eventAggregator;
         _transferManager = transferManager;
+        _telemetry = telemetry;
 
         OpenPluginCommand = new DelegateCommand(OpenPlugin);
         InstallCommand = new DelegateCommand(Install);
@@ -143,6 +151,10 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
         MarketPlugin = navigationContext.Parameters["Plugin"] as MarketPlugin;
+        _telemetry.TrackEvent("Marketplace.PluginViewed", new Dictionary<string, string>
+        {
+            ["pluginId"] = MarketPlugin?.PluginInfo.Id.ToString() ?? string.Empty
+        });
         _ = LoadPluginScreenshotsAsync();
         _ = LoadPluginDetails();
     }

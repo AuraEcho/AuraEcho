@@ -1,6 +1,7 @@
 using System.Text.Json;
 using AuraEcho.Core.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuraEcho.Core.Data;
@@ -50,9 +51,13 @@ public class TelemetryDbContext : DbContext
 
             entity.Property(e => e.Properties)
                   .HasConversion(stringDictConverter);
+            entity.Property(e => e.Properties).Metadata.SetValueComparer(
+                new ValueComparer<Dictionary<string, string>?>(favorStructuralComparisons: true));
 
             entity.Property(e => e.Metrics)
                   .HasConversion(doubleDictConverter);
+            entity.Property(e => e.Metrics).Metadata.SetValueComparer(
+                new ValueComparer<Dictionary<string, double>?>(favorStructuralComparisons: true));
 
             entity.HasIndex(e => e.CreatedAt);
         });

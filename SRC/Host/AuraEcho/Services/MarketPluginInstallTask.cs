@@ -30,6 +30,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     private readonly IClientSession _clientSession;
     private readonly ILocalPluginRepository _localPluginRepository;
     private readonly IAuraToastService _auraToastService;
+    private readonly ITelemetryService _telemetry;
     private readonly MarketPlugin _plugin;
     protected CancellationTokenSource _cts;
     private bool _inProgress;
@@ -93,14 +94,30 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
 
             _plugin.Status = MarketPluginStatus.Installed;
             Status = MarketPluginInstallStatus.Completed;
+            _telemetry?.TrackEvent("Plugin.InstallCompleted", new System.Collections.Generic.Dictionary<string, string>
+            {
+                ["pluginId"] = _plugin.PluginInfo.Id.ToString()
+            });
             _eventAggregator.GetEvent<PluginInstalledEvent>().Publish(loadedPlugin);
         }
         catch (OperationCanceledException)
         {
             Status = MarketPluginInstallStatus.Canceled;
+            _telemetry?.TrackEvent("Plugin.InstallCanceled", new System.Collections.Generic.Dictionary<string, string>
+            {
+                ["pluginId"] = _plugin.PluginInfo.Id.ToString(),
+                ["stage"] = Status.ToString()
+            });
         }
         catch (Exception ex)
         {
+            _telemetry?.TrackEvent("Plugin.InstallFailed", new System.Collections.Generic.Dictionary<string, string>
+            {
+                ["pluginId"] = _plugin.PluginInfo.Id.ToString(),
+                ["stage"] = Status.ToString(),
+                ["exceptionType"] = ex.GetType().Name,
+                ["reason"] = ex.Message
+            });
             _auraToastService.Show(String.Format(Labels.MarketplacePluginDetails_InstallError, _plugin.PluginInfo.Name), ToastLevel.Error);
             Status = MarketPluginInstallStatus.Failed;
         }
@@ -154,6 +171,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
         IAuraToastService auraToastService,
+        ITelemetryService telemetry,
         MarketPlugin plugin)
     {
         _plugin = plugin;
@@ -164,6 +182,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         _pluginInstallService = pluginInstallService;
         _pluginManager = pluginManager;
         _eventAggregator = eventAggregator;
+        _telemetry = telemetry;
     }
 
     // 获取

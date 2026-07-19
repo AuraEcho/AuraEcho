@@ -18,8 +18,8 @@ public class TelemetryStore
     {
         _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
 
-        if (File.Exists(ApplicationPaths.TelemetryDataBase)) return;
-
+        // 始终调用 Migrate()：新建库会完整建表，已有库补执行未应用的迁移（如设备画像列）。
+        // Migrate() 是幂等的，不会重复执行已应用的迁移。
         using var db = CreateContext();
         db.Database.Migrate();
     }
@@ -125,6 +125,11 @@ public class TelemetryStore
         OSVersion = context.OSVersion,
         NetVersion = context.NetVersion,
         SessionId = context.SessionId,
+        CpuModel = context.CpuModel,
+        CpuCoreCount = context.CpuCoreCount,
+        GpuModel = context.GpuModel,
+        ScreenResolution = context.ScreenResolution,
+        ScreenDpi = context.ScreenDpi,
         CreatedAt = DateTime.UtcNow
     };
 
@@ -141,6 +146,11 @@ public class TelemetryStore
         AppVersion = entity.AppVersion,
         OSVersion = entity.OSVersion,
         NetVersion = entity.NetVersion,
-        SessionId = entity.SessionId
+        SessionId = entity.SessionId,
+        CpuModel = entity.CpuModel,
+        CpuCoreCount = entity.CpuCoreCount,
+        GpuModel = entity.GpuModel,
+        ScreenResolution = entity.ScreenResolution,
+        ScreenDpi = entity.ScreenDpi
     };
 }

@@ -14,12 +14,19 @@ public class TelemetryService : ITelemetryService
     // 单次落库事件数上限
     private const int MAX_DRAIN_PER_WAKE = 50;
 
+    // 崩溃面包屑环形缓冲保留的最近事件数
+    private const int BREADCRUMB_CAPACITY = 20;
+
     private readonly TelemetryStore _store;
     private readonly Channel<TelemetryEvent> _channel;
     private readonly Task _flushTask;
 
     // 入队限流器
     private readonly TokenBucket _rateLimiter = new(2, 20);
+
+    // 崩溃面包屑：最近若干条事件的轻量记录（线程安全环形队列）
+    private readonly Queue<string> _breadcrumbs = new(BREADCRUMB_CAPACITY);
+    private readonly Lock _breadcrumbLock = new();
 
     public TelemetryService(TelemetryStore store)
     {
@@ -45,12 +52,14 @@ public class TelemetryService : ITelemetryService
     public void TrackEvent(string name, Dictionary<string, string> properties = null)
     {
         if (!IsEnabled) return;
+        AddBreadcrumb(name);
         Enqueue(TelemetryEventType.Event, name, properties, null);
     }
 
     public void TrackMetric(string name, double value, Dictionary<string, string> properties = null)
     {
         if (!IsEnabled) return;
+        AddBreadcrumb(name);
         Enqueue(TelemetryEventType.Metric, name, properties, new Dictionary<string, double> { ["value"] = value });
     }
 
@@ -67,12 +76,19 @@ public class TelemetryService : ITelemetryService
         // 内部异常的层数上限
         const int MAX_INNER_EXCEPTION_DEPTH = 16;
 
+        // 面包屑值上限（服务端 Property 值上限为 1024）
+        const int MAX_BREADCRUMB_LENGTH = 1000;
+
         var props = new Dictionary<string, string>(properties ?? new Dictionary<string, string>())
         {
             ["exceptionType"] = exception.GetType().FullName ?? exception.GetType().Name,
             ["exceptionMessage"] = Truncate(exception.Message, MAX_EXCEPTION_MESSAGE_LENGTH),
             ["exceptionStackTrace"] = Truncate(exception.StackTrace ?? string.Empty, MAX_STACK_TRACE_LENGTH)
         };
+
+        var breadcrumbs = BuildBreadcrumbTrail();
+        if (breadcrumbs.Length > 0)
+            props["breadcrumbs"] = Truncate(breadcrumbs, MAX_BREADCRUMB_LENGTH);
 
         // 内部异常信息
         var seen = new HashSet<Exception>(ReferenceEqualityComparer.Instance) { exception };
@@ -103,6 +119,7 @@ public class TelemetryService : ITelemetryService
     public void TrackPageView(string pageName)
     {
         if (!IsEnabled) return;
+        AddBreadcrumb($"PageView:{pageName}");
         Enqueue(TelemetryEventType.PageView, pageName, null, null);
     }
 
@@ -176,6 +193,45 @@ public class TelemetryService : ITelemetryService
         catch
         {
             // 遥测入队失败不应影响主业务逻辑
+        }
+    }
+
+    /// <summary>
+    /// 记录一条崩溃面包屑（保留最近 <see cref="BREADCRUMB_CAPACITY"/> 条）。
+    /// </summary>
+    private void AddBreadcrumb(string name)
+    {
+        try
+        {
+            var entry = $"{DateTime.UtcNow:HH:mm:ss} {name}";
+            lock (_breadcrumbLock)
+            {
+                if (_breadcrumbs.Count >= BREADCRUMB_CAPACITY)
+                    _breadcrumbs.Dequeue();
+                _breadcrumbs.Enqueue(entry);
+            }
+        }
+        catch
+        {
+            // 面包屑记录失败不应影响主流程
+        }
+    }
+
+    /// <summary>
+    /// 构建面包屑轨迹字符串（最旧在前），用于附加到异常事件。
+    /// </summary>
+    private string BuildBreadcrumbTrail()
+    {
+        try
+        {
+            lock (_breadcrumbLock)
+            {
+                return _breadcrumbs.Count == 0 ? string.Empty : string.Join(" | ", _breadcrumbs);
+            }
+        }
+        catch
+        {
+            return string.Empty;
         }
     }
 

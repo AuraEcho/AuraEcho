@@ -31,6 +31,7 @@ public class MainWindowViewModel : BindableBase
     public IAuraToastService ToastService { get; }
     private readonly ITokenProvider _tokenProvider;
     private readonly OrderPayUrlCacheService _orderPayUrlCacheService;
+    private readonly ITelemetryService _telemetry;
     #endregion
 
     public Version CurrentVersion
@@ -114,7 +115,8 @@ public class MainWindowViewModel : BindableBase
         IClientSession clientSession,
         IAuraToastService auraToastService,
         IRegionDialogService regionDialogService,
-        OrderPayUrlCacheService orderPayUrlCacheService)
+        OrderPayUrlCacheService orderPayUrlCacheService,
+        ITelemetryService telemetry)
     {
         _regionDialogService = regionDialogService;
         ToastService = auraToastService;
@@ -123,6 +125,7 @@ public class MainWindowViewModel : BindableBase
         ClientSession = clientSession;
         _tokenProvider = tokenProvider;
         _orderPayUrlCacheService = orderPayUrlCacheService;
+        _telemetry = telemetry;
 
         GoBackCommand = new DelegateCommand(GoBack, CanGoBack);
         RequestRestartAppCommand = new DelegateCommand(RequestRestartApp);
@@ -156,6 +159,7 @@ public class MainWindowViewModel : BindableBase
 
     private async void KickedOut()
     {
+        _telemetry.TrackEvent("Auth.KickedOut");
         ClientSession.SignOut();
 
         RegionDialogResult dialogResult =
@@ -184,6 +188,8 @@ public class MainWindowViewModel : BindableBase
 
     private async void SignInExpired()
     {
+        _telemetry.TrackEvent("Auth.SessionExpired");
+
         RegionDialogResult dialogResult =
             await _regionDialogService.ShowDialogAsync(
                 HostRegionNames.DialogRegion,

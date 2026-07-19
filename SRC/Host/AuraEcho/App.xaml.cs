@@ -64,6 +64,8 @@ public partial class App : PrismApplication
     private static IAppLogger _logger;
     private static ITelemetryService _telemetry;
     private static Stopwatch _startupStopwatch;
+    private static readonly Stopwatch _sessionStopwatch = Stopwatch.StartNew();
+    private static MemorySampler _memorySampler;
     protected override Window CreateShell()
     {
         LoggingAttribute.Logger = Container.Resolve<IAppLogger>();
@@ -84,7 +86,7 @@ public partial class App : PrismApplication
 
         containerRegistry.RegisterSingleton<ApiClient>(c =>
         {
-            var logHandler = new LoggingHandler(c.Resolve<IAppLogger>());
+            var logHandler = new LoggingHandler(c.Resolve<IAppLogger>(), c.Resolve<ITelemetryService>());
             var serverTimeHandler = new ServerTimeHandler(c.Resolve<IClock>());
             var authHandler = c.Resolve<AuthHandler>();
 
@@ -124,6 +126,8 @@ public partial class App : PrismApplication
             _telemetry = service;
             return service;
         });
+
+        containerRegistry.RegisterSingleton<MemorySampler>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
@@ -184,11 +188,20 @@ public partial class App : PrismApplication
         _startupStopwatch.Stop();
         _telemetry?.TrackMetric("App.StartupTime", _startupStopwatch.Elapsed.TotalMilliseconds);
         _telemetry?.TrackEvent("App.Launch");
+
+        _memorySampler = Container.Resolve<MemorySampler>();
+        _memorySampler.Start();
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
         ToastNotificationManagerCompat.Uninstall();
+        _sessionStopwatch.Stop();
+
+        // 先停采样器，再 flush 落库，避免并发写 DB
+        _memorySampler?.StopAsync(TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
+
+        _telemetry?.TrackMetric("App.SessionDuration", _sessionStopwatch.Elapsed.TotalSeconds);
         _telemetry?.TrackEvent("App.Shutdown");
         _logger.Information("App.Shutdown");
 

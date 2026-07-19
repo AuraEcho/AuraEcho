@@ -1,6 +1,8 @@
-﻿using AuraEcho.Tools;
+﻿using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.Tools;
 using AuraEcho.ViewModels;
 using Microsoft.Web.WebView2.Core;
+using Prism.Ioc;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -32,10 +34,15 @@ namespace AuraEcho.Views
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            var telemetry = ContainerLocator.Container?.Resolve<ITelemetryService>();
+            var stopwatch = Stopwatch.StartNew();
             try
             {
                 await WebContentRoot.EnsureCoreWebView2Async(WebViewEnvironment.Default);
+                stopwatch.Stop();
                 WebContentRoot.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
+
+                telemetry?.TrackMetric("WebView.ReadyDuration", stopwatch.Elapsed.TotalMilliseconds);
 
                 if (DataContext is WebContainerViewModel vm)
                 {
@@ -44,6 +51,11 @@ namespace AuraEcho.Views
             }
             catch (Exception ex)
             {
+                stopwatch.Stop();
+                telemetry?.TrackEvent("WebView.InitFailed", new System.Collections.Generic.Dictionary<string, string>
+                {
+                    ["exceptionType"] = ex.GetType().Name
+                });
                 Debug.WriteLine($"WebView2 初始化失败: {ex.Message}");
             }
         }

@@ -1,5 +1,7 @@
 using System.Globalization;
+using System.Threading.Channels;
 using AuraEcho.Cloud.V1.Models.Telemetry;
+using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Interfaces;
 
 namespace AuraEcho.Core.Telemetry;
@@ -9,11 +11,33 @@ namespace AuraEcho.Core.Telemetry;
 /// </summary>
 public class TelemetryService : ITelemetryService
 {
+    // 单次落库事件数上限
+    private const int MAX_DRAIN_PER_WAKE = 50;
+
     private readonly TelemetryStore _store;
+    private readonly Channel<TelemetryEvent> _channel;
+    private readonly Task _flushTask;
+
+    // 入队限流器
+    private readonly TokenBucket _rateLimiter = new(2, 20);
 
     public TelemetryService(TelemetryStore store)
     {
         _store = store ?? throw new ArgumentNullException(nameof(store));
+
+        _channel = Channel.CreateBounded<TelemetryEvent>(new BoundedChannelOptions(20)
+        {
+            // 满时丢旧保新
+            FullMode = BoundedChannelFullMode.DropOldest,
+            // 启用无锁快路径
+            SingleReader = true,
+            // 多线程并发写入安全
+            SingleWriter = false,
+            // 防止 await 续执在调用线程
+            AllowSynchronousContinuations = false
+        });
+
+        _flushTask = Task.Run(FlushLoopAsync);
     }
 
     public bool IsEnabled { get; set; } = true;
@@ -76,24 +100,55 @@ public class TelemetryService : ITelemetryService
         Enqueue(TelemetryEventType.Exception, exception.GetType().Name, props, null);
     }
 
-    /// <summary>
-    /// 将字符串截断到指定长度，超出部分以省略标记结尾
-    /// </summary>
-    private static string Truncate(string value, int maxLength)
-    {
-        if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
-        {
-            return value;
-        }
-
-        const string ellipsis = "...[truncated]";
-        return string.Concat(value.AsSpan(0, maxLength), ellipsis);
-    }
-
     public void TrackPageView(string pageName)
     {
         if (!IsEnabled) return;
         Enqueue(TelemetryEventType.PageView, pageName, null, null);
+    }
+
+    /// <summary>
+    /// 停止后台缓存任务
+    /// </summary>
+    public async Task FlushAndShutdownAsync(TimeSpan timeout)
+    {
+        try
+        {
+            _channel.Writer.Complete();
+
+            using var cts = new CancellationTokenSource(timeout);
+            await _flushTask.WaitAsync(cts.Token).ConfigureAwait(false);
+        }
+        catch (Exception) { }
+    }
+
+    private async Task FlushLoopAsync()
+    {
+        var batch = new List<TelemetryEvent>(MAX_DRAIN_PER_WAKE);
+
+        while (await _channel.Reader.WaitToReadAsync().ConfigureAwait(false))
+        {
+            while (batch.Count < MAX_DRAIN_PER_WAKE && _channel.Reader.TryRead(out var evt))
+                batch.Add(evt);
+
+            FlushBatch(batch);
+        }
+    }
+
+    private void FlushBatch(List<TelemetryEvent> batch)
+    {
+        if (batch.Count == 0) return;
+        try
+        {
+            _store.EnqueueBatch(batch);
+        }
+        catch
+        {
+            // 遥测落库失败不应影响主业务逻辑
+        }
+        finally
+        {
+            batch.Clear();
+        }
     }
 
     private void Enqueue(
@@ -104,6 +159,9 @@ public class TelemetryService : ITelemetryService
     {
         try
         {
+            if (!_rateLimiter.TryAcquire())
+                return;
+
             var evt = new TelemetryEvent
             {
                 Type = type,
@@ -113,11 +171,23 @@ public class TelemetryService : ITelemetryService
                 Metrics = metrics
             };
 
-            _store.Enqueue(evt);
+            _channel.Writer.TryWrite(evt);
         }
         catch
         {
-            // 遥测写入失败不应影响主业务逻辑
+            // 遥测入队失败不应影响主业务逻辑
         }
+    }
+
+    /// <summary>
+    /// 将字符串截断到指定长度，超出部分以省略标记结尾
+    /// </summary>
+    private static string Truncate(string value, int maxLength)
+    {
+        if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
+            return value;
+
+        const string ellipsis = "...[truncated]";
+        return string.Concat(value.AsSpan(0, maxLength), ellipsis);
     }
 }

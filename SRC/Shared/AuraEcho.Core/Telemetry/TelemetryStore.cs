@@ -37,6 +37,22 @@ public class TelemetryStore
     }
 
     /// <summary>
+    /// 批量写入遥测事件
+    /// </summary>
+    public void EnqueueBatch(IReadOnlyList<TelemetryEvent> events)
+    {
+        if (events.Count == 0) return;
+
+        var context = _contextFactory.Context;
+        using var db = CreateContext();
+        foreach (var evt in events)
+        {
+            db.TelemetryEvents.Add(ToEntity(evt, context));
+        }
+        db.SaveChanges();
+    }
+
+    /// <summary>
     /// 取出最多 <paramref name="maxCount"/> 条未发送事件。
     /// </summary>
     public List<TelemetryEventRecord> Dequeue(int maxCount)

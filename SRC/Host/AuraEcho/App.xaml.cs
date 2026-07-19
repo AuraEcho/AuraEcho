@@ -192,6 +192,10 @@ public partial class App : PrismApplication
         _telemetry?.TrackEvent("App.Shutdown");
         _logger.Information("App.Shutdown");
 
+        // 等待遥测数据缓存持久化
+        if (_telemetry is TelemetryService telemetryService)
+            telemetryService.FlushAndShutdownAsync(TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
+
         base.OnExit(e);
     }
 
@@ -230,7 +234,7 @@ public partial class App : PrismApplication
         _startupStopwatch = Stopwatch.StartNew();
         _logger = new Serilogger(ApplicationPaths.Logs);
         _logger.Debug("程序已启动");
-        
+
         if (Mutex.TryOpenExisting(MutexNames.INSTALLER_MUTEX_ID, out var _))
         {
             _logger.Debug("检测到安装程序正在运行，正在退出程序。");

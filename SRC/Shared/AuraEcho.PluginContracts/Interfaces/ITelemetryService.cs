@@ -16,29 +16,29 @@ namespace AuraEcho.PluginContracts.Interfaces
         /// <summary>
         /// 记录自定义事件。
         /// </summary>
-        /// <param name="name">事件名称（如 "App.Launch", "Plugin.Installed"）</param>
-        /// <param name="properties">附加字符串属性（可选）</param>
+        /// <param name="name">事件名称</param>
+        /// <param name="properties">附加字符串属性</param>
         void TrackEvent(string name, Dictionary<string, string> properties = null);
 
         /// <summary>
         /// 记录数值指标。
         /// </summary>
-        /// <param name="name">指标名称（如 "App.StartupTime", "Memory.WorkingSet"）</param>
-        /// <param name="value">指标数值</param>
-        /// <param name="properties">附加字符串属性（可选）</param>
-        void TrackMetric(string name, double value, Dictionary<string, string> properties = null);
+        /// <param name="name">指标名称</param>
+        /// <param name="metrics">指标数值</param>
+        /// <param name="properties">附加字符串属性</param>
+        void TrackMetric(string name, Dictionary<string, double> metrics, Dictionary<string, string> properties = null);
 
         /// <summary>
         /// 记录异常事件。
         /// </summary>
         /// <param name="exception">异常对象</param>
-        /// <param name="properties">附加字符串属性（可选，如 {"source": "Dispatcher"}）</param>
+        /// <param name="properties">附加字符串属性</param>
         void TrackException(Exception exception, Dictionary<string, string> properties = null);
 
         /// <summary>
         /// 记录页面事件。
         /// </summary>
-        /// <param name="pageName">页面名称（如 "Homepage", "Settings"）</param>
+        /// <param name="pageName">页面名称</param>
         void TrackPageView(string pageName);
     }
 }

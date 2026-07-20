@@ -73,7 +73,7 @@ public sealed class LoggingHandler : DelegatingHandler
         if (exceptionType is not null)
             props["exceptionType"] = exceptionType;
 
-        _telemetry.TrackMetric("Http.Duration", elapsed.TotalMilliseconds, props);
+        _telemetry.TrackMetric("Http.Duration", new Dictionary<string, double> { ["value"] = elapsed.TotalMilliseconds }, props);
     }
 
     private static async Task<string> BuildLogString(HttpRequestMessage request, HttpResponseMessage response, TimeSpan elapsed, CancellationToken ct)

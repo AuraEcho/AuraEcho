@@ -189,7 +189,7 @@ public partial class App : PrismApplication
 
         // 记录启动耗时
         _startupStopwatch.Stop();
-        _telemetry?.TrackMetric("App.StartupTime", _startupStopwatch.Elapsed.TotalMilliseconds);
+        _telemetry?.TrackMetric("App.StartupTime", new Dictionary<string, double> { ["value"] = _startupStopwatch.Elapsed.TotalMilliseconds });
         _telemetry?.TrackEvent("App.Launch");
 
         _memorySampler = Container.Resolve<MemorySampler>();
@@ -204,7 +204,7 @@ public partial class App : PrismApplication
         // 先停采样器，再 flush 落库，避免并发写 DB
         _memorySampler?.StopAsync(TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
 
-        _telemetry?.TrackMetric("App.SessionDuration", _sessionStopwatch.Elapsed.TotalSeconds);
+        _telemetry?.TrackMetric("App.SessionDuration", new Dictionary<string, double> { ["value"] = _sessionStopwatch.Elapsed.TotalSeconds });
         _telemetry?.TrackEvent("App.Shutdown");
         _logger.Information("App.Shutdown");
 

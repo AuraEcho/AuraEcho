@@ -272,7 +272,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
                 ["skuId"] = SelectedSku.Id.ToString(),
                 ["channel"] = PaymentChannel.ToString()
             });
-            _telemetry.TrackMetric("Purchase.OrderCreateDuration", stopwatch.Elapsed.TotalMilliseconds);
+            _telemetry.TrackMetric("Purchase.OrderCreateDuration", new Dictionary<string, double> { ["value"] = stopwatch.Elapsed.TotalMilliseconds });
             return true;
         }
 

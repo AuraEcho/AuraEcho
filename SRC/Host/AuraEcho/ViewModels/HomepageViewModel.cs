@@ -69,7 +69,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
         stopwatch.Stop();
 
         Plugins = plugins.ToObservableCollection();
-        _telemetry.TrackMetric("Plugin.LoadDuration", stopwatch.Elapsed.TotalMilliseconds, new Dictionary<string, string>
+        _telemetry.TrackMetric("Plugin.LoadDuration", new Dictionary<string, double> { ["value"] = stopwatch.Elapsed.TotalMilliseconds }, new Dictionary<string, string>
         {
             ["pluginCount"] = Plugins.Count.ToString()
         });

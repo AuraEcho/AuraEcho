@@ -4,6 +4,7 @@ using AuraEcho.ViewModels;
 using Microsoft.Web.WebView2.Core;
 using Prism.Ioc;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,7 +43,7 @@ namespace AuraEcho.Views
                 stopwatch.Stop();
                 WebContentRoot.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
 
-                telemetry?.TrackMetric("WebView.ReadyDuration", stopwatch.Elapsed.TotalMilliseconds);
+                telemetry?.TrackMetric("WebView.ReadyDuration", new Dictionary<string, double> { ["value"] = stopwatch.Elapsed.TotalMilliseconds });
 
                 if (DataContext is WebContainerViewModel vm)
                 {

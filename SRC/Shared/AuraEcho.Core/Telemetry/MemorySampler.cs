@@ -14,11 +14,30 @@ public class MemorySampler
 
     private readonly ITelemetryService _telemetry;
     private readonly CancellationTokenSource _cts = new();
+    private PerformanceCounter? _privateWorkingSetCounter;
+    private Process _currentProcess;
     private Task? _loopTask;
 
     public MemorySampler(ITelemetryService telemetry)
     {
         _telemetry = telemetry ?? throw new ArgumentNullException(nameof(telemetry));
+    }
+
+    /// <summary>
+    /// 尝试为当前进程创建"专用工作集"性能计数器。
+    /// 返回 null 表示不可用（权限不足时静默失败）。
+    /// </summary>
+    private static PerformanceCounter? TryCreatePrivateWorkingSetCounter(Process targetProcess)
+    {
+        try
+        {
+            return new PerformanceCounter("Process", "Working Set - Private", targetProcess.ProcessName, true);
+        }
+        catch
+        {
+            // 权限不足或性能计数器损坏时静默失败
+            return null;
+        }
     }
 
     public void Start()
@@ -46,6 +65,11 @@ public class MemorySampler
     {
         try
         {
+            _currentProcess = Process.GetCurrentProcess();
+            // 初始化性能计数器
+            _privateWorkingSetCounter = TryCreatePrivateWorkingSetCounter(_currentProcess);
+            _privateWorkingSetCounter.NextValue();
+
             await Task.Delay(TimeSpan.FromSeconds(STARTUP_DELAY_SECONDS), ct);
             Sample(ct);
 
@@ -67,20 +91,39 @@ public class MemorySampler
 
         try
         {
-            using var proc = Process.GetCurrentProcess();
-            var workingSetMB = Math.Round(proc.WorkingSet64 / (1024.0 * 1024.0), 2);
-            var managedHeapMB = Math.Round(GC.GetTotalMemory(false) / (1024.0 * 1024.0), 2);
-            
-            _telemetry.TrackMetric(
-                "Memory.WorkingSetMB", workingSetMB,
-                new Dictionary<string, string>
-                {
-                    ["managedHeapMB"] = managedHeapMB.ToString("F2")
-                });
+            // 总工作集
+            var workingSetMB = Math.Round(_currentProcess.WorkingSet64 / (1024.0 * 1024.0), 2);
+            // 峰值工作集
+            var peakWorkingSetMB = Math.Round(_currentProcess.PeakWorkingSet64 / (1024.0 * 1024.0), 2);
+            // 专用工作集
+            var privateWS = ReadPrivateWorkingSetMB();
+
+            var metrics = new Dictionary<string, double>
+            {
+                ["workingSetMB"] = workingSetMB,
+                ["peakWorkingSetMB"] = peakWorkingSetMB,
+                ["privateWS_MB"] = privateWS ?? 0D
+            };
+
+            _telemetry.TrackMetric("Memory.WorkingSet", metrics);
         }
         catch
         {
             // 采样失败不应影响主流程
+        }
+    }
+
+    private double? ReadPrivateWorkingSetMB()
+    {
+        if (_privateWorkingSetCounter is null) return null;
+
+        try
+        {
+            return Math.Round(_privateWorkingSetCounter.NextValue() / (1024.0 * 1024.0), 2);
+        }
+        catch
+        {
+            return null;
         }
     }
 }

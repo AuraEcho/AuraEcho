@@ -50,10 +50,10 @@ public class TelemetryService : ITelemetryService
         Enqueue(TelemetryEventType.Event, name, properties, null);
     }
 
-    public void TrackMetric(string name, double value, Dictionary<string, string> properties = null)
+    public void TrackMetric(string name, Dictionary<string, double> metrics, Dictionary<string, string> properties = null)
     {
         if (!IsEnabled) return;
-        Enqueue(TelemetryEventType.Metric, name, properties, new Dictionary<string, double> { ["value"] = value });
+        Enqueue(TelemetryEventType.Metric, name, properties, metrics);
     }
 
     public void TrackException(Exception exception, Dictionary<string, string> properties = null)

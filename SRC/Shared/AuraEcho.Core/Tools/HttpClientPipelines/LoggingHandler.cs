@@ -1,16 +1,12 @@
-using System.Collections.Generic;
+using AuraEcho.PluginContracts.Interfaces;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
-using AuraEcho.PluginContracts.Interfaces;
 
 namespace AuraEcho.Core.Tools.HttpClientPipelines;
 
 public sealed class LoggingHandler : DelegatingHandler
 {
-    // 成功请求的遥测采样率（0~1）。失败请求恒上报，不受采样影响。
-    private const double SUCCESS_SAMPLE_RATE = 0.2;
-
     private readonly IAppLogger _logger;
     private readonly ITelemetryService? _telemetry;
 
@@ -58,10 +54,8 @@ public sealed class LoggingHandler : DelegatingHandler
         if (_telemetry is null) return;
 
         var path = request.RequestUri?.AbsolutePath ?? string.Empty;
+        // 排除遥测自身的上报请求，避免递归；其余请求全量上报以完整反映用户的网络行为
         if (path.Contains("/telemetry", StringComparison.OrdinalIgnoreCase)) return;
-
-        // 成功请求采样，失败请求全量
-        if (succeeded && Random.Shared.NextDouble() > SUCCESS_SAMPLE_RATE) return;
 
         var props = new Dictionary<string, string>
         {

@@ -21,6 +21,11 @@ public class TelemetryEventEntity
     public Guid SessionId { get; set; }
 
     /// <summary>
+    /// 会话内单调递增的事件序号，用于确定性还原操作顺序。
+    /// </summary>
+    public long SequenceNumber { get; set; }
+
+    /// <summary>
     /// 附加属性
     /// </summary>
     public Dictionary<string, string>? Properties { get; set; }

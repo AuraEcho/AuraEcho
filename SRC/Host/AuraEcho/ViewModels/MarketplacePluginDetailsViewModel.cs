@@ -53,6 +53,12 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
             _pluginManager.Plugins.FirstOrDefault(p => p.PluginId == MarketPlugin.PluginInfo.Id)
             ?? throw new Exception();
 
+        _telemetry.TrackEvent("Plugin.Opened", new Dictionary<string, string>
+        {
+            ["pluginId"] = targetPlugin.PluginId.ToString(),
+            ["pluginType"] = targetPlugin.PluginType.ToString()
+        });
+
         switch (targetPlugin.PluginType)
         {
             case PluginType.Native:

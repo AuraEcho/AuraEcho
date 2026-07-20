@@ -39,6 +39,7 @@ namespace AuraEcho.PluginContracts.Interfaces
         /// 记录页面事件。
         /// </summary>
         /// <param name="pageName">页面名称</param>
-        void TrackPageView(string pageName);
+        /// <param name="properties">附加字符串属性</param>
+        void TrackPageView(string pageName, Dictionary<string, string> properties = null);
     }
 }

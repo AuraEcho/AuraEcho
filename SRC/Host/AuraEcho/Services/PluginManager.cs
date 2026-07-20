@@ -63,6 +63,14 @@ public class PluginManager : IPluginManager
         _logger.Debug($"已加载 {_plugins.Count} 个插件。");
 
         _isInitialized = true;
+
+        // 上报当前已装插件清单，供还原用户操作时确定其可用功能范围
+        _telemetry.TrackEvent("Plugin.Inventory", new Dictionary<string, string>
+        {
+            ["count"] = _plugins.Count.ToString(),
+            ["plugins"] = string.Join(";", _plugins.Select(p => $"{p.PluginId}:{p.Version}"))
+        });
+
         return _plugins;
     }
 

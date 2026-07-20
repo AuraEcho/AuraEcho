@@ -60,6 +60,8 @@ public class TelemetryDbContext : DbContext
                 new ValueComparer<Dictionary<string, double>?>(favorStructuralComparisons: true));
 
             entity.HasIndex(e => e.CreatedAt);
+
+            entity.HasIndex(e => new { e.SessionId, e.SequenceNumber });
         });
     }
 }

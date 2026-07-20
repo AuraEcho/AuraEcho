@@ -27,6 +27,7 @@ let private toEvent (r: TelemetryEventRecord) =
         Type = r.Type,
         Name = r.Name,
         SessionId = r.SessionId,
+        SequenceNumber = r.SequenceNumber,
         Properties = r.Properties,
         Metrics = r.Metrics)
 

@@ -25,6 +25,7 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
     private readonly IClientSession _clientSession;
     private readonly ApiClient _apiClient;
     private readonly IAuraToastService _toastService;
+    private readonly ITelemetryService _telemetry;
     private readonly Dictionary<string, List<string>> _errors = [];
     #endregion
 
@@ -87,12 +88,17 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
 
             if (updateProfileTask.Result.Status != ResultStatus.Success)
             {
+                _telemetry.TrackEvent("Account.ProfileUpdateFailed", new Dictionary<string, string>
+                {
+                    ["status"] = updateProfileTask.Result.Status.ToString()
+                });
                 _toastService.Show(Labels.AccountSettings_ProfileUpdateFailed, ToastLevel.Error);
                 return;
             }
 
             var userInfo = await _apiClient.Auth.GetCurrentUserAsync();
             _clientSession.UpdateUserProfile(userInfo.ToUserProfile());
+            _telemetry.TrackEvent("Account.ProfileUpdated");
             _toastService.Show(Labels.AccountSettings_ProfileUpdateSucceeded, ToastLevel.Success);
         }
         finally
@@ -113,6 +119,10 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
 
             if (fileInfo.Length > 2 * 1024 * 1024)
             {
+                _telemetry.TrackEvent("Account.AvatarUploadRejected", new Dictionary<string, string>
+                {
+                    ["reason"] = "sizeExceeded"
+                });
                 _toastService.Show(Labels.AccountSettings_AvatarSizeExceeded, ToastLevel.Error);
                 return;
             }
@@ -120,12 +130,14 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
             var uploadResult = await _apiClient.File.UploadFileAsync(filePath);
             if (uploadResult is null)
             {
+                _telemetry.TrackEvent("Account.AvatarUploadFailed");
                 _toastService.Show(Labels.AccountSettings_AvatarUploadFailed, ToastLevel.Error);
                 return;
             }
 
             NewAvatarFileUrl = uploadResult.FileUrl;
             NewAvatarFileId = uploadResult.FileId;
+            _telemetry.TrackEvent("Account.AvatarUploaded");
         }
         finally
         {
@@ -162,11 +174,12 @@ public partial class AccountSettingsViewModel : BindableBase, INotifyDataErrorIn
         return _errors.TryGetValue(propertyName, out List<string>? value) ? value : null;
     }
 
-    public AccountSettingsViewModel(IClientSession clientSession, ApiClient apiClient, IAuraToastService toastService)
+    public AccountSettingsViewModel(IClientSession clientSession, ApiClient apiClient, IAuraToastService toastService, ITelemetryService telemetry)
     {
         _clientSession = clientSession;
         _apiClient = apiClient;
         _toastService = toastService;
+        _telemetry = telemetry;
 
         UpdateProfileCommand =
             new DelegateCommand(UpdateProfile, CanUpdateProfile)

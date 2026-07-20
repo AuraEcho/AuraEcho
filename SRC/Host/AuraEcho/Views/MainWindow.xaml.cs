@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
 using AuraEcho.Core.Attributes;
 using AuraEcho.Core.Events;
+using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.Strings;
 using AuraEcho.ViewModels;
 using Prism.Events;
@@ -13,16 +16,23 @@ namespace AuraEcho.Views;
 public partial class MainWindow : Window
 {
     private readonly IEventAggregator _eventAggregator;
+    private readonly ITelemetryService _telemetry;
 
     /// <summary>
     /// 构造函数
     /// </summary>
     [Logging]
-    public MainWindow(IEventAggregator eventAggregator)
+    public MainWindow(IEventAggregator eventAggregator, ITelemetryService telemetry)
     {
         _eventAggregator = eventAggregator;
+        _telemetry = telemetry;
         _eventAggregator.GetEvent<RequestShowAppEvent>().Subscribe(BringToForeground, ThreadOption.UIThread);
         InitializeComponent();
+
+        Activated += (_, _) => _telemetry.TrackEvent("App.ForegroundChanged",
+            new Dictionary<string, string> { ["state"] = "activated" });
+        Deactivated += (_, _) => _telemetry.TrackEvent("App.ForegroundChanged",
+            new Dictionary<string, string> { ["state"] = "deactivated" });
     }
 
     /// <summary>

@@ -23,28 +23,32 @@ public class AutoSignInViewModel : BindableBase, IRegionMemberLifetime
     private readonly ITokenProvider _tokenProvider;
     private readonly IAuraToastService _auraToastService;
     private readonly ApiClient _apiClient;
+    private readonly ITelemetryService _telemetry;
     private readonly CancellationTokenSource _cts = new();
 
     public DelegateCommand CancelSignInCommand { get; }
     private void CancelSignIn()
     {
+        _telemetry.TrackEvent("Auth.AutoSignInCanceled");
         _cts.Cancel();
         _tokenProvider.ClearToken();
         _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn);
     }
 
     public AutoSignInViewModel(
-        ITokenProvider tokenProvider, 
-        ApiClient apiClient, 
-        IClientSession clientSession, 
+        ITokenProvider tokenProvider,
+        ApiClient apiClient,
+        IClientSession clientSession,
         INavigationService navigationService,
-        IAuraToastService auraToastService)
+        IAuraToastService auraToastService,
+        ITelemetryService telemetry)
     {
         _tokenProvider = tokenProvider;
         _apiClient = apiClient;
         _auraToastService = auraToastService;
         _clientSession = clientSession;
         _navigationService = navigationService;
+        _telemetry = telemetry;
 
         CancelSignInCommand = new DelegateCommand(CancelSignIn);
 
@@ -73,12 +77,14 @@ public class AutoSignInViewModel : BindableBase, IRegionMemberLifetime
         ResponseResult<AuthResponse>? result = refreshTokenTask.Result;
         if (result is null || result.Data is null)
         {
+            _telemetry.TrackEvent("Auth.AutoSignInFailed");
             _tokenProvider.ClearToken();
             _auraToastService.Show(Labels.AutoSignIn_SignInExpired);
             _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SignIn, canBack: false);
             return;
         }
 
+        _telemetry.TrackEvent("Auth.AutoSignInSucceeded");
         _clientSession.SignIn(result.Data);
 
         _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Homepage);

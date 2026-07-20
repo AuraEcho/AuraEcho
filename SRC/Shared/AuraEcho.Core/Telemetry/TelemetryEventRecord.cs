@@ -23,4 +23,9 @@ public class TelemetryEventRecord
     /// 客户端会话标识，关联到 Sessions 表的上下文信息。
     /// </summary>
     public Guid SessionId { get; init; }
+
+    /// <summary>
+    /// 会话内单调递增的事件序号，用于确定性还原操作顺序。
+    /// </summary>
+    public long SequenceNumber { get; init; }
 }

@@ -1,4 +1,5 @@
 using System.Management;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using AuraEcho.Core.Constants;
@@ -44,7 +45,8 @@ public class TelemetryContextFactory
             CpuModel = GetCpuModel(),
             GpuModel = GetGpuModel(),
             ScreenResolution = screenResolution,
-            ScreenDpi = screenDpi
+            ScreenDpi = screenDpi,
+            NetworkType = GetNetworkType()
         };
 
         static Guid GetInstallationId()
@@ -114,6 +116,55 @@ public class TelemetryContextFactory
         catch
         {
             return (string.Empty, 0);
+        }
+    }
+
+    /// <summary>
+    /// 启动时的主要网络连接类型。
+    /// 在处于 Up 状态、非回环/隧道的接口中，优先返回无线，其次有线，均无则 Unknown；无活跃接口返回 None。
+    /// </summary>
+    private static string GetNetworkType()
+    {
+        try
+        {
+            if (!NetworkInterface.GetIsNetworkAvailable())
+                return "None";
+
+            var hasWired = false;
+            var hasUnknown = false;
+
+            foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.OperationalStatus != OperationalStatus.Up)
+                    continue;
+
+                switch (ni.NetworkInterfaceType)
+                {
+                    case NetworkInterfaceType.Loopback:
+                    case NetworkInterfaceType.Tunnel:
+                        continue;
+                    case NetworkInterfaceType.Wireless80211:
+                        // 无线优先，直接返回
+                        return "Wireless";
+                    case NetworkInterfaceType.Ethernet:
+                    case NetworkInterfaceType.GigabitEthernet:
+                    case NetworkInterfaceType.FastEthernetT:
+                    case NetworkInterfaceType.FastEthernetFx:
+                        hasWired = true;
+                        break;
+                    default:
+                        hasUnknown = true;
+                        break;
+                }
+            }
+
+            if (hasWired) return "Wired";
+            if (hasUnknown) return "Unknown";
+            return "None";
+        }
+        catch
+        {
+            return string.Empty;
         }
     }
 

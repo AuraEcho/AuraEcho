@@ -18,15 +18,20 @@ public class TelemetryService : ITelemetryService
     private readonly Channel<TelemetryEvent> _channel;
     private readonly Task _flushTask;
 
+    /// <summary>
+    /// 会话内单调递增的事件序号。
+    /// </summary>
+    private long _sequence;
+
     // 入队限流器
-    private readonly TokenBucket _rateLimiter = new(2, 20);
+    private readonly TokenBucket _rateLimiter = new(3, 50);
 
     public TelemetryService(TelemetryStore store, TelemetryContextFactory contextFactory)
     {
         _store = store ?? throw new ArgumentNullException(nameof(store));
         _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
 
-        _channel = Channel.CreateBounded<TelemetryEvent>(new BoundedChannelOptions(20)
+        _channel = Channel.CreateBounded<TelemetryEvent>(new BoundedChannelOptions(50)
         {
             // 满时丢旧保新
             FullMode = BoundedChannelFullMode.DropOldest,
@@ -102,10 +107,10 @@ public class TelemetryService : ITelemetryService
         Enqueue(TelemetryEventType.Exception, exception.GetType().Name, props, null);
     }
 
-    public void TrackPageView(string pageName)
+    public void TrackPageView(string pageName, Dictionary<string, string> properties = null)
     {
         if (!IsEnabled) return;
-        Enqueue(TelemetryEventType.PageView, pageName, null, null);
+        Enqueue(TelemetryEventType.PageView, pageName, properties, null);
     }
 
     /// <summary>
@@ -169,6 +174,7 @@ public class TelemetryService : ITelemetryService
                 Type = type,
                 Name = name,
                 SessionId = _contextFactory.SessionId,
+                SequenceNumber = Interlocked.Increment(ref _sequence),
                 Properties = properties,
                 Metrics = metrics
             };

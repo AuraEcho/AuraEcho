@@ -24,6 +24,7 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
     private readonly INavigationService _navigationService;
     private readonly ApiClient _apiClient;
     private readonly IAuraToastService _toastService;
+    private readonly ITelemetryService _telemetry;
     private readonly Dictionary<string, List<string>> _errors = [];
 
     public bool IsSubmitting
@@ -77,6 +78,10 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
                     EmailCodeScene.ResetPassword));
         if (requestResult.Status == ResultStatus.UserNotFound)
         {
+            _telemetry.TrackEvent("ResetPassword.CodeSendFailed", new Dictionary<string, string>
+            {
+                ["status"] = requestResult.Status.ToString()
+            });
             SendEmailCodeCooldown = 0;
             _toastService.Show(Labels.ResetPassword_UserNotFound, ToastLevel.Error);
             return;
@@ -84,11 +89,16 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         if (requestResult.Status != ResultStatus.Success)
         {
+            _telemetry.TrackEvent("ResetPassword.CodeSendFailed", new Dictionary<string, string>
+            {
+                ["status"] = requestResult.Status.ToString()
+            });
             SendEmailCodeCooldown = 0;
             _toastService.Show(Labels.ResetPassword_ServerBusy, ToastLevel.Error);
             return;
         }
 
+        _telemetry.TrackEvent("ResetPassword.CodeSent");
         _toastService.Show(string.Format(Labels.ResetPassword_CodeSentToEmail, Email), ToastLevel.Info);
         _ = Task.Run(async () =>
         {
@@ -145,6 +155,10 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         if (result?.Status == ResultStatus.UserNotFound)
         {
+            _telemetry.TrackEvent("ResetPassword.Failed", new Dictionary<string, string>
+            {
+                ["status"] = result.Status.ToString()
+            });
             _errors[nameof(Email)] = [Labels.ResetPassword_UserNotFoundShort];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Email)));
             IsSubmitting = false;
@@ -153,6 +167,10 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         if (result?.Status == ResultStatus.EmailCodeError)
         {
+            _telemetry.TrackEvent("ResetPassword.Failed", new Dictionary<string, string>
+            {
+                ["status"] = result.Status.ToString()
+            });
             _errors[nameof(EmailCode)] = [Labels.ResetPassword_EmailCodeInvalid];
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(EmailCode)));
             IsSubmitting = false;
@@ -161,10 +179,15 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
 
         if (result is null || result.Status != ResultStatus.Success || result.Data is null)
         {
+            _telemetry.TrackEvent("ResetPassword.Failed", new Dictionary<string, string>
+            {
+                ["status"] = result?.Status.ToString() ?? "null"
+            });
             _toastService.Show(Labels.ResetPassword_ServerBusy, ToastLevel.Error);
             IsSubmitting = false;
             return;
         }
+        _telemetry.TrackEvent("ResetPassword.Succeeded");
         IsSubmitting = false;
         _navigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.PasswordResetCompleted, null, false);
     }
@@ -214,11 +237,12 @@ public partial class ResetPasswordViewModel : BindableBase, INotifyDataErrorInfo
     public bool KeepAlive => false;
 
 
-    public ResetPasswordViewModel(INavigationService navigationService, ApiClient apiClient, IAuraToastService auraToastService)
+    public ResetPasswordViewModel(INavigationService navigationService, ApiClient apiClient, IAuraToastService auraToastService, ITelemetryService telemetry)
     {
         _toastService = auraToastService;
         _navigationService = navigationService;
         _apiClient = apiClient;
+        _telemetry = telemetry;
 
         SendEmailCodeCommand = new DelegateCommand(SendEmailCode);
         ResetPasswordCommand = new DelegateCommand(ResetPassword);

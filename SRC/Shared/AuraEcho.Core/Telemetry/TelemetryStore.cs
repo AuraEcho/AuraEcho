@@ -118,6 +118,7 @@ public class TelemetryStore
         Properties = evt.Properties,
         Metrics = evt.Metrics,
         SessionId = evt.SessionId,
+        SequenceNumber = evt.SequenceNumber,
         CreatedAt = DateTime.UtcNow
     };
 
@@ -129,6 +130,7 @@ public class TelemetryStore
         Name = entity.Name,
         Properties = entity.Properties,
         Metrics = entity.Metrics,
-        SessionId = entity.SessionId
+        SessionId = entity.SessionId,
+        SequenceNumber = entity.SequenceNumber
     };
 }

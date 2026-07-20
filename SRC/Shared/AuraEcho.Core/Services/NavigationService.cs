@@ -41,6 +41,8 @@ namespace AuraEcho.Core.Services
 
             _regionManager.RequestNavigate(entry.RegionName, entry.ViewName, entry.Parameters);
             RaisePropertyChanged(nameof(CanGoBack));
+
+            _telemetry.TrackPageView(entry.ViewName);
         }
 
         public void Reset()

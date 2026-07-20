@@ -4,6 +4,7 @@ using System.Windows.Input;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.PluginContracts.Events;
+using AuraEcho.PluginContracts.Interfaces;
 using Prism.Commands;
 using Prism.DryIoc;
 using Prism.Events;
@@ -16,6 +17,7 @@ public class NotifyIconViewModel : BindableBase
 {
     #region private
     private readonly IEventAggregator _eventAggregator;
+    private readonly ITelemetryService _telemetry;
     #endregion
 
     public bool IsSignedIn
@@ -27,12 +29,14 @@ public class NotifyIconViewModel : BindableBase
     public ICommand ShowWindowCommand { get; }
     private void ShowWindow()
     {
+        _telemetry?.TrackEvent("NotifyIcon.ShowWindow");
         _eventAggregator.GetEvent<RequestShowAppEvent>().Publish();
     }
 
     public ICommand ExitApplicationCommand { get; }
     private void ExitApplication()
     {
+        _telemetry?.TrackEvent("NotifyIcon.Exit");
         _eventAggregator.GetEvent<AppShutdownEvent>().Publish();
     }
 
@@ -41,6 +45,10 @@ public class NotifyIconViewModel : BindableBase
     {
         if (!IsSignedIn) return;
 
+        _telemetry?.TrackEvent("NotifyIcon.GoToView", new System.Collections.Generic.Dictionary<string, string>
+        {
+            ["view"] = viewName ?? string.Empty
+        });
         _eventAggregator.GetEvent<RequestViewEvent>().Publish(viewName);
         ShowWindow();
     }
@@ -53,6 +61,7 @@ public class NotifyIconViewModel : BindableBase
              
         var container = (Application.Current as PrismApplication)!.Container;
         _eventAggregator = (container.Resolve(typeof(IEventAggregator)) as IEventAggregator)!;
+        _telemetry = container.Resolve(typeof(ITelemetryService)) as ITelemetryService;
         _eventAggregator.GetEvent<SignedInEvent>().Subscribe(OnSignedIn, ThreadOption.UIThread);
         _eventAggregator.GetEvent<SignedOutEvent>().Subscribe(OnSignedOut, ThreadOption.UIThread);
     }

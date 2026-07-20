@@ -14,6 +14,7 @@ public class TelemetryContext
     public string GpuModel { get; init; } = string.Empty;
     public string ScreenResolution { get; init; } = string.Empty;
     public int ScreenDpi { get; init; }
+    public string NetworkType { get; init; } = string.Empty;
 
     /// <summary>
     /// 将上下文信息展开为用于遥测上报的 Properties 字典。
@@ -30,7 +31,8 @@ public class TelemetryContext
             ["cpuModel"] = CpuModel,
             ["gpuModel"] = GpuModel,
             ["screenResolution"] = ScreenResolution,
-            ["screenDpi"] = ScreenDpi.ToString()
+            ["screenDpi"] = ScreenDpi.ToString(),
+            ["networkType"] = NetworkType
         };
     }
 }

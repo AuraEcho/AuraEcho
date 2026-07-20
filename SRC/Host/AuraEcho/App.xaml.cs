@@ -121,7 +121,9 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<TelemetryContextFactory>();
         containerRegistry.RegisterSingleton<ITelemetryService>(c =>
         {
-            var service = new TelemetryService(c.Resolve<TelemetryStore>(), c.Resolve<TelemetryContextFactory>());
+            var service = new TelemetryService(
+                c.Resolve<TelemetryStore>(),
+                c.Resolve<TelemetryContextFactory>());
 
             // 供遥测上报和异常处理器使用
             _telemetry = service;
@@ -130,6 +132,7 @@ public partial class App : PrismApplication
         });
 
         containerRegistry.RegisterSingleton<MemorySampler>();
+        containerRegistry.RegisterSingleton<InteractionTracker>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
@@ -194,6 +197,9 @@ public partial class App : PrismApplication
 
         _memorySampler = Container.Resolve<MemorySampler>();
         _memorySampler.Start();
+
+        // 全局 UI 交互自动捕获（主窗口已创建，可安全注册类级路由事件处理器）
+        Container.Resolve<InteractionTracker>().Register();
     }
 
     protected override void OnExit(ExitEventArgs e)

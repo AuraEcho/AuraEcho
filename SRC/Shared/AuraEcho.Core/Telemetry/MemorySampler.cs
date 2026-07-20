@@ -24,8 +24,7 @@ public class MemorySampler
     }
 
     /// <summary>
-    /// 尝试为当前进程创建"专用工作集"性能计数器。
-    /// 返回 null 表示不可用（权限不足时静默失败）。
+    /// 创建 专用工作集性能计数器。
     /// </summary>
     private static PerformanceCounter? TryCreatePrivateWorkingSetCounter(Process targetProcess)
     {

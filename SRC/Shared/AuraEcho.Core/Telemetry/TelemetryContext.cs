@@ -11,7 +11,6 @@ public class TelemetryContext
     public string NetVersion { get; init; } = string.Empty;
     public string Culture { get; init; } = string.Empty;
     public string CpuModel { get; init; } = string.Empty;
-    public int CpuCoreCount { get; init; }
     public string GpuModel { get; init; } = string.Empty;
     public string ScreenResolution { get; init; } = string.Empty;
     public int ScreenDpi { get; init; }
@@ -29,7 +28,6 @@ public class TelemetryContext
             ["netVersion"] = NetVersion,
             ["culture"] = Culture,
             ["cpuModel"] = CpuModel,
-            ["cpuCoreCount"] = CpuCoreCount.ToString(),
             ["gpuModel"] = GpuModel,
             ["screenResolution"] = ScreenResolution,
             ["screenDpi"] = ScreenDpi.ToString()

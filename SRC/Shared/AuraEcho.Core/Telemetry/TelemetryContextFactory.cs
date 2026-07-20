@@ -42,7 +42,6 @@ public class TelemetryContextFactory
             NetVersion = Environment.Version.ToString(),
             Culture = System.Globalization.CultureInfo.CurrentCulture.Name,
             CpuModel = GetCpuModel(),
-            CpuCoreCount = Environment.ProcessorCount,
             GpuModel = GetGpuModel(),
             ScreenResolution = screenResolution,
             ScreenDpi = screenDpi

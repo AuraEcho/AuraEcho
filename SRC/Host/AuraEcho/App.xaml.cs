@@ -133,6 +133,7 @@ public partial class App : PrismApplication
 
         containerRegistry.RegisterSingleton<MemorySampler>();
         containerRegistry.RegisterSingleton<InteractionTracker>();
+        containerRegistry.RegisterSingleton<GlobalExceptionHandler>();
 
         containerRegistry.RegisterForNavigation<Homepage>();
         containerRegistry.RegisterForNavigation<Settings>();
@@ -154,7 +155,7 @@ public partial class App : PrismApplication
 
     protected override void OnInitialized()
     {
-        RegisterEvents();
+        Container.Resolve<GlobalExceptionHandler>().Register();
         LoadConfig();
         _telemetry.TrackEvent("SessionStart", _telemetryContext.ToProperties());
         WebImageLoaderContext.Default = Container.Resolve<IWebImageLoader>();
@@ -428,107 +429,5 @@ public partial class App : PrismApplication
 #endif
 
         Current.Shutdown();
-    }
-    /// <summary>
-    /// 订阅全局异常处理事件
-    /// </summary>
-    private void RegisterEvents()
-    {
-        //Task线程内未捕获异常处理事件
-        TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-
-        //UI线程未捕获异常处理事件（UI主线程）
-        DispatcherUnhandledException += App_DispatcherUnhandledException;
-
-        //非UI线程未捕获异常处理事件(例如自己创建的一个子线程)
-        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-    }
-    /// <summary>
-    /// Task 线程异常处理
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
-    {
-        try
-        {
-            if (e.Exception is Exception exception)
-            {
-                HandleException(exception, "TaskScheduler");
-            }
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex, "TaskScheduler");
-        }
-        finally
-        {
-            e.SetObserved();
-        }
-    }
-
-    /// <summary>
-    /// UI 线程异常处理
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-    {
-        try
-        {
-            HandleException(e.Exception, "Dispatcher");
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex, "Dispatcher");
-        }
-        finally
-        {
-            e.Handled = true;
-        }
-    }
-
-    /// <summary>
-    /// 非 UI 线程异常处理
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-    {
-        try
-        {
-            if (e.ExceptionObject is Exception exception)
-            {
-                HandleException(exception, "AppDomain");
-            }
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex, "AppDomain");
-        }
-        finally
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// 全局异常处理逻辑
-    /// </summary>
-    /// <param name="exception"></param>
-    private void HandleException(Exception exception, string source = "Unknown")
-    {
-        _logger.Fatal($"未处理的应用程序异常: {exception}");
-
-        try
-        {
-            _telemetry?.TrackException(exception, new Dictionary<string, string>
-            {
-                ["source"] = source
-            });
-        }
-        catch
-        {
-        }
     }
 }

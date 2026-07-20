@@ -9,8 +9,8 @@ namespace AuraEcho.Core.Telemetry;
 /// </summary>
 public class MemorySampler
 {
-    private const int SAMPLE_INTERVAL_SECONDS = 60;
-    private const int STARTUP_DELAY_SECONDS = 30;
+    private const int SAMPLE_INTERVAL_MINUTES = 10;
+    private const int STARTUP_DELAY_SECONDS = 20;
 
     private readonly ITelemetryService _telemetry;
     private readonly CancellationTokenSource _cts = new();
@@ -47,9 +47,9 @@ public class MemorySampler
         try
         {
             await Task.Delay(TimeSpan.FromSeconds(STARTUP_DELAY_SECONDS), ct);
+            Sample(ct);
 
-            using var timer = new PeriodicTimer(TimeSpan.FromSeconds(SAMPLE_INTERVAL_SECONDS));
-
+            using var timer = new PeriodicTimer(TimeSpan.FromMinutes(SAMPLE_INTERVAL_MINUTES));
             while (await timer.WaitForNextTickAsync(ct))
             {
                 Sample(ct);
@@ -70,7 +70,7 @@ public class MemorySampler
             using var proc = Process.GetCurrentProcess();
             var workingSetMB = Math.Round(proc.WorkingSet64 / (1024.0 * 1024.0), 2);
             var managedHeapMB = Math.Round(GC.GetTotalMemory(false) / (1024.0 * 1024.0), 2);
-
+            
             _telemetry.TrackMetric(
                 "Memory.WorkingSetMB", workingSetMB,
                 new Dictionary<string, string>

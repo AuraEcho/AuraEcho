@@ -63,7 +63,7 @@ public partial class App : PrismApplication
     private TaskbarIcon _notifyIcon;
     private static IAppLogger _logger;
     private static ITelemetryService _telemetry;
-    private static TelemetryContext _telemetryContext;
+    private static TelemetryContextFactory _telemetryContextFactory;
     private static Stopwatch _startupStopwatch;
     private static readonly Stopwatch _sessionStopwatch = Stopwatch.StartNew();
     private static MemorySampler _memorySampler;
@@ -127,7 +127,7 @@ public partial class App : PrismApplication
 
             // 供遥测上报和异常处理器使用
             _telemetry = service;
-            _telemetryContext = c.Resolve<TelemetryContextFactory>().Context;
+            _telemetryContextFactory = c.Resolve<TelemetryContextFactory>();
             return service;
         });
 
@@ -157,7 +157,9 @@ public partial class App : PrismApplication
     {
         Container.Resolve<GlobalExceptionHandler>().Register();
         LoadConfig();
-        _telemetry.TrackEvent("SessionStart", _telemetryContext.ToProperties());
+
+        Task.Run(() => _telemetry.TrackEvent("SessionStart", _telemetryContextFactory.Context.ToProperties()));
+
         WebImageLoaderContext.Default = Container.Resolve<IWebImageLoader>();
 
         if (_startupArgs.Contains("-hide")) return;

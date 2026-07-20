@@ -47,17 +47,17 @@ public class MemorySampler
         try
         {
             await Task.Delay(TimeSpan.FromSeconds(STARTUP_DELAY_SECONDS), ct);
+
+            using var timer = new PeriodicTimer(TimeSpan.FromSeconds(SAMPLE_INTERVAL_SECONDS));
+
+            while (await timer.WaitForNextTickAsync(ct))
+            {
+                Sample(ct);
+            }
         }
         catch (OperationCanceledException)
         {
             return;
-        }
-
-        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(SAMPLE_INTERVAL_SECONDS));
-
-        while (await timer.WaitForNextTickAsync(ct))
-        {
-            Sample(ct);
         }
     }
 

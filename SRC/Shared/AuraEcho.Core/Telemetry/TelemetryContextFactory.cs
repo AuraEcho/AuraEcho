@@ -125,7 +125,45 @@ public class TelemetryContextFactory
     /// <summary>
     /// 显卡型号
     /// </summary>
-    private static string GetGpuModel() => QueryWmiString("Win32_VideoController", "Name");
+    private static string GetGpuModel()
+    {
+        try
+        {
+            using var searcher = new ManagementObjectSearcher(
+                "SELECT Name, AdapterRAM FROM Win32_VideoController");
+
+            string bestName = string.Empty;
+            long bestRam = -1;
+
+            foreach (var obj in searcher.Get())
+            {
+                var name = obj["Name"]?.ToString()?.Trim();
+                if (string.IsNullOrWhiteSpace(name))
+                    continue;
+
+                var ramRaw = obj["AdapterRAM"];
+                var ram = ramRaw is long l ? l
+                        : ramRaw is uint u ? u
+                        : 0;
+
+                // 虚拟适配器显存通常为 0；优先选取显存最大的适配器
+                if (ram > bestRam)
+                {
+                    bestRam = ram;
+                    bestName = name;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(bestName))
+                return bestName;
+        }
+        catch
+        {
+            // 忽略 WMI 查询失败
+        }
+
+        return string.Empty;
+    }
 
     /// <summary>
     /// 查询指定 WMI 类的字符串属性，取首个非空结果。

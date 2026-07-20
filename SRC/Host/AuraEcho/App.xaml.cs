@@ -36,8 +36,8 @@ using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.PluginContracts.Services;
 using AuraEcho.Services;
-using AuraEcho.Tools;
 using AuraEcho.Strings;
+using AuraEcho.Tools;
 using AuraEcho.UIToolkit.RegionDialog;
 using AuraEcho.ViewModels;
 using AuraEcho.Views;
@@ -63,6 +63,7 @@ public partial class App : PrismApplication
     private TaskbarIcon _notifyIcon;
     private static IAppLogger _logger;
     private static ITelemetryService _telemetry;
+    private static TelemetryContext _telemetryContext;
     private static Stopwatch _startupStopwatch;
     private static readonly Stopwatch _sessionStopwatch = Stopwatch.StartNew();
     private static MemorySampler _memorySampler;
@@ -120,10 +121,11 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<TelemetryContextFactory>();
         containerRegistry.RegisterSingleton<ITelemetryService>(c =>
         {
-            var service = new TelemetryService(c.Resolve<TelemetryStore>());
+            var service = new TelemetryService(c.Resolve<TelemetryStore>(), c.Resolve<TelemetryContextFactory>());
 
-            // 供异常处理器使用
+            // 供遥测上报和异常处理器使用
             _telemetry = service;
+            _telemetryContext = c.Resolve<TelemetryContextFactory>().Context;
             return service;
         });
 
@@ -151,6 +153,7 @@ public partial class App : PrismApplication
     {
         RegisterEvents();
         LoadConfig();
+        _telemetry.TrackEvent("SessionStart", _telemetryContext.ToProperties());
         WebImageLoaderContext.Default = Container.Resolve<IWebImageLoader>();
 
         if (_startupArgs.Contains("-hide")) return;
@@ -235,7 +238,7 @@ public partial class App : PrismApplication
             ? RenderMode.Default
             : RenderMode.SoftwareOnly;
 
-        _telemetry?.IsEnabled = hostSettings.TelemetryEnabled;
+        _telemetry.IsEnabled = hostSettings.TelemetryEnabled;
     }
 
     /// <summary>

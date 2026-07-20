@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuraEcho.Core.Migrations.Telemetry
 {
     [DbContext(typeof(TelemetryDbContext))]
-    [Migration("20260719141148_DropRetryCount")]
-    partial class DropRetryCount
+    [Migration("20260720035533_InitTelemetry")]
+    partial class InitTelemetry
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,32 +26,13 @@ namespace AuraEcho.Core.Migrations.Telemetry
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AppVersion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Culture")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InstallationId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Metrics")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NetVersion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OSVersion")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

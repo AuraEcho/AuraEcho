@@ -23,29 +23,7 @@ namespace AuraEcho.Core.Migrations.Telemetry
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AppVersion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("CpuCoreCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CpuModel")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Culture")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GpuModel")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InstallationId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Metrics")
@@ -55,22 +33,7 @@ namespace AuraEcho.Core.Migrations.Telemetry
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NetVersion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OSVersion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Properties")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ScreenDpi")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ScreenResolution")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("SessionId")

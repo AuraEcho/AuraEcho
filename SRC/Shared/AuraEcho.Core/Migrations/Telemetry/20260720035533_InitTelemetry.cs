@@ -19,15 +19,9 @@ namespace AuraEcho.Core.Migrations.Telemetry
                     Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    InstallationId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    AppVersion = table.Column<string>(type: "TEXT", nullable: false),
-                    OSVersion = table.Column<string>(type: "TEXT", nullable: false),
-                    NetVersion = table.Column<string>(type: "TEXT", nullable: false),
                     SessionId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Culture = table.Column<string>(type: "TEXT", nullable: false),
                     Properties = table.Column<string>(type: "TEXT", nullable: true),
                     Metrics = table.Column<string>(type: "TEXT", nullable: true),
-                    RetryCount = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

@@ -1,7 +1,6 @@
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using AuraEcho.Cloud.V1.Models.Telemetry;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Tools;
 
@@ -12,13 +11,23 @@ namespace AuraEcho.Core.Telemetry;
 /// </summary>
 public class TelemetryContextFactory
 {
+    private readonly Lazy<Guid> _sessionId;
     private readonly Lazy<TelemetryContext> _context;
 
     public TelemetryContextFactory()
     {
+        _sessionId = new Lazy<Guid>(Guid.NewGuid);
         _context = new Lazy<TelemetryContext>(BuildContext);
     }
 
+    /// <summary>
+    /// 当前会话标识。
+    /// </summary>
+    public Guid SessionId => _sessionId.Value;
+
+    /// <summary>
+    /// 当前会话的设备和环境上下文。
+    /// </summary>
     public TelemetryContext Context => _context.Value;
 
     private static TelemetryContext BuildContext()
@@ -29,9 +38,9 @@ public class TelemetryContextFactory
         {
             InstallationId = GetInstallationId(),
             AppVersion = GetAppVersion(),
-            OSVersion = RuntimeInformation.OSDescription,
+            OsVersion = RuntimeInformation.OSDescription,
             NetVersion = Environment.Version.ToString(),
-            SessionId = Guid.NewGuid(),
+            Culture = System.Globalization.CultureInfo.CurrentCulture.Name,
             CpuModel = GetCpuModel(),
             CpuCoreCount = Environment.ProcessorCount,
             GpuModel = GetGpuModel(),

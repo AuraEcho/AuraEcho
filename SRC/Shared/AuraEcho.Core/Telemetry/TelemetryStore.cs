@@ -12,14 +12,13 @@ namespace AuraEcho.Core.Telemetry;
 /// </summary>
 public class TelemetryStore
 {
-    private readonly TelemetryContextFactory _contextFactory;
-
-    public TelemetryStore(TelemetryContextFactory contextFactory)
+    public TelemetryStore()
     {
-        _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
+#if !DEBUG
+        // 发布版本会在安装阶段完成数据库迁移
+        if (File.Exists(ApplicationPaths.TelemetryDataBase)) return;
+#endif
 
-        // 始终调用 Migrate()：新建库会完整建表，已有库补执行未应用的迁移（如设备画像列）。
-        // Migrate() 是幂等的，不会重复执行已应用的迁移。
         using var db = CreateContext();
         db.Database.Migrate();
     }
@@ -32,7 +31,7 @@ public class TelemetryStore
     public void Enqueue(TelemetryEvent evt)
     {
         using var db = CreateContext();
-        db.TelemetryEvents.Add(ToEntity(evt, _contextFactory.Context));
+        db.TelemetryEvents.Add(ToEntity(evt));
         db.SaveChanges();
     }
 
@@ -43,11 +42,10 @@ public class TelemetryStore
     {
         if (events.Count == 0) return;
 
-        var context = _contextFactory.Context;
         using var db = CreateContext();
         foreach (var evt in events)
         {
-            db.TelemetryEvents.Add(ToEntity(evt, context));
+            db.TelemetryEvents.Add(ToEntity(evt));
         }
         db.SaveChanges();
     }
@@ -111,7 +109,7 @@ public class TelemetryStore
         return db.TelemetryEvents.Count();
     }
 
-    private static TelemetryEventEntity ToEntity(TelemetryEvent evt, TelemetryContext context) => new()
+    private static TelemetryEventEntity ToEntity(TelemetryEvent evt) => new()
     {
         Id = evt.Id,
         Timestamp = evt.Timestamp,
@@ -119,17 +117,7 @@ public class TelemetryStore
         Name = evt.Name,
         Properties = evt.Properties,
         Metrics = evt.Metrics,
-        Culture = evt.Culture,
-        InstallationId = context.InstallationId,
-        AppVersion = context.AppVersion,
-        OSVersion = context.OSVersion,
-        NetVersion = context.NetVersion,
-        SessionId = context.SessionId,
-        CpuModel = context.CpuModel,
-        CpuCoreCount = context.CpuCoreCount,
-        GpuModel = context.GpuModel,
-        ScreenResolution = context.ScreenResolution,
-        ScreenDpi = context.ScreenDpi,
+        SessionId = evt.SessionId,
         CreatedAt = DateTime.UtcNow
     };
 
@@ -139,18 +127,8 @@ public class TelemetryStore
         Timestamp = entity.Timestamp,
         Type = entity.Type,
         Name = entity.Name,
-        Culture = entity.Culture,
         Properties = entity.Properties,
         Metrics = entity.Metrics,
-        InstallationId = entity.InstallationId,
-        AppVersion = entity.AppVersion,
-        OSVersion = entity.OSVersion,
-        NetVersion = entity.NetVersion,
-        SessionId = entity.SessionId,
-        CpuModel = entity.CpuModel,
-        CpuCoreCount = entity.CpuCoreCount,
-        GpuModel = entity.GpuModel,
-        ScreenResolution = entity.ScreenResolution,
-        ScreenDpi = entity.ScreenDpi
+        SessionId = entity.SessionId
     };
 }

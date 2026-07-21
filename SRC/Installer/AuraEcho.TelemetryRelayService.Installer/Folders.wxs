@@ -2,7 +2,7 @@
 	<Fragment>
 		<StandardDirectory Id="ProgramFiles6432Folder">
 			<Directory Id="INSTALLFOLDER" Name="AuraEcho">
-				<Directory Id="TelemetryServiceFolder" Name="TelemetryService" />
+				<Directory Id="TelemetryRelayServiceFolder" Name="TelemetryRelayService" />
 			</Directory>
 		</StandardDirectory>
 	</Fragment>

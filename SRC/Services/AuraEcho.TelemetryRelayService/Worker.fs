@@ -1,4 +1,4 @@
-namespace AuraEcho.TelemetryService
+namespace AuraEcho.TelemetryRelayService
 
 open System
 open System.Threading
@@ -7,7 +7,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
 open AuraEcho.Cloud.V1
 open AuraEcho.Telemetry
-open AuraEcho.TelemetryService.Workflows
+open AuraEcho.TelemetryRelayService.Workflows
 
 type Worker(logger: ILogger<Worker>, scopeFactory: IServiceScopeFactory) =
     inherit BackgroundService()
@@ -15,7 +15,7 @@ type Worker(logger: ILogger<Worker>, scopeFactory: IServiceScopeFactory) =
     let options = FlushOptions.Default
 
     override this.ExecuteAsync(stoppingToken: CancellationToken) = task {
-        logger.LogInformation("Telemetry Service 工作循环已启动")
+        logger.LogInformation("Telemetry Relay Service 工作循环已启动")
 
         use timer = new PeriodicTimer(options.FlushInterval)
 
@@ -37,5 +37,5 @@ type Worker(logger: ILogger<Worker>, scopeFactory: IServiceScopeFactory) =
     }
 
     override this.StopAsync(ct) =
-        logger.LogInformation("Telemetry Service 正在停止...")
+        logger.LogInformation("Telemetry Relay Service 正在停止...")
         base.StopAsync(ct)

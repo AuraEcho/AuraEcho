@@ -1,10 +1,10 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
-		<ComponentGroup Id="TelemetryServiceFileComponents" Directory="TelemetryServiceFolder">
-			<Files Include="$(var.AuraEcho.TelemetryService.TargetDir)**">
+		<ComponentGroup Id="TelemetryRelayServiceFileComponents" Directory="TelemetryRelayServiceFolder">
+			<Files Include="$(var.AuraEcho.TelemetryRelayService.TargetDir)**">
 				<Exclude Files="*.pdb"/>
 				<Exclude Files="*.xml"/>
-				<Exclude Files="AuraEchoTelemetryService.exe"/>
+				<Exclude Files="AuraEchoTelemetryRelayService.exe"/>
 
 				<Exclude Files="Prism.dll"/>
 				<Exclude Files="Prism.Wpf.dll"/>
@@ -26,11 +26,11 @@
 			</Files>
 
 			<Component Id="ProductComponent" Guid="0F31878D-36F0-4888-992D-66B123E01BCA">
-				<File Source="AuraEchoTelemetryService.exe" />
+				<File Source="AuraEchoTelemetryRelayService.exe" />
 
-				<ServiceInstall Id="InstallTelemetryService"
-					            Name="AuraEchoTelemetryService"
-					            DisplayName="AuraEcho Telemetry Service"
+				<ServiceInstall Id="InstallTelemetryRelayService"
+					            Name="AuraEchoTelemetryRelayService"
+					            DisplayName="AuraEcho Telemetry Relay Service"
 					            Description="此服务用于上传 AuraEcho 的匿名诊断数据。如果此服务被禁用，诊断数据将保留在本地而不会上传。"
 					            Start="auto"
 					            Type="ownProcess"
@@ -38,8 +38,8 @@
 					            Vital="yes"
 					            Account="LocalSystem" />
 
-				<ServiceControl Id="ControlTelemetryService"
-					            Name="AuraEchoTelemetryService"
+				<ServiceControl Id="ControlTelemetryRelayService"
+					            Name="AuraEchoTelemetryRelayService"
 					            Start="install"
 					            Stop="both"
 					            Remove="uninstall"

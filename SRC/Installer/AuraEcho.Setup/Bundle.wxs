@@ -97,11 +97,11 @@
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
 			</MsiPackage>
 
-			<!-- Telemetry Service -->
-			<MsiPackage Id="AuraEchoTelemetryServiceMsi"
+			<!-- Telemetry Relay Service -->
+			<MsiPackage Id="AuraEchoTelemetryRelayServiceMsi"
 						Visible="no"
 						Compressed="yes"
-						SourceFile="$(AuraEcho.TelemetryService.Installer.TargetFileName)">
+						SourceFile="$(AuraEcho.TelemetryRelayService.Installer.TargetFileName)">
 				<MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]"/>
 			</MsiPackage>
 		</Chain>

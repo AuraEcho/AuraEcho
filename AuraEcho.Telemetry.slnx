@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="SRC/Services/AuraEcho.TelemetryService/AuraEcho.TelemetryService.fsproj" />
+  <Project Path="SRC/Services/AuraEcho.TelemetryRelayService/AuraEcho.TelemetryRelayService.fsproj" />
   <Project Path="SRC/Shared/AuraEcho.Cloud/AuraEcho.Cloud/AuraEcho.Cloud.csproj" />
   <Project Path="SRC/Shared/AuraEcho.Core/AuraEcho.Core.csproj" />
   <Project Path="SRC/Shared/AuraEcho.Logging/AuraEcho.Logging.csproj" />

@@ -5,7 +5,7 @@
 	  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	  <AssemblyName>$(MSBuildProjectName.Replace(".", ""))</AssemblyName>
 	  <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-	  <Version Condition="'$(TelemetryServiceVersion)' != ''">$(TelemetryServiceVersion)</Version>
+	  <Version Condition="'$(TelemetryRelayServiceVersion)' != ''">$(TelemetryRelayServiceVersion)</Version>
 	  <Product>灵光回声</Product>
 	  <Copyright>© Suencesoft. All rights reserved.</Copyright>
   </PropertyGroup>

@@ -1,0 +1,10 @@
+<Project Sdk="WixToolset.Sdk/6.0.2">
+  <PropertyGroup>
+    <Cultures>zh-CN;</Cultures>
+	  <TelemetryRelayServiceVersion Condition="'$(TelemetryRelayServiceVersion)' == ''">1.0.0</TelemetryRelayServiceVersion>
+	  <DefineConstants>Version=$(TelemetryRelayServiceVersion)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\AuraEcho.TelemetryRelayService\AuraEcho.TelemetryRelayService.fsproj" />
+  </ItemGroup>
+</Project>

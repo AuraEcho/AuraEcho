@@ -1,4 +1,4 @@
-module AuraEcho.TelemetryService.Workflows
+module AuraEcho.TelemetryRelayService.Workflows
 
 open System
 open AuraEcho.Cloud.V1

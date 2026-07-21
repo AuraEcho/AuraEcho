@@ -37,7 +37,7 @@
     <Project Path="SRC/Installer/AuraEcho.UpdaterService.Installer/AuraEcho.UpdaterService.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" Id="0504b72a-891f-4992-8688-2e151be66619">
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
-    <Project Path="SRC/Installer/AuraEcho.TelemetryService.Installer/AuraEcho.TelemetryService.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" Id="d6df7aaf-cf17-4dc2-8839-f2dacd3cdd60">
+    <Project Path="SRC/Installer/AuraEcho.TelemetryRelayService.Installer/AuraEcho.TelemetryRelayService.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" Id="d6df7aaf-cf17-4dc2-8839-f2dacd3cdd60">
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
     <Project Path="SRC/Installer/AuraEchoInstaller.CustomAction/AuraEchoInstaller.CustomAction.csproj" Id="1e37f1e2-c424-46f2-9a14-8a392ea58287" />
@@ -57,7 +57,7 @@
   <Folder Name="/SRC/Services/">
     <Project Path="SRC/Services/AuraEcho.LauncherService/AuraEcho.LauncherService.fsproj" Id="4daa4c66-2268-4427-8f23-d639b6a5d739" />
     <Project Path="SRC/Services/AuraEcho.UpdaterService/AuraEcho.UpdaterService.fsproj" Id="f522eebc-7ca7-4b1c-94ee-57fb452206ea" />
-    <Project Path="SRC/Services/AuraEcho.TelemetryService/AuraEcho.TelemetryService.fsproj" Id="9da0ad2f-72d3-4536-a647-fec432963e04" />
+    <Project Path="SRC/Services/AuraEcho.TelemetryRelayService/AuraEcho.TelemetryRelayService.fsproj" Id="9da0ad2f-72d3-4536-a647-fec432963e04" />
   </Folder>
   <Folder Name="/SRC/Shared/">
     <Project Path="SRC/Shared/alibabacloud-oss-csharp-sdk-v2/src/AlibabaCloud.OSS.V2/AlibabaCloud.OSS.V2.csproj" />

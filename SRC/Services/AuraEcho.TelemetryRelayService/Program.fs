@@ -1,4 +1,4 @@
-namespace AuraEcho.TelemetryService
+namespace AuraEcho.TelemetryRelayService
 
 open System
 open System.IO
@@ -17,7 +17,7 @@ module Program =
         Path.Combine(
             Environment.GetFolderPath Environment.SpecialFolder.CommonApplicationData,
             "AuraEcho",
-            "TelemetryService",
+            "TelemetryRelayService",
             "Logs")
 
     let configureServices (services: IServiceCollection) =
@@ -40,10 +40,10 @@ module Program =
         try
             Directory.CreateDirectory logDir |> ignore
 
-            let loggingOptions = LoggingOptions(logDir, "telemetry-", "Telemetry")
+            let loggingOptions = LoggingOptions(logDir, "telemetry-relay-", "TelemetryRelay")
 
             Host.CreateDefaultBuilder(args)
-                .UseWindowsService(fun options -> options.ServiceName <- "AuraEcho Telemetry Service")
+                .UseWindowsService(fun options -> options.ServiceName <- "AuraEcho Telemetry Relay Service")
                 .ConfigureLogging(fun lb -> lb.AddAuraEchoSerilog(loggingOptions) |> ignore)
                 .ConfigureServices(configureServices)
                 .Build()

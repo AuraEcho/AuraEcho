@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-	<Package Name="AuraEchoTelemetryService"
+	<Package Name="AuraEchoTelemetryRelayService"
 			 Manufacturer="Suencesoft"
 			 Version="$(var.Version)"
 			 Codepage="65001"
@@ -10,7 +10,7 @@
 		<MajorUpgrade DowngradeErrorMessage="不允许降级安装" />
 
 		<Feature Id="Main">
-			<ComponentGroupRef Id="TelemetryServiceFileComponents" />
+			<ComponentGroupRef Id="TelemetryRelayServiceFileComponents" />
 		</Feature>
 	</Package>
 </Wix>

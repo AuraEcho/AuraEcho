@@ -1,5 +1,5 @@
-# AuraEcho 数据库迁移脚本
-# 交互式封装 dotnet ef，自动处理 --context 与输出目录
+# AuraEcho Host 数据库迁移脚本
+# 交互式封装 dotnet ef，针对 HostDbContext
 
 $ErrorActionPreference = "Stop"
 
@@ -19,20 +19,8 @@ if (-not $efInstalled) {
     exit 1
 }
 
-# context 名称 -> 迁移输出目录 的映射
-$contextMap = @{
-    "HostDbContext"      = "Migrations/Host"
-    "TelemetryDbContext" = "Migrations/Telemetry"
-}
-
-# 选择目标数据库
-$Db = Read-Host "选择数据库 [1: Host 主库 (默认), 2: Telemetry 遥测库]"
-if ($Db -eq "2") {
-    $Context = "TelemetryDbContext"
-} else {
-    $Context = "HostDbContext"
-}
-$OutputDir = $contextMap[$Context]
+$Context = "HostDbContext"
+$OutputDir = "Migrations/Host"
 
 # 选择操作
 $Action = Read-Host "选择操作 [1: 新增迁移 (默认), 2: 列出迁移, 3: 回滚上一个迁移, 4: 更新数据库]"

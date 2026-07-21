@@ -1,4 +1,6 @@
 using AuraEcho.Telemetry;
+using AuraEcho.Cloud.V1;
+using AuraEcho.Cloud.V1.Models.Activity;
 using AuraEcho.Cloud.V1.Models.Order;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
@@ -33,6 +35,8 @@ public class MainWindowViewModel : BindableBase
     private readonly ITokenProvider _tokenProvider;
     private readonly OrderPayUrlCacheService _orderPayUrlCacheService;
     private readonly ITelemetryService _telemetry;
+    private readonly ApiClient _apiClient;
+    private readonly TelemetryContextFactory _contextFactory;
     #endregion
 
     public Version CurrentVersion
@@ -117,7 +121,9 @@ public class MainWindowViewModel : BindableBase
         IAuraToastService auraToastService,
         IRegionDialogService regionDialogService,
         OrderPayUrlCacheService orderPayUrlCacheService,
-        ITelemetryService telemetry)
+        ITelemetryService telemetry,
+        ApiClient apiClient,
+        TelemetryContextFactory contextFactory)
     {
         _regionDialogService = regionDialogService;
         ToastService = auraToastService;
@@ -127,11 +133,14 @@ public class MainWindowViewModel : BindableBase
         _tokenProvider = tokenProvider;
         _orderPayUrlCacheService = orderPayUrlCacheService;
         _telemetry = telemetry;
+        _apiClient = apiClient;
+        _contextFactory = contextFactory;
 
         GoBackCommand = new DelegateCommand(GoBack, CanGoBack);
         RequestRestartAppCommand = new DelegateCommand(RequestRestartApp);
 
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
+        _eventAggregator.GetEvent<SignedInEvent>().Subscribe(OnSignedIn);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
         _eventAggregator.GetEvent<KickedOutEvent>().Subscribe(KickedOut);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
@@ -156,6 +165,27 @@ public class MainWindowViewModel : BindableBase
     private async void OrderPaid(OrderPaymentDetails details)
     {
         _orderPayUrlCacheService.Remove(new(details.SkuId, details.PaymentMethod));
+    }
+
+    private void OnSignedIn()
+    {
+        _ = ReportDauAsync();
+    }
+
+    private async Task ReportDauAsync()
+    {
+        try
+        {
+            await _apiClient.Activity.ReportAsync(new ActivityReportRequest
+            {
+                SessionId = _contextFactory.SessionId,
+                ClientVersion = _contextFactory.Context.AppVersion
+            });
+        }
+        catch
+        {
+            // 静默失败
+        }
     }
 
     private async void KickedOut()

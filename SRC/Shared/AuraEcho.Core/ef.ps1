@@ -20,7 +20,7 @@ if (-not $efInstalled) {
 }
 
 $Context = "HostDbContext"
-$OutputDir = "Migrations/Host"
+$OutputDir = "Migrations"
 
 # 选择操作
 $Action = Read-Host "选择操作 [1: 新增迁移 (默认), 2: 列出迁移, 3: 回滚上一个迁移, 4: 更新数据库]"

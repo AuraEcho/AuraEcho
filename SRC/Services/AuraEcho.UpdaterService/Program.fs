@@ -7,11 +7,13 @@ open System.Net.Http
 open Microsoft.EntityFrameworkCore
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.Logging
 open AuraEcho.Cloud.Helpers
 open AuraEcho.Cloud.V1
 open AuraEcho.Cloud.V1.EndPoints
 open AuraEcho.Core.Contracts
 open AuraEcho.Core.Data
+open AuraEcho.Core.Logging
 open AuraEcho.Core.Repositories
 open AuraEcho.Core.Services
 open AuraEcho.Core.Telemetry
@@ -32,15 +34,14 @@ module Program =
         services.AddHostedService<Worker>()
                 .AddDbContext<HostDbContext>(fun options ->
                     options.UseSqlite $"Data Source={ApplicationPaths.HostDataBase}" |> ignore)
-                .AddSingleton<IAppLogger>(new Serilogger(logDir))
                 .AddSingleton<HttpClient>(fun sp ->
-                    let logHandler = new LoggingHandler(null, InnerHandler = new HttpClientHandler())
+                    let logHandler = new LoggingHandler(sp.GetRequiredService<ILogger<LoggingHandler>>(), InnerHandler = new HttpClientHandler())
                     new HttpClient(logHandler))
                 .AddSingleton<HttpHelper>(fun sp ->
                     let client = sp.GetRequiredService<HttpClient>()
                     HttpHelper(client))
                 .AddSingleton<ApiClient>(fun sp ->
-                    let logHandler = new LoggingHandler(null, InnerHandler = new HttpClientHandler())
+                    let logHandler = new LoggingHandler(sp.GetRequiredService<ILogger<LoggingHandler>>(), InnerHandler = new HttpClientHandler())
                     new ApiClient(logHandler))
                 .AddSingleton<TelemetryContextFactory>()
                 .AddSingleton<TelemetryStore>()
@@ -54,9 +55,12 @@ module Program =
         try
             Directory.CreateDirectory logDir |> ignore;
 
-            let builder = 
+            let loggingOptions = LoggingOptions(logDir, "updater-", "Updater")
+
+            let builder =
                 Host.CreateDefaultBuilder(args)
                     .UseWindowsService(fun options -> options.ServiceName <- "AuraEcho Updater Service")
+                    .ConfigureLogging(fun lb -> lb.AddAuraEchoSerilog(loggingOptions) |> ignore)
                     .ConfigureServices(configureServices)
                     .Build()
                     .Run()

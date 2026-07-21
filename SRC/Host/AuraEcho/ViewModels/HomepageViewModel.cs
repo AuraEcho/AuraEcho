@@ -11,6 +11,7 @@ using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.Strings;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -30,7 +31,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
     private readonly IRegionDialogService _regionDialogService;
     private readonly IEventAggregator _eventAggregator;
     private readonly IThemeManager _themeManager;
-    private readonly IAppLogger _logger;
+    private readonly ILogger<HomepageViewModel> _logger;
     private readonly IClientSession _clientSession;
     private readonly ITelemetryService _telemetry;
     private ObservableCollection<AppPlugin> _plugins;
@@ -192,7 +193,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
         IEventAggregator eventAggregator,
         IPluginManager pluginManager,
         IThemeManager themeManager,
-        IAppLogger logger,
+        ILogger<HomepageViewModel> logger,
         IRegionDialogService regionDialogService,
         IClientSession clientSession,
         ITelemetryService telemetry)

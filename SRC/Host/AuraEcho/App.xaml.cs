@@ -22,6 +22,7 @@ using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Data;
 using AuraEcho.Core.Events;
+using AuraEcho.Core.Logging;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Repositories;
 using AuraEcho.Core.Services;
@@ -44,11 +45,13 @@ using AuraEcho.Views;
 using DryIoc;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Prism.DryIoc;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Serilog.Core;
 
 namespace AuraEcho;
 
@@ -61,7 +64,9 @@ public partial class App : PrismApplication
     private static Mutex _instanceMutex;
     private string[] _startupArgs;
     private TaskbarIcon _notifyIcon;
-    private static IAppLogger _logger;
+    private static ILoggerFactory _loggerFactory;
+    private static LoggingLevelSwitch _logLevelSwitch;
+    private static ILogger<App> _logger;
     private static ITelemetryService _telemetry;
     private static TelemetryContextFactory _telemetryContextFactory;
     private static Stopwatch _startupStopwatch;
@@ -69,7 +74,7 @@ public partial class App : PrismApplication
     private static MemorySampler _memorySampler;
     protected override Window CreateShell()
     {
-        LoggingAttribute.Logger = Container.Resolve<IAppLogger>();
+        LoggingAttribute.LoggerFactory = Container.Resolve<ILoggerFactory>();
         return Container.Resolve<MainWindow>();
     }
 
@@ -79,7 +84,11 @@ public partial class App : PrismApplication
     {
         containerRegistry.Register<HostDbContext>(provider => HostDbContextRuntimeFactory.CreateDbContext());
 
-        containerRegistry.RegisterInstance(_logger);
+        // Prism 的 IContainerRegistry 不支持开放泛型注册，使用底层 DryIoc 容器完成。
+        containerRegistry.RegisterInstance(_loggerFactory);
+        var container = containerRegistry.GetContainer();
+        container.Register(typeof(ILogger<>), typeof(Logger<>), reuse: Reuse.Transient);
+
         containerRegistry.RegisterSingleton<IClock, ServerClock>();
         containerRegistry.RegisterSingleton<ITokenProvider, TokenProvider>();
         containerRegistry.RegisterSingleton<IHubTokenProvider>(c => c.Resolve<ITokenProvider>());
@@ -87,7 +96,7 @@ public partial class App : PrismApplication
 
         containerRegistry.RegisterSingleton<ApiClient>(c =>
         {
-            var logHandler = new LoggingHandler(c.Resolve<IAppLogger>(), c.Resolve<ITelemetryService>());
+            var logHandler = new LoggingHandler(c.Resolve<ILogger<LoggingHandler>>(), c.Resolve<ITelemetryService>());
             var serverTimeHandler = new ServerTimeHandler(c.Resolve<IClock>());
             var authHandler = c.Resolve<AuthHandler>();
 
@@ -201,7 +210,7 @@ public partial class App : PrismApplication
         _memorySampler = Container.Resolve<MemorySampler>();
         _memorySampler.Start();
 
-        // 全局 UI 交互自动捕获（主窗口已创建，可安全注册类级路由事件处理器）
+        // 全局 UI 交互自动捕获
         Container.Resolve<InteractionTracker>().Register();
     }
 
@@ -210,16 +219,19 @@ public partial class App : PrismApplication
         ToastNotificationManagerCompat.Uninstall();
         _sessionStopwatch.Stop();
 
-        // 先停采样器，再 flush 落库，避免并发写 DB
+        // 停止内存采样器
         _memorySampler?.StopAsync(TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
 
         _telemetry?.TrackMetric("App.SessionDuration", new Dictionary<string, double> { ["value"] = _sessionStopwatch.Elapsed.TotalSeconds });
         _telemetry?.TrackEvent("App.Shutdown");
-        _logger.Information("App.Shutdown");
+        _logger.LogInformation("App.Shutdown");
 
         // 等待遥测数据缓存持久化
         if (_telemetry is TelemetryService telemetryService)
             telemetryService.FlushAndShutdownAsync(TimeSpan.FromSeconds(1)).GetAwaiter().GetResult();
+
+        // 释放日志工厂，flush 异步 sink 并落盘剩余日志。
+        _loggerFactory?.Dispose();
 
         base.OnExit(e);
     }
@@ -257,12 +269,15 @@ public partial class App : PrismApplication
     static void Main(string[] args)
     {
         _startupStopwatch = Stopwatch.StartNew();
-        _logger = new Serilogger(ApplicationPaths.Logs);
-        _logger.Debug("程序已启动");
+        _loggerFactory = SerilogConfigurator.CreateLoggerFactory(
+            new LoggingOptions(ApplicationPaths.Logs, "client-", "Host"),
+            out _logLevelSwitch);
+        _logger = _loggerFactory.CreateLogger<App>();
+        _logger.LogDebug("程序已启动");
 
         if (Mutex.TryOpenExisting(MutexNames.INSTALLER_MUTEX_ID, out var _))
         {
-            _logger.Debug("检测到安装程序正在运行，正在退出程序。");
+            _logger.LogDebug("检测到安装程序正在运行，正在退出程序。");
             return;
         }
 
@@ -279,7 +294,7 @@ public partial class App : PrismApplication
                 writer.Flush();
             }
 
-            _logger.Debug("已有实例正在运行，正在退出程序。");
+            _logger.LogDebug("已有实例正在运行，正在退出程序。");
             return;
         }
 #endif
@@ -296,9 +311,9 @@ public partial class App : PrismApplication
 
         using var pluginDbContext = HostDbContextRuntimeFactory.CreateDbContext();
 
-        _logger.Information("Begin Migrate");
+        _logger.LogInformation("Begin Migrate");
         pluginDbContext.Database.Migrate();
-        _logger.Information("End Migrate");
+        _logger.LogInformation("End Migrate");
     }
 
     private static void StartPipeServer()

@@ -1,16 +1,15 @@
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
-using AuraEcho.PluginContracts.Interfaces;
-using Serilog;
+using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text.Json;
 
 namespace AuraEcho.Core.Services;
 
-public class HostSettingsProvider(IAppLogger logger) : IHostSettingsProvider
+public class HostSettingsProvider(ILogger<HostSettingsProvider> logger) : IHostSettingsProvider
 {
-    private readonly IAppLogger _logger = logger;
+    private readonly ILogger<HostSettingsProvider> _logger = logger;
 
     public HostSettings LoadHostSettings()
     {
@@ -25,7 +24,7 @@ public class HostSettingsProvider(IAppLogger logger) : IHostSettingsProvider
 
         if (hostSettings == null)
         {
-            _logger.Error("无法解析插件注册表。");
+            _logger.LogError("无法解析插件注册表。");
             SaveHostSettings(HostSettings.Default);
             return HostSettings.Default;
         }

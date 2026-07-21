@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using AuraEcho.PluginContracts.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace AuraEcho.Services;
 
@@ -12,11 +13,11 @@ namespace AuraEcho.Services;
 /// </summary>
 public sealed class GlobalExceptionHandler
 {
-    private readonly IAppLogger _logger;
+    private readonly ILogger<GlobalExceptionHandler> _logger;
     private readonly ITelemetryService _telemetry;
     private bool _registered;
 
-    public GlobalExceptionHandler(IAppLogger logger, ITelemetryService telemetry)
+    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, ITelemetryService telemetry)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _telemetry = telemetry;
@@ -90,7 +91,7 @@ public sealed class GlobalExceptionHandler
     /// </summary>
     private void HandleException(Exception exception, string source = "Unknown")
     {
-        _logger.Fatal($"未处理的应用程序异常: {exception}");
+        _logger.LogCritical(exception, "未处理的应用程序异常，来源: {Source}", source);
 
         try
         {

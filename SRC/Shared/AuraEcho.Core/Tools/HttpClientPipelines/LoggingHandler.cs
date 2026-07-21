@@ -1,4 +1,5 @@
 using AuraEcho.PluginContracts.Interfaces;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -7,12 +8,28 @@ namespace AuraEcho.Core.Tools.HttpClientPipelines;
 
 public sealed class LoggingHandler : DelegatingHandler
 {
-    private readonly IAppLogger _logger;
+    private readonly ILogger<LoggingHandler> _logger;
     private readonly ITelemetryService? _telemetry;
 
-    public LoggingHandler(IAppLogger logger, ITelemetryService? telemetry = null)
+    /// <summary>
+    /// 敏感请求/响应头名单。命中后其值在日志中以 <c>***</c> 脱敏，避免 Token、Cookie 等凭据落盘。
+    /// </summary>
+    private static readonly HashSet<string> SensitiveHeaders = new(StringComparer.OrdinalIgnoreCase)
     {
-        _logger = logger;
+        "Authorization",
+        "Proxy-Authorization",
+        "Cookie",
+        "Set-Cookie",
+        "X-Api-Key",
+        "X-Auth-Token",
+        "Api-Key",
+    };
+
+    private const string RedactedValue = "***";
+
+    public LoggingHandler(ILogger<LoggingHandler> logger, ITelemetryService? telemetry = null)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _telemetry = telemetry;
     }
 
@@ -28,8 +45,20 @@ public sealed class LoggingHandler : DelegatingHandler
             var response = await base.SendAsync(request, cancellationToken);
             sw.Stop();
 
-            var logText = await BuildLogString(request, response, sw.Elapsed, cancellationToken);
-            _logger?.Debug(logText);
+            // 概要：始终以结构化字段记录，便于按字段检索与聚合。
+            _logger.LogInformation(
+                "HTTP {Method} {Uri} -> {StatusCode} in {ElapsedMs} ms",
+                request.Method.Method,
+                request.RequestUri,
+                (int)response.StatusCode,
+                (long)sw.Elapsed.TotalMilliseconds);
+
+            // 明细（含头/体，已脱敏）：仅在 Debug 级别开启时构造，避免生产环境性能与安全负担。
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                var logText = await BuildLogString(request, response, sw.Elapsed, cancellationToken);
+                _logger.LogDebug("{HttpTrace}", logText);
+            }
 
             TrackHttp(request, (int)response.StatusCode, sw.Elapsed, succeeded: response.IsSuccessStatusCode);
 
@@ -38,8 +67,18 @@ public sealed class LoggingHandler : DelegatingHandler
         catch (Exception ex)
         {
             sw.Stop();
-            var logText = BuildErrorLogString(request, ex, sw.Elapsed);
-            _logger?.Error(logText);
+            _logger.LogError(
+                ex,
+                "HTTP {Method} {Uri} 请求失败，耗时 {ElapsedMs} ms",
+                request.Method.Method,
+                request.RequestUri,
+                (long)sw.Elapsed.TotalMilliseconds);
+
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                var logText = BuildErrorLogString(request, ex, sw.Elapsed);
+                _logger.LogDebug("{HttpTrace}", logText);
+            }
 
             TrackHttp(request, statusCode: 0, sw.Elapsed, succeeded: false, exceptionType: ex.GetType().Name);
             throw;
@@ -70,6 +109,17 @@ public sealed class LoggingHandler : DelegatingHandler
         _telemetry.TrackMetric("Http.Duration", new Dictionary<string, double> { ["value"] = elapsed.TotalMilliseconds }, props);
     }
 
+    /// <summary>
+    /// 输出一个头字段，命中敏感名单时对其值脱敏。
+    /// </summary>
+    private static void AppendHeader(StringBuilder sb, string name, IEnumerable<string> values)
+    {
+        var rendered = SensitiveHeaders.Contains(name)
+            ? RedactedValue
+            : string.Join(", ", values);
+        sb.AppendLine($"│  {name}: {rendered}");
+    }
+
     private static async Task<string> BuildLogString(HttpRequestMessage request, HttpResponseMessage response, TimeSpan elapsed, CancellationToken ct)
     {
         var sb = new StringBuilder(8192);
@@ -82,12 +132,12 @@ public sealed class LoggingHandler : DelegatingHandler
         // ========== Request ==========
         sb.AppendLine("├─ Request");
         foreach (var h in request.Headers)
-            sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+            AppendHeader(sb, h.Key, h.Value);
 
         if (request.Content != null)
         {
             foreach (var h in request.Content.Headers)
-                sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+                AppendHeader(sb, h.Key, h.Value);
 
             if (IsTextBasedContentType(request.Content))
             {
@@ -106,12 +156,12 @@ public sealed class LoggingHandler : DelegatingHandler
         sb.AppendLine($"│  HTTP/{response.Version} {(int)response.StatusCode} {response.ReasonPhrase}");
 
         foreach (var h in response.Headers)
-            sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+            AppendHeader(sb, h.Key, h.Value);
 
         if (response.Content != null)
         {
             foreach (var h in response.Content.Headers)
-                sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+                AppendHeader(sb, h.Key, h.Value);
             if (IsTextBasedContentType(response.Content))
             {
                 var body = await response.Content.ReadAsStringAsync(ct);
@@ -153,12 +203,12 @@ public sealed class LoggingHandler : DelegatingHandler
         // Request headers
         sb.AppendLine("├─ Request Headers");
         foreach (var h in request.Headers)
-            sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+            AppendHeader(sb, h.Key, h.Value);
 
         if (request.Content != null)
         {
             foreach (var h in request.Content.Headers)
-                sb.AppendLine($"│  {h.Key}: {string.Join(", ", h.Value)}");
+                AppendHeader(sb, h.Key, h.Value);
         }
 
         // Exception info

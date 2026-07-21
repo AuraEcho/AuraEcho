@@ -12,13 +12,14 @@ using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
+using Microsoft.Extensions.Logging;
 using Prism.Ioc;
 
 namespace AuraEcho.Services;
 
 public class PluginLoader : IPluginLoader
 {
-    private readonly IAppLogger _logger;
+    private readonly ILogger<PluginLoader> _logger;
     private readonly IContainerProvider _containerProvider;
     private readonly ILocalPluginRepository _pluginRepository;
     private readonly List<PluginLoadContext> _pluginLoadContexts = [];
@@ -26,7 +27,7 @@ public class PluginLoader : IPluginLoader
     {
         _containerProvider = containerProvider;
         _pluginRepository = containerProvider.Resolve<ILocalPluginRepository>();
-        _logger = _containerProvider.Resolve<IAppLogger>();
+        _logger = _containerProvider.Resolve<ILogger<PluginLoader>>();
     }
 
     public async Task<AppPlugin> LoadPluginAsync(UserPluginModel userPluginModel)
@@ -70,7 +71,7 @@ public class PluginLoader : IPluginLoader
         if (!File.Exists(entryAssemblyPath))
         {
             string errorMessage = $"插件 {userPluginModel.LocalPlugin.PluginId} 主程序集不存在：{entryAssemblyPath}";
-            _logger.Error(errorMessage);
+            _logger.LogError(errorMessage);
             throw new Exception(errorMessage);
         }
 
@@ -83,7 +84,7 @@ public class PluginLoader : IPluginLoader
         }
         catch (Exception ex)
         {
-            _logger.Error($"加载插件程序集失败：{userPluginModel.LocalPlugin.PluginId}，异常：{ex.Message}");
+            _logger.LogError(ex, "加载插件程序集失败：{PluginId}", userPluginModel.LocalPlugin.PluginId);
             return null;
         }
 
@@ -97,7 +98,7 @@ public class PluginLoader : IPluginLoader
             PlanStatus = userPluginModel.Status
         };
 
-        _logger.Debug("执行插件环境初始化");
+        _logger.LogDebug("执行插件环境初始化");
 
         if (!userPluginModel.LocalPlugin.IsSetup)
         {
@@ -142,7 +143,7 @@ public class PluginLoader : IPluginLoader
         if (!File.Exists(entryAssemblyPath))
         {
             string errorMessage = $"插件 {userPluginModel.LocalPlugin.PluginId} 主程序集不存在：{entryAssemblyPath}";
-            _logger.Error(errorMessage);
+            _logger.LogError(errorMessage);
             throw new Exception(errorMessage);
         }
 
@@ -171,7 +172,7 @@ public class PluginLoader : IPluginLoader
         if (!File.Exists(entryAssemblyPath))
         {
             string errorMessage = $"插件 {userPluginModel.LocalPlugin.PluginId} 主程序集不存在：{entryAssemblyPath}";
-            _logger.Error(errorMessage);
+            _logger.LogError(errorMessage);
             throw new Exception(errorMessage);
         }
 

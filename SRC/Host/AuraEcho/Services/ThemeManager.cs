@@ -4,9 +4,9 @@ using System.Windows;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Interfaces;
-using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.Design;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Prism.Mvvm;
 using AuraEcho.Design.Themes;
@@ -14,7 +14,7 @@ namespace AuraEcho.Services;
 
 public class ThemeManager : BindableBase, IThemeManager
 {
-    private readonly IAppLogger _logger;
+    private readonly ILogger<ThemeManager> _logger;
     private readonly IPluginManager _pluginManager;
     private AppTheme _currentTheme;
     private readonly List<ResourceDictionary> _themeResources = [];
@@ -35,7 +35,7 @@ public class ThemeManager : BindableBase, IThemeManager
         }
     }
 
-    public ThemeManager(IAppLogger logger, IPluginManager pluginManager)
+    public ThemeManager(ILogger<ThemeManager> logger, IPluginManager pluginManager)
     {
         _logger = logger;
         _pluginManager = pluginManager;
@@ -69,11 +69,11 @@ public class ThemeManager : BindableBase, IThemeManager
             Application.Current.Resources.MergedDictionaries.Add(hostThemeResources);
             pluginThemeResources.ForEach(Application.Current.Resources.MergedDictionaries.Add);
 
-            _logger.Debug($"主题切换成功：{realTheme} (Host + {pluginThemeResources.Count} 插件资源)");
+            _logger.LogDebug("主题切换成功：{Theme} (Host + {PluginResourceCount} 插件资源)", realTheme, pluginThemeResources.Count);
         }
         catch (Exception ex)
         {
-            _logger.Error($"切换主题失败：{realTheme}，异常：{ex.Message}");
+            _logger.LogError(ex, "切换主题失败：{Theme}", realTheme);
         }
     }
 
@@ -99,7 +99,8 @@ public class ThemeManager : BindableBase, IThemeManager
             if (pluginResource is not null)
             {
                 resources.Add(pluginResource);
-                _logger.Debug($"插件主题资源: {plugin.PluginName} -> {appTheme}{(fellBack ? $" (回退到 {appTheme.GetBaseTheme()})" : "")}");
+                _logger.LogDebug("插件主题资源: {PluginName} -> {Theme}{FallbackNote}",
+                    plugin.PluginName, appTheme, fellBack ? $" (回退到 {appTheme.GetBaseTheme()})" : "");
             }
         }
         return resources;

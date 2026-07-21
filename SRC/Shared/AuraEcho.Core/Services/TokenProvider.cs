@@ -8,7 +8,7 @@ using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Tools;
 using AuraEcho.Core.Tools.HttpClientPipelines;
-using AuraEcho.PluginContracts.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace AuraEcho.Core.Services;
 
@@ -22,9 +22,9 @@ public class TokenProvider : ITokenProvider
     private readonly SemaphoreSlim _refreshLock = new(1, 1);
     private readonly AuthEndpoint _authEndpoint;
     private readonly IClock _clock;
-    private readonly IAppLogger _logger;
+    private readonly ILogger<LoggingHandler> _logger;
 
-    public TokenProvider(IClock clock, IAppLogger logger)
+    public TokenProvider(IClock clock, ILogger<LoggingHandler> logger)
     {
         _clock = clock;
         _logger = logger;

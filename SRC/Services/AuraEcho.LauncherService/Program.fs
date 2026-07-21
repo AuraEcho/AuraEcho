@@ -3,8 +3,9 @@ namespace AuraEcho.LauncherService
 open System
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.Logging
 open System.IO
-open Serilog
+open AuraEcho.Core.Logging
 
 module Program =
     let logDir = Path.Combine(
@@ -16,19 +17,12 @@ module Program =
     [<EntryPoint>]
     let main args =
 
-        Log.Logger <-
-            LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.File(
-                    Path.Combine(logDir, "LauncherService-.log"),
-                    rollingInterval = RollingInterval.Day,
-                    retainedFileCountLimit = Nullable 7)
-                .CreateLogger()
+        let loggingOptions = LoggingOptions(logDir, "launcher-", "Launcher")
 
         Host.CreateDefaultBuilder(args)
             .UseWindowsService(fun opt -> opt.ServiceName <- "AuraEchoLauncherService")
+            .ConfigureLogging(fun lb -> lb.AddAuraEchoSerilog(loggingOptions) |> ignore)
             .ConfigureServices(fun services -> services.AddHostedService<LauncherWorker>() |> ignore)
-            .UseSerilog()
             .Build()
             .Run()
         0

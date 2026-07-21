@@ -10,6 +10,7 @@ using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.Interfaces;
 using AuraEcho.PluginContracts.Interfaces;
+using Microsoft.Extensions.Logging;
 using Prism.Ioc;
 
 namespace AuraEcho.Services;
@@ -18,7 +19,7 @@ public class PluginManager : IPluginManager
 {
     private bool _isInitialized;
     private readonly ILocalPluginRepository _pluginRepository;
-    private readonly IAppLogger _logger;
+    private readonly ILogger<PluginManager> _logger;
     private readonly IClientSession _clientSession;
     private readonly IPluginLoader _pluginLoader;
     private readonly IContainerProvider _containerProvider;
@@ -35,7 +36,7 @@ public class PluginManager : IPluginManager
         _containerProvider = containerProvider;
         _clientSession = _containerProvider.Resolve<IClientSession>();
         _pluginRepository = _containerProvider.Resolve<ILocalPluginRepository>();
-        _logger = _containerProvider.Resolve<IAppLogger>();
+        _logger = _containerProvider.Resolve<ILogger<PluginManager>>();
         _pluginLoader = _containerProvider.Resolve<IPluginLoader>();
         _telemetry = _containerProvider.Resolve<ITelemetryService>();
     }
@@ -51,7 +52,7 @@ public class PluginManager : IPluginManager
 
         if (_isInitialized)
         {
-            _logger.Debug("插件管理器已初始化，跳过加载。");
+            _logger.LogDebug("插件管理器已初始化，跳过加载。");
             return _plugins;
         }
 
@@ -60,7 +61,7 @@ public class PluginManager : IPluginManager
         {
             await LoadPluginAsync(pluginRegistry);
         }
-        _logger.Debug($"已加载 {_plugins.Count} 个插件。");
+        _logger.LogDebug("已加载 {PluginCount} 个插件。", _plugins.Count);
 
         _isInitialized = true;
 
@@ -81,7 +82,7 @@ public class PluginManager : IPluginManager
             if (pluginRegistryModel.Status == PluginPlanStatus.UninstallPending)
             {
                 await _pluginRepository.RemoveUserPluginAsync(pluginRegistryModel.Id);
-                _logger.Debug($"插件 {pluginRegistryModel.LocalPlugin.PluginId} 已被卸载，跳过加载。");
+                _logger.LogDebug("插件 {PluginId} 已被卸载，跳过加载。", pluginRegistryModel.LocalPlugin.PluginId);
                 return null;
             }
 
@@ -92,7 +93,7 @@ public class PluginManager : IPluginManager
         }
         catch (Exception ex)
         {
-            _logger.Error($"加载插件 {pluginRegistryModel.LocalPlugin.PluginId} 失败: {ex.Message}");
+            _logger.LogError(ex, "加载插件 {PluginId} 失败", pluginRegistryModel.LocalPlugin.PluginId);
             _telemetry.TrackEvent("Plugin.LoadFailed", new Dictionary<string, string>
             {
                 ["pluginId"] = pluginRegistryModel.LocalPlugin.PluginId.ToString(),
@@ -127,11 +128,11 @@ public class PluginManager : IPluginManager
             try
             {
                 dir.Delete(true);
-                _logger.Information($"已成功清理旧版本目录: {dir.Name}");
+                _logger.LogInformation("已成功清理旧版本目录: {DirectoryName}", dir.Name);
             }
             catch (IOException)
             {
-                _logger.Warning($"目录 {dir.Name} 正被占用，跳过本次清理。");
+                _logger.LogWarning("目录 {DirectoryName} 正被占用，跳过本次清理。", dir.Name);
             }
         }
     }

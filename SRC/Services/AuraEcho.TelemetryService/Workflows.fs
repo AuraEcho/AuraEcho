@@ -5,7 +5,7 @@ open AuraEcho.Cloud.V1
 open AuraEcho.Cloud.V1.Models.Telemetry
 open AuraEcho.Core.Contracts
 open AuraEcho.Core.Telemetry
-open AuraEcho.PluginContracts.Interfaces
+open Microsoft.Extensions.Logging
 
 /// 遥测刷新配置。
 type FlushOptions =
@@ -38,23 +38,23 @@ let private toBatch (records: TelemetryEventRecord list) =
         SentAt = DateTime.UtcNow)
 
 /// 发送单个批次
-let private sendBatchAsync (logger: IAppLogger) (store: TelemetryStore) (apiClient: ApiClient) (batch: TelemetryBatch) = task {
+let private sendBatchAsync (logger: ILogger) (store: TelemetryStore) (apiClient: ApiClient) (batch: TelemetryBatch) = task {
     let! status = apiClient.Telemetry.SendBatchAsync batch
     let ids = batch.Events |> Seq.map (fun e -> e.Id)
 
     match status with
     | TelemetryDeliveryStatus.Accepted ->
         store.Delete ids
-        logger.Debug $"遥测批量发送成功: {batch.Events.Count} 条事件"
+        logger.LogDebug("遥测批量发送成功: {EventCount} 条事件", batch.Events.Count)
     | TelemetryDeliveryStatus.Rejected ->
         store.Delete ids
-        logger.Warning $"遥测批量被服务端拒绝，已丢弃 {batch.Events.Count} 条事件"
+        logger.LogWarning("遥测批量被服务端拒绝，已丢弃 {EventCount} 条事件", batch.Events.Count)
     | _ ->
-        logger.Debug "遥测暂时不可达，事件保留待重试"
+        logger.LogDebug("遥测暂时不可达，事件保留待重试")
 }
 
 /// 从数据库缓存中获取遥测数据并发送
-let flushOnceAsync (logger: IAppLogger) (store: TelemetryStore) (apiClient: ApiClient) (options: FlushOptions) = task {
+let flushOnceAsync (logger: ILogger) (store: TelemetryStore) (apiClient: ApiClient) (options: FlushOptions) = task {
     try
         // 超出条数上限时丢弃最旧事件
         store.TrimToCapacity options.MaxStoredEvents |> ignore
@@ -66,5 +66,5 @@ let flushOnceAsync (logger: IAppLogger) (store: TelemetryStore) (apiClient: ApiC
             let batch = toBatch records
             do! sendBatchAsync logger store apiClient batch
     with ex ->
-        logger.Error $"遥测刷新过程中发生异常: {ex}"
+        logger.LogError(ex, "遥测刷新过程中发生异常")
 }

@@ -6,12 +6,13 @@ open System.Diagnostics
 open System.Net.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.Logging
 open AuraEcho.Cloud.V1
 open AuraEcho.Core.Contracts
+open AuraEcho.Core.Logging
 open AuraEcho.Core.Services
 open AuraEcho.Core.Telemetry
 open AuraEcho.Core.Tools.HttpClientPipelines
-open AuraEcho.PluginContracts.Interfaces
 
 module Program =
 
@@ -24,11 +25,10 @@ module Program =
 
     let configureServices (services: IServiceCollection) =
         services.AddHostedService<Worker>()
-                .AddSingleton<IAppLogger>(new Serilogger(logDir))
                 .AddSingleton<TelemetryContextFactory>()
                 .AddSingleton<TelemetryStore>()
                 .AddSingleton<ApiClient>(fun sp ->
-                    let logHandler = new LoggingHandler(sp.GetRequiredService<IAppLogger>(), InnerHandler = new HttpClientHandler())
+                    let logHandler = new LoggingHandler(sp.GetRequiredService<ILogger<LoggingHandler>>(), InnerHandler = new HttpClientHandler())
                     new ApiClient(logHandler))
         |> ignore
 
@@ -37,8 +37,11 @@ module Program =
         try
             Directory.CreateDirectory logDir |> ignore
 
+            let loggingOptions = LoggingOptions(logDir, "telemetry-", "Telemetry")
+
             Host.CreateDefaultBuilder(args)
                 .UseWindowsService(fun options -> options.ServiceName <- "AuraEcho Telemetry Service")
+                .ConfigureLogging(fun lb -> lb.AddAuraEchoSerilog(loggingOptions) |> ignore)
                 .ConfigureServices(configureServices)
                 .Build()
                 .Run()

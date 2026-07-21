@@ -6,6 +6,7 @@ using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace AuraEcho.Core.Services;
 
@@ -13,9 +14,9 @@ public class PluginInstallService : IPluginInstallService
 {
     private const string MANIFEST_FILE_NAME = "plugin.manifest.json";
     private readonly ILocalPluginRepository _localPluginRepository;
-    private readonly IAppLogger _logger;
+    private readonly ILogger<PluginInstallService> _logger;
     private readonly ITelemetryService _telemetry;
-    public PluginInstallService(ILocalPluginRepository localPluginRepository, IAppLogger logger, ITelemetryService telemetry)
+    public PluginInstallService(ILocalPluginRepository localPluginRepository, ILogger<PluginInstallService> logger, ITelemetryService telemetry)
     {
         _localPluginRepository = localPluginRepository;
         _logger = logger;
@@ -39,7 +40,7 @@ public class PluginInstallService : IPluginInstallService
         string manifestPath = Path.Combine(extractPath, MANIFEST_FILE_NAME);
         if (!File.Exists(manifestPath))
         {
-            _logger.Error("插件缺少 manifest 文件。");
+            _logger.LogError("插件缺少 manifest 文件。");
             Directory.Delete(extractPath, true);
             return null;
         }
@@ -53,11 +54,11 @@ public class PluginInstallService : IPluginInstallService
             Directory.Delete(finalFolderPath, true);
         DirectoryUtils.SafeMoveDirectory(extractPath, finalFolderPath);
 
-        _logger.Debug("查询已安装信息");
+        _logger.LogDebug("查询已安装信息");
         var installedPlugin = (await _localPluginRepository.GetLocalPluginsAsync()).FirstOrDefault(pr => pr.Id == manifest.Id);
         if (installedPlugin is not null)
         {
-            _logger.Debug("正在更新插件信息");
+            _logger.LogDebug("正在更新插件信息");
             await _localPluginRepository.UpdateLocalPluginAsync(new InstalledPluginModel
             {
                 Id = installedPlugin.Id,
@@ -82,7 +83,7 @@ public class PluginInstallService : IPluginInstallService
             await _localPluginRepository.AddLocalPluginAsync(installedPlugin);
         }
 
-        _logger.Debug("安装成功");
+        _logger.LogDebug("安装成功");
         _telemetry.TrackEvent("Plugin.Installed", new Dictionary<string, string>
         {
             ["pluginId"] = manifest.Id.ToString("D"),

@@ -1,7 +1,7 @@
-﻿using QRCoder;
+using QRCoder;
 using System.Windows.Media.Imaging;
 
-namespace AuraEcho.Tools;
+namespace AuraEcho.Toolkit.Wpf.Tools;
 
 public static class QRCodeUtil
 {

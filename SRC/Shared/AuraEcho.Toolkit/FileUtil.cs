@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace AuraEcho.Core.Tools;
+namespace AuraEcho.Toolkit;
 
 public static class FileUtil
 {

@@ -28,6 +28,7 @@
     <PackageReference Include="System.Management" Version="9.0.6" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuraEcho.Toolkit\AuraEcho.Toolkit.csproj" />
     <ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
     <ProjectReference Include="..\AuraEcho.Cloud\AuraEcho.Cloud\AuraEcho.Cloud.csproj" />
   </ItemGroup>

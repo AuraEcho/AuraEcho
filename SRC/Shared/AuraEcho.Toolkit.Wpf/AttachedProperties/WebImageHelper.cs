@@ -1,22 +1,22 @@
-﻿using AuraEcho.PluginContracts.Services;
+using AuraEcho.Toolkit.Wpf.Imaging;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace AuraEcho.PluginContracts.AttachedProperties
+namespace AuraEcho.Toolkit.Wpf.AttachedProperties
 {
     public static class WebImageHelper
     {
         /// <summary>
         /// 图片地址
         /// </summary>
-        public static readonly DependencyProperty UrlProperty = 
+        public static readonly DependencyProperty UrlProperty =
             DependencyProperty.RegisterAttached(
-                "Url", 
-                typeof(string), 
-                typeof(WebImageHelper), 
+                "Url",
+                typeof(string),
+                typeof(WebImageHelper),
                 new PropertyMetadata(string.Empty, OnImagePropertyChanged));
         public static string GetUrl(DependencyObject obj) => (string)obj.GetValue(UrlProperty);
         public static void SetUrl(DependencyObject obj, string value) => obj.SetValue(UrlProperty, value);
@@ -24,11 +24,11 @@ namespace AuraEcho.PluginContracts.AttachedProperties
         /// <summary>
         /// 解码宽度
         /// </summary>
-        public static readonly DependencyProperty DecodePixelWidthProperty = 
+        public static readonly DependencyProperty DecodePixelWidthProperty =
             DependencyProperty.RegisterAttached(
-                "DecodePixelWidth", 
-                typeof(int), 
-                typeof(WebImageHelper), 
+                "DecodePixelWidth",
+                typeof(int),
+                typeof(WebImageHelper),
                 new PropertyMetadata(0, OnImagePropertyChanged));
         public static int GetDecodePixelWidth(DependencyObject obj) => (int)obj.GetValue(DecodePixelWidthProperty);
         public static void SetDecodePixelWidth(DependencyObject obj, int value) => obj.SetValue(DecodePixelWidthProperty, value);
@@ -36,11 +36,11 @@ namespace AuraEcho.PluginContracts.AttachedProperties
         /// <summary>
         /// 解码高度
         /// </summary>
-        public static readonly DependencyProperty DecodePixelHeightProperty = 
+        public static readonly DependencyProperty DecodePixelHeightProperty =
             DependencyProperty.RegisterAttached(
-                "DecodePixelHeight", 
-                typeof(int), 
-                typeof(WebImageHelper), 
+                "DecodePixelHeight",
+                typeof(int),
+                typeof(WebImageHelper),
                 new PropertyMetadata(0, OnImagePropertyChanged));
         public static int GetDecodePixelHeight(DependencyObject obj) => (int)obj.GetValue(DecodePixelHeightProperty);
         public static void SetDecodePixelHeight(DependencyObject obj, int value) => obj.SetValue(DecodePixelHeightProperty, value);

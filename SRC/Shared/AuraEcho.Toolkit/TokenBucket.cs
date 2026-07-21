@@ -1,4 +1,4 @@
-namespace AuraEcho.Core.Tools;
+namespace AuraEcho.Toolkit;
 
 /// <summary>
 /// 令牌桶限流器

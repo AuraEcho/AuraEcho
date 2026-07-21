@@ -7,7 +7,6 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Models"
-             xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:sv="clr-namespace:AuraEcho.Services"
              xmlns:ui="http://ui.auraecho.com/"
@@ -71,8 +70,8 @@
                             <Grid RowDefinitions="105, *">
                                 <Border Grid.Row="0" CornerRadius="4, 4, 0, 0">
                                     <Border.Background>
-                                        <ImageBrush pcap:WebImageHelper.DecodePixelHeight="210"
-                                                    pcap:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.PluginInfo.BannerFileUrl}"
+                                        <ImageBrush ui:WebImageHelper.DecodePixelHeight="210"
+                                                    ui:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.PluginInfo.BannerFileUrl}"
                                                     Stretch="UniformToFill" />
                                     </Border.Background>
                                 </Border>
@@ -86,8 +85,8 @@
                                             CornerRadius="4"
                                             DockPanel.Dock="Left">
                                         <Border.Background>
-                                            <ImageBrush pcap:WebImageHelper.DecodePixelWidth="64"
-                                                        pcap:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.PluginInfo.IconFileUrl}"
+                                            <ImageBrush ui:WebImageHelper.DecodePixelWidth="64"
+                                                        ui:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.PluginInfo.IconFileUrl}"
                                                         Stretch="UniformToFill" />
                                         </Border.Background>
                                     </Border>

@@ -8,8 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:AuraEcho.Models"
-        xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
-        xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
+             xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:selectors="clr-namespace:AuraEcho.Selectors"
         xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
@@ -424,8 +423,8 @@
                                         <TranslateTransform Y="0" />
                                     </Border.RenderTransform>
                                     <Border.Background>
-                                        <ImageBrush pcap:WebImageHelper.DecodePixelWidth="56"
-                                                    pcap:WebImageHelper.Url="{Binding ClientSession.CurrentUser.AvatarFileUrl}"
+                                        <ImageBrush auraecho:WebImageHelper.DecodePixelWidth="56"
+                                                    auraecho:WebImageHelper.Url="{Binding ClientSession.CurrentUser.AvatarFileUrl}"
                                                     Stretch="UniformToFill" />
                                     </Border.Background>
                                 </Border>
@@ -577,8 +576,8 @@
                                             BorderThickness="1"
                                             CornerRadius="40">
                                         <Border.Background>
-                                            <ImageBrush pcap:WebImageHelper.DecodePixelHeight="96"
-                                                        pcap:WebImageHelper.Url="{Binding ClientSession.CurrentUser.AvatarFileUrl}"
+                                            <ImageBrush auraecho:WebImageHelper.DecodePixelHeight="96"
+                                                        auraecho:WebImageHelper.Url="{Binding ClientSession.CurrentUser.AvatarFileUrl}"
                                                         Stretch="UniformToFill" />
                                         </Border.Background>
                                     </Border>

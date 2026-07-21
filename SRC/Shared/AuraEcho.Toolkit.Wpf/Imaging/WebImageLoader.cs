@@ -1,4 +1,3 @@
-﻿using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Concurrent;
@@ -9,12 +8,13 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Media.Imaging;
 
-namespace AuraEcho.Core.Services;
+namespace AuraEcho.Toolkit.Wpf.Imaging;
 
 public class WebImageLoader : IWebImageLoader
 {
     private static readonly MemoryCache _memoryCache;
     private static readonly HttpClient HttpClient = new();
+    private readonly string _cacheDirectory;
 
     /// <summary>
     /// 图片 Url 对应的下载任务，用于优化同时加载相同图片的场景
@@ -24,8 +24,13 @@ public class WebImageLoader : IWebImageLoader
     static WebImageLoader()
     {
         _memoryCache = new MemoryCache(new MemoryCacheOptions());
-        if (!Directory.Exists(ApplicationPaths.ImageCache))
-            Directory.CreateDirectory(ApplicationPaths.ImageCache);
+    }
+
+    public WebImageLoader(string cacheDirectory)
+    {
+        _cacheDirectory = cacheDirectory ?? throw new ArgumentNullException(nameof(cacheDirectory));
+        if (!Directory.Exists(_cacheDirectory))
+            Directory.CreateDirectory(_cacheDirectory);
     }
 
     /// <summary>
@@ -42,7 +47,7 @@ public class WebImageLoader : IWebImageLoader
         {
             return memImage;
         }
-        
+
         // 获取或添加(如果不存在)下载任务
         var lazyByteTask = ByteLoadingTasks.GetOrAdd(url,
             key => new Lazy<Task<byte[]>>(() => GetImageBytesInternalAsync(key)));
@@ -71,12 +76,12 @@ public class WebImageLoader : IWebImageLoader
     /// <summary>
     /// 磁盘读取与网络下载
     /// </summary>
-    private static async Task<byte[]> GetImageBytesInternalAsync(string url)
+    private async Task<byte[]> GetImageBytesInternalAsync(string url)
     {
         try
         {
             string fileName = GetMd5Hash(url);
-            string filePath = Path.Combine(ApplicationPaths.ImageCache, fileName);
+            string filePath = Path.Combine(_cacheDirectory, fileName);
 
             // 磁盘缓存
             if (File.Exists(filePath))
@@ -96,7 +101,7 @@ public class WebImageLoader : IWebImageLoader
 
             return bytes;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Debug.WriteLine("图片加载失败");
             return null;

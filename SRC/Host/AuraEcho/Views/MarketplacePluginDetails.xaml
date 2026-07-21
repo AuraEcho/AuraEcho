@@ -7,7 +7,6 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:AuraEcho.Models"
-             xmlns:pcap="clr-namespace:AuraEcho.PluginContracts.AttachedProperties;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:selectors="clr-namespace:AuraEcho.Selectors"
              xmlns:sv="clr-namespace:AuraEcho.Services"
@@ -233,8 +232,8 @@
                             </Border.OpacityMask>
                             <Border>
                                 <Image x:Name="BannerImage"
-                                       pcap:WebImageHelper.DecodePixelHeight="800"
-                                       pcap:WebImageHelper.Url="{Binding MarketPlugin.PluginInfo.BannerFileUrl}" />
+                                       ui:WebImageHelper.DecodePixelHeight="800"
+                                       ui:WebImageHelper.Url="{Binding MarketPlugin.PluginInfo.BannerFileUrl}" />
                                 <Border.OpacityMask>
                                     <RadialGradientBrush Center="0.5, 0.4" RadiusX="0.5" RadiusY="0.7">
                                         <GradientStop Offset="0" Color="#FF000000" />
@@ -302,8 +301,8 @@
                                 DockPanel.Dock="Left">
                             <Border.Background>
                                 <ImageBrush d:ImageSource="/Assets/Icons/AuraEcho.ico"
-                                            pcap:WebImageHelper.DecodePixelWidth="170"
-                                            pcap:WebImageHelper.Url="{Binding MarketPlugin.PluginInfo.IconFileUrl}" />
+                                            ui:WebImageHelper.DecodePixelWidth="170"
+                                            ui:WebImageHelper.Url="{Binding MarketPlugin.PluginInfo.IconFileUrl}" />
                             </Border.Background>
                         </Border>
                         <StackPanel>
@@ -471,8 +470,8 @@
                                                         Height="252"
                                                         CornerRadius="4">
                                                     <Border.Background>
-                                                        <ImageBrush pcap:WebImageHelper.DecodePixelWidth="976"
-                                                                    pcap:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.FileUrl}"
+                                                        <ImageBrush ui:WebImageHelper.DecodePixelWidth="976"
+                                                                    ui:WebImageHelper.Url="{Binding Source={StaticResource DataContextProxy}, Path=Data.FileUrl}"
                                                                     Stretch="UniformToFill" />
                                                     </Border.Background>
                                                 </Border>

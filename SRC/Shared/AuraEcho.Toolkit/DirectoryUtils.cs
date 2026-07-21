@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace AuraEcho.Core.Tools;
+namespace AuraEcho.Toolkit;
 
 /// <summary>
 /// 目录操作工具类

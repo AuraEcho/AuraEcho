@@ -1,6 +1,6 @@
-﻿using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.PluginContracts.Interfaces;
 
-namespace AuraEcho.PluginContracts.Services
+namespace AuraEcho.Toolkit.Wpf.Imaging
 {
     public static class WebImageLoaderContext
     {

@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace AuraEcho.Core.Native.Win32;
+namespace AuraEcho.Toolkit.Native;
 
 public static class Win32Helper
 {

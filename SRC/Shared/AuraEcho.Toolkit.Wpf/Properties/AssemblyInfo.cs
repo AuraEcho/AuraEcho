@@ -14,3 +14,4 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Toolkit.Wpf.EntranceEffects")]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Toolkit.Wpf.Tools")]
 [assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Toolkit.Wpf.MarkupExtensions")]
+[assembly: XmlnsDefinition("http://ui.auraecho.com/", "AuraEcho.Toolkit.Wpf.AttachedProperties")]

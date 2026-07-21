@@ -34,7 +34,8 @@ using AuraEcho.Models;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
-using AuraEcho.PluginContracts.Services;
+using AuraEcho.Toolkit.Wpf.Imaging;
+using AuraEcho.Toolkit.Wpf.Services;
 using AuraEcho.Services;
 using AuraEcho.Strings;
 using AuraEcho.Tools;
@@ -121,7 +122,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IClientSession, ClientSession>();
         containerRegistry.RegisterSingleton<ILicenseService, HostLicenseService>();
         containerRegistry.RegisterSingleton<IPurchaseCoordinator, PurchaseCoordinator>();
-        containerRegistry.RegisterSingleton<IWebImageLoader, WebImageLoader>();
+        containerRegistry.RegisterSingleton<IWebImageLoader>(() => new WebImageLoader(ApplicationPaths.ImageCache));
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
         containerRegistry.RegisterSingleton<OrderPayUrlCacheService>();
 

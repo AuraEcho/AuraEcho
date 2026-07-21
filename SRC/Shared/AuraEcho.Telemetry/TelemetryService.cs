@@ -1,9 +1,8 @@
 using System.Threading.Channels;
 using AuraEcho.Cloud.V1.Models.Telemetry;
 using AuraEcho.Toolkit;
-using AuraEcho.PluginContracts.Interfaces;
 
-namespace AuraEcho.Core.Telemetry;
+namespace AuraEcho.Telemetry;
 
 /// <summary>
 /// 本地遥测数据缓存
@@ -49,19 +48,19 @@ public class TelemetryService : ITelemetryService
     public bool IsEnabled { get; set; } = true;
 
 
-    public void TrackEvent(string name, Dictionary<string, string> properties = null)
+    public void TrackEvent(string name, Dictionary<string, string>? properties = null)
     {
         if (!IsEnabled) return;
         Enqueue(TelemetryEventType.Event, name, properties, null);
     }
 
-    public void TrackMetric(string name, Dictionary<string, double> metrics, Dictionary<string, string> properties = null)
+    public void TrackMetric(string name, Dictionary<string, double> metrics, Dictionary<string, string>? properties = null)
     {
         if (!IsEnabled) return;
         Enqueue(TelemetryEventType.Metric, name, properties, metrics);
     }
 
-    public void TrackException(Exception exception, Dictionary<string, string> properties = null)
+    public void TrackException(Exception exception, Dictionary<string, string>? properties = null)
     {
         if (!IsEnabled) return;
 
@@ -107,7 +106,7 @@ public class TelemetryService : ITelemetryService
         Enqueue(TelemetryEventType.Exception, exception.GetType().Name, props, null);
     }
 
-    public void TrackPageView(string pageName, Dictionary<string, string> properties = null)
+    public void TrackPageView(string pageName, Dictionary<string, string>? properties = null)
     {
         if (!IsEnabled) return;
         Enqueue(TelemetryEventType.PageView, pageName, properties, null);
@@ -171,6 +170,8 @@ public class TelemetryService : ITelemetryService
 
             var evt = new TelemetryEvent
             {
+                Id = Guid.NewGuid(),
+                Timestamp = DateTime.UtcNow,
                 Type = type,
                 Name = name,
                 SessionId = _contextFactory.SessionId,

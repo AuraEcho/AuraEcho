@@ -7,7 +7,7 @@ using AuraEcho.Cloud.V1.Models.Common;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Tools;
-using AuraEcho.Core.Tools.HttpClientPipelines;
+using AuraEcho.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace AuraEcho.Core.Services;

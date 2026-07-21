@@ -1,6 +1,6 @@
 using AuraEcho.Cloud.V1.Models.Telemetry;
 
-namespace AuraEcho.Core.Data.Entities;
+namespace AuraEcho.Telemetry;
 
 /// <summary>
 /// 遥测事件本地缓存实体。

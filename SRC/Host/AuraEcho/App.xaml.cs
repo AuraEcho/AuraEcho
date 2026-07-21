@@ -25,9 +25,9 @@ using AuraEcho.Logging;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Repositories;
 using AuraEcho.Core.Services;
-using AuraEcho.Core.Telemetry;
 using AuraEcho.Core.Tools;
 using AuraEcho.Core.Tools.HttpClientPipelines;
+using AuraEcho.Telemetry;
 using AuraEcho.Events;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;
@@ -80,6 +80,20 @@ public partial class App : PrismApplication
 
     public static bool ShutdownRequested { get; private set; }
 
+    /// <summary>
+    /// 获取或生成设备安装标识。优先从 SecureStore 读取，不存在则新建并持久化。
+    /// </summary>
+    private static Guid GetOrCreateInstallationId()
+    {
+        var existing = SecureStore.Load(SecureStoreKeys.InstallationId);
+        if (Guid.TryParse(existing, out var id))
+            return id;
+
+        var newId = Guid.NewGuid();
+        SecureStore.Save(SecureStoreKeys.InstallationId, newId.ToString());
+        return newId;
+    }
+
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.Register<HostDbContext>(provider => HostDbContextRuntimeFactory.CreateDbContext());
@@ -96,11 +110,13 @@ public partial class App : PrismApplication
 
         containerRegistry.RegisterSingleton<ApiClient>(c =>
         {
-            var logHandler = new LoggingHandler(c.Resolve<ILogger<LoggingHandler>>(), c.Resolve<ITelemetryService>());
+            var logHandler = new LoggingHandler(c.Resolve<ILogger<LoggingHandler>>());
+            var telemetryHandler = new TelemetryHandler(c.Resolve<ITelemetryService>());
             var serverTimeHandler = new ServerTimeHandler(c.Resolve<IClock>());
             var authHandler = c.Resolve<AuthHandler>();
 
-            logHandler.InnerHandler = serverTimeHandler;
+            logHandler.InnerHandler = telemetryHandler;
+            telemetryHandler.InnerHandler = serverTimeHandler;
             serverTimeHandler.InnerHandler = authHandler;
             authHandler.InnerHandler = new HttpClientHandler();
 
@@ -126,8 +142,12 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
         containerRegistry.RegisterSingleton<OrderPayUrlCacheService>();
 
-        containerRegistry.RegisterSingleton<TelemetryStore>();
-        containerRegistry.RegisterSingleton<TelemetryContextFactory>();
+        containerRegistry.RegisterSingleton<TelemetryStore>(c =>
+            new TelemetryStore(ApplicationPaths.TelemetryDataBase));
+
+        containerRegistry.RegisterSingleton<TelemetryContextFactory>(c =>
+            new TelemetryContextFactory(GetOrCreateInstallationId));
+
         containerRegistry.RegisterSingleton<ITelemetryService>(c =>
         {
             var service = new TelemetryService(

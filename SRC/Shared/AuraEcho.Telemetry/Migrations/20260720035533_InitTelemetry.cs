@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations.Telemetry
+namespace AuraEcho.Telemetry.Migrations
 {
     /// <inheritdoc />
     public partial class InitTelemetry : Migration

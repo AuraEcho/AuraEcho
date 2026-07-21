@@ -1,4 +1,4 @@
-namespace AuraEcho.Core.Telemetry;
+namespace AuraEcho.Telemetry;
 
 /// <summary>
 /// 遥测上下文信息

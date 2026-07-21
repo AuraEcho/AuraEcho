@@ -1,5 +1,6 @@
 using AuraEcho.Core.Models;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.Telemetry;
 using Prism.Mvvm;
 using Prism.Regions;
 

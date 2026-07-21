@@ -1,3 +1,4 @@
+using AuraEcho.Telemetry;
 using System;
 using System.Collections.Generic;
 using System.IO;

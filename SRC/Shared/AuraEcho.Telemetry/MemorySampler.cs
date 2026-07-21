@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using AuraEcho.PluginContracts.Interfaces;
 
-namespace AuraEcho.Core.Telemetry;
+namespace AuraEcho.Telemetry;
 
 /// <summary>
 /// 运行时内存定时采样器

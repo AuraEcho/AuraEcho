@@ -66,6 +66,7 @@
     <Project Path="SRC/Shared/AuraEcho.Logging/AuraEcho.Logging.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Design/SRC/AuraEcho.Design/AuraEcho.Design.csproj" />
     <Project Path="SRC/Shared/AuraEcho.PluginContracts/AuraEcho.PluginContracts.csproj" Id="88f69dd3-259f-4c4d-b8e2-f23f4baa8823" />
+    <Project Path="SRC/Shared/AuraEcho.Telemetry/AuraEcho.Telemetry.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Toolkit/AuraEcho.Toolkit.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Toolkit.Wpf/AuraEcho.Toolkit.Wpf.csproj" />
   </Folder>

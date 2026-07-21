@@ -1,10 +1,9 @@
 using System.Text.Json;
-using AuraEcho.Core.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AuraEcho.Core.Data;
+namespace AuraEcho.Telemetry;
 
 /// <summary>
 /// 遥测数据本地缓存上下文。

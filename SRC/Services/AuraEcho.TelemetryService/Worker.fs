@@ -6,8 +6,7 @@ open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
 open AuraEcho.Cloud.V1
-open AuraEcho.Core.Contracts
-open AuraEcho.Core.Telemetry
+open AuraEcho.Telemetry
 open AuraEcho.TelemetryService.Workflows
 
 type Worker(logger: ILogger<Worker>, scopeFactory: IServiceScopeFactory) =

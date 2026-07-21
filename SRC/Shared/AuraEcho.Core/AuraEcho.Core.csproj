@@ -14,7 +14,6 @@
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="Enums\" />
-    <Folder Include="Native\Externals\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
@@ -25,9 +24,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
-    <PackageReference Include="System.Management" Version="9.0.6" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuraEcho.Telemetry\AuraEcho.Telemetry.csproj" />
+    <ProjectReference Include="..\AuraEcho.Logging\AuraEcho.Logging.csproj" />
     <ProjectReference Include="..\AuraEcho.Toolkit\AuraEcho.Toolkit.csproj" />
     <ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
     <ProjectReference Include="..\AuraEcho.Cloud\AuraEcho.Cloud\AuraEcho.Cloud.csproj" />

@@ -8,11 +8,8 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open AuraEcho.Cloud.V1
-open AuraEcho.Core.Contracts
 open AuraEcho.Logging
-open AuraEcho.Core.Services
-open AuraEcho.Core.Telemetry
-open AuraEcho.Core.Tools.HttpClientPipelines
+open AuraEcho.Telemetry
 
 module Program =
 
@@ -24,9 +21,15 @@ module Program =
             "Logs")
 
     let configureServices (services: IServiceCollection) =
+        let dbPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+            "AuraEcho", "Client", "Data", "telemetry.db")
+
         services.AddHostedService<Worker>()
-                .AddSingleton<TelemetryContextFactory>()
-                .AddSingleton<TelemetryStore>()
+                .AddSingleton<TelemetryStore>(new TelemetryStore(dbPath))
+                .AddSingleton<TelemetryContextFactory>(fun sp ->
+                    // 遥测服务端不需要 InstallationId 持久化，每次生成新 ID 即可
+                    new TelemetryContextFactory(fun () -> Guid.NewGuid()))
                 .AddSingleton<ApiClient>(fun sp ->
                     let logHandler = new LoggingHandler(sp.GetRequiredService<ILogger<LoggingHandler>>(), InnerHandler = new HttpClientHandler())
                     new ApiClient(logHandler))

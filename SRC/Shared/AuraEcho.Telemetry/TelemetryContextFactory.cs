@@ -2,21 +2,23 @@ using System.Management;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using AuraEcho.Core.Constants;
-using AuraEcho.Core.Tools;
 
-namespace AuraEcho.Core.Telemetry;
+namespace AuraEcho.Telemetry;
 
 /// <summary>
 /// 构建遥测上报时的全局上下文信息。
+/// InstallationId 通过 <see cref="_installationIdProvider"/> 由调用方注入，
+/// 避免对 SecureStore 等持久化组件的直接依赖。
 /// </summary>
 public class TelemetryContextFactory
 {
+    private readonly Func<Guid> _installationIdProvider;
     private readonly Lazy<Guid> _sessionId;
     private readonly Lazy<TelemetryContext> _context;
 
-    public TelemetryContextFactory()
+    public TelemetryContextFactory(Func<Guid> installationIdProvider)
     {
+        _installationIdProvider = installationIdProvider ?? throw new ArgumentNullException(nameof(installationIdProvider));
         _sessionId = new Lazy<Guid>(Guid.NewGuid);
         _context = new Lazy<TelemetryContext>(BuildContext);
     }
@@ -31,13 +33,13 @@ public class TelemetryContextFactory
     /// </summary>
     public TelemetryContext Context => _context.Value;
 
-    private static TelemetryContext BuildContext()
+    private TelemetryContext BuildContext()
     {
         var (screenResolution, screenDpi) = GetScreenInfo();
 
         return new TelemetryContext
         {
-            InstallationId = GetInstallationId(),
+            InstallationId = _installationIdProvider(),
             AppVersion = GetAppVersion(),
             OsVersion = RuntimeInformation.OSDescription,
             NetVersion = Environment.Version.ToString(),
@@ -48,37 +50,26 @@ public class TelemetryContextFactory
             ScreenDpi = screenDpi,
             NetworkType = GetNetworkType()
         };
+    }
 
-        static Guid GetInstallationId()
+    private static string GetAppVersion()
+    {
+        try
         {
-            var existing = SecureStore.Load(SecureStoreKeys.InstallationId);
-            if (Guid.TryParse(existing, out var id))
-                return id;
-
-            var newId = Guid.NewGuid();
-            SecureStore.Save(SecureStoreKeys.InstallationId, newId.ToString());
-            return newId;
+            var assembly = Assembly.GetEntryAssembly();
+            if (assembly != null)
+            {
+                var version = assembly.GetName().Version;
+                if (version != null)
+                    return version.ToString();
+            }
+        }
+        catch
+        {
+            // 忽略版本获取失败
         }
 
-        static string GetAppVersion()
-        {
-            try
-            {
-                var assembly = Assembly.GetEntryAssembly();
-                if (assembly != null)
-                {
-                    var version = assembly.GetName().Version;
-                    if (version != null)
-                        return version.ToString();
-                }
-            }
-            catch
-            {
-                // 忽略版本获取失败
-            }
-
-            return "0.0.0.0";
-        }
+        return "0.0.0.0";
     }
 
     private const int SM_CXSCREEN = 0;

@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AuraEcho.Core.Migrations.Telemetry
+namespace AuraEcho.Telemetry.Migrations
 {
     /// <inheritdoc />
     public partial class AddSequenceNumber : Migration

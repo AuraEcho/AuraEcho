@@ -3,8 +3,7 @@ module AuraEcho.TelemetryService.Workflows
 open System
 open AuraEcho.Cloud.V1
 open AuraEcho.Cloud.V1.Models.Telemetry
-open AuraEcho.Core.Contracts
-open AuraEcho.Core.Telemetry
+open AuraEcho.Telemetry
 open Microsoft.Extensions.Logging
 
 /// 遥测刷新配置。
@@ -48,7 +47,7 @@ let private sendBatchAsync (logger: ILogger) (store: TelemetryStore) (apiClient:
         logger.LogDebug("遥测批量发送成功: {EventCount} 条事件", batch.Events.Count)
     | TelemetryDeliveryStatus.Rejected ->
         store.Delete ids
-        logger.LogWarning("遥测批量被服务端拒绝，已丢弃 {EventCount} 条事件", batch.Events.Count)
+        logger.LogDebug("遥测批量被服务端拒绝，已丢弃 {EventCount} 条事件", batch.Events.Count)
     | _ ->
         logger.LogDebug("遥测暂时不可达，事件保留待重试")
 }

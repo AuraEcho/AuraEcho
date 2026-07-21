@@ -1,15 +1,13 @@
-using AuraEcho.PluginContracts.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 
-namespace AuraEcho.Core.Tools.HttpClientPipelines;
+namespace AuraEcho.Logging;
 
 public sealed class LoggingHandler : DelegatingHandler
 {
     private readonly ILogger<LoggingHandler> _logger;
-    private readonly ITelemetryService? _telemetry;
 
     /// <summary>
     /// 敏感请求/响应头名单。命中后其值在日志中以 <c>***</c> 脱敏，避免 Token、Cookie 等凭据落盘。
@@ -27,10 +25,9 @@ public sealed class LoggingHandler : DelegatingHandler
 
     private const string RedactedValue = "***";
 
-    public LoggingHandler(ILogger<LoggingHandler> logger, ITelemetryService? telemetry = null)
+    public LoggingHandler(ILogger<LoggingHandler> logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _telemetry = telemetry;
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(
@@ -60,8 +57,6 @@ public sealed class LoggingHandler : DelegatingHandler
                 _logger.LogDebug("{HttpTrace}", logText);
             }
 
-            TrackHttp(request, (int)response.StatusCode, sw.Elapsed, succeeded: response.IsSuccessStatusCode);
-
             return response;
         }
         catch (Exception ex)
@@ -80,33 +75,8 @@ public sealed class LoggingHandler : DelegatingHandler
                 _logger.LogDebug("{HttpTrace}", logText);
             }
 
-            TrackHttp(request, statusCode: 0, sw.Elapsed, succeeded: false, exceptionType: ex.GetType().Name);
             throw;
         }
-    }
-
-    /// <summary>
-    /// 上报网络请求指标。
-    /// </summary>
-    private void TrackHttp(HttpRequestMessage request, int statusCode, TimeSpan elapsed, bool succeeded, string? exceptionType = null)
-    {
-        if (_telemetry is null) return;
-
-        var path = request.RequestUri?.AbsolutePath ?? string.Empty;
-        // 排除遥测自身的上报请求，避免递归；其余请求全量上报以完整反映用户的网络行为
-        if (path.Contains("/telemetry", StringComparison.OrdinalIgnoreCase)) return;
-
-        var props = new Dictionary<string, string>
-        {
-            ["path"] = path,
-            ["method"] = request.Method.Method,
-            ["statusCode"] = statusCode.ToString(),
-            ["succeeded"] = succeeded ? "true" : "false"
-        };
-        if (exceptionType is not null)
-            props["exceptionType"] = exceptionType;
-
-        _telemetry.TrackMetric("Http.Duration", new Dictionary<string, double> { ["value"] = elapsed.TotalMilliseconds }, props);
     }
 
     /// <summary>

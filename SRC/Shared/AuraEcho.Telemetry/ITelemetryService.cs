@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AuraEcho.PluginContracts.Interfaces
+namespace AuraEcho.Telemetry
 {
     /// <summary>
     /// 遥测服务接口 —— 用于采集应用使用数据、异常报告和性能指标。

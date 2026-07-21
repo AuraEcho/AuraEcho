@@ -1,29 +1,32 @@
-using System.IO;
 using AuraEcho.Cloud.V1.Models.Telemetry;
-using AuraEcho.Core.Data;
-using AuraEcho.Core.Data.Entities;
-using AuraEcho.Core.Tools;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuraEcho.Core.Telemetry;
+namespace AuraEcho.Telemetry;
 
 /// <summary>
-/// 遥测数据本地缓存
+/// 遥测数据本地缓存。
+/// 数据库路径通过构造函数注入，消除对 ApplicationPaths 的静态依赖。
 /// </summary>
 public class TelemetryStore
 {
-    public TelemetryStore()
+    private readonly DbContextOptions<TelemetryDbContext> _options;
+
+    public TelemetryStore(string dbPath)
     {
+        _options = new DbContextOptionsBuilder<TelemetryDbContext>()
+            .UseSqlite($"Data Source={dbPath}")
+            .Options;
+
 #if !DEBUG
         // 发布版本会在安装阶段完成数据库迁移
-        if (File.Exists(ApplicationPaths.TelemetryDataBase)) return;
+        if (File.Exists(dbPath)) return;
 #endif
 
         using var db = CreateContext();
         db.Database.Migrate();
     }
 
-    private static TelemetryDbContext CreateContext() => TelemetryDbContextRuntimeFactory.CreateDbContext();
+    private TelemetryDbContext CreateContext() => new(_options);
 
     /// <summary>
     /// 写入单条遥测事件。

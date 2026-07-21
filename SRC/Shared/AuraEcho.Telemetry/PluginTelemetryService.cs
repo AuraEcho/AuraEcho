@@ -1,8 +1,7 @@
-using AuraEcho.PluginContracts.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace AuraEcho.PluginContracts.Telemetry
+namespace AuraEcho.Telemetry
 {
     /// <summary>
     /// 面向插件的遥测包装器。

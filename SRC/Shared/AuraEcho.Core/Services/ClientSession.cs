@@ -8,6 +8,7 @@ using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.Telemetry;
 using Prism.Events;
 using Prism.Mvvm;
 

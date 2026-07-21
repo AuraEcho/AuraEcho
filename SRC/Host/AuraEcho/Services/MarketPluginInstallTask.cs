@@ -1,3 +1,4 @@
+using AuraEcho.Telemetry;
 using AuraEcho.Cloud.V1;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;

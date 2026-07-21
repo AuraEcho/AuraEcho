@@ -16,14 +16,14 @@ open AuraEcho.Core.Data
 open AuraEcho.Logging
 open AuraEcho.Core.Repositories
 open AuraEcho.Core.Services
-open AuraEcho.Core.Telemetry
 open AuraEcho.Core.Tools
 open AuraEcho.Core.Tools.HttpClientPipelines
 open AuraEcho.PluginContracts.Interfaces
+open AuraEcho.Telemetry
 
 module Program =
 
-    let logDir = 
+    let logDir =
         Path.Combine(
             Environment.GetFolderPath Environment.SpecialFolder.CommonApplicationData,
             "AuraEcho",
@@ -43,9 +43,12 @@ module Program =
                 .AddSingleton<ApiClient>(fun sp ->
                     let logHandler = new LoggingHandler(sp.GetRequiredService<ILogger<LoggingHandler>>(), InnerHandler = new HttpClientHandler())
                     new ApiClient(logHandler))
-                .AddSingleton<TelemetryContextFactory>()
-                .AddSingleton<TelemetryStore>()
-                .AddSingleton<ITelemetryService, TelemetryService>()
+                .AddSingleton<TelemetryContextFactory>(fun sp ->
+                    let idProvider = fun () -> Guid.NewGuid()
+                    new TelemetryContextFactory(idProvider))
+                .AddSingleton<TelemetryStore>(fun sp ->
+                    new TelemetryStore(ApplicationPaths.TelemetryDataBase))
+                .AddSingleton<AuraEcho.Telemetry.ITelemetryService, TelemetryService>()
                 .AddScoped<ILocalPluginRepository, LocalPluginRepository>()
                 .AddScoped<IPluginInstallService, PluginInstallService>()
         |> ignore

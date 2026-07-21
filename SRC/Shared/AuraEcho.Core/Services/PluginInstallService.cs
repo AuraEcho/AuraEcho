@@ -2,6 +2,7 @@ using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.Telemetry;
 using AuraEcho.Toolkit;
 using Microsoft.Extensions.Logging;
 using System.IO;

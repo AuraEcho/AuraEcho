@@ -1,3 +1,4 @@
+using AuraEcho.Telemetry;
 ﻿using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.Tools;
 using AuraEcho.ViewModels;

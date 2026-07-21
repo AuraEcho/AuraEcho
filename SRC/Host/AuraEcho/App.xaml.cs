@@ -38,7 +38,7 @@ using AuraEcho.PluginContracts.Services;
 using AuraEcho.Services;
 using AuraEcho.Strings;
 using AuraEcho.Tools;
-using AuraEcho.UIToolkit.RegionDialog;
+using AuraEcho.Toolkit.Wpf.RegionDialog;
 using AuraEcho.ViewModels;
 using AuraEcho.Views;
 using DryIoc;

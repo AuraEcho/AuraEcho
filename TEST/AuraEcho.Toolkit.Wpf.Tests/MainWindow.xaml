@@ -1,0 +1,89 @@
+<Window x:Class="AuraEcho.Toolkit.Wpf.Tests.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:AuraEcho.Toolkit.Wpf.Tests"
+        Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://ui.auraecho.com/"
+        Title="MainWindow"
+        Width="800"
+        Height="450"
+        mc:Ignorable="d">
+    <Grid>
+        <StackPanel>
+            <!-- LoadingOverlay -->
+            <Border Margin="16,8"
+                    Padding="16"
+                    Background="{DynamicResource Brushes.SurfaceContainer}"
+                    CornerRadius="4">
+                <i:Interaction.Behaviors>
+                    <ui:LoadingOverlayBehavior Overlay="{DynamicResource Brushes.Scrim}" IsLoading="True" LoadingContent="Loading" />
+                </i:Interaction.Behaviors>
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Margin="0,0,0,8"
+                               Foreground="{DynamicResource Brushes.OnSurface}"
+                               Text="LoadingOverlay" />
+                    <StackPanel Orientation="Horizontal">
+
+                        <Button Margin="0,0,8,0"
+                                Padding="24,8"
+                                Content="默认" />
+                        <Button Margin="0,0,8,0"
+                                Padding="24,8"
+                                Content="默认" />
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+            <!-- Skeleton -->
+            <Border Margin="16,8"
+                    Padding="16"
+                    Background="{DynamicResource Brushes.SurfaceContainer}"
+                    CornerRadius="4">
+                <StackPanel>
+                    <TextBlock Margin="0,0,0,8"
+                               Foreground="{DynamicResource Brushes.OnSurface}"
+                               Text="Skeleton" />
+                    <Grid>
+                        <ui:SkeletonContainer IsLoading="True">
+                            <ui:SkeletonContainer.Skeleton>
+                                <StackPanel HorizontalAlignment="Left">
+                                    <ui:SkeletonRectangle Width="280"
+                                                          Height="20"
+                                                          Margin="0,0,0,8"
+                                                          HorizontalAlignment="Left"
+                                                          VerticalAlignment="Center" />
+                                    <ui:SkeletonRectangle Width="380"
+                                                          Height="20"
+                                                          Margin="0,0,0,8"
+                                                          VerticalAlignment="Center" />
+                                    <ui:SkeletonRectangle Width="340"
+                                                          Height="20"
+                                                          Margin="0,0,0,8"
+                                                          HorizontalAlignment="Left"
+                                                          VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ui:SkeletonContainer.Skeleton>
+                            <StackPanel x:Name="SourceShape" Orientation="Horizontal">
+
+                                <Button Margin="0,0,8,0"
+                                        Padding="24,8"
+                                        VerticalAlignment="Center"
+                                        Content="Button"
+                                        Style="{DynamicResource PrimaryButtonStyle}" />
+                                <Button Margin="0,0,8,0"
+                                        Padding="24,8"
+                                        VerticalAlignment="Center"
+                                        Content="Button"
+                                        Style="{DynamicResource PrimaryButtonStyle}" />
+                            </StackPanel>
+                        </ui:SkeletonContainer>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

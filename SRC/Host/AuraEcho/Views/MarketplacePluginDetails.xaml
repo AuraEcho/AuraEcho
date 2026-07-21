@@ -13,7 +13,7 @@
              xmlns:sv="clr-namespace:AuraEcho.Services"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:ui="http://ui.auraecho.com/"
-             xmlns:uv="clr-namespace:AuraEcho.UIToolkit.Converters;assembly=AuraEcho.UIToolkit"
+             xmlns:uv="clr-namespace:AuraEcho.Toolkit.Wpf.Converters;assembly=AuraEcho.Toolkit.Wpf"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:MarketplacePluginDetailsViewModel}"
              d:DesignHeight="1235"

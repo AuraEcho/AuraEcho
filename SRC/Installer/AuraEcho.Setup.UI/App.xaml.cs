@@ -6,7 +6,7 @@ using System.Windows.Threading;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.Setup.UI.Views;
 using AuraEcho.Setup.UI.WixToolset;
-using AuraEcho.UIToolkit.RegionDialog;
+using AuraEcho.Toolkit.Wpf.RegionDialog;
 using Prism.Ioc;
 using WixToolset.BootstrapperApplicationApi;
 

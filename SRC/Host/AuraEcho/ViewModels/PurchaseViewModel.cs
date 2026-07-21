@@ -10,7 +10,7 @@ using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 using AuraEcho.Services;
 using AuraEcho.Strings;
-using AuraEcho.UIToolkit.RegionDialog;
+using AuraEcho.Toolkit.Wpf.RegionDialog;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

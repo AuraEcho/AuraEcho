@@ -59,7 +59,7 @@
 		<ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
 		<ProjectReference Include="..\..\Shared\AuraEcho.Core\AuraEcho.Core.csproj" />
       <ProjectReference Include="..\..\Shared\AuraEcho.Logging\AuraEcho.Logging.csproj" />
-		<ProjectReference Include="..\..\Shared\AuraEcho.UIToolkit\AuraEcho.UIToolkit.csproj" />
+		<ProjectReference Include="..\..\Shared\AuraEcho.Toolkit.Wpf\AuraEcho.Toolkit.Wpf.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Assets\Icons\AuraEcho.ico" />

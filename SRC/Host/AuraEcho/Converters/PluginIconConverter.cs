@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 using AuraEcho.Core.Models;
-using AuraEcho.UIToolkit.Converters;
+using AuraEcho.Toolkit.Wpf.Converters;
 
 namespace AuraEcho.Converters;
 

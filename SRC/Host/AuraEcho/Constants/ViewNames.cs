@@ -55,7 +55,7 @@ public static class ViewNames
     /// <summary>
     /// 对话框
     /// </summary>
-    public const string ConfirmDialog = nameof(UIToolkit.RegionDialog.ConfirmDialog);
+    public const string ConfirmDialog = nameof(Toolkit.Wpf.RegionDialog.ConfirmDialog);
 
     /// <summary>
     /// 购买

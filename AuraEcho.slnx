@@ -66,13 +66,14 @@
     <Project Path="SRC/Shared/AuraEcho.Logging/AuraEcho.Logging.csproj" />
     <Project Path="SRC/Shared/AuraEcho.Design/SRC/AuraEcho.Design/AuraEcho.Design.csproj" />
     <Project Path="SRC/Shared/AuraEcho.PluginContracts/AuraEcho.PluginContracts.csproj" Id="88f69dd3-259f-4c4d-b8e2-f23f4baa8823" />
-    <Project Path="SRC/Shared/AuraEcho.UIToolkit/AuraEcho.UIToolkit.csproj" Id="ca0e586d-0fd5-4f8d-8bbe-f9b45765068c" />
+    <Project Path="SRC/Shared/AuraEcho.Toolkit/AuraEcho.Toolkit.csproj" />
+    <Project Path="SRC/Shared/AuraEcho.Toolkit.Wpf/AuraEcho.Toolkit.Wpf.csproj" />
   </Folder>
   <Folder Name="/SRC/Tools/">
     <Project Path="SRC/Tools/AuraEcho.DataMigrator/AuraEcho.DataMigrator.fsproj" Id="cbb40445-b602-44f8-b27f-9a3ca89b7b21" />
   </Folder>
   <Folder Name="/TEST/">
     <Project Path="SRC/Shared/AuraEcho.Design/Samples/AuraEcho.Design.Gallery/AuraEcho.Design.Gallery.csproj" />
-    <Project Path="TEST/AuraEcho.UIToolkit.Tests/AuraEcho.UIToolkit.Tests.csproj" Id="28614b62-3bb6-417b-849b-868e2a8c9161" />
+    <Project Path="TEST/AuraEcho.Toolkit.Wpf.Tests/AuraEcho.Toolkit.Wpf.Tests.csproj" Id="28614b62-3bb6-417b-849b-868e2a8c9161" />
   </Folder>
 </Solution>

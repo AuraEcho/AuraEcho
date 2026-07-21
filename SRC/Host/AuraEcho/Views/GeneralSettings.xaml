@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:ub="clr-namespace:AuraEcho.UIToolkit.Behaviors;assembly=AuraEcho.UIToolkit"
+             xmlns:ub="clr-namespace:AuraEcho.Toolkit.Wpf.Behaviors;assembly=AuraEcho.Toolkit.Wpf"
              xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
              d:Background="{DynamicResource Brushes.SurfaceContainerLowest}"
              d:DataContext="{d:DesignInstance Type=viewmodels:GeneralSettingsViewModel}"

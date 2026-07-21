@@ -39,7 +39,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Shared\AuraEcho.Design\SRC\AuraEcho.Design\AuraEcho.Design.csproj" />
-		<ProjectReference Include="..\..\Shared\AuraEcho.UIToolkit\AuraEcho.UIToolkit.csproj" />
+		<ProjectReference Include="..\..\Shared\AuraEcho.Toolkit.Wpf\AuraEcho.Toolkit.Wpf.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,7 +1,6 @@
 ﻿using AuraEcho.Core.Tools;
 using AuraEcho.PluginContracts.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
-using Serilog.Core;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;

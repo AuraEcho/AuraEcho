@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
-using AuraEcho.Core.Attributes;
+using AuraEcho.Logging;
 using AuraEcho.Core.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.Strings;

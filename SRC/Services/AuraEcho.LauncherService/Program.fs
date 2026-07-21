@@ -5,7 +5,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open System.IO
-open AuraEcho.Core.Logging
+open AuraEcho.Logging
 
 module Program =
     let logDir = Path.Combine(

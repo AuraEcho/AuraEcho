@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Rougamo;
 using Rougamo.Context;
 
-namespace AuraEcho.Core.Attributes;
+namespace AuraEcho.Logging;
 
 /// <summary>
 /// 标记一个方法，使其在执行前后或抛出异常时，打印日志。

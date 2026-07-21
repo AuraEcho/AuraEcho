@@ -13,7 +13,7 @@ open AuraEcho.Cloud.V1
 open AuraEcho.Cloud.V1.EndPoints
 open AuraEcho.Core.Contracts
 open AuraEcho.Core.Data
-open AuraEcho.Core.Logging
+open AuraEcho.Logging
 open AuraEcho.Core.Repositories
 open AuraEcho.Core.Services
 open AuraEcho.Core.Telemetry

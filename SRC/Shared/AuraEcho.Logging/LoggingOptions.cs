@@ -1,6 +1,6 @@
 using Serilog.Events;
 
-namespace AuraEcho.Core.Logging;
+namespace AuraEcho.Logging;
 
 /// <summary>
 /// 日志后端构建选项。四个进程（宿主、Launcher、Updater、Telemetry）共用同一套后端配置，

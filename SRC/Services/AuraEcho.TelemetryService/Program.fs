@@ -9,7 +9,7 @@ open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open AuraEcho.Cloud.V1
 open AuraEcho.Core.Contracts
-open AuraEcho.Core.Logging
+open AuraEcho.Logging
 open AuraEcho.Core.Services
 open AuraEcho.Core.Telemetry
 open AuraEcho.Core.Tools.HttpClientPipelines

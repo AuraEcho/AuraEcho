@@ -5,7 +5,7 @@ using Serilog.Core;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
 
-namespace AuraEcho.Core.Logging;
+namespace AuraEcho.Logging;
 
 /// <summary>
 /// 统一的 Serilog 构建器。

@@ -26,5 +26,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Shared\AuraEcho.Core\AuraEcho.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\AuraEcho.Logging\AuraEcho.Logging.csproj" />
 	</ItemGroup>
 </Project>

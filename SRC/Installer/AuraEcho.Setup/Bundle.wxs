@@ -30,7 +30,7 @@
 			<Payload SourceFile="Prism.Wpf.dll" />
 			<Payload SourceFile="AuraEcho.Design.dll" />
 			<Payload SourceFile="AuraEcho.PluginContracts.dll" />
-			<Payload SourceFile="AuraEcho.UIToolkit.dll" />
+			<Payload SourceFile="AuraEcho.Toolkit.Wpf.dll" />
 			<Payload SourceFile="WixToolset.BootstrapperApplicationApi.dll" />
 			<Payload SourceFile="Assets/PDF/EULA.pdf" />
 		</BootstrapperApplication>

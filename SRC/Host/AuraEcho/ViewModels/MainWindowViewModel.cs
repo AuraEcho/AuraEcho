@@ -142,7 +142,7 @@ public class MainWindowViewModel : BindableBase
         _eventAggregator.GetEvent<RequestViewEvent>().Subscribe(GoToTargetView);
         _eventAggregator.GetEvent<SignedInEvent>().Subscribe(OnSignedIn);
         _eventAggregator.GetEvent<SignInExpiredEvent>().Subscribe(SignInExpired);
-        _eventAggregator.GetEvent<KickedOutEvent>().Subscribe(KickedOut);
+        _eventAggregator.GetEvent<KickedOutEvent>().Subscribe(KickedOut, ThreadOption.UIThread);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Subscribe(PluginCancelUninstall, ThreadOption.UIThread);
         _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OrderPaid);

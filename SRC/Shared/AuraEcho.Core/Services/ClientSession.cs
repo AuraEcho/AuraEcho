@@ -56,7 +56,8 @@ public class ClientSession : BindableBase, IClientSession
         _tokenProvider.SetToken(
             authResponse.AccessToken,
             authResponse.RefreshToken,
-            authResponse.ExpiresAt);
+            authResponse.ExpiresAt,
+            authResponse.Jti);
 
         UpdateUserProfile(authResponse.User.ToUserProfile());
 
@@ -91,6 +92,22 @@ public class ClientSession : BindableBase, IClientSession
                 {
                     Debug.WriteLine($"收到订单支付成功消息，订单号：{payload.OrderId}");
                     _eventAggregator.GetEvent<OrderPaidEvent>().Publish(payload);
+                });
+
+            // 单设备登录：账号在其他设备建立了新会话时，服务端推送此消息。
+            // 仅当推送的新 jti 与本机当前 jti 不同时，才认定为"他人挤下线"，
+            // 避免本设备自身建立新会话时误判。
+            _cloudHubClient.Subscribe<SignedInElsewhereMessage, string>(
+                newJti =>
+                {
+                    if (newJti == _tokenProvider.Jti)
+                    {
+                        Debug.WriteLine("收到 AccountSignedInElsewhere，但 jti 与本机一致，忽略");
+                        return;
+                    }
+
+                    Debug.WriteLine("收到 AccountSignedInElsewhere，账号已在其他设备登录");
+                    _eventAggregator.GetEvent<KickedOutEvent>().Publish();
                 });
         }
     }

@@ -42,6 +42,7 @@ public class TokenProvider : ITokenProvider
 
     private string? _accessToken;
     public string? RefreshToken { get; private set; }
+    public string? Jti { get; private set; }
     private DateTimeOffset _expiresAt;
 
     /// <inheritdoc />
@@ -51,11 +52,12 @@ public class TokenProvider : ITokenProvider
     string? IHubTokenProvider.Token => _accessToken;
 
     /// <inheritdoc />
-    public void SetToken(string accessToken, string refreshToken, DateTimeOffset expiresAt)
+    public void SetToken(string accessToken, string refreshToken, DateTimeOffset expiresAt, string jti)
     {
         _accessToken = accessToken;
         RefreshToken = refreshToken;
         _expiresAt = expiresAt;
+        Jti = jti;
         SecureStore.Save(SecureStoreKeys.RefreshToken, refreshToken);
     }
 
@@ -64,6 +66,7 @@ public class TokenProvider : ITokenProvider
     {
         _accessToken = null;
         RefreshToken = null;
+        Jti = null;
         SecureStore.Delete(SecureStoreKeys.RefreshToken);
     }
 
@@ -92,7 +95,8 @@ public class TokenProvider : ITokenProvider
                 SetToken(
                     result.Data.AccessToken,
                     result.Data.RefreshToken,
-                    result.Data.ExpiresAt);
+                    result.Data.ExpiresAt,
+                    result.Data.Jti);
                 return true;
             }
 

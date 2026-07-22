@@ -19,9 +19,14 @@ public interface ITokenProvider : IHubTokenProvider
     string? RefreshToken { get; }
 
     /// <summary>
+    /// 获取当前 Access Token 的 JTI（JWT ID），用于单设备登录校验。
+    /// </summary>
+    string? Jti { get; }
+
+    /// <summary>
     /// 写入新的 Token 并持久化 RefreshToken。
     /// </summary>
-    void SetToken(string accessToken, string refreshToken, DateTimeOffset expiresAt);
+    void SetToken(string accessToken, string refreshToken, DateTimeOffset expiresAt, string jti);
 
     /// <summary>
     /// 清除 Token 及持久化的 RefreshToken。

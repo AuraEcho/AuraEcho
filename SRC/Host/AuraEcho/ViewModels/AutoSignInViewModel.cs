@@ -66,7 +66,8 @@ public class AutoSignInViewModel : BindableBase, IRegionMemberLifetime
 
         var refreshTokenTask = _apiClient.Auth.RefreshTokenAsync(new RefreshTokenRequest
         {
-            RefreshToken = _tokenProvider.RefreshToken
+            RefreshToken = _tokenProvider.RefreshToken,
+            IsNewSession = true
         });
 
         await Task.WhenAll(

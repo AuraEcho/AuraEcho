@@ -59,8 +59,9 @@ let notifyAppPluginUpdateAsync (logger: ILogger) pluginId newVersion = task {
         do! writer.WriteLineAsync($"PluginNewVersion:{pluginId}:{newVersion}")
         do! writer.FlushAsync()
         logger.LogInformation("已完成通知")
-    with ex ->
-        logger.LogError(ex, "通知客户端插件更新完成发生异常")
+    with 
+    | :? TimeoutException -> logger.LogWarning("未完成通知：连接客户端超时")
+    | ex -> logger.LogError(ex, "未完成通知：未知异常")
 }
 
 // --- 插件更新 ---

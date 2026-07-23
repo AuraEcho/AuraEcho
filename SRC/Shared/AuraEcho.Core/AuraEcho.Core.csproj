@@ -6,9 +6,12 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="Enums\**" />
+	  <EmbeddedResource Remove="Enums\**" />
+	  <None Remove="Enums\**" />
+	  <Page Remove="Enums\**" />
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>

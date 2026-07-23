@@ -105,6 +105,9 @@
         </DataTemplate>
         <DataTemplate x:Key="PluginUpdatePendingRestartTemplate" DataType="{x:Type models:PluginUpdatePendingRestart}">
             <Grid Margin="8,6" ColumnDefinitions="Auto, *">
+                <Grid.Resources>
+                    <auraecho:BindingProxy x:Key="DataContextProxy" Data="{Binding}" />
+                </Grid.Resources>
                 <Rectangle Grid.Column="0"
                            Width="64"
                            Height="64"
@@ -112,7 +115,7 @@
                            RadiusX="16"
                            RadiusY="16">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="{Binding IconPath}" />
+                        <ImageBrush ImageSource="{Binding Source={StaticResource DataContextProxy}, Path=Data.IconPath}" />
                     </Rectangle.Fill>
                 </Rectangle>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -142,6 +145,9 @@
         </DataTemplate>
         <DataTemplate x:Key="PluginUninstallPendingRestartTemplate" DataType="{x:Type models:PluginUninstallPendingRestart}">
             <Grid Margin="8,6" ColumnDefinitions="Auto, *">
+                <Grid.Resources>
+                    <auraecho:BindingProxy x:Key="DataContextProxy" Data="{Binding}" />
+                </Grid.Resources>
                 <Rectangle Grid.Column="0"
                            Width="64"
                            Height="64"
@@ -149,7 +155,7 @@
                            RadiusX="16"
                            RadiusY="16">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="{Binding IconPath}" />
+                        <ImageBrush ImageSource="{Binding Source={StaticResource DataContextProxy}, Path=Data.IconPath}" />
                     </Rectangle.Fill>
                 </Rectangle>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">

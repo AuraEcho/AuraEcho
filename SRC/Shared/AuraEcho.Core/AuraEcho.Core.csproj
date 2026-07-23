@@ -6,23 +6,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
-	<ItemGroup>
-	  <Compile Remove="Entities\**" />
-	  <EmbeddedResource Remove="Entities\**" />
-	  <None Remove="Entities\**" />
-	  <Page Remove="Entities\**" />
-	</ItemGroup>
   <ItemGroup>
     <Folder Include="Enums\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
@@ -31,5 +18,7 @@
     <ProjectReference Include="..\AuraEcho.Toolkit\AuraEcho.Toolkit.csproj" />
     <ProjectReference Include="..\..\Shared\AuraEcho.PluginContracts\AuraEcho.PluginContracts.csproj" />
     <ProjectReference Include="..\AuraEcho.Cloud\AuraEcho.Cloud\AuraEcho.Cloud.csproj" />
+    <ProjectReference Include="..\AuraEcho.Domain\AuraEcho.Domain.csproj" />
+    <ProjectReference Include="..\AuraEcho.Persistence\AuraEcho.Persistence.csproj" />
   </ItemGroup>
 </Project>

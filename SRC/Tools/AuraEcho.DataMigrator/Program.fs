@@ -1,7 +1,7 @@
 open System
 open System.IO
 open Microsoft.EntityFrameworkCore
-open AuraEcho.Core.Data
+open AuraEcho.Persistence
 open AuraEcho.Telemetry
 
 let migrate (dbContext: DbContext) =
@@ -12,7 +12,12 @@ let migrate (dbContext: DbContext) =
 [<EntryPoint>]
 let main _ =
 
-    use auraEchoDbContext = HostDbContextRuntimeFactory.CreateDbContext()
+    let hostDbPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+        "AuraEcho", "Client", "Data", "host.db")
+
+    let hostDbProvider = HostDbContextProvider(hostDbPath)
+    use auraEchoDbContext = hostDbProvider.CreateDbContext()
     migrate auraEchoDbContext
 
     let telemetryDbPath = Path.Combine(

@@ -1,21 +1,19 @@
-using AuraEcho.Telemetry;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AuraEcho.Cloud.V1;
-using AuraEcho.Cloud.V1.Models.Plugin;
 using AuraEcho.Constants;
-using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
+using AuraEcho.Domain;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;
 using AuraEcho.PluginContracts.Constants;
 using AuraEcho.PluginContracts.Interfaces;
+using AuraEcho.Telemetry;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 
@@ -25,9 +23,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
 {
     private readonly ApiClient _apiClient;
     private readonly ITransferManager _transferManager;
-    private readonly IPluginInstallService _pluginInstallService;
     private readonly INavigationService _navigationService;
-    private readonly IEventAggregator _eventAggregator;
     private readonly IPluginManager _pluginManager;
     private readonly ITelemetryService _telemetry;
 
@@ -127,17 +123,13 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     public MarketplacePluginDetailsViewModel(
         ApiClient apiClient,
         INavigationService navigationService,
-        IEventAggregator eventAggregator,
-        IPluginInstallService pluginInstallService,
         IPluginManager pluginManager,
         ITransferManager transferManager,
         ITelemetryService telemetry)
     {
         _apiClient = apiClient;
-        _pluginInstallService = pluginInstallService;
         _navigationService = navigationService;
         _pluginManager = pluginManager;
-        _eventAggregator = eventAggregator;
         _transferManager = transferManager;
         _telemetry = telemetry;
 

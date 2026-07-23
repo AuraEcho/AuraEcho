@@ -4,6 +4,7 @@
              xmlns:auraecho="http://ui.auraecho.com/"
              xmlns:cc="clr-namespace:AuraEcho.PluginContracts.Constants;assembly=AuraEcho.PluginContracts"
              xmlns:cm="clr-namespace:AuraEcho.Core.Models;assembly=AuraEcho.Core"
+             xmlns:domain="clr-namespace:AuraEcho.Domain;assembly=AuraEcho.Domain"
              xmlns:converters="clr-namespace:AuraEcho.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -75,12 +76,12 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding PlanStatus}"
                                                Comparison="NotEqual"
-                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                               Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
@@ -107,12 +108,12 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding PlanStatus}"
                                                Comparison="NotEqual"
-                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                               Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
@@ -134,12 +135,12 @@
                                     CornerRadius="16"
                                     ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_UninstallPending}">
                                 <i:Interaction.Triggers>
-                                    <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
+                                    <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                     </i:DataTrigger>
                                     <i:DataTrigger Binding="{Binding PlanStatus}"
                                                    Comparison="NotEqual"
-                                                   Value="{x:Static models:PluginPlanStatus.None}">
+                                                   Value="{x:Static domain:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                     </i:DataTrigger>
                                 </i:Interaction.Triggers>
@@ -218,12 +219,12 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding PlanStatus}"
                                                Comparison="NotEqual"
-                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                               Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
@@ -249,12 +250,12 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding PlanStatus}"
                                                Comparison="NotEqual"
-                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                               Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
@@ -276,12 +277,12 @@
                                     CornerRadius="16"
                                     ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_UninstallPending}">
                                 <i:Interaction.Triggers>
-                                    <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
+                                    <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                     </i:DataTrigger>
                                     <i:DataTrigger Binding="{Binding PlanStatus}"
                                                    Comparison="NotEqual"
-                                                   Value="{x:Static models:PluginPlanStatus.None}">
+                                                   Value="{x:Static domain:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                     </i:DataTrigger>
                                 </i:Interaction.Triggers>
@@ -358,12 +359,12 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding PlanStatus}"
                                                Comparison="NotEqual"
-                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                               Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
@@ -389,12 +390,12 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                             <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                 </i:DataTrigger>
                                 <i:DataTrigger Binding="{Binding PlanStatus}"
                                                Comparison="NotEqual"
-                                               Value="{x:Static models:PluginPlanStatus.UninstallPending}">
+                                               Value="{x:Static domain:PluginPlanStatus.UninstallPending}">
                                     <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                 </i:DataTrigger>
                             </i:Interaction.Triggers>
@@ -416,12 +417,12 @@
                                     CornerRadius="16"
                                     ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Homepage_UninstallPending}">
                                 <i:Interaction.Triggers>
-                                    <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static models:PluginPlanStatus.None}">
+                                    <i:DataTrigger Binding="{Binding PlanStatus}" Value="{x:Static domain:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                     </i:DataTrigger>
                                     <i:DataTrigger Binding="{Binding PlanStatus}"
                                                    Comparison="NotEqual"
-                                                   Value="{x:Static models:PluginPlanStatus.None}">
+                                                   Value="{x:Static domain:PluginPlanStatus.None}">
                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                     </i:DataTrigger>
                                 </i:Interaction.Triggers>

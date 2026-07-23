@@ -5,6 +5,7 @@ open System.IO
 open AuraEcho.Cloud.V1
 open AuraEcho.Core.Contracts
 open AuraEcho.Core.Extensions
+open AuraEcho.Persistence.Contracts
 open AuraEcho.UpdaterService.Utils
 open Microsoft.Data.Sqlite
 open Microsoft.Extensions.Logging

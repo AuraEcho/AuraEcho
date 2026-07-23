@@ -1,4 +1,4 @@
-using AuraEcho.Core.Models;
+using AuraEcho.Domain;
 
 namespace AuraEcho.Core.Contracts;
 

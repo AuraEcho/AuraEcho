@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using AuraEcho.Cloud.V1.Models.Plugin;
 using AuraEcho.Core.Models;
+using AuraEcho.Domain;
 using AuraEcho.Models;
 
 namespace AuraEcho.Selectors;

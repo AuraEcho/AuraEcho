@@ -8,6 +8,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
 open AuraEcho.Cloud.V1
 open AuraEcho.Core.Contracts
+open AuraEcho.Persistence.Contracts
 open AuraEcho.UpdaterService.Utils
 open AuraEcho.UpdaterService.Workflows
 

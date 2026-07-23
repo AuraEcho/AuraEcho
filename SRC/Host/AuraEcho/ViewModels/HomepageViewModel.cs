@@ -1,10 +1,10 @@
 using AuraEcho.Telemetry;
-using AuraEcho.Cloud.V1.Models.Plugin;
 using AuraEcho.Constants;
 using AuraEcho.Core.Contracts;
 using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
+using AuraEcho.Persistence.Contracts;
 using AuraEcho.Events;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;
@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using AuraEcho.Domain;
 namespace AuraEcho.ViewModels;
 
 public class HomepageViewModel : BindableBase, IRegionMemberLifetime

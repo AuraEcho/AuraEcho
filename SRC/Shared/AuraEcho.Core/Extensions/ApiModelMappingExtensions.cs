@@ -3,6 +3,7 @@ using AuraEcho.Cloud.V1.Models.License;
 using AuraEcho.Cloud.V1.Models.Plugin;
 using AuraEcho.Cloud.V1.Models.Sku;
 using AuraEcho.Core.Models;
+using AuraEcho.Domain;
 using AuraEcho.PluginContracts.Models;
 
 namespace AuraEcho.Core.Extensions;

@@ -1,3 +1,4 @@
+using AuraEcho.Domain;
 using Prism.Mvvm;
 
 namespace AuraEcho.Core.Models;

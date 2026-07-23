@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using AuraEcho.Cloud.V1.Models.Plugin;
+using AuraEcho.Domain;
 using AuraEcho.PluginContracts.Models;
 using Prism.Mvvm;
 

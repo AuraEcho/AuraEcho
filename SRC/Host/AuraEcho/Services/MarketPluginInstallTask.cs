@@ -6,6 +6,8 @@ using AuraEcho.Core.Events;
 using AuraEcho.Core.Extensions;
 using AuraEcho.Core.Models;
 using AuraEcho.Core.Tools;
+using AuraEcho.Domain;
+using AuraEcho.Persistence.Contracts;
 using AuraEcho.Enums;
 using AuraEcho.Interfaces;
 using AuraEcho.Models;

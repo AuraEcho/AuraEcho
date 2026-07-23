@@ -13,33 +13,33 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 using AuraEcho.Cloud.V1;
 using AuraEcho.Cloud.V1.Hub;
 using AuraEcho.Constants;
 using AuraEcho.Core.Constants;
 using AuraEcho.Core.Contracts;
-using AuraEcho.Core.Data;
 using AuraEcho.Core.Events;
-using AuraEcho.Logging;
 using AuraEcho.Core.Models;
-using AuraEcho.Core.Repositories;
 using AuraEcho.Core.Services;
 using AuraEcho.Core.Tools;
 using AuraEcho.Core.Tools.HttpClientPipelines;
-using AuraEcho.Telemetry;
 using AuraEcho.Events;
 using AuraEcho.Interfaces;
+using AuraEcho.Logging;
 using AuraEcho.Models;
+using AuraEcho.Persistence;
+using AuraEcho.Persistence.Contracts;
+using AuraEcho.Persistence.Repositories;
 using AuraEcho.PluginContracts.Events;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
-using AuraEcho.Toolkit.Wpf.Imaging;
-using AuraEcho.Toolkit.Wpf.Services;
 using AuraEcho.Services;
 using AuraEcho.Strings;
-using AuraEcho.Tools;
+using AuraEcho.Telemetry;
+using AuraEcho.Toolkit.Wpf.Imaging;
 using AuraEcho.Toolkit.Wpf.RegionDialog;
+using AuraEcho.Toolkit.Wpf.Services;
+using AuraEcho.Tools;
 using AuraEcho.ViewModels;
 using AuraEcho.Views;
 using DryIoc;
@@ -72,6 +72,7 @@ public partial class App : PrismApplication
     private static Stopwatch _startupStopwatch;
     private static readonly Stopwatch _sessionStopwatch = Stopwatch.StartNew();
     private static MemorySampler _memorySampler;
+    private static readonly HostDbContextProvider _hostDbContextProvider = new(ApplicationPaths.HostDataBase);
     protected override Window CreateShell()
     {
         LoggingAttribute.LoggerFactory = Container.Resolve<ILoggerFactory>();
@@ -96,7 +97,7 @@ public partial class App : PrismApplication
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        containerRegistry.Register<HostDbContext>(provider => HostDbContextRuntimeFactory.CreateDbContext());
+        containerRegistry.Register<HostDbContext>(provider => _hostDbContextProvider.CreateDbContext());
 
         // Prism 的 IContainerRegistry 不支持开放泛型注册，使用底层 DryIoc 容器完成。
         containerRegistry.RegisterInstance(_loggerFactory);
@@ -329,7 +330,7 @@ public partial class App : PrismApplication
     {
         if (File.Exists(ApplicationPaths.HostDataBase)) return;
 
-        using var pluginDbContext = HostDbContextRuntimeFactory.CreateDbContext();
+        using var pluginDbContext = _hostDbContextProvider.CreateDbContext();
 
         _logger.LogInformation("Begin Migrate");
         pluginDbContext.Database.Migrate();

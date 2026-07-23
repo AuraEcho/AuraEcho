@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Prism.Mvvm;
 using AuraEcho.Design.Themes;
+using AuraEcho.Tools;
 namespace AuraEcho.Services;
 
 public class ThemeManager : BindableBase, IThemeManager

@@ -8,7 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:AuraEcho.Models"
-             xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
+        xmlns:pm="clr-namespace:AuraEcho.PluginContracts.Models;assembly=AuraEcho.PluginContracts"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:selectors="clr-namespace:AuraEcho.Selectors"
         xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
@@ -640,8 +640,7 @@
                                                      Height="24"
                                                      Margin="0,0,8,0">
                                                 <Canvas Width="24" Height="24">
-                                                    <Path Data="M 21.39 3 L 22 3.62 V 11.38 L 21.39 12 H 19.09 L 16.79 14.4 L 15.71 13.92 V 12 H 14.36 L 14.43 11.38 L 14.36 10.69 H 16.93 V 12.34 L 18.55 10.69 H 20.78 V 4.24 H 9.36 V 5.61 L 8.68 5.54 L 8.07 5.61 V 3.62 L 8.68 3 L 21.39 3 Z M 11.11 15.16 C 11.74 15.44 12.31 15.82 12.8 16.33 C 13.3 16.83 13.68 17.45 13.95 18.18 C 14.18 18.69 14.31 19.19 14.36 19.69 L 14.43 21 H 13.14 V 20.31 C 13.14 19.72 13.03 19.16 12.8 18.63 C 12.58 18.1 12.26 17.62 11.86 17.19 C 11.45 16.75 10.98 16.42 10.44 16.19 C 9.9 15.96 9.33 15.85 8.75 15.85 H 8.68 C 8.09 15.85 7.53 15.96 6.99 16.19 C 6.45 16.42 5.98 16.75 5.57 17.19 C 5.16 17.62 4.85 18.1 4.62 18.63 C 4.4 19.16 4.28 19.72 4.28 20.31 V 21 H 3 L 3.07 19.76 C 3.11 19.21 3.23 18.69 3.41 18.18 C 3.72 17.45 4.13 16.83 4.62 16.33 C 5.12 15.82 5.66 15.44 6.25 15.16 C 5.66 14.75 5.19 14.21 4.83 13.55 C 4.47 12.88 4.28 12.15 4.28 11.35 C 4.28 10.55 4.48 9.8 4.86 9.11 C 5.24 8.43 5.78 7.88 6.48 7.47 C 7.18 7.05 7.92 6.85 8.71 6.85 C 9.5 6.85 10.23 7.05 10.91 7.47 C 11.59 7.88 12.13 8.43 12.53 9.11 C 12.94 9.8 13.14 10.55 13.14 11.35 C 13.14 12.15 12.96 12.88 12.6 13.55 C 12.24 14.21 11.74 14.75 11.11 15.16 Z M 8.68 14.54 C 9.58 14.54 10.34 14.23 10.94 13.61 C 11.55 13 11.86 12.24 11.86 11.35 C 11.86 10.45 11.55 9.7 10.94 9.08 C 10.34 8.46 9.59 8.15 8.71 8.15 C 7.83 8.15 7.09 8.46 6.48 9.08 C 5.87 9.7 5.57 10.45 5.57 11.35 C 5.57 12.24 5.87 13 6.48 13.61 C 7.09 14.23 7.82 14.54 8.68 14.54 Z"
-                                                          Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                                    <Path Data="M 21.39 3 L 22 3.62 V 11.38 L 21.39 12 H 19.09 L 16.79 14.4 L 15.71 13.92 V 12 H 14.36 L 14.43 11.38 L 14.36 10.69 H 16.93 V 12.34 L 18.55 10.69 H 20.78 V 4.24 H 9.36 V 5.61 L 8.68 5.54 L 8.07 5.61 V 3.62 L 8.68 3 L 21.39 3 Z M 11.11 15.16 C 11.74 15.44 12.31 15.82 12.8 16.33 C 13.3 16.83 13.68 17.45 13.95 18.18 C 14.18 18.69 14.31 19.19 14.36 19.69 L 14.43 21 H 13.14 V 20.31 C 13.14 19.72 13.03 19.16 12.8 18.63 C 12.58 18.1 12.26 17.62 11.86 17.19 C 11.45 16.75 10.98 16.42 10.44 16.19 C 9.9 15.96 9.33 15.85 8.75 15.85 H 8.68 C 8.09 15.85 7.53 15.96 6.99 16.19 C 6.45 16.42 5.98 16.75 5.57 17.19 C 5.16 17.62 4.85 18.1 4.62 18.63 C 4.4 19.16 4.28 19.72 4.28 20.31 V 21 H 3 L 3.07 19.76 C 3.11 19.21 3.23 18.69 3.41 18.18 C 3.72 17.45 4.13 16.83 4.62 16.33 C 5.12 15.82 5.66 15.44 6.25 15.16 C 5.66 14.75 5.19 14.21 4.83 13.55 C 4.47 12.88 4.28 12.15 4.28 11.35 C 4.28 10.55 4.48 9.8 4.86 9.11 C 5.24 8.43 5.78 7.88 6.48 7.47 C 7.18 7.05 7.92 6.85 8.71 6.85 C 9.5 6.85 10.23 7.05 10.91 7.47 C 11.59 7.88 12.13 8.43 12.53 9.11 C 12.94 9.8 13.14 10.55 13.14 11.35 C 13.14 12.15 12.96 12.88 12.6 13.55 C 12.24 14.21 11.74 14.75 11.11 15.16 Z M 8.68 14.54 C 9.58 14.54 10.34 14.23 10.94 13.61 C 11.55 13 11.86 12.24 11.86 11.35 C 11.86 10.45 11.55 9.7 10.94 9.08 C 10.34 8.46 9.59 8.15 8.71 8.15 C 7.83 8.15 7.09 8.46 6.48 9.08 C 5.87 9.7 5.57 10.45 5.57 11.35 C 5.57 12.24 5.87 13 6.48 13.61 C 7.09 14.23 7.82 14.54 8.68 14.54 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
                                                 </Canvas>
                                             </Viewbox>
                                             <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_SendFeedback}" />
@@ -801,7 +800,7 @@
                     </Canvas>
                 </Button>
             </StackPanel>
-            
+
             <!--#region 错误消息区域-->
             <ContentControl Grid.Row="0"
                             Height="36"
@@ -818,7 +817,7 @@
                           ItemsSource="{Binding ToastService.ActiveToasts}">
 
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type pm:AuraToast}">
+                    <DataTemplate DataType="{x:Type models:AuraToast}">
                         <Border x:Name="ToastBorder"
                                 MaxWidth="250"
                                 Margin="0,0,0,10"

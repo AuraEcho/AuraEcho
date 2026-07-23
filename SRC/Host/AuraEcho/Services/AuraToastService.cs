@@ -1,10 +1,11 @@
+using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Windows;
+using System.Threading.Tasks;
+using AuraEcho.Models;
 using AuraEcho.PluginContracts.Interfaces;
 using AuraEcho.PluginContracts.Models;
 
-namespace AuraEcho.Core.Services;
+namespace AuraEcho.Services;
 
 public class AuraToastService : IAuraToastService
 {

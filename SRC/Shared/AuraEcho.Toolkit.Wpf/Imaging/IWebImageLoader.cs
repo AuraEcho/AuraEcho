@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
-namespace AuraEcho.PluginContracts.Interfaces
+namespace AuraEcho.Toolkit.Wpf.Imaging
 {
     public interface IWebImageLoader
     {

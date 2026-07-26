@@ -16,8 +16,6 @@ namespace AuraEcho.Core.Services;
 
 /// <summary>
 /// <see cref="IClientSession"/> 的默认实现。
-/// 作为薄协调层，将 Token 管理委托给 <see cref="ITokenProvider"/>，
-/// 自身只负责用户资料、Hub 连接与事件发布。
 /// </summary>
 public class ClientSession : BindableBase, IClientSession
 {
@@ -94,9 +92,7 @@ public class ClientSession : BindableBase, IClientSession
                     _eventAggregator.GetEvent<OrderPaidEvent>().Publish(payload);
                 });
 
-            // 单设备登录：账号在其他设备建立了新会话时，服务端推送此消息。
-            // 仅当推送的新 jti 与本机当前 jti 不同时，才认定为"他人挤下线"，
-            // 避免本设备自身建立新会话时误判。
+            // 单设备登录
             _cloudHubClient.Subscribe<SignedInElsewhereMessage, string>(
                 newJti =>
                 {
@@ -108,6 +104,14 @@ public class ClientSession : BindableBase, IClientSession
 
                     Debug.WriteLine("收到 AccountSignedInElsewhere，账号已在其他设备登录");
                     _eventAggregator.GetEvent<KickedOutEvent>().Publish();
+                });
+
+            // 公告变更
+            _cloudHubClient.Subscribe<AnnouncementChangedMessage, string>(
+                _ =>
+                {
+                    Debug.WriteLine("收到 AnnouncementChanged，公告已变更");
+                    _eventAggregator.GetEvent<AnnouncementsChangedEvent>().Publish();
                 });
         }
     }

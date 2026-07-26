@@ -7,6 +7,7 @@ public class HostDbContext : DbContext
 {
     public DbSet<InstalledPlugin> InstalledPlugin { get; set; }
     public DbSet<UserPlugin> UserPlugin { get; set; }
+    public DbSet<UserReadAnnouncement> UserReadAnnouncement { get; set; }
 
     public HostDbContext(DbContextOptions<HostDbContext> options) : base(options)
     {
@@ -14,5 +15,8 @@ public class HostDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserReadAnnouncement>()
+                    .HasIndex(r => new { r.UserId, r.AnnouncementId })
+                    .IsUnique();
     }
 }

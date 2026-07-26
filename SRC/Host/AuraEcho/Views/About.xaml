@@ -199,11 +199,11 @@
                     </i:Interaction.Triggers>
                     <Border x:Name="QRBorder"
                             Margin="20"
-                            Padding="6"
+                            Padding="4"
                             Background="#272729"
                             BorderBrush="{DynamicResource Brushes.OutlineShadow}"
                             BorderThickness="1"
-                            CornerRadius="6">
+                            CornerRadius="4">
                         <Image Width="200">
                             <Image.Source>
                                 <BitmapImage DecodePixelWidth="200"

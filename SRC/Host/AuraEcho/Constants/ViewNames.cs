@@ -81,4 +81,9 @@ public static class ViewNames
     /// 反馈
     /// </summary>
     public const string SendFeedback = nameof(Views.SendFeedback);
+
+    /// <summary>
+    /// 公告
+    /// </summary>
+    public const string AnnouncementView = nameof(Views.AnnouncementView);
 }

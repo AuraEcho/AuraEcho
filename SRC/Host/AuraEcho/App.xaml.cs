@@ -130,6 +130,8 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IThemeManager, ThemeManager>();
         containerRegistry.RegisterSingleton<IHostSettingsProvider, HostSettingsProvider>();
         containerRegistry.RegisterSingleton<ILocalPluginRepository, LocalPluginRepository>();
+        containerRegistry.RegisterSingleton<IUserAnnouncementRepository, UserAnnouncementRepository>();
+        containerRegistry.RegisterSingleton<IAnnouncementService, AnnouncementService>();
         containerRegistry.RegisterSingleton<IRegionDialogService, RegionDialogService>();
         containerRegistry.RegisterSingleton<INavigationService, NavigationService>();
         containerRegistry.RegisterSingleton<IPluginInstallService, PluginInstallService>();
@@ -181,6 +183,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<About>();
         containerRegistry.RegisterForNavigation<WebContainer>();
         containerRegistry.RegisterForNavigation<AutoSignIn>();
+        containerRegistry.RegisterForNavigation<AnnouncementView>();
     }
 
     protected override void OnInitialized()
@@ -230,6 +233,9 @@ public partial class App : PrismApplication
 
         _memorySampler = Container.Resolve<MemorySampler>();
         _memorySampler.Start();
+
+        // 启动后拉取一次公告
+        _ = Container.Resolve<IAnnouncementService>().RefreshAsync();
 
         // 全局 UI 交互自动捕获
         Container.Resolve<InteractionTracker>().Register();

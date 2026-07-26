@@ -1,0 +1,221 @@
+<UserControl x:Class="AuraEcho.Views.AnnouncementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cam="clr-namespace:AuraEcho.Cloud.V1.Models.Announcement;assembly=AuraEcho.Cloud"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
+             xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AnnouncementViewModel}"
+             d:DesignHeight="640"
+             d:DesignWidth="960"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Foreground="{DynamicResource Brushes.OnSurface}"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Storyboard x:Key="EntryAnimation">
+            <DoubleAnimation Storyboard.TargetName="ScrimBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1"
+                             Duration="0:0:0.12" />
+            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1"
+                             Duration="0:0:0.12" />
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="1.05"
+                             To="1"
+                             Duration="0:0:0.12">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="1.05"
+                             To="1"
+                             Duration="0:0:0.12">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="CloseAnimation">
+            <DoubleAnimation Storyboard.TargetName="ScrimBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1"
+                             To="0"
+                             Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="1"
+                             To="1.05"
+                             Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <ui:EmptyObjectToVisibilityConverter x:Key="NullToVisibleVisibility"
+                                             EmptyValue="Visible"
+                                             NotEmptyValue="Collapsed" />
+        <ui:EmptyObjectToVisibilityConverter x:Key="NullToCollapsedVisibility"
+                                             EmptyValue="Collapsed"
+                                             NotEmptyValue="Visible" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:ControlStoryboardAction Storyboard="{StaticResource EntryAnimation}" />
+        </i:EventTrigger>
+        <i:StoryboardCompletedTrigger Storyboard="{StaticResource CloseAnimation}">
+            <i:InvokeCommandAction Command="{Binding CloseCommand}" />
+        </i:StoryboardCompletedTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Border x:Name="ScrimBorder" Background="{DynamicResource Brushes.Scrim}" />
+        <Border x:Name="ContentBorder"
+                Width="720"
+                Height="480"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                d:Opacity="1"
+                Background="{DynamicResource Brushes.SurfaceContainerLow}"
+                BorderBrush="{DynamicResource Brushes.OutlineInner}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Opacity="0"
+                RenderTransformOrigin=".5, .5"
+                UseLayoutRounding="True">
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="ContentTransform" ScaleX="1.05" ScaleY="1.05" />
+            </Border.RenderTransform>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="40"
+                                  Direction="270"
+                                  Opacity="0.15"
+                                  Color="Black" />
+            </Border.Effect>
+            <Grid>
+                <Grid ColumnDefinitions="220, *">
+
+                    <StackPanel Grid.Column="0" Margin="24,20,0,24">
+                        <!-- 标题栏 -->
+                        <TextBlock Margin="0,0,0,16"
+                                   HorizontalAlignment="Left"
+                                   FontSize="24"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource Brushes.OnSurface}"
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Announcement_Title}" />
+                        <!-- 左侧列表 -->
+                        <ListBox x:Name="AnnouncementsListBox" Background="Transparent"
+                                 BorderThickness="0"
+                                 d:Height="100"
+                                 ItemsSource="{Binding Announcements}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 SelectedItem="{Binding SelectedAnnouncement, Mode=TwoWay}"
+                                 Style="{DynamicResource NavigationListBoxStyle}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*, Auto" Margin="8, 6, 4, 6">
+                                        <TextBlock Grid.Column="0"
+                                                   FontSize="{DynamicResource FontSize.Label.Large}"
+                                                   Text="{Binding Item.Title}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   TextWrapping="NoWrap" />
+                                        <!-- 未读红点：该条公告未阅读时显示，选中后消失 -->
+                                        <Ellipse Grid.Column="1"
+                                                 Width="8"
+                                                 Height="8"
+                                                 VerticalAlignment="Center"
+                                                 Fill="Red"
+                                                 Visibility="{Binding IsUnread, Converter={StaticResource BoolToVisibility}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    
+                    <ContentControl Grid.Column="1"
+                                    Content="{Binding SelectedAnnouncement}"
+                                    Visibility="{Binding SelectedAnnouncement, Converter={StaticResource NullToCollapsedVisibility}}">
+                        <i:Interaction.Behaviors>
+                            <ui:ContentChangeAnimationBehavior>
+                                <ui:ContentChangeAnimationBehavior.EntranceEffect>
+                                    <ui:FadeEntranceEffect Duration="0:0:0.2" />
+                                </ui:ContentChangeAnimationBehavior.EntranceEffect>
+                            </ui:ContentChangeAnimationBehavior>
+                        </i:Interaction.Behaviors>
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <Grid RowDefinitions="Auto, *">
+                                    <TextBlock Grid.Row="0"
+                                               Margin="24,20,48,16"
+                                               Style="{DynamicResource HeadlineMediumTextBlockStyle}"
+                                               Text="{Binding Item.Title}"
+                                               TextWrapping="Wrap" />
+                                    <ScrollViewer Grid.Row="1"
+                                                  Padding="24,0,24,24"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <TextBlock FontSize="{DynamicResource FontSize.Body.Large}"
+                                                   Foreground="{DynamicResource Brushes.OnSurface}"
+                                                   Text="{Binding Item.Content}"
+                                                   TextWrapping="Wrap" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+
+                    <!-- 关闭按钮 -->
+                    <Button Grid.Column="1"
+                            Width="40"
+                            Height="40"
+                            Margin="4"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource IconButtonStyle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:ControlStoryboardAction Storyboard="{StaticResource CloseAnimation}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="16" Height="16">
+                                <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+
+                </Grid>
+                <!-- 空占位 -->
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           d:Visibility="Collapsed"
+                           FontSize="{DynamicResource FontSize.Body.Large}"
+                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Announcement_Empty}"
+                           Visibility="{Binding SelectedAnnouncement, Converter={StaticResource NullToVisibleVisibility}}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

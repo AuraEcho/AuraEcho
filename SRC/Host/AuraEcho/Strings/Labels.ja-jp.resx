@@ -666,6 +666,15 @@
   <data name="About_ColgProfile" xml:space="preserve">
     <value>COLG 開発者ホーム</value>
   </data>
+  <data name="MainWindow_Announcement" xml:space="preserve">
+    <value>お知らせ</value>
+  </data>
+  <data name="Announcement_Title" xml:space="preserve">
+    <value>お知らせ</value>
+  </data>
+  <data name="Announcement_Empty" xml:space="preserve">
+    <value>お知らせはありません</value>
+  </data>
   <data name="PluginsMarketplace_Empty" xml:space="preserve">
     <value>拡張機能がありません</value>
   </data>

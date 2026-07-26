@@ -53,6 +53,8 @@ public class MainWindowViewModel : BindableBase
 
     public IClientSession ClientSession { get; }
 
+    public IAnnouncementService AnnouncementService { get; }
+
     public INavigationService NavigationService
     {
         get;
@@ -85,6 +87,12 @@ public class MainWindowViewModel : BindableBase
     private void NavigationToSendFeedback()
     {
         NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SendFeedback);
+    }
+
+    public DelegateCommand ShowAnnouncementsCommand { get; }
+    private void ShowAnnouncements()
+    {
+        NavigationService.RequestNavigate(HostRegionNames.DialogRegion, ViewNames.AnnouncementView, canBack: false);
     }
 
     public DelegateCommand GoBackCommand { get; }
@@ -123,9 +131,11 @@ public class MainWindowViewModel : BindableBase
         OrderPayUrlCacheService orderPayUrlCacheService,
         ITelemetryService telemetry,
         ApiClient apiClient,
-        TelemetryContextFactory contextFactory)
+        TelemetryContextFactory contextFactory,
+        IAnnouncementService announcementService)
     {
         _regionDialogService = regionDialogService;
+        AnnouncementService = announcementService;
         ToastService = auraToastService;
         NavigationService = navigationService;
         _eventAggregator = eventAggregator;
@@ -150,6 +160,7 @@ public class MainWindowViewModel : BindableBase
         SignOutCommand = new DelegateCommand(SignOut);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
         NavigationToSendFeedbackCommand = new DelegateCommand(NavigationToSendFeedback);
+        ShowAnnouncementsCommand = new DelegateCommand(ShowAnnouncements);
         if (NavigationService is INotifyPropertyChanged npc)
         {
             npc.PropertyChanged += (s, e) =>

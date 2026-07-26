@@ -1742,5 +1742,32 @@ namespace AuraEcho.Strings {
                 return ResourceManager.GetString("Window_Reduction", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 公告 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_Announcement {
+            get {
+                return ResourceManager.GetString("MainWindow_Announcement", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 公告 的本地化字符串。
+        /// </summary>
+        public static string Announcement_Title {
+            get {
+                return ResourceManager.GetString("Announcement_Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 暂无公告 的本地化字符串。
+        /// </summary>
+        public static string Announcement_Empty {
+            get {
+                return ResourceManager.GetString("Announcement_Empty", resourceCulture);
+            }
+        }
     }
 }

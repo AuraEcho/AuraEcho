@@ -667,6 +667,15 @@
   <data name="About_ColgProfile" xml:space="preserve">
     <value>COLG 개발자 홈</value>
   </data>
+  <data name="MainWindow_Announcement" xml:space="preserve">
+    <value>공지사항</value>
+  </data>
+  <data name="Announcement_Title" xml:space="preserve">
+    <value>공지사항</value>
+  </data>
+  <data name="Announcement_Empty" xml:space="preserve">
+    <value>공지사항 없음</value>
+  </data>
   <data name="PluginsMarketplace_Empty" xml:space="preserve">
     <value>확장 기능 없음</value>
   </data>

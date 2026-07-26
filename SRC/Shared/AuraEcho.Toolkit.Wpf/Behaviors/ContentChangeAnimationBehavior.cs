@@ -55,7 +55,12 @@ namespace AuraEcho.Toolkit.Wpf.Behaviors
                 }
 
                 content.Loaded += OnNewContentLoaded;
+                return;
             }
+
+            // Content 为数据对象, 改为对自身施加动画。
+            if (AssociatedObject.Content is not null)
+                AnimateContent(AssociatedObject);
         }
 
         private void OnNewContentLoaded(object sender, RoutedEventArgs e)

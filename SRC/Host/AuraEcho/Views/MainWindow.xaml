@@ -28,6 +28,7 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <auraecho:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <Storyboard x:Key="ShowMask">
             <DoubleAnimation Storyboard.TargetName="AppContainer"
@@ -370,6 +371,31 @@
                             </Canvas>
                         </Viewbox>
                     </ToggleButton>
+                    <Button x:Name="AnnouncementButton"
+                            Width="47"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding ShowAnnouncementsCommand}"
+                            Style="{DynamicResource IconButtonStyle}"
+                            ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_Announcement}"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+                        <Grid>
+                            <Viewbox x:Name="AnnouncementIcon"
+                                     Width="24"
+                                     Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Data="M12.04,2.5L9.53,5H14.53L12.04,2.5M4,7V20H20V7H4M12,0L17,5V5H20A2,2 0 0,1 22,7V20A2,2 0 0,1 20,22H4A2,2 0 0,1 2,20V7A2,2 0 0,1 4,5H7V5L12,0M7,18V14H12V18H7M14,17V10H18V17H14M6,12V9H11V12H6Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                </Canvas>
+                            </Viewbox>
+                            <Ellipse Width="8"
+                                     Height="8"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top"
+                                     Fill="Red"
+                                     Visibility="{Binding AnnouncementService.HasUnread, Converter={StaticResource BoolToVisibility}}" />
+                        </Grid>
+                    </Button>
                     <ToggleButton x:Name="OptionsToggleButton"
                                   Width="47"
                                   Padding="0"
@@ -801,9 +827,11 @@
                         Style="{DynamicResource IconButtonStyle}"
                         ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Window_Close}"
                         WindowChrome.IsHitTestVisibleInChrome="True">
-                    <Canvas Width="16" Height="16">
-                        <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                    </Canvas>
+                    <Viewbox Width="16" Height="16">
+                        <Canvas Width="16" Height="16">
+                            <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                        </Canvas>
+                    </Viewbox>
                 </Button>
             </StackPanel>
 

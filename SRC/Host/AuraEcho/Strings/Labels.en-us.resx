@@ -666,6 +666,18 @@
   <data name="About_ColgProfile" xml:space="preserve">
     <value>COLG Developer Profile</value>
   </data>
+  <data name="PluginsMarketplace_Empty" xml:space="preserve">
+    <value>No extensions available</value>
+  </data>
+  <data name="PluginsMarketplace_LoadFailed" xml:space="preserve">
+    <value>Failed to load extensions</value>
+  </data>
+  <data name="PluginsMarketplace_Loading" xml:space="preserve">
+    <value>Loading extensions...</value>
+  </data>
+  <data name="PluginsMarketplace_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
   <data name="MainWindow_Announcement" xml:space="preserve">
     <value>Announcements</value>
   </data>

@@ -667,6 +667,18 @@
   <data name="About_ColgProfile" xml:space="preserve">
     <value>COLG 개발자 홈</value>
   </data>
+  <data name="PluginsMarketplace_Empty" xml:space="preserve">
+    <value>확장 기능 없음</value>
+  </data>
+  <data name="PluginsMarketplace_LoadFailed" xml:space="preserve">
+    <value>확장 기능 로딩 실패</value>
+  </data>
+  <data name="PluginsMarketplace_Loading" xml:space="preserve">
+    <value>확장 기능 로딩 중...</value>
+  </data>
+  <data name="PluginsMarketplace_Refresh" xml:space="preserve">
+    <value>새로고침</value>
+  </data>
   <data name="MainWindow_Announcement" xml:space="preserve">
     <value>공지사항</value>
   </data>

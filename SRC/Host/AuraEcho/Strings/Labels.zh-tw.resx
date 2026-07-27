@@ -666,4 +666,16 @@
   <data name="About_ColgProfile" xml:space="preserve">
     <value>COLG 開發者首頁</value>
   </data>
+  <data name="PluginsMarketplace_Empty" xml:space="preserve">
+    <value>暫無擴充功能</value>
+  </data>
+  <data name="PluginsMarketplace_LoadFailed" xml:space="preserve">
+    <value>擴充功能載入失敗</value>
+  </data>
+  <data name="PluginsMarketplace_Loading" xml:space="preserve">
+    <value>正在載入擴充功能...</value>
+  </data>
+  <data name="PluginsMarketplace_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
 </root>

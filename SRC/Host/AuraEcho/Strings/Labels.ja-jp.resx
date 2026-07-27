@@ -666,4 +666,16 @@
   <data name="About_ColgProfile" xml:space="preserve">
     <value>COLG 開発者ホーム</value>
   </data>
+  <data name="PluginsMarketplace_Empty" xml:space="preserve">
+    <value>拡張機能がありません</value>
+  </data>
+  <data name="PluginsMarketplace_LoadFailed" xml:space="preserve">
+    <value>拡張機能の読み込みに失敗しました</value>
+  </data>
+  <data name="PluginsMarketplace_Loading" xml:space="preserve">
+    <value>拡張機能を読み込み中...</value>
+  </data>
+  <data name="PluginsMarketplace_Refresh" xml:space="preserve">
+    <value>再読み込み</value>
+  </data>
 </root>

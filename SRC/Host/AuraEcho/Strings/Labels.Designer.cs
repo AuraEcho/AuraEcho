@@ -419,25 +419,7 @@ namespace AuraEcho.Strings {
                 return ResourceManager.GetString("GeneralSettings_LanguageDescription", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   查找类似 发送诊断数据 的本地化字符串。
-        /// </summary>
-        public static string GeneralSettings_Telemetry {
-            get {
-                return ResourceManager.GetString("GeneralSettings_Telemetry", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   查找类似 帮助改进灵光回声，匿名发送崩溃报告和使用统计数据 的本地化字符串。
-        /// </summary>
-        public static string GeneralSettings_TelemetryDescription {
-            get {
-                return ResourceManager.GetString("GeneralSettings_TelemetryDescription", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   查找类似 随系统启动 的本地化字符串。
         /// </summary>
@@ -453,6 +435,24 @@ namespace AuraEcho.Strings {
         public static string GeneralSettings_RunAtBootDescription {
             get {
                 return ResourceManager.GetString("GeneralSettings_RunAtBootDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发送诊断数据 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_Telemetry {
+            get {
+                return ResourceManager.GetString("GeneralSettings_Telemetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帮助改进灵光回声，匿名发送崩溃报告和使用统计数据 的本地化字符串。
+        /// </summary>
+        public static string GeneralSettings_TelemetryDescription {
+            get {
+                return ResourceManager.GetString("GeneralSettings_TelemetryDescription", resourceCulture);
             }
         }
         
@@ -885,6 +885,42 @@ namespace AuraEcho.Strings {
         public static string PluginsMarketplace {
             get {
                 return ResourceManager.GetString("PluginsMarketplace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 暂无扩展 的本地化字符串。
+        /// </summary>
+        public static string PluginsMarketplace_Empty {
+            get {
+                return ResourceManager.GetString("PluginsMarketplace_Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 扩展加载失败 的本地化字符串。
+        /// </summary>
+        public static string PluginsMarketplace_LoadFailed {
+            get {
+                return ResourceManager.GetString("PluginsMarketplace_LoadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在加载扩展... 的本地化字符串。
+        /// </summary>
+        public static string PluginsMarketplace_Loading {
+            get {
+                return ResourceManager.GetString("PluginsMarketplace_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新 的本地化字符串。
+        /// </summary>
+        public static string PluginsMarketplace_Refresh {
+            get {
+                return ResourceManager.GetString("PluginsMarketplace_Refresh", resourceCulture);
             }
         }
         
@@ -1330,7 +1366,7 @@ namespace AuraEcho.Strings {
         }
         
         /// <summary>
-        ///   查找类似 在 COLG 论坛向开发者发送站内信 的本地化字符串。
+        ///   查找类似 在 COLG 论坛私信开发者 的本地化字符串。
         /// </summary>
         public static string SendFeedback_COLGDescription {
             get {
@@ -1366,7 +1402,7 @@ namespace AuraEcho.Strings {
         }
         
         /// <summary>
-        ///   查找类似 您可以通过 GitHub Issue 进行反馈 的本地化字符串。
+        ///   查找类似 提交 Issue 反馈 Bug 或功能建议 的本地化字符串。
         /// </summary>
         public static string SendFeedback_GitHubDescription {
             get {
@@ -1393,7 +1429,7 @@ namespace AuraEcho.Strings {
         }
         
         /// <summary>
-        ///   查找类似 您可以加入灵光回声反馈群向开发者反馈 的本地化字符串。
+        ///   查找类似 加入交流群与开发者实时沟通 的本地化字符串。
         /// </summary>
         public static string SendFeedback_QQGroupDescription {
             get {

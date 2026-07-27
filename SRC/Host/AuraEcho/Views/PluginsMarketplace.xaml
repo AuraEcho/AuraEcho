@@ -23,7 +23,7 @@
         <DataTemplate x:Key="PluginTemplate" DataType="{x:Type models:MarketPlugin}">
             <Grid Background="Transparent">
                 <Grid.Resources>
-                    <ui:BindingProxy x:Key="DataContextProxy" Data="{Binding}"/>
+                    <ui:BindingProxy x:Key="DataContextProxy" Data="{Binding}" />
                     <Storyboard x:Key="MouseEnterStoryboard">
                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                          Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
@@ -112,10 +112,8 @@
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid x:Name="ContentPanel"
-          Margin="0,36,0,0"
-          RowDefinitions="Auto, *">
-        <ScrollViewer Grid.Row="1" Margin="0, 0, 2, 2">
+    <Grid x:Name="ContentPanel" Margin="0,36,0,0">
+        <ScrollViewer Grid.Row="1" Margin="0,0,2,2">
             <StackPanel MaxWidth="1600">
                 <Grid Margin="48,16,48,24">
                     <i:Interaction.Triggers>
@@ -150,25 +148,24 @@
                             <Grid Width="480"
                                   Height="100"
                                   UseLayoutRounding="True">
-                                <Border Margin="0,0,0,0"
-                                        CornerRadius="4" >
+                                <Border Margin="0,0,0,0" CornerRadius="4">
                                     <Border.Background>
-                                        <ImageBrush ImageSource="/Assets/Images/marketplace_banner.jpg"/>
+                                        <ImageBrush ImageSource="/Assets/Images/marketplace_banner.jpg" />
                                     </Border.Background>
                                 </Border>
                                 <Border CornerRadius="4">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
-                                            <GradientStop Color="#7F000000" Offset="0"/>
-                                            <GradientStop Color="#00000000" Offset="1"/>
+                                            <GradientStop Offset="0" Color="#7F000000" />
+                                            <GradientStop Offset="1" Color="#00000000" />
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
                                 <Border Width="80"
                                         HorizontalAlignment="Right"
                                         CornerRadius="4"
-                                        Visibility="Hidden"
-                                        UseLayoutRounding="False">
+                                        UseLayoutRounding="False"
+                                        Visibility="Hidden">
                                     <Border.Effect>
                                         <DropShadowEffect Direction="360"
                                                           Opacity="0.3"
@@ -213,6 +210,7 @@
                 <ItemsControl Margin="40,0,40,40"
                               VerticalAlignment="Top"
                               d:ItemsSource="{d:SampleData ItemCount=10}"
+                              d:Visibility="Hidden"
                               ItemTemplate="{StaticResource PluginTemplate}"
                               ItemsSource="{Binding Plugins}">
                     <i:Interaction.Behaviors>
@@ -268,5 +266,137 @@
                 </ItemsControl>
             </StackPanel>
         </ScrollViewer>
+        <Grid RowDefinitions="Auto, *">
+            <Grid.Resources>
+                <Storyboard x:Key="LoadingAnimation">
+                    <DoubleAnimation BeginTime="0:0:0.2"
+                                     RepeatBehavior="Forever"
+                                     Storyboard.TargetName="LoadingBrushTransform"
+                                     Storyboard.TargetProperty="X"
+                                     From="-1"
+                                     To="1"
+                                     Duration="0:0:1">
+                        <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </Grid.Resources>
+            <Viewbox Grid.Row="0">
+                <Grid Width="480" Height="100" />
+            </Viewbox>
+            <Grid Grid.Row="1">
+
+                <!-- Loading -->
+                <TextBlock x:Name="LoadingText"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           d:Visibility="Hidden"
+                           FontSize="{DynamicResource FontSize.Headline.Small}"
+                           Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace_Loading}">
+                    <i:Interaction.Triggers>
+                        <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:ViewModelState.Loading}">
+                            <i:ControlStoryboardAction Storyboard="{StaticResource LoadingAnimation}" />
+                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                        </i:DataTrigger>
+                        <i:DataTrigger Binding="{Binding State}"
+                                       Comparison="NotEqual"
+                                       Value="{x:Static enums:ViewModelState.Loading}">
+                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            <i:ControlStoryboardAction ControlStoryboardOption="Stop" Storyboard="{StaticResource LoadingAnimation}" />
+                        </i:DataTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                            <GradientStop Offset="0" Color="Gray" />
+                            <GradientStop Offset="0.4" Color="White" />
+                            <GradientStop Offset="0.6" Color="White" />
+                            <GradientStop Offset="1" Color="Gray" />
+
+                            <LinearGradientBrush.RelativeTransform>
+                                <TranslateTransform x:Name="LoadingBrushTransform" X="-0.3" />
+                            </LinearGradientBrush.RelativeTransform>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+
+                </TextBlock>
+
+                <!-- 无数据 -->
+                <Border HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        d:Visibility="Hidden">
+                    <i:Interaction.Triggers>
+                        <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:ViewModelState.Ready}">
+                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                        </i:DataTrigger>
+                        <i:DataTrigger Binding="{Binding State}"
+                                       Comparison="NotEqual"
+                                       Value="{x:Static enums:ViewModelState.Ready}">
+                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                        </i:DataTrigger>
+                    </i:Interaction.Triggers>
+                    <StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding Plugins.Count}" Value="0">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding Plugins.Count}"
+                                           Comparison="NotEqual"
+                                           Value="0">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Viewbox Width="32"
+                                 Height="32"
+                                 Margin="0,0,0,8">
+                            <Canvas Width="24.0" Height="24.0">
+                                <Path Data="M 13 3 V 11 H 21 V 3 H 13 Z M 3 21 H 11 V 13 H 3 V 21 Z M 3 3 V 11 H 11 V 3 H 3 Z M 13 16 H 16 V 13 H 18 V 16 H 21 V 18 H 18 V 21 H 16 V 18 H 13 V 16 Z" Fill="{DynamicResource Brushes.OnSurfaceVariant}" />
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace_Empty, Mode=OneWay}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- 加载失败 -->
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <i:Interaction.Triggers>
+                        <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:ViewModelState.LoadFailed}">
+                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                        </i:DataTrigger>
+                        <i:DataTrigger Binding="{Binding State}"
+                                       Comparison="NotEqual"
+                                       Value="{x:Static enums:ViewModelState.LoadFailed}">
+                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                        </i:DataTrigger>
+                    </i:Interaction.Triggers>
+                    <StackPanel>
+                        <Viewbox Width="32"
+                                 Height="32"
+                                 Margin="0,0,0,4"
+                                 HorizontalAlignment="Center">
+                            <Canvas Width="24.0" Height="24.0">
+                                <Path Data="M 3 13 H 11 V 21 H 3 V 13 Z" Fill="{DynamicResource Brushes.OnSurfaceVariant}" />
+                                <Path Data="M 3 3 H 11 V 11 H 3 V 3 Z" Fill="{DynamicResource Brushes.OnSurfaceVariant}" />
+                                <Path Data="M 13 3 H 21 V 11 H 13 V 3 Z" Fill="{DynamicResource Brushes.OnSurfaceVariant}" />
+                                <Path Data="M 14.6 13 L 21 19.4 L 19.4 21 L 13 14.6 L 14.6 13 Z" Fill="{DynamicResource Brushes.Error}" />
+                                <Path Data="M 21 14.6 L 14.6 21 L 13 19.4 L 19.4 13 L 21 14.6 Z" Fill="{DynamicResource Brushes.Error}" />
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock HorizontalAlignment="Center"
+                                   Margin="0, 0, 0, 8"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace_LoadFailed, Mode=OneWay}" />
+                        <TextBlock HorizontalAlignment="Center" Style="{DynamicResource BodyLargeTextBlockStyle}">
+                            <Hyperlink Command="{Binding LoadPluginsCommand}">
+                                <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.PluginsMarketplace_Refresh, Mode=OneWay}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

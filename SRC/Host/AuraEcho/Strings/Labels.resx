@@ -369,11 +369,44 @@
   <data name="Purchase_DoneButton" xml:space="preserve">
     <value>完成</value>
   </data>
-  <data name="Purchase_LifetimeLicense" xml:space="preserve">
-    <value>永久</value>
+  <data name="Purchase_DurationMonths" xml:space="preserve">
+    <value>{0} 个月</value>
   </data>
-  <data name="Purchase_MonthlyLicense" xml:space="preserve">
-    <value>月卡</value>
+  <data name="Purchase_DurationYear" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="Purchase_PriceLabel" xml:space="preserve">
+    <value>订阅售价</value>
+  </data>
+  <data name="Purchase_CreditAmount" xml:space="preserve">
+    <value>升级抵扣</value>
+  </data>
+  <data name="Purchase_BonusDays" xml:space="preserve">
+    <value>额外赠送</value>
+  </data>
+  <data name="Purchase_BonusDaysValue" xml:space="preserve">
+    <value>{0} 天</value>
+  </data>
+  <data name="Purchase_PayableAmount" xml:space="preserve">
+    <value>应付金额</value>
+  </data>
+  <data name="Purchase_ConfirmFreeTitle" xml:space="preserve">
+    <value>本次升级无需支付</value>
+  </data>
+  <data name="Purchase_ConfirmFreeMessage" xml:space="preserve">
+    <value>剩余订阅的价值已足够抵扣，确认后立即开通。</value>
+  </data>
+  <data name="Purchase_ConfirmFreeButton" xml:space="preserve">
+    <value>确认开通</value>
+  </data>
+  <data name="Purchase_ConfirmFreeFailed" xml:space="preserve">
+    <value>订阅状态已变化，请重新下单</value>
+  </data>
+  <data name="Purchase_RefundingTitle" xml:space="preserve">
+    <value>开通失败，款项将退回</value>
+  </data>
+  <data name="Purchase_RefundingMessage" xml:space="preserve">
+    <value>已收到您的付款，但订阅状态在此期间发生了变化，无法开通。款项将退回原支付渠道，如未收到请联系客服。</value>
   </data>
   <data name="Purchase_OrderNumber" xml:space="preserve">
     <value>订单编号</value>
@@ -425,9 +458,6 @@
   </data>
   <data name="Purchase_WeChatScanTip" xml:space="preserve">
     <value>请使用微信扫一扫支付</value>
-  </data>
-  <data name="Purchase_YearlyLicense" xml:space="preserve">
-    <value>年卡</value>
   </data>
   <data name="ResetPassword_BackButton" xml:space="preserve">
     <value>返回</value>

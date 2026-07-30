@@ -221,7 +221,7 @@
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="License:"/>
-                    <TextBlock Text="{Binding LicenseInfo.LicenseType, StringFormat=订阅类型：{0}}"/>
+                    <TextBlock Text="{Binding LicenseInfo.TierName, StringFormat=订阅等级：{0}}"/>
                     <TextBlock Text="{Binding LicenseInfo.ExpiredAt, StringFormat=有效期至：{0:yyyy/MM/dd}, TargetNullValue=有效期至：永久}"/>
                 </StackPanel>
                 <Line Margin="0,0,0,12"

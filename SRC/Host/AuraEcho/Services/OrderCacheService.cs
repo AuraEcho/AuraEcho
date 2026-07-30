@@ -7,12 +7,15 @@ namespace AuraEcho.Services;
 
 public record struct OrderPayUrlCacheKey(Guid SkuId, PaymentChannel PaymentChannel);
 
-public class OrderPayUrlCacheService
+/// <summary>
+/// 订单缓存服务
+/// </summary>
+public class OrderCacheService
 {
     private readonly MemoryCache _cache;
     private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
-    public OrderPayUrlCacheService()
+    public OrderCacheService()
     {
         _cache = new MemoryCache(new MemoryCacheOptions
         {
@@ -20,7 +23,7 @@ public class OrderPayUrlCacheService
         });
     }
 
-    public void Create(OrderPayUrlCacheKey key, string payUrl)
+    public void Create(OrderPayUrlCacheKey key, CreateOrderResponse order)
     {
         var options = new MemoryCacheEntryOptions
         {
@@ -28,7 +31,7 @@ public class OrderPayUrlCacheService
             Size = 1
         };
 
-        _cache.Set(key, payUrl, options);
+        _cache.Set(key, order, options);
     }
 
     public void Remove(OrderPayUrlCacheKey key)
@@ -36,30 +39,36 @@ public class OrderPayUrlCacheService
         _cache.Remove(key);
     }
 
-    public async Task<string?> GetOrFetchAsync(OrderPayUrlCacheKey key, Func<OrderPayUrlCacheKey, Task<string?>> fetcher)
+    public void Clear()
     {
-        if (TryGet(key, out string? payUrl))
-            return payUrl;
+        _cache.Clear();
+    }
 
-        string? fetchResult = await fetcher(key);
+    public async Task<CreateOrderResponse?> GetOrFetchAsync(
+        OrderPayUrlCacheKey key,
+        Func<OrderPayUrlCacheKey, Task<CreateOrderResponse?>> fetcher)
+    {
+        if (TryGet(key, out CreateOrderResponse? order))
+            return order;
 
-        if (fetchResult == null)
+        CreateOrderResponse? fetchResult = await fetcher(key);
+
+        if (fetchResult is null)
             return null;
 
         Create(key, fetchResult);
         return fetchResult;
     }
 
-    public bool TryGet(OrderPayUrlCacheKey key, out string? payUrl)
+    public bool TryGet(OrderPayUrlCacheKey key, out CreateOrderResponse? order)
     {
-        if (_cache.TryGetValue(key, out object? rawValue) && rawValue is string v)
+        if (_cache.TryGetValue(key, out object? rawValue) && rawValue is CreateOrderResponse v)
         {
-            payUrl = v;
+            order = v;
             return true;
         }
 
-        payUrl = default;
+        order = default;
         return false;
     }
 }
-

@@ -369,11 +369,44 @@
   <data name="Purchase_DoneButton" xml:space="preserve">
     <value>Done</value>
   </data>
-  <data name="Purchase_LifetimeLicense" xml:space="preserve">
-    <value>Lifetime</value>
+  <data name="Purchase_DurationMonths" xml:space="preserve">
+    <value>{0} months</value>
   </data>
-  <data name="Purchase_MonthlyLicense" xml:space="preserve">
-    <value>Monthly</value>
+  <data name="Purchase_DurationYear" xml:space="preserve">
+    <value>1 year</value>
+  </data>
+  <data name="Purchase_PriceLabel" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="Purchase_CreditAmount" xml:space="preserve">
+    <value>Upgrade credit</value>
+  </data>
+  <data name="Purchase_BonusDays" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="Purchase_BonusDaysValue" xml:space="preserve">
+    <value>{0} days</value>
+  </data>
+  <data name="Purchase_PayableAmount" xml:space="preserve">
+    <value>Amount due</value>
+  </data>
+  <data name="Purchase_ConfirmFreeTitle" xml:space="preserve">
+    <value>No payment required</value>
+  </data>
+  <data name="Purchase_ConfirmFreeMessage" xml:space="preserve">
+    <value>Your remaining subscription covers this upgrade. Confirm to activate now.</value>
+  </data>
+  <data name="Purchase_ConfirmFreeButton" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Purchase_ConfirmFreeFailed" xml:space="preserve">
+    <value>Your subscription has changed. Please order again.</value>
+  </data>
+  <data name="Purchase_RefundingTitle" xml:space="preserve">
+    <value>Activation failed, refund on the way</value>
+  </data>
+  <data name="Purchase_RefundingMessage" xml:space="preserve">
+    <value>We received your payment, but your subscription changed in the meantime and could not be activated. The amount will be returned to your original payment method. Contact support if it does not arrive.</value>
   </data>
   <data name="Purchase_OrderNumber" xml:space="preserve">
     <value>Order number</value>
@@ -425,9 +458,6 @@
   </data>
   <data name="Purchase_WeChatScanTip" xml:space="preserve">
     <value>Scan with WeChat to pay</value>
-  </data>
-  <data name="Purchase_YearlyLicense" xml:space="preserve">
-    <value>Yearly</value>
   </data>
   <data name="ResetPassword_BackButton" xml:space="preserve">
     <value>Back</value>

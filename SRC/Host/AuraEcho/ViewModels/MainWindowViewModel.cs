@@ -33,7 +33,7 @@ public class MainWindowViewModel : BindableBase
     private readonly IRegionDialogService _regionDialogService;
     public IAuraToastService ToastService { get; }
     private readonly ITokenProvider _tokenProvider;
-    private readonly OrderPayUrlCacheService _orderPayUrlCacheService;
+    private readonly OrderCacheService _orderCacheService;
     private readonly ITelemetryService _telemetry;
     private readonly ApiClient _apiClient;
     private readonly TelemetryContextFactory _contextFactory;
@@ -128,7 +128,7 @@ public class MainWindowViewModel : BindableBase
         IClientSession clientSession,
         IAuraToastService auraToastService,
         IRegionDialogService regionDialogService,
-        OrderPayUrlCacheService orderPayUrlCacheService,
+        OrderCacheService orderPayUrlCacheService,
         ITelemetryService telemetry,
         ApiClient apiClient,
         TelemetryContextFactory contextFactory,
@@ -141,7 +141,7 @@ public class MainWindowViewModel : BindableBase
         _eventAggregator = eventAggregator;
         ClientSession = clientSession;
         _tokenProvider = tokenProvider;
-        _orderPayUrlCacheService = orderPayUrlCacheService;
+        _orderCacheService = orderPayUrlCacheService;
         _telemetry = telemetry;
         _apiClient = apiClient;
         _contextFactory = contextFactory;
@@ -155,7 +155,7 @@ public class MainWindowViewModel : BindableBase
         _eventAggregator.GetEvent<KickedOutEvent>().Subscribe(KickedOut, ThreadOption.UIThread);
         _eventAggregator.GetEvent<RequestRestartAppEvent>().Subscribe(NewPendingRestartItem, ThreadOption.UIThread);
         _eventAggregator.GetEvent<PluginCancelUninstallEvent>().Subscribe(PluginCancelUninstall, ThreadOption.UIThread);
-        _eventAggregator.GetEvent<OrderPaidEvent>().Subscribe(OrderPaid);
+        _eventAggregator.GetEvent<OrderSettledEvent>().Subscribe(OrderSettled);
         AutoSignInCommand = new DelegateCommand(AutoSignIn);
         SignOutCommand = new DelegateCommand(SignOut);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
@@ -173,9 +173,11 @@ public class MainWindowViewModel : BindableBase
         CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
     }
 
-    private async void OrderPaid(OrderPaymentDetails details)
+    private void OrderSettled(OrderSettlement settlement)
     {
-        _orderPayUrlCacheService.Remove(new(details.SkuId, details.PaymentMethod));
+        // 支付成功后，订阅状态已变化，需要移除订单缓存。
+        // TODO: 只移除当前资源的订单，而不是全部。
+        _orderCacheService.Clear();
     }
 
     private void OnSignedIn()

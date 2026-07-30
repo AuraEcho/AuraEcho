@@ -979,23 +979,104 @@ namespace AuraEcho.Strings {
         }
         
         /// <summary>
-        ///   查找类似 永久 的本地化字符串。
+        ///   查找类似 额外赠送 的本地化字符串。
         /// </summary>
-        public static string Purchase_LifetimeLicense {
+        public static string Purchase_BonusDays {
             get {
-                return ResourceManager.GetString("Purchase_LifetimeLicense", resourceCulture);
+                return ResourceManager.GetString("Purchase_BonusDays", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   查找类似 月卡 的本地化字符串。
+        ///   查找类似 {0} 天 的本地化字符串。
         /// </summary>
-        public static string Purchase_MonthlyLicense {
+        public static string Purchase_BonusDaysValue {
             get {
-                return ResourceManager.GetString("Purchase_MonthlyLicense", resourceCulture);
+                return ResourceManager.GetString("Purchase_BonusDaysValue", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 确认开通 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ConfirmFreeButton {
+            get {
+                return ResourceManager.GetString("Purchase_ConfirmFreeButton", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 订阅状态已变化，请重新下单 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ConfirmFreeFailed {
+            get {
+                return ResourceManager.GetString("Purchase_ConfirmFreeFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 剩余订阅的价值已足够抵扣，确认后立即开通。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ConfirmFreeMessage {
+            get {
+                return ResourceManager.GetString("Purchase_ConfirmFreeMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 本次升级无需支付 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ConfirmFreeTitle {
+            get {
+                return ResourceManager.GetString("Purchase_ConfirmFreeTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 升级抵扣 的本地化字符串。
+        /// </summary>
+        public static string Purchase_CreditAmount {
+            get {
+                return ResourceManager.GetString("Purchase_CreditAmount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 {0} 个月 的本地化字符串。
+        /// </summary>
+        public static string Purchase_DurationMonths {
+            get {
+                return ResourceManager.GetString("Purchase_DurationMonths", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 1 年 的本地化字符串。
+        /// </summary>
+        public static string Purchase_DurationYear {
+            get {
+                return ResourceManager.GetString("Purchase_DurationYear", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 应付金额 的本地化字符串。
+        /// </summary>
+        public static string Purchase_PayableAmount {
+            get {
+                return ResourceManager.GetString("Purchase_PayableAmount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 订阅售价 的本地化字符串。
+        /// </summary>
+        public static string Purchase_PriceLabel {
+            get {
+                return ResourceManager.GetString("Purchase_PriceLabel", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 订单编号 的本地化字符串。
         /// </summary>
@@ -1058,7 +1139,25 @@ namespace AuraEcho.Strings {
                 return ResourceManager.GetString("Purchase_QRCodeGenerateFailed", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 开通失败，款项将退回 的本地化字符串。
+        /// </summary>
+        public static string Purchase_RefundingTitle {
+            get {
+                return ResourceManager.GetString("Purchase_RefundingTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 已收到您的付款，但订阅状态在此期间发生了变化，无法开通。款项将退回原支付渠道，如未收到请联系客服。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_RefundingMessage {
+            get {
+                return ResourceManager.GetString("Purchase_RefundingMessage", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 开通订阅，解锁 的本地化字符串。
         /// </summary>
@@ -1155,15 +1254,6 @@ namespace AuraEcho.Strings {
         public static string Purchase_WeChatScanTip {
             get {
                 return ResourceManager.GetString("Purchase_WeChatScanTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 年卡 的本地化字符串。
-        /// </summary>
-        public static string Purchase_YearlyLicense {
-            get {
-                return ResourceManager.GetString("Purchase_YearlyLicense", resourceCulture);
             }
         }
         

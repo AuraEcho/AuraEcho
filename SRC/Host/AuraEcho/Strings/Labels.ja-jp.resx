@@ -369,11 +369,44 @@
   <data name="Purchase_DoneButton" xml:space="preserve">
     <value>完了</value>
   </data>
-  <data name="Purchase_LifetimeLicense" xml:space="preserve">
-    <value>永久</value>
+  <data name="Purchase_DurationMonths" xml:space="preserve">
+    <value>{0} か月</value>
   </data>
-  <data name="Purchase_MonthlyLicense" xml:space="preserve">
-    <value>月間</value>
+  <data name="Purchase_DurationYear" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="Purchase_PriceLabel" xml:space="preserve">
+    <value>販売価格</value>
+  </data>
+  <data name="Purchase_CreditAmount" xml:space="preserve">
+    <value>アップグレード割引</value>
+  </data>
+  <data name="Purchase_BonusDays" xml:space="preserve">
+    <value>追加特典</value>
+  </data>
+  <data name="Purchase_BonusDaysValue" xml:space="preserve">
+    <value>{0} 日</value>
+  </data>
+  <data name="Purchase_PayableAmount" xml:space="preserve">
+    <value>お支払い金額</value>
+  </data>
+  <data name="Purchase_ConfirmFreeTitle" xml:space="preserve">
+    <value>今回のアップグレードは支払い不要です</value>
+  </data>
+  <data name="Purchase_ConfirmFreeMessage" xml:space="preserve">
+    <value>残りのサブスクリプションで全額充当されます。確認後すぐに利用開始できます。</value>
+  </data>
+  <data name="Purchase_ConfirmFreeButton" xml:space="preserve">
+    <value>開通を確認</value>
+  </data>
+  <data name="Purchase_ConfirmFreeFailed" xml:space="preserve">
+    <value>サブスクリプションの状態が変更されました。もう一度ご注文ください。</value>
+  </data>
+  <data name="Purchase_RefundingTitle" xml:space="preserve">
+    <value>開通できませんでした。返金いたします</value>
+  </data>
+  <data name="Purchase_RefundingMessage" xml:space="preserve">
+    <value>お支払いは受領しましたが、その間にサブスクリプションの状態が変更されたため開通できませんでした。お支払い元へ返金いたします。着金が確認できない場合はサポートまでご連絡ください。</value>
   </data>
   <data name="Purchase_OrderNumber" xml:space="preserve">
     <value>注文番号</value>
@@ -425,9 +458,6 @@
   </data>
   <data name="Purchase_WeChatScanTip" xml:space="preserve">
     <value>WeChat Payで支払う</value>
-  </data>
-  <data name="Purchase_YearlyLicense" xml:space="preserve">
-    <value>年間</value>
   </data>
   <data name="ResetPassword_BackButton" xml:space="preserve">
     <value>戻る</value>

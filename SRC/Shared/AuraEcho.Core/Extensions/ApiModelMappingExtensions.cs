@@ -69,11 +69,14 @@ public static class ApiModelMappingExtensions
         Id = dto.Id!.Value,
         ResourceId = dto.ResourceId,
         ResourceType = dto.ResourceType,
-        Type = (PluginContracts.Models.LicenseType)(int)dto.Type,
+        LicenseTierId = dto.LicenseTierId,
+        TierLevel = dto.TierLevel,
+        TierName = dto.TierName,
+        DurationMonths = dto.DurationMonths,
         SalePrice = dto.SalePrice,
         OriginalPrice = dto.OriginalPrice,
         IsActive = dto.IsActive,
-        Ordinal = dto.Ordianl
+        Ordinal = dto.Ordinal
     };
 
     public static AppVersionInfo ToAppVersionInfo(this GetLatestVersionResponse dto) => new()
@@ -92,8 +95,11 @@ public static class ApiModelMappingExtensions
 
     public static ResourceLicense ToResourceLicense(this LicenseResponseItem dto) => new()
     {
-        ExpiredAt = dto.ExpiredAt,
         IsValid = dto.IsValid,
-        LicenseType = (PluginContracts.Models.LicenseType)(int)dto.LicenseType
+        ResourceId = dto.ResourceId,
+        TierLevel = dto.TierLevel,
+        TierName = dto.TierName,
+        TierDescription = dto.TierDescription,
+        ExpiredAt = dto.ExpiredAt
     };
 }

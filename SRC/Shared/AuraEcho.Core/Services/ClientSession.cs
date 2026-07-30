@@ -85,11 +85,11 @@ public class ClientSession : BindableBase, IClientSession
         // 订阅 CloudHub 事件
         void SubScribeCloudHubEvents()
         {
-            _cloudHubClient.Subscribe<OrderPaidMessage, OrderPaymentDetails>(
+            _cloudHubClient.Subscribe<OrderSettledMessage, OrderSettlement>(
                 payload =>
                 {
-                    Debug.WriteLine($"收到订单支付成功消息，订单号：{payload.OrderId}");
-                    _eventAggregator.GetEvent<OrderPaidEvent>().Publish(payload);
+                    Debug.WriteLine($"收到订单结果消息，订单号：{payload.OrderNumber}，状态：{payload.Status}");
+                    _eventAggregator.GetEvent<OrderSettledEvent>().Publish(payload);
                 });
 
             // 单设备登录

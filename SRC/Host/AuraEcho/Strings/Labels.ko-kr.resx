@@ -369,11 +369,44 @@
   <data name="Purchase_DoneButton" xml:space="preserve">
     <value>완료</value>
   </data>
-  <data name="Purchase_LifetimeLicense" xml:space="preserve">
-    <value>평생</value>
+  <data name="Purchase_DurationMonths" xml:space="preserve">
+    <value>{0}개월</value>
   </data>
-  <data name="Purchase_MonthlyLicense" xml:space="preserve">
-    <value>월간</value>
+  <data name="Purchase_DurationYear" xml:space="preserve">
+    <value>1년</value>
+  </data>
+  <data name="Purchase_PriceLabel" xml:space="preserve">
+    <value>판매 가격</value>
+  </data>
+  <data name="Purchase_CreditAmount" xml:space="preserve">
+    <value>업그레이드 공제</value>
+  </data>
+  <data name="Purchase_BonusDays" xml:space="preserve">
+    <value>추가 제공</value>
+  </data>
+  <data name="Purchase_BonusDaysValue" xml:space="preserve">
+    <value>{0}일</value>
+  </data>
+  <data name="Purchase_PayableAmount" xml:space="preserve">
+    <value>결제 금액</value>
+  </data>
+  <data name="Purchase_ConfirmFreeTitle" xml:space="preserve">
+    <value>이번 업그레이드는 결제가 필요하지 않습니다</value>
+  </data>
+  <data name="Purchase_ConfirmFreeMessage" xml:space="preserve">
+    <value>남은 구독 가치로 전액 공제됩니다. 확인하면 바로 사용할 수 있습니다.</value>
+  </data>
+  <data name="Purchase_ConfirmFreeButton" xml:space="preserve">
+    <value>개통 확인</value>
+  </data>
+  <data name="Purchase_ConfirmFreeFailed" xml:space="preserve">
+    <value>구독 상태가 변경되었습니다. 다시 주문해 주세요.</value>
+  </data>
+  <data name="Purchase_RefundingTitle" xml:space="preserve">
+    <value>개통 실패, 결제 금액을 환불합니다</value>
+  </data>
+  <data name="Purchase_RefundingMessage" xml:space="preserve">
+    <value>결제는 정상적으로 접수되었으나 그 사이 구독 상태가 변경되어 개통할 수 없었습니다. 결제 금액은 원래 결제 수단으로 환불됩니다. 입금이 확인되지 않으면 고객센터로 문의해 주세요.</value>
   </data>
   <data name="Purchase_OrderNumber" xml:space="preserve">
     <value>주문 번호</value>
@@ -425,9 +458,6 @@
   </data>
   <data name="Purchase_WeChatScanTip" xml:space="preserve">
     <value>WeChat으로 결제하세요</value>
-  </data>
-  <data name="Purchase_YearlyLicense" xml:space="preserve">
-    <value>연간</value>
   </data>
   <data name="ResetPassword_BackButton" xml:space="preserve">
     <value>뒤로</value>

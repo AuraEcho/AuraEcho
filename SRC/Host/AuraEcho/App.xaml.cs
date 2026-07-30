@@ -143,7 +143,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<IPurchaseCoordinator, PurchaseCoordinator>();
         containerRegistry.RegisterSingleton<IWebImageLoader>(() => new WebImageLoader(ApplicationPaths.ImageCache));
         containerRegistry.RegisterSingleton<IPluginLoader, PluginLoader>();
-        containerRegistry.RegisterSingleton<OrderPayUrlCacheService>();
+        containerRegistry.RegisterSingleton<OrderCacheService>();
 
         containerRegistry.RegisterSingleton<TelemetryStore>(c =>
             new TelemetryStore(ApplicationPaths.TelemetryDataBase));
@@ -334,7 +334,9 @@ public partial class App : PrismApplication
 
     private static void CreateDatabaseIfNotExists()
     {
+#if !DEBUG
         if (File.Exists(ApplicationPaths.HostDataBase)) return;
+#endif
 
         using var pluginDbContext = _hostDbContextProvider.CreateDbContext();
 

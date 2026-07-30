@@ -22,4 +22,14 @@ public class SkuTierGroup
     /// SKU 列表
     /// </summary>
     public ObservableCollection<Sku> Skus { get; set; } = [];
+
+    /// <summary>
+    /// 是否可购买
+    /// </summary>
+    public bool IsPurchasable { get; set; } = true;
+
+    /// <summary>
+    /// 不可购买的原因
+    /// </summary>
+    public string? LockReason { get; set; }
 }

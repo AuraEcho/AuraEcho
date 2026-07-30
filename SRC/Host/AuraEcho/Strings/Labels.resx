@@ -429,6 +429,15 @@
   <data name="Purchase_QRCodeGenerateFailed" xml:space="preserve">
     <value>支付二维码生成失败</value>
   </data>
+  <data name="Purchase_DowngradeLockedTip" xml:space="preserve">
+    <value>当前订阅等级为 {0}，到期后方可购买更低等级。</value>
+  </data>
+  <data name="Purchase_DowngradeNotAllowed" xml:space="preserve">
+    <value>当前订阅等级更高，到期后方可购买较低等级</value>
+  </data>
+  <data name="Purchase_NoSkuAvailable" xml:space="preserve">
+    <value>暂无可购买选项</value>
+  </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
     <value>支付即代表您同意《</value>
   </data>

@@ -98,6 +98,8 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         get;
         set
         {
+            // 降级组已在 UI 上禁用，此处兜住命令与初始化路径，避免发起注定失败的下单
+            if (value is { IsPurchasable: false }) return;
             if (!SetProperty(ref field, value)) return;
             if (IsInitializing) return;
             if (value?.Skus?.Count > 0)
@@ -281,19 +283,33 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
                     Skus = new ObservableCollection<Sku>(g.OrderBy(s => s.DurationMonths))
                 })
                 .ToList();
-            TierGroups = new ObservableCollection<SkuTierGroup>(groups);
 
-            if (TierGroups.Count == 0)
+            // 低于当前生效等级的组为降级，服务端会拒绝下单，此处直接锁定
+            if (CurrentPluginLicense?.TierLevel is int currentTierLevel)
+            {
+                foreach (SkuTierGroup group in groups.Where(g => g.TierLevel < currentTierLevel))
+                {
+                    group.IsPurchasable = false;
+                    group.LockReason = string.Format(
+                        CultureInfo.CurrentCulture,
+                        Labels.Purchase_DowngradeLockedTip,
+                        CurrentPluginLicense.TierName);
+                }
+            }
+
+            TierGroups = new ObservableCollection<SkuTierGroup>(groups);
+            SelectedTierGroup = PickDefaultTierGroup(groups, CurrentPluginLicense?.TierLevel);
+
+            // 无可购买项（无上架 SKU / 等级全部低于当前订阅 / 该等级无上架时长），
+            if (SelectedTierGroup is null || SelectedTierGroup.Skus.Count == 0)
             {
                 State = PurchaseState.Ready;
+                await minTimeTask;
                 return;
             }
 
-            SelectedTierGroup = TierGroups.First();
             SelectedSku = SelectedTierGroup.Skus.First();
-
-            if (SelectedSku is not null)
-                await CreateOrderAsync();
+            await CreateOrderAsync();
 
             await minTimeTask;
         }
@@ -307,6 +323,20 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         {
             IsInitializing = false;
         }
+    }
+
+    /// <summary>
+    /// 选出默认等级组
+    /// </summary>
+    private static SkuTierGroup? PickDefaultTierGroup(List<SkuTierGroup> groups, int? currentTierLevel)
+    {
+        if (currentTierLevel is int level)
+        {
+            SkuTierGroup? renewal = groups.FirstOrDefault(g => g.TierLevel == level);
+            if (renewal is not null) return renewal;
+        }
+
+        return groups.FirstOrDefault(g => g.IsPurchasable);
     }
 
     private async Task<bool> CreateOrderAsync()
@@ -353,8 +383,11 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             ["channel"] = PaymentChannel.ToString(),
             ["reason"] = resultStatus.ToString()
         });
+        // 降级是业务规则而非技术故障。客户端已前置拦截，此处兜住 license 快照过期的情况
         _auraToastService.Show(
-            Labels.Purchase_QRCodeGenerateFailed,
+            resultStatus == ResultStatus.DowngradeNotAllowed
+                ? Labels.Purchase_DowngradeNotAllowed
+                : Labels.Purchase_QRCodeGenerateFailed,
             ToastLevel.Error);
         return false;
 

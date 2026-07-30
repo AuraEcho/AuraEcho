@@ -1141,6 +1141,33 @@ namespace AuraEcho.Strings {
         }
 
         /// <summary>
+        ///   查找类似 当前订阅等级为 {0}，到期后方可购买更低等级。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_DowngradeLockedTip {
+            get {
+                return ResourceManager.GetString("Purchase_DowngradeLockedTip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 当前订阅等级更高，到期后方可购买较低等级 的本地化字符串。
+        /// </summary>
+        public static string Purchase_DowngradeNotAllowed {
+            get {
+                return ResourceManager.GetString("Purchase_DowngradeNotAllowed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 暂无可购买选项 的本地化字符串。
+        /// </summary>
+        public static string Purchase_NoSkuAvailable {
+            get {
+                return ResourceManager.GetString("Purchase_NoSkuAvailable", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 开通失败，款项将退回 的本地化字符串。
         /// </summary>
         public static string Purchase_RefundingTitle {

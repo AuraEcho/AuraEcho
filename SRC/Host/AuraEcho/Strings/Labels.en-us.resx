@@ -429,6 +429,15 @@
   <data name="Purchase_QRCodeGenerateFailed" xml:space="preserve">
     <value>Failed to generate payment QR code</value>
   </data>
+  <data name="Purchase_DowngradeLockedTip" xml:space="preserve">
+    <value>Your current plan is {0}. Lower tiers become available after it expires.</value>
+  </data>
+  <data name="Purchase_DowngradeNotAllowed" xml:space="preserve">
+    <value>Your current plan is higher. Lower tiers become available after it expires.</value>
+  </data>
+  <data name="Purchase_NoSkuAvailable" xml:space="preserve">
+    <value>No options available</value>
+  </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
     <value>By paying, you agree to the </value>
   </data>

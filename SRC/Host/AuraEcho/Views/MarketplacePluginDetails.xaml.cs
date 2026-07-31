@@ -43,15 +43,9 @@ public partial class MarketplacePluginDetails : UserControl
 
     private void ScreenshotScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
-        ScrollLeftButton.Visibility = 
-            e.HorizontalOffset > 0 
-            ? Visibility.Visible 
-            : Visibility.Collapsed;
+        ScrollLeftButton.IsEnabled = e.HorizontalOffset > 0;
 
-        ScrollRightButton.Visibility = 
-            e.HorizontalOffset >= ScreenshotScrollViewer.ScrollableWidth 
-            ? Visibility.Collapsed 
-            : Visibility.Visible;
+        ScrollRightButton.IsEnabled = e.HorizontalOffset < ScreenshotScrollViewer.ScrollableWidth;
     }
 
     private void Button_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)

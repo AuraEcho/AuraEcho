@@ -122,7 +122,7 @@ public class AnnouncementService : BindableBase, IAnnouncementService
     }
 
     /// <summary>
-    /// 拉取当前生效的公告，按更新时间倒序。
+    /// 拉取当前生效的公告
     /// </summary>
     private async Task<List<AnnouncementItem>?> FetchActiveAsync()
     {

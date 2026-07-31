@@ -378,6 +378,7 @@
                             Command="{Binding ShowAnnouncementsCommand}"
                             Style="{DynamicResource IconButtonStyle}"
                             ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_Announcement}"
+                            Visibility="{Binding ClientSession.IsSignedIn, Converter={StaticResource BoolToVisibility}}"
                             WindowChrome.IsHitTestVisibleInChrome="True">
                         <Grid>
                             <Viewbox x:Name="AnnouncementIcon"

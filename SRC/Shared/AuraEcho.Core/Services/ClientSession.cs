@@ -58,6 +58,7 @@ public class ClientSession : BindableBase, IClientSession
             authResponse.Jti);
 
         UpdateUserProfile(authResponse.User.ToUserProfile());
+        RaisePropertyChanged(nameof(IsSignedIn));
 
         _eventAggregator.GetEvent<SignedInEvent>().Publish();
         _telemetry.TrackEvent("Auth.SignIn");
@@ -147,6 +148,7 @@ public class ClientSession : BindableBase, IClientSession
         _ = DisconnectCloudHubAsync();
         CurrentUser = null;
         _tokenProvider.ClearToken();
+        RaisePropertyChanged(nameof(IsSignedIn));
 
         _eventAggregator.GetEvent<SignedOutEvent>().Publish();
         _telemetry.TrackEvent("Auth.SignOut");

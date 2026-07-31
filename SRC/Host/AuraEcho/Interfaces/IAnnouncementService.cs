@@ -11,7 +11,7 @@ namespace AuraEcho.Interfaces;
 public interface IAnnouncementService : INotifyPropertyChanged
 {
     /// <summary>
-    /// 当前生效的公告列表，按更新时间倒序。
+    /// 当前生效的公告列表
     /// </summary>
     ReadOnlyObservableCollection<AnnouncementEntry> Announcements { get; }
 
@@ -21,7 +21,7 @@ public interface IAnnouncementService : INotifyPropertyChanged
     bool HasUnread { get; }
 
     /// <summary>
-    /// 重新拉取当前生效的公告，并刷新未读状态。
+    /// 重新拉取当前生效的公告
     /// </summary>
     Task RefreshAsync();
 

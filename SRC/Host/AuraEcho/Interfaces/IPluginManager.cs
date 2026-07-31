@@ -9,8 +9,8 @@ public interface IPluginManager
 {
     List<AppPlugin> Plugins { get; }
 
-    //List<UserPluginModel> LoadPlugins();
     Task<AppPlugin> LoadPluginAsync(UserPluginModel pluginRegistryModel);
+
     /// <summary>
     /// 加载所有插件并返回插件注册表
     /// </summary>

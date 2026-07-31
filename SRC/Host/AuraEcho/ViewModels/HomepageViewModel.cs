@@ -39,6 +39,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
     private ObservableCollection<AppPlugin> _plugins;
 
     private readonly IPluginManager _pluginManager;
+    private readonly IPluginLaunchService _pluginLaunchService;
 
     public ObservableCollection<AppPlugin> Plugins
     {
@@ -142,51 +143,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
 
     private void SwitchPlugin(AppPlugin plugin)
     {
-        if (plugin is null)
-            return;
-
-        _telemetry.TrackEvent("Plugin.Opened", new Dictionary<string, string>
-        {
-            ["pluginId"] = plugin.PluginId.ToString(),
-            ["pluginType"] = plugin.PluginType.ToString()
-        });
-
-        switch (plugin.PluginType)
-        {
-            case PluginType.Native:
-                _navigationService.RequestNavigate(
-                    HostRegionNames.MainRegion,
-                    (plugin as NativePlugin).PluginContext.EntryViewName,
-                    new NavigationParameters
-                    {
-                        {  "PluginId", plugin.PluginId  },
-                    });
-                break;
-            case PluginType.Standalone:
-                (plugin as StandalonePlugin).Open();
-                break;
-            case PluginType.LocalWeb:
-                var localWebPlugin = plugin as LocalWebPlugin;
-                _navigationService.RequestNavigate(
-                    HostRegionNames.MainRegion,
-                    ViewNames.WebContainer,
-                    new NavigationParameters
-                    {
-                        {  "SourceUri", Path.Combine(localWebPlugin.WorkingDirectory, localWebPlugin.EntryFileName)  },
-                    });
-                break;
-            case PluginType.RemoteWeb:
-                var remoteWebPlugin = plugin as RemoteWebPlugin;
-                _navigationService.RequestNavigate(
-                    HostRegionNames.MainRegion,
-                    ViewNames.WebContainer,
-                    new NavigationParameters
-                    {
-                        {  "SourceUri", remoteWebPlugin.RemoteUrl },
-                    });
-                break;
-            default: throw new NotImplementedException();
-        }
+        _pluginLaunchService.Launch(plugin);
     }
 
     public HomepageViewModel(
@@ -194,6 +151,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
         ILocalPluginRepository localPluginRepository,
         IEventAggregator eventAggregator,
         IPluginManager pluginManager,
+        IPluginLaunchService pluginLaunchService,
         IThemeManager themeManager,
         ILogger<HomepageViewModel> logger,
         IRegionDialogService regionDialogService,
@@ -201,6 +159,7 @@ public class HomepageViewModel : BindableBase, IRegionMemberLifetime
         ITelemetryService telemetry)
     {
         _clientSession = clientSession;
+        _pluginLaunchService = pluginLaunchService;
         _navigationService = navigationService;
         _localPluginRepository = localPluginRepository;
         _eventAggregator = eventAggregator;

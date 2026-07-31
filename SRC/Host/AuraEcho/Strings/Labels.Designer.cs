@@ -583,15 +583,6 @@ namespace AuraEcho.Strings {
         }
         
         /// <summary>
-        ///   查找类似 程序已最小化到系统托盘 的本地化字符串。
-        /// </summary>
-        public static string MainWindow_MinimizedToTray {
-            get {
-                return ResourceManager.GetString("MainWindow_MinimizedToTray", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 等待重启 的本地化字符串。
         /// </summary>
         public static string MainWindow_PendingRestart {
@@ -669,15 +660,6 @@ namespace AuraEcho.Strings {
         public static string MainWindow_SignOut {
             get {
                 return ResourceManager.GetString("MainWindow_SignOut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 可转到个性化界面关闭推送通知 的本地化字符串。
-        /// </summary>
-        public static string MainWindow_TrayNotificationHint {
-            get {
-                return ResourceManager.GetString("MainWindow_TrayNotificationHint", resourceCulture);
             }
         }
         
@@ -1884,6 +1866,24 @@ namespace AuraEcho.Strings {
         public static string Announcement_Empty {
             get {
                 return ResourceManager.GetString("Announcement_Empty", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 {0} 安装完成 的本地化字符串。
+        /// </summary>
+        public static string SystemToast_PluginInstalledTitle {
+            get {
+                return ResourceManager.GetString("SystemToast_PluginInstalledTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 单击此处以打开 的本地化字符串。
+        /// </summary>
+        public static string SystemToast_PluginInstalledMessage {
+            get {
+                return ResourceManager.GetString("SystemToast_PluginInstalledMessage", resourceCulture);
             }
         }
     }

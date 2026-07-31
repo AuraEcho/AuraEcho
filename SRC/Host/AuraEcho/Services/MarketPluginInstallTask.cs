@@ -33,6 +33,7 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
     private readonly IClientSession _clientSession;
     private readonly ILocalPluginRepository _localPluginRepository;
     private readonly IAuraToastService _auraToastService;
+    private readonly ISystemToastService _systemToastService;
     private readonly ITelemetryService _telemetry;
     private readonly MarketPlugin _plugin;
     protected CancellationTokenSource _cts;
@@ -102,6 +103,10 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
                 ["pluginId"] = _plugin.PluginInfo.Id.ToString()
             });
             _eventAggregator.GetEvent<PluginInstalledEvent>().Publish(loadedPlugin);
+
+            // 窗口不在前台时，推送系统通知。
+            if (!_systemToastService.IsAppInForeground)
+                _systemToastService.NotifyPluginInstalled(loadedPlugin);
         }
         catch (OperationCanceledException)
         {
@@ -174,12 +179,14 @@ public class MarketPluginInstallTask : BindableBase, ITransferTask
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
         IAuraToastService auraToastService,
+        ISystemToastService systemToastService,
         ITelemetryService telemetry,
         MarketPlugin plugin)
     {
         _plugin = plugin;
         _clientSession = clientSession;
         _auraToastService = auraToastService;
+        _systemToastService = systemToastService;
         _localPluginRepository = localPluginRepository;
         _apiClient = apiClient;
         _pluginInstallService = pluginInstallService;

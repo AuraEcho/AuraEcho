@@ -255,9 +255,6 @@
   <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
     <value>最新バージョン：</value>
   </data>
-  <data name="MainWindow_MinimizedToTray" xml:space="preserve">
-    <value>アプリはシステムトレイに最小化されました</value>
-  </data>
   <data name="MainWindow_PendingRestart" xml:space="preserve">
     <value>再起動待ち</value>
   </data>
@@ -281,9 +278,6 @@
   </data>
   <data name="MainWindow_SignOut" xml:space="preserve">
     <value>ログアウト</value>
-  </data>
-  <data name="MainWindow_TrayNotificationHint" xml:space="preserve">
-    <value>個人設定でプッシュ通知をオフにできます</value>
   </data>
   <data name="MainWindow_UninstallPending" xml:space="preserve">
     <value>アンインストール保留中</value>
@@ -737,5 +731,11 @@
   </data>
   <data name="PluginsMarketplace_Refresh" xml:space="preserve">
     <value>再読み込み</value>
+  </data>
+  <data name="SystemToast_PluginInstalledTitle" xml:space="preserve">
+    <value>{0} のインストールが完了しました</value>
+  </data>
+  <data name="SystemToast_PluginInstalledMessage" xml:space="preserve">
+    <value>ここをクリックして開く</value>
   </data>
 </root>

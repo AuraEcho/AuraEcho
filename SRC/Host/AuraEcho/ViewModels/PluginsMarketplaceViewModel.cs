@@ -35,6 +35,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
     private readonly ILocalPluginRepository _localPluginRespository;
     private readonly IClientSession _clientSession;
     private readonly IAuraToastService _auraToastService;
+    private readonly ISystemToastService _systemToastService;
     private readonly ILogger<PluginsMarketplaceViewModel> _logger;
     private readonly ITelemetryService _telemetry;
 
@@ -102,6 +103,7 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
                         _localPluginRespository,
                         _clientSession,
                         _auraToastService,
+                        _systemToastService,
                         _telemetry,
                         marketPlugin);
                 return marketPlugin;
@@ -137,10 +139,12 @@ public class PluginsMarketplaceViewModel : BindableBase, IRegionMemberLifetime
         ILocalPluginRepository localPluginRepository,
         IClientSession clientSession,
         IAuraToastService auraToastService,
+        ISystemToastService systemToastService,
         ITelemetryService telemetry,
         ILogger<PluginsMarketplaceViewModel> logger)
     {
         _clientSession = clientSession;
+        _systemToastService = systemToastService;
         _localPluginRespository = localPluginRepository;
         _transferManager = transferManager;
         _eventAggregator = eventAggregator;

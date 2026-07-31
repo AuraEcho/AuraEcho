@@ -255,9 +255,6 @@
   <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
     <value>최신 버전: </value>
   </data>
-  <data name="MainWindow_MinimizedToTray" xml:space="preserve">
-    <value>앱이 시스템 트레이로 최소화되었습니다</value>
-  </data>
   <data name="MainWindow_PendingRestart" xml:space="preserve">
     <value>다시 시작 대기 중</value>
   </data>
@@ -281,9 +278,6 @@
   </data>
   <data name="MainWindow_SignOut" xml:space="preserve">
     <value>로그아웃</value>
-  </data>
-  <data name="MainWindow_TrayNotificationHint" xml:space="preserve">
-    <value>개인 설정에서 푸시 알림을 끌 수 있습니다</value>
   </data>
   <data name="MainWindow_UninstallPending" xml:space="preserve">
     <value>제거 보류 중</value>
@@ -738,5 +732,11 @@
   </data>
   <data name="PluginsMarketplace_Refresh" xml:space="preserve">
     <value>새로고침</value>
+  </data>
+  <data name="SystemToast_PluginInstalledTitle" xml:space="preserve">
+    <value>{0} 설치 완료</value>
+  </data>
+  <data name="SystemToast_PluginInstalledMessage" xml:space="preserve">
+    <value>열려면 여기를 클릭하세요</value>
   </data>
 </root>

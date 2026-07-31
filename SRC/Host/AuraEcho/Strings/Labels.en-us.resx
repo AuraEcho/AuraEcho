@@ -255,9 +255,6 @@
   <data name="MainWindow_LatestVersionPrefix" xml:space="preserve">
     <value>Latest version: </value>
   </data>
-  <data name="MainWindow_MinimizedToTray" xml:space="preserve">
-    <value>The app has been minimized to the system tray</value>
-  </data>
   <data name="MainWindow_PendingRestart" xml:space="preserve">
     <value>Pending restart</value>
   </data>
@@ -281,9 +278,6 @@
   </data>
   <data name="MainWindow_SignOut" xml:space="preserve">
     <value>Sign out</value>
-  </data>
-  <data name="MainWindow_TrayNotificationHint" xml:space="preserve">
-    <value>Go to personalization settings to turn off push notifications</value>
   </data>
   <data name="MainWindow_UninstallPending" xml:space="preserve">
     <value>Uninstall pending</value>
@@ -737,5 +731,11 @@
   </data>
   <data name="PluginsMarketplace_Refresh" xml:space="preserve">
     <value>Refresh</value>
+  </data>
+  <data name="SystemToast_PluginInstalledTitle" xml:space="preserve">
+    <value>{0} installed</value>
+  </data>
+  <data name="SystemToast_PluginInstalledMessage" xml:space="preserve">
+    <value>Click here to open</value>
   </data>
 </root>

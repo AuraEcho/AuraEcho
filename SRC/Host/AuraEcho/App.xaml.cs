@@ -136,6 +136,8 @@ public partial class App : PrismApplication
         containerRegistry.RegisterSingleton<INavigationService, NavigationService>();
         containerRegistry.RegisterSingleton<IPluginInstallService, PluginInstallService>();
         containerRegistry.RegisterSingleton<IAuraToastService, AuraToastService>();
+        containerRegistry.RegisterSingleton<ISystemToastService, SystemToastService>();
+        containerRegistry.RegisterSingleton<IPluginLaunchService, PluginLaunchService>();
 
         containerRegistry.RegisterSingleton<ITransferManager, TransferManager>();
         containerRegistry.RegisterSingleton<IClientSession, ClientSession>();
@@ -239,6 +241,9 @@ public partial class App : PrismApplication
 
         // 全局 UI 交互自动捕获
         Container.Resolve<InteractionTracker>().Register();
+
+        // 提前实例化以注册系统通知的点击回调
+        Container.Resolve<ISystemToastService>();
     }
 
     protected override void OnExit(ExitEventArgs e)

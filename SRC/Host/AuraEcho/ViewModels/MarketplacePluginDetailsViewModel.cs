@@ -25,6 +25,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
     private readonly ITransferManager _transferManager;
     private readonly INavigationService _navigationService;
     private readonly IPluginManager _pluginManager;
+    private readonly IPluginLaunchService _pluginLaunchService;
     private readonly ITelemetryService _telemetry;
 
     public MarketPlugin MarketPlugin
@@ -50,49 +51,7 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
             _pluginManager.Plugins.FirstOrDefault(p => p.PluginId == MarketPlugin.PluginInfo.Id)
             ?? throw new Exception();
 
-        _telemetry.TrackEvent("Plugin.Opened", new Dictionary<string, string>
-        {
-            ["pluginId"] = targetPlugin.PluginId.ToString(),
-            ["pluginType"] = targetPlugin.PluginType.ToString()
-        });
-
-        switch (targetPlugin.PluginType)
-        {
-            case PluginType.Native:
-                if (targetPlugin is not NativePlugin nativePlugin) return;
-                _navigationService.RequestNavigate(
-                    HostRegionNames.MainRegion,
-                    nativePlugin.PluginContext.EntryViewName,
-                    new NavigationParameters
-                    {
-                        {  "PluginId", nativePlugin.PluginId  },
-                    });
-                break;
-            case PluginType.Standalone:
-                (targetPlugin as StandalonePlugin).Open();
-                break;
-            case PluginType.LocalWeb:
-                var localWebPlugin = targetPlugin as LocalWebPlugin;
-                _navigationService.RequestNavigate(
-                    HostRegionNames.MainRegion,
-                    ViewNames.WebContainer,
-                    new NavigationParameters
-                    {
-                        {  "SourceUri", Path.Combine(localWebPlugin.WorkingDirectory, localWebPlugin.EntryFileName)  },
-                    });
-                break;
-            case PluginType.RemoteWeb:
-                var remoteWebPlugin = targetPlugin as RemoteWebPlugin;
-                _navigationService.RequestNavigate(
-                    HostRegionNames.MainRegion,
-                    ViewNames.WebContainer,
-                    new NavigationParameters
-                    {
-                        {  "SourceUri", remoteWebPlugin.RemoteUrl },
-                    });
-                break;
-            default: throw new NotImplementedException("TODO: 不同类型插件的打开方式不同，待实现");
-        }
+        _pluginLaunchService.Launch(targetPlugin);
     }
 
     public DelegateCommand<PluginScreenshot> NavigationToViewScreenshotCommand { get; }
@@ -124,12 +83,14 @@ public class MarketplacePluginDetailsViewModel : BindableBase, INavigationAware,
         ApiClient apiClient,
         INavigationService navigationService,
         IPluginManager pluginManager,
+        IPluginLaunchService pluginLaunchService,
         ITransferManager transferManager,
         ITelemetryService telemetry)
     {
         _apiClient = apiClient;
         _navigationService = navigationService;
         _pluginManager = pluginManager;
+        _pluginLaunchService = pluginLaunchService;
         _transferManager = transferManager;
         _telemetry = telemetry;
 

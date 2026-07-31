@@ -23,7 +23,6 @@
         Background="{DynamicResource Brushes.SurfaceContainerLowest}"
         Closing="Window_Closing"
         Foreground="{DynamicResource Brushes.OnSurface}"
-        Loaded="Window_Loaded"
         MouseDown="MainWindow_MouseDown"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">

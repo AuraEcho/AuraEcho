@@ -1,13 +1,8 @@
 using AuraEcho.Telemetry;
-using System;
 using System.Collections.Generic;
 using System.Windows;
-using Microsoft.Toolkit.Uwp.Notifications;
 using AuraEcho.Logging;
 using AuraEcho.Core.Events;
-using AuraEcho.PluginContracts.Interfaces;
-using AuraEcho.Strings;
-using AuraEcho.ViewModels;
 using Prism.Events;
 namespace AuraEcho.Views;
 
@@ -64,36 +59,8 @@ public partial class MainWindow : Window
 
         e.Cancel = true;
         Hide();
-        ShowToast();
     }
 
-
-    /// <summary>
-    /// 窗口加载完成事件处理程序
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        // 点击通知时, 激活程序(即使程序已关闭)
-        // Listen to notification activation
-        ToastNotificationManagerCompat.OnActivated += toastArgs =>
-        {
-            //// Obtain the arguments from the notification
-            //ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
-
-            //// Obtain any user input (text boxes, menu selections) from the notification
-            //ValueSet userInput = toastArgs.UserInput;
-            //// 文本框内容
-            //var textBoxContent = userInput["tbReply"].ToString();
-            //// Need to dispatch to UI thread if performing UI operations
-            //Application.Current.Dispatcher.Invoke(delegate
-            //{
-            //    // TODO: Show the corresponding content
-            //    MessageBox.Show("Toast activated. Args: " + toastArgs.Argument);
-            //});
-        };
-    }
 
     /// <summary>
     /// 窗口关闭按钮点击事件处理程序
@@ -103,20 +70,6 @@ public partial class MainWindow : Window
     private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
     {
         Hide();
-        ShowToast();
-    }
-
-    /// <summary>
-    /// 托盘通知
-    /// </summary>
-    public static void ShowToast()
-    {
-        int conversationId = 384928;
-
-        new ToastContentBuilder().AddArgument("conversationId", conversationId)
-                                 .AddText(Labels.MainWindow_MinimizedToTray)
-                                 .AddText(Labels.MainWindow_TrayNotificationHint)
-                                 .Show();
     }
 
     private void MaxWin_MouseClick(object sender, RoutedEventArgs e)

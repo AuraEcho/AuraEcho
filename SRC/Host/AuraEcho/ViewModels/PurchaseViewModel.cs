@@ -40,10 +40,18 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
     private const string QRCODE_PLACEHOLDER_TEXT = "QRPlaceHolderQRPlaceHolderQRPlaceHolder";
     private int _currentOrderTaskId;
-    private bool _isSettled;
     private readonly CancellationTokenSource _orderStatusTaskToken = new();
 
     public PurchaseState State
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    /// <summary>
+    /// 订单处理结果
+    /// </summary>
+    public PurchaseResult OrderResult
     {
         get;
         set => SetProperty(ref field, value);
@@ -62,12 +70,6 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     }
 
     public ResourceLicense CurrentPluginLicense
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
-
-    public ObservableCollection<Sku> Skus
     {
         get;
         set => SetProperty(ref field, value);
@@ -145,16 +147,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     public decimal DisplayPayableAmount =>
         CurrentOrder?.PayableAmount ?? SelectedSku?.SalePrice ?? 0m;
 
-    public OrderSettlement PaymentResult
-    {
-        get;
-        set => SetProperty(ref field, value);
-    }
-
-    /// <summary>
-    /// 本次开通是否为零元订单。零元订单无支付渠道，成功页不展示支付方式。
-    /// </summary>
-    public bool IsFreeOrder
+    public OrderSettlement OrderSettlement
     {
         get;
         set => SetProperty(ref field, value);
@@ -208,7 +201,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     /// </summary>
     private void TrackDialogClosed(string trigger)
     {
-        if (State == PurchaseState.Paid) return;
+        if (State == PurchaseState.OrderCompleted) return;
         _telemetry.TrackEvent("Purchase.DialogClosedUnpaid", new Dictionary<string, string>
         {
             ["resourceId"] = _resourceId.ToString(),
@@ -269,18 +262,18 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
             CurrentPlugin = tPlugin.Result?.ToRemotePlugin();
             CurrentPluginLicense = tLicense.Result;
-            var skuList = tSkus.Result?.Skus?.Select(s => s.ToSku()).Where(s => s.IsActive).OrderBy(s => s.Ordinal);
-            Skus = new ObservableCollection<Sku>(skuList ?? Enumerable.Empty<Sku>());
+            var skuList = tSkus.Result?.Skus?.Select(s => s.ToSku()) ?? [];
 
             // 按 LicenseTierId 构建等级分组，同等级下按时长排序
-            var groups = Skus
+            List<SkuTierGroup> groups =
+                skuList
                 .GroupBy(s => s.LicenseTierId)
                 .OrderBy(g => g.Min(s => s.TierLevel))
                 .Select(g => new SkuTierGroup
                 {
                     TierName = g.First().TierName,
                     TierLevel = g.Min(s => s.TierLevel),
-                    Skus = new ObservableCollection<Sku>(g.OrderBy(s => s.DurationMonths))
+                    Skus = new ObservableCollection<Sku>(g.OrderBy(s => s.Ordinal))
                 })
                 .ToList();
 
@@ -514,32 +507,25 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
         Debug.WriteLine($"OnOrderSettled: {settlement.Status}");
 
-        PaymentResult = settlement;
+        OrderSettlement = settlement;
+        OrderResult = MapResult(settlement);
+        State = PurchaseState.OrderCompleted;
 
-        if (settlement.Status is OrderStatus.Paid)
-        {
-            // 零元开通与扫码支付共用此路径，按实付金额区分成功页展示
-            IsFreeOrder = settlement.PaidAmount is null or <= 0m;
-            State = PurchaseState.Paid;
-            _telemetry.TrackEvent("Purchase.Paid", new Dictionary<string, string>
-            {
-                ["resourceId"] = _resourceId.ToString(),
-                ["skuId"] = settlement.SkuId.ToString(),
-                ["kind"] = settlement.Kind.ToString()
-            });
-            return;
-        }
-        
-        // TODO: 应该区分退款/和退款中两种状态
-
-        // 已收款但无法交付授权，服务端已转入退款
-        State = PurchaseState.Refunding;
-        _telemetry.TrackEvent("Purchase.Refunding", new Dictionary<string, string>
+        _telemetry.TrackEvent("OrderSettled", new Dictionary<string, string>
         {
             ["resourceId"] = _resourceId.ToString(),
             ["skuId"] = settlement.SkuId.ToString(),
             ["status"] = settlement.Status.ToString(),
+            ["result"] = OrderResult.ToString(),
             ["reason"] = settlement.RefundReason.ToString()
         });
     }
+
+    private static PurchaseResult MapResult(OrderSettlement settlement) => settlement.Status switch
+    {
+        OrderStatus.Paid when settlement.PayableAmount == 0m => PurchaseResult.FreeProvisioned,
+        OrderStatus.Paid => PurchaseResult.Paid,
+        OrderStatus.RefundPending => PurchaseResult.Refunding,
+        _ => PurchaseResult.None
+    };
 }

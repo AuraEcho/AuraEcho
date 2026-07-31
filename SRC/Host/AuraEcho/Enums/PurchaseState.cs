@@ -33,14 +33,7 @@ public enum PurchaseState
     Confirming,
 
     /// <summary>
-    /// 支付成功
+    /// 订单完成
     /// </summary>
-    Paid,
-
-    //TODO: 应该区分开通（0元订单）失败/自动退款完成/自动退款失败
-    
-    /// <summary>
-    /// 已收款但无法开通授权，订单已转入退款
-    /// </summary>
-    Refunding
+    OrderCompleted
 }

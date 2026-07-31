@@ -396,6 +396,15 @@
   <data name="Purchase_ConfirmFreeFailed" xml:space="preserve">
     <value>訂閱狀態已變化，請重新下單</value>
   </data>
+  <data name="Purchase_ProvisionedTitle" xml:space="preserve">
+    <value>開通成功</value>
+  </data>
+  <data name="Purchase_ProvisionedMessage" xml:space="preserve">
+    <value>訂閱權益已生效，本次無需支付。</value>
+  </data>
+  <data name="Purchase_ProvisionedTime" xml:space="preserve">
+    <value>開通時間</value>
+  </data>
   <data name="Purchase_RefundingTitle" xml:space="preserve">
     <value>開通失敗，款項將退回</value>
   </data>

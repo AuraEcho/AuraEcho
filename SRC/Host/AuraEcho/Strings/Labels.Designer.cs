@@ -1015,6 +1015,33 @@ namespace AuraEcho.Strings {
         }
 
         /// <summary>
+        ///   查找类似 开通成功 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ProvisionedTitle {
+            get {
+                return ResourceManager.GetString("Purchase_ProvisionedTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 订阅权益已生效，本次无需支付。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ProvisionedMessage {
+            get {
+                return ResourceManager.GetString("Purchase_ProvisionedMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 开通时间 的本地化字符串。
+        /// </summary>
+        public static string Purchase_ProvisionedTime {
+            get {
+                return ResourceManager.GetString("Purchase_ProvisionedTime", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 升级抵扣 的本地化字符串。
         /// </summary>
         public static string Purchase_CreditAmount {

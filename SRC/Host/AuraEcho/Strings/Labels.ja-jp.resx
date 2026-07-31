@@ -396,6 +396,15 @@
   <data name="Purchase_ConfirmFreeFailed" xml:space="preserve">
     <value>サブスクリプションの状態が変更されました。もう一度ご注文ください。</value>
   </data>
+  <data name="Purchase_ProvisionedTitle" xml:space="preserve">
+    <value>開通成功</value>
+  </data>
+  <data name="Purchase_ProvisionedMessage" xml:space="preserve">
+    <value>サブスクリプションのご利用が開始されました。今回のお支払いは不要です。</value>
+  </data>
+  <data name="Purchase_ProvisionedTime" xml:space="preserve">
+    <value>開通日時</value>
+  </data>
   <data name="Purchase_RefundingTitle" xml:space="preserve">
     <value>開通できませんでした。返金いたします</value>
   </data>

@@ -396,6 +396,15 @@
   <data name="Purchase_ConfirmFreeFailed" xml:space="preserve">
     <value>Your subscription has changed. Please order again.</value>
   </data>
+  <data name="Purchase_ProvisionedTitle" xml:space="preserve">
+    <value>Activation successful</value>
+  </data>
+  <data name="Purchase_ProvisionedMessage" xml:space="preserve">
+    <value>Your subscription is active. No payment was required.</value>
+  </data>
+  <data name="Purchase_ProvisionedTime" xml:space="preserve">
+    <value>Activation time</value>
+  </data>
   <data name="Purchase_RefundingTitle" xml:space="preserve">
     <value>Activation failed, refund on the way</value>
   </data>

@@ -3,11 +3,6 @@ namespace AuraEcho.Enums;
 public enum PurchaseState
 {
     /// <summary>
-    /// 加载中
-    /// </summary>
-    Loading,
-    
-    /// <summary>
     /// 内容就绪
     /// </summary>
     Ready,

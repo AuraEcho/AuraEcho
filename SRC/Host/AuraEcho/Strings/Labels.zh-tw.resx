@@ -441,6 +441,15 @@
   <data name="Purchase_NoSkuAvailable" xml:space="preserve">
     <value>暫無可購買選項</value>
   </data>
+  <data name="Purchase_LoadFailedTitle" xml:space="preserve">
+    <value>載入失敗</value>
+  </data>
+  <data name="Purchase_LoadFailedMessage" xml:space="preserve">
+    <value>支付資訊載入失敗，請檢查網路連線後重試。</value>
+  </data>
+  <data name="Purchase_RetryButton" xml:space="preserve">
+    <value>重新載入</value>
+  </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
     <value>支付即代表您同意《</value>
   </data>

@@ -126,8 +126,17 @@
                                     VerticalAlignment="Center"
                                     Background="#44000000"
                                     CornerRadius="8">
-
-                                <ui:SkeletonContainer IsLoading="{Binding IsInitializing}">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding LoadState}" Value="{x:Static enums:LoadState.Failed}">
+                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding LoadState}"
+                                                   Comparison="NotEqual"
+                                                   Value="{x:Static enums:LoadState.Failed}">
+                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                                <ui:SkeletonContainer IsLoading="{Binding LoadState, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:LoadState.Loading}}">
                                     <ui:SkeletonContainer.Skeleton>
                                         <StackPanel Width="294"
                                                     HorizontalAlignment="Right"
@@ -177,13 +186,17 @@
                     </Border>
 
                     <!-- MainContent -->
-                    <Border Grid.Row="1" Padding="24,16,24,24">
-                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
-                            <Grid Grid.Row="0"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="2">
+                    <Border Grid.Row="1">
+                        <Grid>
+                            <Grid Margin="24,16,24,24"
+                                  ColumnDefinitions="*, Auto"
+                                  RowDefinitions="Auto, *">
+
                                 <!-- 资源及 License 信息 -->
-                                <ui:SkeletonContainer IsLoading="{Binding IsInitializing}">
+                                <ui:SkeletonContainer Grid.Row="0"
+                                                      Grid.Column="0"
+                                                      Grid.ColumnSpan="2"
+                                                      IsLoading="{Binding LoadState, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:LoadState.Loading}}">
                                     <ui:SkeletonContainer.Skeleton>
                                         <StackPanel Orientation="Horizontal">
                                             <ui:SkeletonRectangle Width="42"
@@ -259,410 +272,388 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </ui:SkeletonContainer>
-                                <!-- 关闭按钮 -->
-                                <Button Width="45"
-                                        Height="36"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        BorderThickness="0"
-                                        Command="{Binding CloseCommand}"
-                                        FontSize="15"
-                                        IsTabStop="False"
-                                        Style="{DynamicResource IconButtonStyle}"
-                                        ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Window_Close}"
-                                        WindowChrome.IsHitTestVisibleInChrome="True">
-                                    <Button.RenderTransform>
-                                        <TranslateTransform X="16" Y="-8" />
-                                    </Button.RenderTransform>
-                                    <Viewbox Width="20" Height="20">
-                                        <Canvas Width="16" Height="16">
-                                            <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </Button>
-                            </Grid>
 
-                            <!-- SKU 及支付渠道 -->
-                            <StackPanel Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="0,16,16,0">
+                                <!-- SKU 及支付渠道 -->
+                                <StackPanel Grid.Row="1"
+                                            Grid.Column="0"
+                                            Margin="0,16,16,0">
 
-                                <!-- SKU -->
-                                <ui:SkeletonContainer Margin="0,0,0,16" IsLoading="{Binding IsInitializing}">
+                                    <!-- SKU -->
+                                    <ui:SkeletonContainer Margin="0,0,0,16" IsLoading="{Binding LoadState, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:LoadState.Loading}}">
 
-                                    <ui:SkeletonContainer.Skeleton>
-                                        <StackPanel>
-                                            <!-- 等级 Tab 骨架 -->
-                                            <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                                <ui:SkeletonRectangle Width="72"
-                                                                      Height="23"
-                                                                      Margin="0,0,8,0"
-                                                                      CornerRadius="4" />
-                                                <ui:SkeletonRectangle Width="72"
-                                                                      Height="23"
-                                                                      Margin="0,0,8,0"
-                                                                      CornerRadius="4" />
-                                                <ui:SkeletonRectangle Width="72"
-                                                                      Height="23"
-                                                                      CornerRadius="4" />
-                                            </StackPanel>
-                                            <!-- 时长卡片骨架 -->
-                                            <StackPanel Orientation="Horizontal">
-                                                <Border Width="108"
-                                                        Height="132"
-                                                        Margin="0,0,8,0"
-                                                        Background="Transparent"
-                                                        BorderBrush="{DynamicResource Brushes.OutlineVariant}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="4">
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                        <ui:SkeletonRectangle Width="54"
-                                                                              Height="20"
-                                                                              Margin="0,0,0,8" />
-                                                        <ui:SkeletonRectangle Width="72"
-                                                                              Height="32"
-                                                                              Margin="0,0,0,8" />
-                                                        <ui:SkeletonRectangle Width="56" Height="18" />
-                                                    </StackPanel>
-                                                </Border>
-                                                <Border Width="108"
-                                                        Height="132"
-                                                        Margin="0,0,8,0"
-                                                        Background="Transparent"
-                                                        BorderBrush="{DynamicResource Brushes.OutlineVariant}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="4">
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                        <ui:SkeletonRectangle Width="54"
-                                                                              Height="20"
-                                                                              Margin="0,0,0,8" />
-                                                        <ui:SkeletonRectangle Width="72"
-                                                                              Height="32"
-                                                                              Margin="0,0,0,8" />
-                                                        <ui:SkeletonRectangle Width="56" Height="18" />
-                                                    </StackPanel>
-                                                </Border>
-                                                <Border Width="108"
-                                                        Height="132"
-                                                        Background="Transparent"
-                                                        BorderBrush="{DynamicResource Brushes.OutlineVariant}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="4">
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                        <ui:SkeletonRectangle Width="54"
-                                                                              Height="20"
-                                                                              Margin="0,0,0,8" />
-                                                        <ui:SkeletonRectangle Width="72"
-                                                                              Height="32"
-                                                                              Margin="0,0,0,8" />
-                                                        <ui:SkeletonRectangle Width="56" Height="18" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </ui:SkeletonContainer.Skeleton>
-                                    <StackPanel>
-                                        <!-- 等级选择 Tab -->
-                                        <ItemsControl Margin="0,0,0,8"
-                                                      d:ItemsSource="{d:SampleData ItemCount=2}"
-                                                      ItemsSource="{Binding TierGroups}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal" />
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate DataType="{x:Type hm:SkuTierGroup}">
-                                                    <RadioButton Margin="0,0,16,0"
-                                                                 Padding="0"
-                                                                 d:IsChecked="True"
-                                                                 Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectTierCommand}"
-                                                                 CommandParameter="{Binding}"
-                                                                 FontSize="18"
-                                                                 GroupName="TierGroup"
-                                                                 IsEnabled="{Binding IsPurchasable}"
-                                                                 Style="{DynamicResource TextRadioButtonStyle}"
-                                                                 ToolTip="{Binding LockReason}"
-                                                                 ToolTipService.ShowOnDisabled="True">
-                                                        <i:Interaction.Triggers>
-                                                            <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTierGroup}" Value="{Binding}">
-                                                                <i:ChangePropertyAction PropertyName="IsChecked" Value="True" />
-                                                            </i:DataTrigger>
-                                                        </i:Interaction.Triggers>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <!-- 降级锁定标识 -->
-                                                            <Viewbox Width="14"
-                                                                     Height="14"
-                                                                     Margin="0,1,4,0"
-                                                                     d:Visibility="Collapsed">
-                                                                <Viewbox.Visibility>
-                                                                    <Binding ConverterParameter="True" Path="IsPurchasable">
-                                                                        <Binding.Converter>
-                                                                            <ui:ValueEqualsParameterConverter EqualValue="{x:Static Visibility.Collapsed}" NotEqualValue="{x:Static Visibility.Visible}" />
-                                                                        </Binding.Converter>
-                                                                    </Binding>
-                                                                </Viewbox.Visibility>
-                                                                <Canvas Width="16" Height="16">
-                                                                    <Path Data="M 4.5 7 L 4.5 4.5 A 3.5 3.5 0 0 1 11.5 4.5 L 11.5 7"
-                                                                          Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}, Path=Foreground}"
-                                                                          StrokeEndLineCap="Round"
-                                                                          StrokeStartLineCap="Round"
-                                                                          StrokeThickness="1.5" />
-                                                                    <Path Data="M 3.25 7 L 12.75 7 A 0.75 0.75 0 0 1 13.5 7.75 L 13.5 13.25 A 0.75 0.75 0 0 1 12.75 14 L 3.25 14 A 0.75 0.75 0 0 1 2.5 13.25 L 2.5 7.75 A 0.75 0.75 0 0 1 3.25 7 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}, Path=Foreground}" />
-                                                                </Canvas>
-                                                            </Viewbox>
-                                                            <TextBlock d:Text="标准版" Text="{Binding TierName}" />
+                                        <ui:SkeletonContainer.Skeleton>
+                                            <StackPanel>
+                                                <!-- 等级 Tab 骨架 -->
+                                                <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                                                    <ui:SkeletonRectangle Width="72"
+                                                                          Height="23"
+                                                                          Margin="0,0,8,0"
+                                                                          CornerRadius="4" />
+                                                    <ui:SkeletonRectangle Width="72"
+                                                                          Height="23"
+                                                                          Margin="0,0,8,0"
+                                                                          CornerRadius="4" />
+                                                    <ui:SkeletonRectangle Width="72"
+                                                                          Height="23"
+                                                                          CornerRadius="4" />
+                                                </StackPanel>
+                                                <!-- 时长卡片骨架 -->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Width="108"
+                                                            Height="132"
+                                                            Margin="0,0,8,0"
+                                                            Background="Transparent"
+                                                            BorderBrush="{DynamicResource Brushes.OutlineVariant}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4">
+                                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <ui:SkeletonRectangle Width="54"
+                                                                                  Height="20"
+                                                                                  Margin="0,0,0,8" />
+                                                            <ui:SkeletonRectangle Width="72"
+                                                                                  Height="32"
+                                                                                  Margin="0,0,0,8" />
+                                                            <ui:SkeletonRectangle Width="56" Height="18" />
                                                         </StackPanel>
-                                                    </RadioButton>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-
-                                        <!-- 时长选择卡片 -->
-                                        <Grid Height="132">
-                                            <ItemsControl d:ItemsSource="{d:SampleData ItemCount=3}"
-                                                          ItemTemplate="{StaticResource SkuTemplate}"
-                                                          ItemsSource="{Binding SelectedTierGroup.Skus}">
+                                                    </Border>
+                                                    <Border Width="108"
+                                                            Height="132"
+                                                            Margin="0,0,8,0"
+                                                            Background="Transparent"
+                                                            BorderBrush="{DynamicResource Brushes.OutlineVariant}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4">
+                                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <ui:SkeletonRectangle Width="54"
+                                                                                  Height="20"
+                                                                                  Margin="0,0,0,8" />
+                                                            <ui:SkeletonRectangle Width="72"
+                                                                                  Height="32"
+                                                                                  Margin="0,0,0,8" />
+                                                            <ui:SkeletonRectangle Width="56" Height="18" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Border Width="108"
+                                                            Height="132"
+                                                            Background="Transparent"
+                                                            BorderBrush="{DynamicResource Brushes.OutlineVariant}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4">
+                                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <ui:SkeletonRectangle Width="54"
+                                                                                  Height="20"
+                                                                                  Margin="0,0,0,8" />
+                                                            <ui:SkeletonRectangle Width="72"
+                                                                                  Height="32"
+                                                                                  Margin="0,0,0,8" />
+                                                            <ui:SkeletonRectangle Width="56" Height="18" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </ui:SkeletonContainer.Skeleton>
+                                        <StackPanel>
+                                            <!-- 等级选择 Tab -->
+                                            <ItemsControl Margin="0,0,0,8"
+                                                          d:ItemsSource="{d:SampleData ItemCount=2}"
+                                                          ItemsSource="{Binding TierGroups}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal" />
                                                     </ItemsPanelTemplate>
                                                 </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemContainerStyle>
-                                                    <Style TargetType="{x:Type ContentPresenter}">
-                                                        <Setter Property="Margin" Value="0,0,8,0" />
-                                                    </Style>
-                                                </ItemsControl.ItemContainerStyle>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type hm:SkuTierGroup}">
+                                                        <RadioButton Margin="0,0,16,0"
+                                                                     Padding="0"
+                                                                     d:IsChecked="True"
+                                                                     Command="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectTierCommand}"
+                                                                     CommandParameter="{Binding}"
+                                                                     FontSize="18"
+                                                                     GroupName="TierGroup"
+                                                                     IsEnabled="{Binding IsPurchasable}"
+                                                                     Style="{DynamicResource TextRadioButtonStyle}"
+                                                                     ToolTip="{Binding LockReason}"
+                                                                     ToolTipService.ShowOnDisabled="True">
+                                                            <i:Interaction.Triggers>
+                                                                <i:DataTrigger Binding="{Binding Source={StaticResource BindingProxy}, Path=Data.SelectedTierGroup}" Value="{Binding}">
+                                                                    <i:ChangePropertyAction PropertyName="IsChecked" Value="True" />
+                                                                </i:DataTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <!-- 降级锁定标识 -->
+                                                                <Viewbox Width="14"
+                                                                         Height="14"
+                                                                         Margin="0,1,4,0"
+                                                                         d:Visibility="Collapsed">
+                                                                    <Viewbox.Visibility>
+                                                                        <Binding ConverterParameter="True" Path="IsPurchasable">
+                                                                            <Binding.Converter>
+                                                                                <ui:ValueEqualsParameterConverter EqualValue="{x:Static Visibility.Collapsed}" NotEqualValue="{x:Static Visibility.Visible}" />
+                                                                            </Binding.Converter>
+                                                                        </Binding>
+                                                                    </Viewbox.Visibility>
+                                                                    <Canvas Width="16" Height="16">
+                                                                        <Path Data="M 4.5 7 L 4.5 4.5 A 3.5 3.5 0 0 1 11.5 4.5 L 11.5 7"
+                                                                              Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}, Path=Foreground}"
+                                                                              StrokeEndLineCap="Round"
+                                                                              StrokeStartLineCap="Round"
+                                                                              StrokeThickness="1.5" />
+                                                                        <Path Data="M 3.25 7 L 12.75 7 A 0.75 0.75 0 0 1 13.5 7.75 L 13.5 13.25 A 0.75 0.75 0 0 1 12.75 14 L 3.25 14 A 0.75 0.75 0 0 1 2.5 13.25 L 2.5 7.75 A 0.75 0.75 0 0 1 3.25 7 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RadioButton}}, Path=Foreground}" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                                <TextBlock d:Text="标准版" Text="{Binding TierName}" />
+                                                            </StackPanel>
+                                                        </RadioButton>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
                                             </ItemsControl>
 
-                                            <!-- 无可购买选项 -->
-                                            <TextBlock HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       d:Visibility="Collapsed"
-                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_NoSkuAvailable}">
-                                                <i:Interaction.Triggers>
-                                                    <i:DataTrigger Binding="{Binding SelectedTierGroup.Skus.Count, FallbackValue=0}" Value="0">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                                    </i:DataTrigger>
-                                                    <i:DataTrigger Binding="{Binding SelectedTierGroup.Skus.Count, FallbackValue=0}"
-                                                                   Comparison="NotEqual"
-                                                                   Value="0">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
-                                                    </i:DataTrigger>
-                                                </i:Interaction.Triggers>
-                                            </TextBlock>
-                                        </Grid>
-                                    </StackPanel>
-                                </ui:SkeletonContainer>
-                                <!-- 支付方式 -->
-                                <StackPanel Margin="0,0,8,0">
-                                    <TextBlock Margin="0,0,0,8"
-                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentMethod}" />
-                                    <ui:SkeletonContainer IsLoading="{Binding IsInitializing}">
-                                        <ui:SkeletonContainer.Skeleton>
-                                            <StackPanel>
-                                                <Border Height="40"
-                                                        Margin="0,0,0,4"
-                                                        BorderBrush="{DynamicResource Brushes.SkeletonBase}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="4">
-                                                    <StackPanel Margin="9,0,0,0" Orientation="Horizontal">
-                                                        <ui:SkeletonRectangle Width="24"
-                                                                              Height="24"
-                                                                              Margin="0,0,8,0" />
-                                                        <ui:SkeletonRectangle Width="80" Height="20" />
-                                                    </StackPanel>
-                                                </Border>
-                                                <Border Height="40"
-                                                        BorderBrush="{DynamicResource Brushes.SkeletonBase}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="4">
-                                                    <StackPanel Margin="9,0,0,0" Orientation="Horizontal">
-                                                        <ui:SkeletonRectangle Width="24"
-                                                                              Height="24"
-                                                                              Margin="0,0,8,0" />
-                                                        <ui:SkeletonRectangle Width="80" Height="20" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </StackPanel>
-                                        </ui:SkeletonContainer.Skeleton>
-                                        <StackPanel>
-                                            <RadioButton Height="40"
-                                                         Margin="0,0,0,4"
-                                                         HorizontalContentAlignment="Left"
-                                                         GroupName="PaymentChannelGroup"
-                                                         IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static ocm:PaymentChannel.Wxpay}}"
-                                                         Style="{DynamicResource CardRadioButtonStyle}"
-                                                         UseLayoutRounding="True">
-                                                <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
-                                                    <Border Width="24"
-                                                            Height="24"
-                                                            Margin="0,0,8,0">
-                                                        <Border.Background>
-                                                            <ImageBrush>
-                                                                <ImageBrush.ImageSource>
-                                                                    <BitmapImage DecodePixelHeight="48"
-                                                                                 DecodePixelWidth="48"
-                                                                                 UriSource="/Assets/Images/wechat_logo.png" />
-                                                                </ImageBrush.ImageSource>
-                                                            </ImageBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <TextBlock VerticalAlignment="Center"
-                                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}" />
-                                                </StackPanel>
-                                            </RadioButton>
-                                            <RadioButton Height="40"
-                                                         HorizontalContentAlignment="Left"
-                                                         GroupName="PaymentChannelGroup"
-                                                         IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static ocm:PaymentChannel.Alipay}}"
-                                                         Style="{DynamicResource CardRadioButtonStyle}">
-                                                <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
-                                                    <Border Width="24"
-                                                            Height="24"
-                                                            Margin="0,0,8,0">
-                                                        <Border.Background>
-                                                            <ImageBrush>
-                                                                <ImageBrush.ImageSource>
-                                                                    <BitmapImage DecodePixelHeight="48"
-                                                                                 DecodePixelWidth="48"
-                                                                                 UriSource="/Assets/Images/alipay_logo.png" />
-                                                                </ImageBrush.ImageSource>
-                                                            </ImageBrush>
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <TextBlock VerticalAlignment="Center"
-                                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_Alipay}" />
-                                                </StackPanel>
-                                            </RadioButton>
+                                            <!-- 时长选择卡片 -->
+                                            <Grid Height="132">
+                                                <ItemsControl d:ItemsSource="{d:SampleData ItemCount=3}"
+                                                              ItemTemplate="{StaticResource SkuTemplate}"
+                                                              ItemsSource="{Binding SelectedTierGroup.Skus}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemContainerStyle>
+                                                        <Style TargetType="{x:Type ContentPresenter}">
+                                                            <Setter Property="Margin" Value="0,0,8,0" />
+                                                        </Style>
+                                                    </ItemsControl.ItemContainerStyle>
+                                                </ItemsControl>
+
+                                                <!-- 无可购买选项 -->
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           d:Visibility="Collapsed"
+                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                           Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_NoSkuAvailable}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:DataTrigger Binding="{Binding SelectedTierGroup.Skus.Count, FallbackValue=0}" Value="0">
+                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                        </i:DataTrigger>
+                                                        <i:DataTrigger Binding="{Binding SelectedTierGroup.Skus.Count, FallbackValue=0}"
+                                                                       Comparison="NotEqual"
+                                                                       Value="0">
+                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                                        </i:DataTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </TextBlock>
+                                            </Grid>
                                         </StackPanel>
                                     </ui:SkeletonContainer>
+                                    <!-- 支付方式 -->
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Margin="0,0,0,8"
+                                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentMethod}" />
+                                        <ui:SkeletonContainer IsLoading="{Binding LoadState, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:LoadState.Loading}}">
+                                            <ui:SkeletonContainer.Skeleton>
+                                                <StackPanel>
+                                                    <Border Height="40"
+                                                            Margin="0,0,0,4"
+                                                            BorderBrush="{DynamicResource Brushes.SkeletonBase}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4">
+                                                        <StackPanel Margin="9,0,0,0" Orientation="Horizontal">
+                                                            <ui:SkeletonRectangle Width="24"
+                                                                                  Height="24"
+                                                                                  Margin="0,0,8,0" />
+                                                            <ui:SkeletonRectangle Width="80" Height="20" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Border Height="40"
+                                                            BorderBrush="{DynamicResource Brushes.SkeletonBase}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4">
+                                                        <StackPanel Margin="9,0,0,0" Orientation="Horizontal">
+                                                            <ui:SkeletonRectangle Width="24"
+                                                                                  Height="24"
+                                                                                  Margin="0,0,8,0" />
+                                                            <ui:SkeletonRectangle Width="80" Height="20" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </StackPanel>
+                                            </ui:SkeletonContainer.Skeleton>
+                                            <StackPanel>
+                                                <RadioButton Height="40"
+                                                             Margin="0,0,0,4"
+                                                             HorizontalContentAlignment="Left"
+                                                             GroupName="PaymentChannelGroup"
+                                                             IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static ocm:PaymentChannel.Wxpay}}"
+                                                             Style="{DynamicResource CardRadioButtonStyle}"
+                                                             UseLayoutRounding="True">
+                                                    <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
+                                                        <Border Width="24"
+                                                                Height="24"
+                                                                Margin="0,0,8,0">
+                                                            <Border.Background>
+                                                                <ImageBrush>
+                                                                    <ImageBrush.ImageSource>
+                                                                        <BitmapImage DecodePixelHeight="48"
+                                                                                     DecodePixelWidth="48"
+                                                                                     UriSource="/Assets/Images/wechat_logo.png" />
+                                                                    </ImageBrush.ImageSource>
+                                                                </ImageBrush>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <TextBlock VerticalAlignment="Center"
+                                                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}" />
+                                                    </StackPanel>
+                                                </RadioButton>
+                                                <RadioButton Height="40"
+                                                             HorizontalContentAlignment="Left"
+                                                             GroupName="PaymentChannelGroup"
+                                                             IsChecked="{Binding PaymentChannel, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static ocm:PaymentChannel.Alipay}}"
+                                                             Style="{DynamicResource CardRadioButtonStyle}">
+                                                    <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
+                                                        <Border Width="24"
+                                                                Height="24"
+                                                                Margin="0,0,8,0">
+                                                            <Border.Background>
+                                                                <ImageBrush>
+                                                                    <ImageBrush.ImageSource>
+                                                                        <BitmapImage DecodePixelHeight="48"
+                                                                                     DecodePixelWidth="48"
+                                                                                     UriSource="/Assets/Images/alipay_logo.png" />
+                                                                    </ImageBrush.ImageSource>
+                                                                </ImageBrush>
+                                                            </Border.Background>
+                                                        </Border>
+                                                        <TextBlock VerticalAlignment="Center"
+                                                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_Alipay}" />
+                                                    </StackPanel>
+                                                </RadioButton>
+                                            </StackPanel>
+                                        </ui:SkeletonContainer>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
 
-                            <!-- 应付金额及二维码区域 -->
-                            <ui:SkeletonContainer Grid.Row="0"
-                                                  Grid.RowSpan="2"
-                                                  Grid.Column="1"
-                                                  Width="180"
-                                                  IsLoading="{Binding IsInitializing}">
-                                <ui:SkeletonContainer.Skeleton>
+                                <!-- 应付金额及二维码区域 -->
+                                <ui:SkeletonContainer Grid.Row="0"
+                                                      Grid.RowSpan="2"
+                                                      Grid.Column="1"
+                                                      Width="180"
+                                                      IsLoading="{Binding LoadState, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:LoadState.Loading}}">
+                                    <ui:SkeletonContainer.Skeleton>
+                                        <Grid RowDefinitions="*, Auto">
+                                            <StackPanel Grid.Row="0" VerticalAlignment="Center">
+                                                <ui:SkeletonRectangle Width="68"
+                                                                      Height="32"
+                                                                      Margin="0,0,0,6"
+                                                                      HorizontalAlignment="Center" />
+                                                <ui:SkeletonRectangle Width="32"
+                                                                      Height="18"
+                                                                      Margin="0,0,0,8"
+                                                                      HorizontalAlignment="Center" />
+                                                <Border Margin="0,0,0,12"
+                                                        Padding="6"
+                                                        HorizontalAlignment="Center"
+                                                        BorderBrush="{DynamicResource Brushes.SkeletonBase}"
+                                                        BorderThickness="1"
+                                                        CornerRadius="8">
+                                                    <ui:SkeletonRectangle Width="128"
+                                                                          Height="128"
+                                                                          CornerRadius="8" />
+                                                </Border>
+                                                <ui:SkeletonRectangle Width="134"
+                                                                      Height="18"
+                                                                      Margin="0,0,0,8"
+                                                                      HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                            <ui:SkeletonRectangle Grid.Row="1"
+                                                                  Width="160"
+                                                                  Height="14"
+                                                                  HorizontalAlignment="Center" />
+                                        </Grid>
+                                    </ui:SkeletonContainer.Skeleton>
                                     <Grid RowDefinitions="*, Auto">
                                         <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                                            <ui:SkeletonRectangle Width="68"
-                                                                  Height="32"
-                                                                  Margin="0,0,0,6"
-                                                                  HorizontalAlignment="Center" />
-                                            <ui:SkeletonRectangle Width="32"
-                                                                  Height="18"
-                                                                  Margin="0,0,0,8"
-                                                                  HorizontalAlignment="Center" />
-                                            <Border Margin="0,0,0,12"
-                                                    Padding="6"
-                                                    HorizontalAlignment="Center"
-                                                    BorderBrush="{DynamicResource Brushes.SkeletonBase}"
-                                                    BorderThickness="1"
-                                                    CornerRadius="8">
-                                                <ui:SkeletonRectangle Width="128"
-                                                                      Height="128"
-                                                                      CornerRadius="8" />
-                                            </Border>
-                                            <ui:SkeletonRectangle Width="134"
-                                                                  Height="18"
-                                                                  Margin="0,0,0,8"
-                                                                  HorizontalAlignment="Center" />
-                                        </StackPanel>
-                                        <ui:SkeletonRectangle Grid.Row="1"
-                                                              Width="160"
-                                                              Height="14"
-                                                              HorizontalAlignment="Center" />
-                                    </Grid>
-                                </ui:SkeletonContainer.Skeleton>
-                                <Grid RowDefinitions="*, Auto">
-                                    <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                                        <StackPanel Margin="0,0,0,8">
+                                            <StackPanel Margin="0,0,0,8">
 
-                                            <!-- 应付金额 -->
-                                            <TextBlock Margin="0,0,0,0"
-                                                       HorizontalAlignment="Center"
-                                                       Foreground="#c38542"
-                                                       Style="{DynamicResource HeadlineMediumTextBlockStyle}">
-                                                <Run FontSize="{DynamicResource FontSize.Title.Large}" Text="￥" /><Run d:Text="0.5" Text="{Binding DisplayPayableAmount, StringFormat={}{0:0.##}, Mode=OneWay}" />
-                                            </TextBlock>
-                                            <!-- 原价 -->
-                                            <TextBlock HorizontalAlignment="Center"
-                                                       d:Text="￥2.00"
-                                                       FontSize="{DynamicResource FontSize.Body.Medium}"
-                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="{Binding SelectedSku.OriginalPrice, StringFormat=￥{0:0.##}}"
-                                                       TextDecorations="Strikethrough">
-                                                <i:Interaction.Triggers>
-                                                    <i:DataTrigger Binding="{Binding SelectedSku}" Value="{x:Null}">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                                                    </i:DataTrigger>
-                                                    <i:DataTrigger Binding="{Binding SelectedSku}"
-                                                                   Comparison="NotEqual"
-                                                                   Value="{x:Null}">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                                    </i:DataTrigger>
-                                                </i:Interaction.Triggers>
-                                            </TextBlock>
-                                        </StackPanel>
-
-                                        <!-- 升级抵扣与赠送时长 -->
-                                        <StackPanel Width="128"
-                                                    Margin="0,0,0,8"
-                                                    d:Visibility="Visible"
-                                                    TextBlock.FontSize="{DynamicResource FontSize.Body.Small}">
-                                            <i:Interaction.Triggers>
-                                                <i:DataTrigger Binding="{Binding CurrentOrder.CreditAmount, FallbackValue=0}" Value="0">
-                                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                                                </i:DataTrigger>
-                                                <i:DataTrigger Binding="{Binding CurrentOrder.CreditAmount, FallbackValue=0}"
-                                                               Comparison="NotEqual"
-                                                               Value="0">
-                                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                                </i:DataTrigger>
-                                            </i:Interaction.Triggers>
-                                            <DockPanel LastChildFill="True">
-                                                <TextBlock DockPanel.Dock="Left"
+                                                <!-- 应付金额 -->
+                                                <TextBlock Margin="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           Foreground="#c38542"
+                                                           Style="{DynamicResource HeadlineMediumTextBlockStyle}">
+                                                    <Run FontSize="{DynamicResource FontSize.Title.Large}" Text="￥" /><Run d:Text="0.5" Text="{Binding DisplayPayableAmount, StringFormat={}{0:0.##}, Mode=OneWay}" />
+                                                </TextBlock>
+                                                <!-- 原价 -->
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           d:Text="￥2.00"
+                                                           FontSize="{DynamicResource FontSize.Body.Medium}"
                                                            Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_CreditAmount}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="-￥188"
-                                                           Foreground="{DynamicResource Brushes.Success}"
-                                                           Text="{Binding CurrentOrder.CreditAmount, StringFormat=-￥{0:0.##}}" />
-                                            </DockPanel>
-                                            <DockPanel Margin="0,2,0,0" LastChildFill="True">
+                                                           Text="{Binding SelectedSku.OriginalPrice, StringFormat=￥{0:0.##}}"
+                                                           TextDecorations="Strikethrough">
+                                                    <i:Interaction.Triggers>
+                                                        <i:DataTrigger Binding="{Binding SelectedSku}" Value="{x:Null}">
+                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                                        </i:DataTrigger>
+                                                        <i:DataTrigger Binding="{Binding SelectedSku}"
+                                                                       Comparison="NotEqual"
+                                                                       Value="{x:Null}">
+                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                        </i:DataTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </TextBlock>
+                                            </StackPanel>
+
+                                            <!-- 升级抵扣与赠送时长 -->
+                                            <StackPanel Width="128"
+                                                        Margin="0,0,0,8"
+                                                        d:Visibility="Visible"
+                                                        TextBlock.FontSize="{DynamicResource FontSize.Body.Small}">
                                                 <i:Interaction.Triggers>
-                                                    <i:DataTrigger Binding="{Binding CurrentOrder.BonusDays}" Value="0">
+                                                    <i:DataTrigger Binding="{Binding CurrentOrder.CreditAmount, FallbackValue=0}" Value="0">
                                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                                     </i:DataTrigger>
-                                                    <i:DataTrigger Binding="{Binding CurrentOrder.BonusDays}"
+                                                    <i:DataTrigger Binding="{Binding CurrentOrder.CreditAmount, FallbackValue=0}"
                                                                    Comparison="NotEqual"
                                                                    Value="0">
                                                         <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                                     </i:DataTrigger>
                                                 </i:Interaction.Triggers>
-                                                <TextBlock DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_BonusDays}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="12 天"
-                                                           Foreground="{DynamicResource Brushes.Success}"
-                                                           Text="{Binding CurrentOrder.BonusDays, StringFormat={}{0}天}" />
-                                            </DockPanel>
-                                        </StackPanel>
+                                                <DockPanel LastChildFill="True">
+                                                    <TextBlock DockPanel.Dock="Left"
+                                                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_CreditAmount}" />
+                                                    <TextBlock HorizontalAlignment="Right"
+                                                               d:Text="-￥188"
+                                                               Foreground="{DynamicResource Brushes.Success}"
+                                                               Text="{Binding CurrentOrder.CreditAmount, StringFormat=-￥{0:0.##}}" />
+                                                </DockPanel>
+                                                <DockPanel Margin="0,2,0,0" LastChildFill="True">
+                                                    <i:Interaction.Triggers>
+                                                        <i:DataTrigger Binding="{Binding CurrentOrder.BonusDays}" Value="0">
+                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                                        </i:DataTrigger>
+                                                        <i:DataTrigger Binding="{Binding CurrentOrder.BonusDays}"
+                                                                       Comparison="NotEqual"
+                                                                       Value="0">
+                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                        </i:DataTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <TextBlock DockPanel.Dock="Left"
+                                                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_BonusDays}" />
+                                                    <TextBlock HorizontalAlignment="Right"
+                                                               d:Text="12 天"
+                                                               Foreground="{DynamicResource Brushes.Success}"
+                                                               Text="{Binding CurrentOrder.BonusDays, StringFormat={}{0}天}" />
+                                                </DockPanel>
+                                            </StackPanel>
 
-                                        <!-- 二维码区域 -->
-                                        <Grid>
-                                            <StackPanel>
-                                                <!--<StackPanel.Style>
+                                            <!-- 二维码区域 -->
+                                            <Grid>
+                                                <StackPanel>
+                                                    <!--<StackPanel.Style>
                                                     <Style TargetType="{x:Type StackPanel}">
                                                         <Setter Property="Visibility" Value="Visible" />
                                                         <Style.Triggers>
@@ -675,195 +666,228 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </StackPanel.Style>-->
-                                                <!-- 二维码 -->
-                                                <Border Margin="0,0,0,12"
-                                                        Padding="6"
-                                                        HorizontalAlignment="Center"
-                                                        BorderBrush="{Binding ElementName=QRCodeBorder, Path=BorderBrush}"
-                                                        BorderThickness="2"
-                                                        CornerRadius="8">
-                                                    <Grid Width="128" Height="128">
-                                                        <Border Background="White" CornerRadius="4">
-                                                            <Grid>
-                                                                <Grid.Resources>
-                                                                    <Storyboard x:Key="ScanAnimation" RepeatBehavior="Forever">
-                                                                        <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.8"
-                                                                                                       Storyboard.TargetName="ScanBorder"
-                                                                                                       Storyboard.TargetProperty="Opacity">
-                                                                            <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
-                                                                                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
-                                                                                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="1" />
-                                                                                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0" />
-                                                                            </DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                        </DoubleAnimationUsingKeyFrames>
-                                                                        <DoubleAnimation BeginTime="0:0:0.8"
-                                                                                         Storyboard.TargetName="ScanBorderTransform"
-                                                                                         Storyboard.TargetProperty="Y"
-                                                                                         From="-128"
-                                                                                         To="0"
-                                                                                         Duration="0:0:1.5" />
-                                                                    </Storyboard>
-                                                                </Grid.Resources>
+                                                    <!-- 二维码 -->
+                                                    <Border Margin="0,0,0,12"
+                                                            Padding="6"
+                                                            HorizontalAlignment="Center"
+                                                            BorderBrush="{Binding ElementName=QRCodeBorder, Path=BorderBrush}"
+                                                            BorderThickness="2"
+                                                            CornerRadius="8">
+                                                        <Grid Width="128" Height="128">
+                                                            <Border Background="White" CornerRadius="4">
+                                                                <Grid>
+                                                                    <Grid.Resources>
+                                                                        <Storyboard x:Key="ScanAnimation" RepeatBehavior="Forever">
+                                                                            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.8"
+                                                                                                           Storyboard.TargetName="ScanBorder"
+                                                                                                           Storyboard.TargetProperty="Opacity">
+                                                                                <DoubleAnimationUsingKeyFrames.KeyFrames>
+                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
+                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="1" />
+                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0" />
+                                                                                </DoubleAnimationUsingKeyFrames.KeyFrames>
+                                                                            </DoubleAnimationUsingKeyFrames>
+                                                                            <DoubleAnimation BeginTime="0:0:0.8"
+                                                                                             Storyboard.TargetName="ScanBorderTransform"
+                                                                                             Storyboard.TargetProperty="Y"
+                                                                                             From="-128"
+                                                                                             To="0"
+                                                                                             Duration="0:0:1.5" />
+                                                                        </Storyboard>
+                                                                    </Grid.Resources>
 
-                                                                <Image Margin="8" Source="{Binding QRCode, Converter={StaticResource QRCodeToBitmap}}" />
+                                                                    <Image Margin="8" Source="{Binding QRCode, Converter={StaticResource QRCodeToBitmap}}" />
 
-                                                                <!-- 扫描动画 -->
-                                                                <Border x:Name="ScanBorder"
-                                                                        d:Visibility="Collapsed"
-                                                                        BorderThickness="0,0,0,2"
-                                                                        IsHitTestVisible="False"
-                                                                        Opacity="0">
-                                                                    <i:Interaction.Triggers>
-                                                                        <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.Ready}">
-                                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                                                            <i:ControlStoryboardAction Storyboard="{StaticResource ScanAnimation}" />
-                                                                        </i:DataTrigger>
-                                                                        <i:DataTrigger Binding="{Binding State}"
-                                                                                       Comparison="NotEqual"
-                                                                                       Value="{x:Static enums:PurchaseState.Ready}">
-                                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
-                                                                            <i:ControlStoryboardAction ControlStoryboardOption="Stop" Storyboard="{StaticResource ScanAnimation}" />
-                                                                        </i:DataTrigger>
-                                                                    </i:Interaction.Triggers>
-                                                                    <Border.BorderBrush>
-                                                                        <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
-                                                                            <GradientStop Offset="0" Color="Transparent" />
-                                                                            <GradientStop Offset="0.1" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
-                                                                            <GradientStop Offset="0.9" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
-                                                                            <GradientStop Offset="1" Color="Transparent" />
-                                                                        </LinearGradientBrush>
-                                                                    </Border.BorderBrush>
-                                                                    <Border.Background>
-                                                                        <RadialGradientBrush Center="0.5, 1.2" GradientOrigin="0.5, 1.2" RadiusX="1" RadiusY="0.4">
-                                                                            <GradientStop Offset="0.3" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
-                                                                            <GradientStop Offset="1" Color="Transparent" />
-                                                                        </RadialGradientBrush>
-                                                                    </Border.Background>
-                                                                    <Border.RenderTransform>
-                                                                        <TranslateTransform x:Name="ScanBorderTransform" Y="-128" />
-                                                                    </Border.RenderTransform>
-                                                                </Border>
-                                                            </Grid>
-                                                        </Border>
+                                                                    <!-- 扫描动画 -->
+                                                                    <Border x:Name="ScanBorder"
+                                                                            d:Visibility="Collapsed"
+                                                                            BorderThickness="0,0,0,2"
+                                                                            IsHitTestVisible="False"
+                                                                            Opacity="0">
+                                                                        <i:Interaction.Triggers>
+                                                                            <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.Ready}">
+                                                                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                                                <i:ControlStoryboardAction Storyboard="{StaticResource ScanAnimation}" />
+                                                                            </i:DataTrigger>
+                                                                            <i:DataTrigger Binding="{Binding State}"
+                                                                                           Comparison="NotEqual"
+                                                                                           Value="{x:Static enums:PurchaseState.Ready}">
+                                                                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                                                                <i:ControlStoryboardAction ControlStoryboardOption="Stop" Storyboard="{StaticResource ScanAnimation}" />
+                                                                            </i:DataTrigger>
+                                                                        </i:Interaction.Triggers>
+                                                                        <Border.BorderBrush>
+                                                                            <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                                                                                <GradientStop Offset="0" Color="Transparent" />
+                                                                                <GradientStop Offset="0.1" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                                <GradientStop Offset="0.9" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                                <GradientStop Offset="1" Color="Transparent" />
+                                                                            </LinearGradientBrush>
+                                                                        </Border.BorderBrush>
+                                                                        <Border.Background>
+                                                                            <RadialGradientBrush Center="0.5, 1.2" GradientOrigin="0.5, 1.2" RadiusX="1" RadiusY="0.4">
+                                                                                <GradientStop Offset="0.3" Color="{Binding PaymentChannel, Converter={StaticResource PaymentChannelColor}}" />
+                                                                                <GradientStop Offset="1" Color="Transparent" />
+                                                                            </RadialGradientBrush>
+                                                                        </Border.Background>
+                                                                        <Border.RenderTransform>
+                                                                            <TranslateTransform x:Name="ScanBorderTransform" Y="-128" />
+                                                                        </Border.RenderTransform>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </Border>
 
-                                                        <!-- 无需支付，免费开通 -->
-                                                        <Border Padding="4"
-                                                                d:Visibility="Collapsed"
-                                                                Background="#BB000000"
-                                                                CornerRadius="4">
-                                                            <Border.Style>
-                                                                <Style TargetType="{x:Type Border}">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.ConfirmPending}">
-                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.Confirming}">
-                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Border.Style>
-                                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                <TextBlock Margin="0,0,0,4"
-                                                                           HorizontalAlignment="Left"
-                                                                           FontSize="18"
-                                                                           Foreground="White"
-                                                                           Style="{DynamicResource TitleSmallTextBlockStyle}"
-                                                                           Text="无需支付"
-                                                                           TextWrapping="Wrap" />
-                                                                <TextBlock Margin="0,0,0,8"
-                                                                           HorizontalAlignment="Center"
-                                                                           FontSize="{DynamicResource FontSize.Body.Medium}"
-                                                                           Foreground="White"
-                                                                           Text="当前订阅的剩余价值已覆盖升级费用"
-                                                                           TextWrapping="Wrap" />
-                                                                <Button Height="36"
-                                                                        ui:ControlHelper.BusyContent="开通中..."
-                                                                        ui:ControlHelper.IsBusy="{Binding State, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:PurchaseState.Confirming}}"
-                                                                        Command="{Binding ConfirmFreeOrderCommand}"
-                                                                        Content="免费开通"
-                                                                        FontSize="{DynamicResource FontSize.Label.Large}"
-                                                                        Style="{DynamicResource PrimaryButtonStyle}" />
-                                                            </StackPanel>
-                                                        </Border>
+                                                            <!-- 无需支付，免费开通 -->
+                                                            <Border Padding="4"
+                                                                    d:Visibility="Collapsed"
+                                                                    Background="#BB000000"
+                                                                    CornerRadius="4">
+                                                                <Border.Style>
+                                                                    <Style TargetType="{x:Type Border}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.ConfirmPending}">
+                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.Confirming}">
+                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                    <TextBlock Margin="0,0,0,4"
+                                                                               HorizontalAlignment="Left"
+                                                                               FontSize="18"
+                                                                               Foreground="White"
+                                                                               Style="{DynamicResource TitleSmallTextBlockStyle}"
+                                                                               Text="无需支付"
+                                                                               TextWrapping="Wrap" />
+                                                                    <TextBlock Margin="0,0,0,8"
+                                                                               HorizontalAlignment="Center"
+                                                                               FontSize="{DynamicResource FontSize.Body.Medium}"
+                                                                               Foreground="White"
+                                                                               Text="当前订阅的剩余价值已覆盖升级费用"
+                                                                               TextWrapping="Wrap" />
+                                                                    <Button Height="36"
+                                                                            ui:ControlHelper.BusyContent="开通中..."
+                                                                            ui:ControlHelper.IsBusy="{Binding State, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:PurchaseState.Confirming}}"
+                                                                            Command="{Binding ConfirmFreeOrderCommand}"
+                                                                            Content="免费开通"
+                                                                            FontSize="{DynamicResource FontSize.Label.Large}"
+                                                                            Style="{DynamicResource PrimaryButtonStyle}" />
+                                                                </StackPanel>
+                                                            </Border>
 
-                                                        <!-- 创建订单 Loading 动画 -->
-                                                        <Border>
-                                                            <Border.Visibility>
-                                                                <Binding ConverterParameter="True" Path="IsInitializing">
-                                                                    <Binding.Converter>
-                                                                        <ui:ValueEqualsParameterConverter EqualValue="{x:Static Visibility.Collapsed}" NotEqualValue="{x:Static Visibility.Visible}" />
-                                                                    </Binding.Converter>
-                                                                </Binding>
-                                                            </Border.Visibility>
-                                                            <i:Interaction.Behaviors>
-                                                                <ui:LoadingOverlayBehavior CornerRadius="4"
-                                                                                           IsLoading="{Binding State, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:PurchaseState.CreatingOrder}}"
-                                                                                           Overlay="#90000000" />
-                                                            </i:Interaction.Behaviors>
-                                                        </Border>
+                                                            <!-- 创建订单 Loading 动画 -->
+                                                            <Border>
+                                                                <Border.Visibility>
+                                                                    <Binding ConverterParameter="{x:Static enums:LoadState.Loading}" Path="LoadState">
+                                                                        <Binding.Converter>
+                                                                            <ui:ValueEqualsParameterConverter EqualValue="{x:Static Visibility.Collapsed}" NotEqualValue="{x:Static Visibility.Visible}" />
+                                                                        </Binding.Converter>
+                                                                    </Binding>
+                                                                </Border.Visibility>
+                                                                <i:Interaction.Behaviors>
+                                                                    <ui:LoadingOverlayBehavior CornerRadius="4"
+                                                                                               IsLoading="{Binding State, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:PurchaseState.CreatingOrder}}"
+                                                                                               Overlay="#90000000" />
+                                                                </i:Interaction.Behaviors>
+                                                            </Border>
 
-                                                        <!-- 二维码无效 -->
-                                                        <Border>
-                                                            <i:Interaction.Triggers>
-                                                                <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.CreatingOrder}">
-                                                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
-                                                                </i:DataTrigger>
-                                                                <i:DataTrigger Binding="{Binding State}"
-                                                                               Comparison="NotEqual"
-                                                                               Value="{x:Static enums:PurchaseState.CreatingOrder}">
-                                                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                                                </i:DataTrigger>
-                                                            </i:Interaction.Triggers>
-                                                            <Border Background="#BB000000" CornerRadius="4">
+                                                            <!-- 二维码无效 -->
+                                                            <Border>
                                                                 <i:Interaction.Triggers>
-                                                                    <i:EventTrigger EventName="MouseUp">
-                                                                        <i:InvokeCommandAction Command="{Binding RefreshOrderCommand}" />
-                                                                    </i:EventTrigger>
-                                                                    <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.OrderFailed}">
-                                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                                    <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.CreatingOrder}">
+                                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
                                                                     </i:DataTrigger>
                                                                     <i:DataTrigger Binding="{Binding State}"
                                                                                    Comparison="NotEqual"
-                                                                                   Value="{x:Static enums:PurchaseState.OrderFailed}">
-                                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                                                                   Value="{x:Static enums:PurchaseState.CreatingOrder}">
+                                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                                                     </i:DataTrigger>
                                                                 </i:Interaction.Triggers>
-                                                                <StackPanel Margin="8"
-                                                                            HorizontalAlignment="Center"
-                                                                            VerticalAlignment="Center">
-                                                                    <TextBlock Margin="0,0,0,8"
-                                                                               Foreground="#FFFFFF"
-                                                                               Style="{DynamicResource TitleMediumTextBlockStyle}"
-                                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_QRCodeExpired}"
-                                                                               TextWrapping="Wrap" />
-                                                                    <TextBlock Foreground="#FFFFFF"
-                                                                               Style="{DynamicResource BodyMediumTextBlockStyle}"
-                                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ClickQRToRefresh}"
-                                                                               TextWrapping="Wrap" />
-                                                                </StackPanel>
+                                                                <Border Background="#BB000000" CornerRadius="4">
+                                                                    <i:Interaction.Triggers>
+                                                                        <i:EventTrigger EventName="MouseUp">
+                                                                            <i:InvokeCommandAction Command="{Binding RefreshOrderCommand}" />
+                                                                        </i:EventTrigger>
+                                                                        <i:DataTrigger Binding="{Binding State}" Value="{x:Static enums:PurchaseState.OrderFailed}">
+                                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                                        </i:DataTrigger>
+                                                                        <i:DataTrigger Binding="{Binding State}"
+                                                                                       Comparison="NotEqual"
+                                                                                       Value="{x:Static enums:PurchaseState.OrderFailed}">
+                                                                            <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                                                        </i:DataTrigger>
+                                                                    </i:Interaction.Triggers>
+                                                                    <StackPanel Margin="8"
+                                                                                HorizontalAlignment="Center"
+                                                                                VerticalAlignment="Center">
+                                                                        <TextBlock Margin="0,0,0,8"
+                                                                                   Foreground="#FFFFFF"
+                                                                                   Style="{DynamicResource TitleMediumTextBlockStyle}"
+                                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_QRCodeExpired}"
+                                                                                   TextWrapping="Wrap" />
+                                                                        <TextBlock Foreground="#FFFFFF"
+                                                                                   Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ClickQRToRefresh}"
+                                                                                   TextWrapping="Wrap" />
+                                                                    </StackPanel>
+                                                                </Border>
                                                             </Border>
-                                                        </Border>
 
-                                                    </Grid>
-                                                </Border>
-                                                <!-- 支付方式提示 -->
-                                                <Grid HorizontalAlignment="Center">
-                                                    <Border x:Name="QRCodeBorder"
-                                                            HorizontalAlignment="Center"
-                                                            d:BorderBrush="#4377FA"
-                                                            BorderBrush="{Binding PaymentChannel, Converter={StaticResource PaymentChannelBrush}}"
-                                                            BorderThickness="1"
-                                                            CornerRadius="4">
-                                                        <i:Interaction.Triggers>
-                                                            <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Alipay}">
-                                                                <i:ChangePropertyAction PropertyName="Text"
-                                                                                        TargetName="PaymentChannelTipText"
-                                                                                        Value="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_AlipayScanTip}" />
-                                                                <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
-                                                                    <i:ChangePropertyAction.Value>
+                                                        </Grid>
+                                                    </Border>
+                                                    <!-- 支付方式提示 -->
+                                                    <Grid HorizontalAlignment="Center">
+                                                        <Border x:Name="QRCodeBorder"
+                                                                HorizontalAlignment="Center"
+                                                                d:BorderBrush="#4377FA"
+                                                                BorderBrush="{Binding PaymentChannel, Converter={StaticResource PaymentChannelBrush}}"
+                                                                BorderThickness="1"
+                                                                CornerRadius="4">
+                                                            <i:Interaction.Triggers>
+                                                                <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Alipay}">
+                                                                    <i:ChangePropertyAction PropertyName="Text"
+                                                                                            TargetName="PaymentChannelTipText"
+                                                                                            Value="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_AlipayScanTip}" />
+                                                                    <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
+                                                                        <i:ChangePropertyAction.Value>
+                                                                            <ImageBrush>
+                                                                                <ImageBrush.ImageSource>
+                                                                                    <BitmapImage DecodePixelHeight="32"
+                                                                                                 DecodePixelWidth="32"
+                                                                                                 UriSource="/Assets/Images/alipay_logo.png" />
+                                                                                </ImageBrush.ImageSource>
+                                                                            </ImageBrush>
+                                                                        </i:ChangePropertyAction.Value>
+                                                                    </i:ChangePropertyAction>
+                                                                </i:DataTrigger>
+                                                                <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
+                                                                    <i:ChangePropertyAction PropertyName="Text"
+                                                                                            TargetName="PaymentChannelTipText"
+                                                                                            Value="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatScanTip}" />
+                                                                    <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
+                                                                        <i:ChangePropertyAction.Value>
+                                                                            <ImageBrush>
+                                                                                <ImageBrush.ImageSource>
+                                                                                    <BitmapImage DecodePixelHeight="32"
+                                                                                                 DecodePixelWidth="32"
+                                                                                                 UriSource="/Assets/Images/wechat_logo.png" />
+                                                                                </ImageBrush.ImageSource>
+                                                                            </ImageBrush>
+                                                                        </i:ChangePropertyAction.Value>
+                                                                    </i:ChangePropertyAction>
+                                                                </i:DataTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Border x:Name="PaymentChannelTipIcon"
+                                                                        Width="16"
+                                                                        Height="16"
+                                                                        Margin="0,0,4,0">
+                                                                    <d:Border.Background>
                                                                         <ImageBrush>
                                                                             <ImageBrush.ImageSource>
                                                                                 <BitmapImage DecodePixelHeight="32"
@@ -871,384 +895,433 @@
                                                                                              UriSource="/Assets/Images/alipay_logo.png" />
                                                                             </ImageBrush.ImageSource>
                                                                         </ImageBrush>
-                                                                    </i:ChangePropertyAction.Value>
-                                                                </i:ChangePropertyAction>
+                                                                    </d:Border.Background>
+                                                                </Border>
+                                                                <TextBlock x:Name="PaymentChannelTipText"
+                                                                           Margin="0,0,4,0"
+                                                                           VerticalAlignment="Center"
+                                                                           d:Text="请使用支付宝扫码支付"
+                                                                           Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}, Path=BorderBrush}"
+                                                                           Style="{DynamicResource BodySmallTextBlockStyle}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="1"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="11"
+                                                   TextWrapping="Wrap">
+                                            <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsPrefix, Mode=OneWay}" /><Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
+                                                       CommandParameter="Assets/Docs/SubscriptionTerms.pdf"
+                                                       Cursor="Hand"
+                                                       Foreground="{DynamicResource Brushes.OnSurface}">
+                                                <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsLink, Mode=OneWay}" />
+                                            </Hyperlink><Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsSuffix, Mode=OneWay}" />
+                                        </TextBlock>
+                                    </Grid>
+                                </ui:SkeletonContainer>
+                            </Grid>
+                            <!-- 订单结果 -->
+                            <Grid Grid.Row="1">
+                                <!-- 支付成功 -->
+                                <Border Grid.Row="1"
+                                        Padding="24"
+                                        Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                                        CornerRadius="0, 0, 8, 8"
+                                        Visibility="Hidden">
+                                    <Border.Resources>
+                                        <Storyboard x:Key="PaidIconAnimation">
+                                            <DoubleAnimation FillBehavior="HoldEnd"
+                                                             Storyboard.TargetName="IconPath"
+                                                             Storyboard.TargetProperty="(Path.StrokeDashOffset)"
+                                                             From="-12"
+                                                             To="0"
+                                                             Duration="0:0:.3" />
+                                        </Storyboard>
+                                    </Border.Resources>
+                                    <i:Interaction.Triggers>
+                                        <i:DataTrigger Binding="{Binding OrderResult}" Value="{x:Static enums:PurchaseResult.Paid}">
+                                            <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                                            <i:ControlStoryboardAction Storyboard="{StaticResource PaidIconAnimation}" />
+                                        </i:DataTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Grid RowDefinitions="*, Auto">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Border Width="64"
+                                                    Height="64"
+                                                    Margin="0,0,0,12"
+                                                    Background="{DynamicResource Brushes.Success}"
+                                                    CornerRadius="100">
+                                                <Viewbox Width="48" Height="48">
+                                                    <Canvas Width="16" Height="16">
+                                                        <Path x:Name="IconPath"
+                                                              d:StrokeDashOffset="0"
+                                                              Data="M 13.33 4 L 6 11.33 L 2.67 8"
+                                                              Stroke="White"
+                                                              StrokeDashArray="12"
+                                                              StrokeDashCap="Round"
+                                                              StrokeEndLineCap="Round"
+                                                              StrokeLineJoin="Round"
+                                                              StrokeStartLineCap="Round"
+                                                              StrokeThickness="1.5" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                            <TextBlock Margin="0,0,0,12"
+                                                       HorizontalAlignment="Center"
+                                                       Style="{DynamicResource DisplaySmallTextBlockStyle}"
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccess}" />
+                                            <TextBlock Margin="0,0,0,12"
+                                                       HorizontalAlignment="Center"
+                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                       Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccessMessage}" />
+
+                                            <Border MinWidth="320"
+                                                    Margin="0,0,0,24"
+                                                    Padding="12"
+                                                    HorizontalAlignment="Center"
+                                                    Background="{DynamicResource Brushes.SurfaceContainer}"
+                                                    CornerRadius="4">
+                                                <StackPanel TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
+                                                    <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                                                        <TextBlock Margin="0,0,8,0"
+                                                                   DockPanel.Dock="Left"
+                                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
+                                                        <TextBlock HorizontalAlignment="Right"
+                                                                   d:Text="2026061116224445384999291"
+                                                                   Text="{Binding OrderSettlement.OrderNumber}" />
+                                                    </DockPanel>
+                                                    <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                                                        <TextBlock DockPanel.Dock="Left"
+                                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentTime}" />
+                                                        <TextBlock HorizontalAlignment="Right"
+                                                                   d:Text="2026/06/10 10:06:33"
+                                                                   Text="{Binding OrderSettlement.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
+                                                    </DockPanel>
+                                                    <DockPanel LastChildFill="True">
+                                                        <TextBlock DockPanel.Dock="Left"
+                                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentMethod}" />
+                                                        <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:DataTrigger Binding="{Binding OrderSettlement.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
+                                                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_Alipay}" PropertyName="Text" />
+                                                                </i:DataTrigger>
+                                                                <i:DataTrigger Binding="{Binding OrderSettlement.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
+                                                                    <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}" PropertyName="Text" />
+                                                                </i:DataTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBlock>
+                                                    </DockPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Button Grid.Row="1"
+                                                    Width="168"
+                                                    Height="40"
+                                                    HorizontalAlignment="Center"
+                                                    Command="{Binding OkCommand}"
+                                                    Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_DoneButton}"
+                                                    FontSize="{DynamicResource FontSize.Label.Large}"
+                                                    Style="{DynamicResource PrimaryButtonStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <!-- 已收款但无法开通授权，订单已转入退款 -->
+                                <Border Padding="24"
+                                        d:Visibility="Collapsed"
+                                        Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                                        CornerRadius="0, 0, 8, 8"
+                                        Visibility="Hidden">
+                                    <i:Interaction.Triggers>
+                                        <i:DataTrigger Binding="{Binding OrderResult}" Value="{x:Static enums:PurchaseResult.Refunding}">
+                                            <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                                        </i:DataTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Grid RowDefinitions="*, Auto">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Border Width="64"
+                                                    Height="64"
+                                                    Margin="0,0,0,12"
+                                                    Background="{DynamicResource Brushes.Error}"
+                                                    CornerRadius="100">
+                                                <Viewbox Width="40" Height="40">
+                                                    <Canvas Width="16" Height="16">
+                                                        <Path Data="M 8 4 L 8 9"
+                                                              Stroke="White"
+                                                              StrokeEndLineCap="Round"
+                                                              StrokeStartLineCap="Round"
+                                                              StrokeThickness="1.5" />
+                                                        <Path Data="M 8 11.5 L 8 12"
+                                                              Stroke="White"
+                                                              StrokeEndLineCap="Round"
+                                                              StrokeStartLineCap="Round"
+                                                              StrokeThickness="1.5" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                            <TextBlock Margin="0,0,0,12"
+                                                       HorizontalAlignment="Center"
+                                                       Style="{DynamicResource DisplaySmallTextBlockStyle}"
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_RefundingTitle}"
+                                                       TextAlignment="Center"
+                                                       TextWrapping="Wrap" />
+                                            <TextBlock MaxWidth="360"
+                                                       Margin="0,0,0,24"
+                                                       HorizontalAlignment="Center"
+                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                       Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_RefundingMessage}"
+                                                       TextAlignment="Center"
+                                                       TextWrapping="Wrap" />
+
+                                            <Border MinWidth="320"
+                                                    Margin="0,0,0,24"
+                                                    Padding="12"
+                                                    HorizontalAlignment="Center"
+                                                    Background="{DynamicResource Brushes.SurfaceContainer}"
+                                                    CornerRadius="4">
+                                                <DockPanel LastChildFill="True" TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
+                                                    <TextBlock Margin="0,0,8,0"
+                                                               DockPanel.Dock="Left"
+                                                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
+                                                    <TextBlock HorizontalAlignment="Right"
+                                                               d:Text="2026061116224445384999291"
+                                                               Text="{Binding OrderSettlement.OrderNumber}" />
+                                                </DockPanel>
+                                            </Border>
+
+                                            <Button Grid.Row="1"
+                                                    Width="168"
+                                                    Height="40"
+                                                    HorizontalAlignment="Center"
+                                                    Command="{Binding OkCommand}"
+                                                    Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_DoneButton}"
+                                                    FontSize="{DynamicResource FontSize.Label.Large}"
+                                                    Style="{DynamicResource PrimaryButtonStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <!-- 应付金额为 0，用户未实际支付即开通 -->
+                                <Border Padding="24"
+                                        Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                                        CornerRadius="0, 0, 8, 8"
+                                        Visibility="Hidden">
+                                    <Border.Resources>
+                                        <Storyboard x:Key="ProvisionedIconAnimation">
+                                            <DoubleAnimation FillBehavior="HoldEnd"
+                                                             Storyboard.TargetName="FreeIconPath"
+                                                             Storyboard.TargetProperty="(Path.StrokeDashOffset)"
+                                                             From="-12"
+                                                             To="0"
+                                                             Duration="0:0:.3" />
+                                        </Storyboard>
+                                    </Border.Resources>
+                                    <i:Interaction.Triggers>
+                                        <i:DataTrigger Binding="{Binding OrderResult}" Value="{x:Static enums:PurchaseResult.FreeProvisioned}">
+                                            <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                                            <i:ControlStoryboardAction Storyboard="{StaticResource ProvisionedIconAnimation}" />
+                                        </i:DataTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Grid RowDefinitions="*, Auto">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Border Width="64"
+                                                    Height="64"
+                                                    Margin="0,0,0,12"
+                                                    Background="{DynamicResource Brushes.Success}"
+                                                    CornerRadius="100">
+                                                <Viewbox Width="48" Height="48">
+                                                    <Canvas Width="16" Height="16">
+                                                        <Path x:Name="FreeIconPath"
+                                                              d:StrokeDashOffset="0"
+                                                              Data="M 13.33 4 L 6 11.33 L 2.67 8"
+                                                              Stroke="White"
+                                                              StrokeDashArray="12"
+                                                              StrokeDashCap="Round"
+                                                              StrokeEndLineCap="Round"
+                                                              StrokeLineJoin="Round"
+                                                              StrokeStartLineCap="Round"
+                                                              StrokeThickness="1.5" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                            <TextBlock Margin="0,0,0,12"
+                                                       HorizontalAlignment="Center"
+                                                       Style="{DynamicResource DisplaySmallTextBlockStyle}"
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ProvisionedTitle}" />
+                                            <TextBlock Margin="0,0,0,12"
+                                                       HorizontalAlignment="Center"
+                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                       Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ProvisionedMessage}" />
+
+                                            <Border MinWidth="320"
+                                                    Margin="0,0,0,24"
+                                                    Padding="12"
+                                                    HorizontalAlignment="Center"
+                                                    Background="{DynamicResource Brushes.SurfaceContainer}"
+                                                    CornerRadius="4">
+                                                <StackPanel TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
+                                                    <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                                                        <TextBlock Margin="0,0,8,0"
+                                                                   DockPanel.Dock="Left"
+                                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
+                                                        <TextBlock HorizontalAlignment="Right"
+                                                                   d:Text="2026061116224445384999291"
+                                                                   Text="{Binding OrderSettlement.OrderNumber}" />
+                                                    </DockPanel>
+                                                    <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                                                        <TextBlock DockPanel.Dock="Left"
+                                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ProvisionedTime}" />
+                                                        <TextBlock HorizontalAlignment="Right"
+                                                                   d:Text="2026/06/10 10:06:33"
+                                                                   Text="{Binding OrderSettlement.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
+                                                    </DockPanel>
+                                                    <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                                                        <i:Interaction.Triggers>
+                                                            <i:DataTrigger Binding="{Binding OrderSettlement.CreditAmount}" Value="0">
+                                                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
                                                             </i:DataTrigger>
-                                                            <i:DataTrigger Binding="{Binding PaymentChannel}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
-                                                                <i:ChangePropertyAction PropertyName="Text"
-                                                                                        TargetName="PaymentChannelTipText"
-                                                                                        Value="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatScanTip}" />
-                                                                <i:ChangePropertyAction PropertyName="Background" TargetName="PaymentChannelTipIcon">
-                                                                    <i:ChangePropertyAction.Value>
-                                                                        <ImageBrush>
-                                                                            <ImageBrush.ImageSource>
-                                                                                <BitmapImage DecodePixelHeight="32"
-                                                                                             DecodePixelWidth="32"
-                                                                                             UriSource="/Assets/Images/wechat_logo.png" />
-                                                                            </ImageBrush.ImageSource>
-                                                                        </ImageBrush>
-                                                                    </i:ChangePropertyAction.Value>
-                                                                </i:ChangePropertyAction>
+                                                            <i:DataTrigger Binding="{Binding OrderSettlement.CreditAmount}"
+                                                                           Comparison="NotEqual"
+                                                                           Value="0">
+                                                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
                                                             </i:DataTrigger>
                                                         </i:Interaction.Triggers>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Border x:Name="PaymentChannelTipIcon"
-                                                                    Width="16"
-                                                                    Height="16"
-                                                                    Margin="0,0,4,0">
-                                                                <d:Border.Background>
-                                                                    <ImageBrush>
-                                                                        <ImageBrush.ImageSource>
-                                                                            <BitmapImage DecodePixelHeight="32"
-                                                                                         DecodePixelWidth="32"
-                                                                                         UriSource="/Assets/Images/alipay_logo.png" />
-                                                                        </ImageBrush.ImageSource>
-                                                                    </ImageBrush>
-                                                                </d:Border.Background>
-                                                            </Border>
-                                                            <TextBlock x:Name="PaymentChannelTipText"
-                                                                       Margin="0,0,4,0"
-                                                                       VerticalAlignment="Center"
-                                                                       d:Text="请使用支付宝扫码支付"
-                                                                       Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}, Path=BorderBrush}"
-                                                                       Style="{DynamicResource BodySmallTextBlockStyle}" />
-                                                        </StackPanel>
-                                                    </Border>
-                                                </Grid>
-                                            </StackPanel>
-                                        </Grid>
+                                                        <TextBlock DockPanel.Dock="Left"
+                                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_CreditAmount}" />
+                                                        <TextBlock HorizontalAlignment="Right"
+                                                                   d:Text="-￥188"
+                                                                   Foreground="{DynamicResource Brushes.Success}"
+                                                                   Text="{Binding OrderSettlement.CreditAmount, StringFormat=-￥{0:0.##}}" />
+                                                    </DockPanel>
+                                                    <DockPanel LastChildFill="True">
+                                                        <i:Interaction.Triggers>
+                                                            <i:DataTrigger Binding="{Binding OrderSettlement.BonusDays}" Value="0">
+                                                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                                            </i:DataTrigger>
+                                                            <i:DataTrigger Binding="{Binding OrderSettlement.BonusDays}"
+                                                                           Comparison="NotEqual"
+                                                                           Value="0">
+                                                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                                            </i:DataTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <TextBlock DockPanel.Dock="Left"
+                                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_BonusDays}" />
+                                                        <TextBlock HorizontalAlignment="Right"
+                                                                   d:Text="12 s天"
+                                                                   Foreground="{DynamicResource Brushes.Success}"
+                                                                   Text="{Binding OrderSettlement.BonusDays, StringFormat={}{0}天}" />
+                                                    </DockPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Button Grid.Row="1"
+                                                    Width="168"
+                                                    Height="40"
+                                                    HorizontalAlignment="Center"
+                                                    Command="{Binding OkCommand}"
+                                                    Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_DoneButton}"
+                                                    FontSize="{DynamicResource FontSize.Label.Large}"
+                                                    Style="{DynamicResource PrimaryButtonStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <!-- 加载失败 -->
+                            <Border Grid.Row="1"
+                                    Padding="24"
+                                    Background="{DynamicResource Brushes.SurfaceContainerHighest}"
+                                    CornerRadius="0, 0, 8, 8"
+                                    Visibility="Hidden">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding LoadState}" Value="{x:Static enums:LoadState.Failed}">
+                                        <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding LoadState}"
+                                                   Comparison="NotEqual"
+                                                   Value="{x:Static enums:LoadState.Failed}">
+                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                                <Grid RowDefinitions="*, Auto">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Border Width="64"
+                                                Height="64"
+                                                Margin="0,0,0,12"
+                                                Background="{DynamicResource Brushes.Error}"
+                                                CornerRadius="100">
+                                            <Viewbox Width="40" Height="40">
+                                                <Canvas Width="16" Height="16">
+                                                    <Path Data="M 8 4 L 8 9"
+                                                          Stroke="White"
+                                                          StrokeEndLineCap="Round"
+                                                          StrokeStartLineCap="Round"
+                                                          StrokeThickness="1.5" />
+                                                    <Path Data="M 8 11.5 L 8 12"
+                                                          Stroke="White"
+                                                          StrokeEndLineCap="Round"
+                                                          StrokeStartLineCap="Round"
+                                                          StrokeThickness="1.5" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                        <TextBlock Margin="0,0,0,12"
+                                                   HorizontalAlignment="Center"
+                                                   Style="{DynamicResource DisplaySmallTextBlockStyle}"
+                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_LoadFailedTitle}" />
+                                        <TextBlock MaxWidth="360"
+                                                   Margin="0,0,0,24"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_LoadFailedMessage}"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap" />
+                                        <Button Grid.Row="1"
+                                                Width="168"
+                                                Height="40"
+                                                HorizontalAlignment="Center"
+                                                Command="{Binding ReloadCommand}"
+                                                Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_RetryButton}"
+                                                FontSize="{DynamicResource FontSize.Label.Large}"
+                                                Style="{DynamicResource PrimaryButtonStyle}" />
                                     </StackPanel>
-                                    <TextBlock Grid.Row="1"
-                                               HorizontalAlignment="Center"
-                                               FontSize="11"
-                                               TextWrapping="Wrap">
-                                        <Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsPrefix, Mode=OneWay}" /><Hyperlink Command="{x:Static tools:GlobalCommands.OpenInternalFileCommand}"
-                                                   CommandParameter="Assets/Docs/SubscriptionTerms.pdf"
-                                                   Cursor="Hand"
-                                                   Foreground="{DynamicResource Brushes.OnSurface}">
-                                            <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsLink, Mode=OneWay}" />
-                                        </Hyperlink><Run Foreground="{DynamicResource Brushes.OnSurfaceVariant}" Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_SubscriptionTermsSuffix, Mode=OneWay}" />
-                                    </TextBlock>
                                 </Grid>
-                            </ui:SkeletonContainer>
+                            </Border>
+                            <!-- 关闭按钮 -->
+                            <Button Width="45"
+                                    Margin="8"
+                                    Height="36"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    BorderThickness="0"
+                                    Command="{Binding CloseCommand}"
+                                    FontSize="15"
+                                    IsTabStop="False"
+                                    Style="{DynamicResource IconButtonStyle}"
+                                    ToolTip="{Binding Source={StaticResource Loc}, Path=Labels.Window_Close}"
+                                    WindowChrome.IsHitTestVisibleInChrome="True">
+                                <Viewbox Width="20" Height="20">
+                                    <Canvas Width="16" Height="16">
+                                        <Path Data="M 3.14645 3.14645 C 3.34171 2.95118 3.65829 2.95118 3.85355 3.14645 L 8 7.293 L 12.1464 3.14645 C 12.32 2.97288 12.5894 2.9536 12.7843 3.08859 L 12.8536 3.14645 C 13.0488 3.34171 13.0488 3.65829 12.8536 3.85355 L 8.707 8 L 12.8536 12.1464 C 13.0271 12.32 13.0464 12.5894 12.9114 12.7843 L 12.8536 12.8536 C 12.6583 13.0488 12.3417 13.0488 12.1464 12.8536 L 8 8.707 L 3.85355 12.8536 C 3.67999 13.0271 3.41056 13.0464 3.21569 12.9114 L 3.14645 12.8536 C 2.95118 12.6583 2.95118 12.3417 3.14645 12.1464 L 7.293 8 L 3.14645 3.85355 C 2.97288 3.67999 2.9536 3.41056 3.08859 3.21569 L 3.14645 3.14645 Z" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button>
                         </Grid>
                     </Border>
-                    <!-- 订单结果 -->
-                    <Grid Grid.Row="1">
-                        <!-- 支付成功 -->
-                        <Border Grid.Row="1"
-                                Padding="24"
-                                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-                                CornerRadius="0, 0, 8, 8"
-                                Visibility="Hidden">
-                            <Border.Resources>
-                                <Storyboard x:Key="PaidIconAnimation">
-                                    <DoubleAnimation FillBehavior="HoldEnd"
-                                                     Storyboard.TargetName="IconPath"
-                                                     Storyboard.TargetProperty="(Path.StrokeDashOffset)"
-                                                     From="-12"
-                                                     To="0"
-                                                     Duration="0:0:.3" />
-                                </Storyboard>
-                            </Border.Resources>
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding OrderResult}" Value="{x:Static enums:PurchaseResult.Paid}">
-                                    <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
-                                    <i:ControlStoryboardAction Storyboard="{StaticResource PaidIconAnimation}" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                            <Grid RowDefinitions="*, Auto">
-                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Border Width="64"
-                                            Height="64"
-                                            Margin="0,0,0,12"
-                                            Background="{DynamicResource Brushes.Success}"
-                                            CornerRadius="100">
-                                        <Viewbox Width="48" Height="48">
-                                            <Canvas Width="16" Height="16">
-                                                <Path x:Name="IconPath"
-                                                      d:StrokeDashOffset="0"
-                                                      Data="M 13.33 4 L 6 11.33 L 2.67 8"
-                                                      Stroke="White"
-                                                      StrokeDashArray="12"
-                                                      StrokeDashCap="Round"
-                                                      StrokeEndLineCap="Round"
-                                                      StrokeLineJoin="Round"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeThickness="1.5" />
-                                            </Canvas>
-                                        </Viewbox>
-                                    </Border>
-                                    <TextBlock Margin="0,0,0,12"
-                                               HorizontalAlignment="Center"
-                                               Style="{DynamicResource DisplaySmallTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccess}" />
-                                    <TextBlock Margin="0,0,0,12"
-                                               HorizontalAlignment="Center"
-                                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                               Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentSuccessMessage}" />
 
-                                    <Border MinWidth="320"
-                                            Margin="0,0,0,24"
-                                            Padding="12"
-                                            HorizontalAlignment="Center"
-                                            Background="{DynamicResource Brushes.SurfaceContainer}"
-                                            CornerRadius="4">
-                                        <StackPanel TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
-                                            <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                                                <TextBlock Margin="0,0,8,0"
-                                                           DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="2026061116224445384999291"
-                                                           Text="{Binding OrderSettlement.OrderNumber}" />
-                                            </DockPanel>
-                                            <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                                                <TextBlock DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentTime}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="2026/06/10 10:06:33"
-                                                           Text="{Binding OrderSettlement.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
-                                            </DockPanel>
-                                            <DockPanel LastChildFill="True">
-                                                <TextBlock DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_PaymentMethod}" />
-                                                <TextBlock HorizontalAlignment="Right" d:Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}">
-                                                    <i:Interaction.Triggers>
-                                                        <i:DataTrigger Binding="{Binding OrderSettlement.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Alipay}">
-                                                            <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_Alipay}" PropertyName="Text" />
-                                                        </i:DataTrigger>
-                                                        <i:DataTrigger Binding="{Binding OrderSettlement.PaymentMethod}" Value="{x:Static ocm:PaymentChannel.Wxpay}">
-                                                            <ui:SetBindingAction Binding="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_WeChatPay}" PropertyName="Text" />
-                                                        </i:DataTrigger>
-                                                    </i:Interaction.Triggers>
-                                                </TextBlock>
-                                            </DockPanel>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Button Grid.Row="1"
-                                            Width="168"
-                                            Height="40"
-                                            HorizontalAlignment="Center"
-                                            Command="{Binding OkCommand}"
-                                            Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_DoneButton}"
-                                            FontSize="{DynamicResource FontSize.Label.Large}"
-                                            Style="{DynamicResource PrimaryButtonStyle}" />
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                        <!-- 已收款但无法开通授权，订单已转入退款 -->
-                        <Border Padding="24"
-                                d:Visibility="Collapsed"
-                                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-                                CornerRadius="0, 0, 8, 8"
-                                Visibility="Hidden">
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding OrderResult}" Value="{x:Static enums:PurchaseResult.Refunding}">
-                                    <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                            <Grid RowDefinitions="*, Auto">
-                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Border Width="64"
-                                            Height="64"
-                                            Margin="0,0,0,12"
-                                            Background="{DynamicResource Brushes.Error}"
-                                            CornerRadius="100">
-                                        <Viewbox Width="40" Height="40">
-                                            <Canvas Width="16" Height="16">
-                                                <Path Data="M 8 4 L 8 9"
-                                                      Stroke="White"
-                                                      StrokeEndLineCap="Round"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeThickness="1.5" />
-                                                <Path Data="M 8 11.5 L 8 12"
-                                                      Stroke="White"
-                                                      StrokeEndLineCap="Round"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeThickness="1.5" />
-                                            </Canvas>
-                                        </Viewbox>
-                                    </Border>
-                                    <TextBlock Margin="0,0,0,12"
-                                               HorizontalAlignment="Center"
-                                               Style="{DynamicResource DisplaySmallTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_RefundingTitle}"
-                                               TextAlignment="Center"
-                                               TextWrapping="Wrap" />
-                                    <TextBlock MaxWidth="360"
-                                               Margin="0,0,0,24"
-                                               HorizontalAlignment="Center"
-                                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                               Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_RefundingMessage}"
-                                               TextAlignment="Center"
-                                               TextWrapping="Wrap" />
-
-                                    <Border MinWidth="320"
-                                            Margin="0,0,0,24"
-                                            Padding="12"
-                                            HorizontalAlignment="Center"
-                                            Background="{DynamicResource Brushes.SurfaceContainer}"
-                                            CornerRadius="4">
-                                        <DockPanel LastChildFill="True" TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
-                                            <TextBlock Margin="0,0,8,0"
-                                                       DockPanel.Dock="Left"
-                                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
-                                            <TextBlock HorizontalAlignment="Right"
-                                                       d:Text="2026061116224445384999291"
-                                                       Text="{Binding OrderSettlement.OrderNumber}" />
-                                        </DockPanel>
-                                    </Border>
-
-                                    <Button Grid.Row="1"
-                                            Width="168"
-                                            Height="40"
-                                            HorizontalAlignment="Center"
-                                            Command="{Binding OkCommand}"
-                                            Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_DoneButton}"
-                                            FontSize="{DynamicResource FontSize.Label.Large}"
-                                            Style="{DynamicResource PrimaryButtonStyle}" />
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                        <!-- 应付金额为 0，用户未实际支付即开通 -->
-                        <Border Padding="24"
-                                d:Visibility="Collapsed"
-                                Background="{DynamicResource Brushes.SurfaceContainerHighest}"
-                                CornerRadius="0, 0, 8, 8"
-                                Visibility="Hidden">
-                            <Border.Resources>
-                                <Storyboard x:Key="ProvisionedIconAnimation">
-                                    <DoubleAnimation FillBehavior="HoldEnd"
-                                                     Storyboard.TargetName="FreeIconPath"
-                                                     Storyboard.TargetProperty="(Path.StrokeDashOffset)"
-                                                     From="-12"
-                                                     To="0"
-                                                     Duration="0:0:.3" />
-                                </Storyboard>
-                            </Border.Resources>
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding OrderResult}" Value="{x:Static enums:PurchaseResult.FreeProvisioned}">
-                                    <i:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
-                                    <i:ControlStoryboardAction Storyboard="{StaticResource ProvisionedIconAnimation}" />
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                            <Grid RowDefinitions="*, Auto">
-                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Border Width="64"
-                                            Height="64"
-                                            Margin="0,0,0,12"
-                                            Background="{DynamicResource Brushes.Success}"
-                                            CornerRadius="100">
-                                        <Viewbox Width="48" Height="48">
-                                            <Canvas Width="16" Height="16">
-                                                <Path x:Name="FreeIconPath"
-                                                      d:StrokeDashOffset="0"
-                                                      Data="M 13.33 4 L 6 11.33 L 2.67 8"
-                                                      Stroke="White"
-                                                      StrokeDashArray="12"
-                                                      StrokeDashCap="Round"
-                                                      StrokeEndLineCap="Round"
-                                                      StrokeLineJoin="Round"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeThickness="1.5" />
-                                            </Canvas>
-                                        </Viewbox>
-                                    </Border>
-                                    <TextBlock Margin="0,0,0,12"
-                                               HorizontalAlignment="Center"
-                                               Style="{DynamicResource DisplaySmallTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ProvisionedTitle}" />
-                                    <TextBlock Margin="0,0,0,12"
-                                               HorizontalAlignment="Center"
-                                               Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                               Style="{DynamicResource BodyLargeTextBlockStyle}"
-                                               Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ProvisionedMessage}" />
-
-                                    <Border MinWidth="320"
-                                            Margin="0,0,0,24"
-                                            Padding="12"
-                                            HorizontalAlignment="Center"
-                                            Background="{DynamicResource Brushes.SurfaceContainer}"
-                                            CornerRadius="4">
-                                        <StackPanel TextBlock.FontSize="{DynamicResource FontSize.Body.Medium}">
-                                            <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                                                <TextBlock Margin="0,0,8,0"
-                                                           DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_OrderNumber}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="2026061116224445384999291"
-                                                           Text="{Binding OrderSettlement.OrderNumber}" />
-                                            </DockPanel>
-                                            <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                                                <TextBlock DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_ProvisionedTime}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="2026/06/10 10:06:33"
-                                                           Text="{Binding OrderSettlement.PayTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
-                                            </DockPanel>
-                                            <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                                                <i:Interaction.Triggers>
-                                                    <i:DataTrigger Binding="{Binding OrderSettlement.CreditAmount}" Value="0">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                                                    </i:DataTrigger>
-                                                    <i:DataTrigger Binding="{Binding OrderSettlement.CreditAmount}"
-                                                                   Comparison="NotEqual"
-                                                                   Value="0">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                                    </i:DataTrigger>
-                                                </i:Interaction.Triggers>
-                                                <TextBlock DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_CreditAmount}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="-￥188"
-                                                           Foreground="{DynamicResource Brushes.Success}"
-                                                           Text="{Binding OrderSettlement.CreditAmount, StringFormat=-￥{0:0.##}}" />
-                                            </DockPanel>
-                                            <DockPanel LastChildFill="True">
-                                                <i:Interaction.Triggers>
-                                                    <i:DataTrigger Binding="{Binding OrderSettlement.BonusDays}" Value="0">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
-                                                    </i:DataTrigger>
-                                                    <i:DataTrigger Binding="{Binding OrderSettlement.BonusDays}"
-                                                                   Comparison="NotEqual"
-                                                                   Value="0">
-                                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
-                                                    </i:DataTrigger>
-                                                </i:Interaction.Triggers>
-                                                <TextBlock DockPanel.Dock="Left"
-                                                           Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
-                                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_BonusDays}" />
-                                                <TextBlock HorizontalAlignment="Right"
-                                                           d:Text="12 天"
-                                                           Foreground="{DynamicResource Brushes.Success}"
-                                                           Text="{Binding OrderSettlement.BonusDays, StringFormat={}{0}天}" />
-                                            </DockPanel>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Button Grid.Row="1"
-                                            Width="168"
-                                            Height="40"
-                                            HorizontalAlignment="Center"
-                                            Command="{Binding OkCommand}"
-                                            Content="{Binding Source={StaticResource Loc}, Path=Labels.Purchase_DoneButton}"
-                                            FontSize="{DynamicResource FontSize.Label.Large}"
-                                            Style="{DynamicResource PrimaryButtonStyle}" />
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </Grid>
                 </Grid>
             </Border>
             <Image Height="128"

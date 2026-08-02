@@ -1177,6 +1177,33 @@ namespace AuraEcho.Strings {
         }
 
         /// <summary>
+        ///   查找类似 加载失败 的本地化字符串。
+        /// </summary>
+        public static string Purchase_LoadFailedTitle {
+            get {
+                return ResourceManager.GetString("Purchase_LoadFailedTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 支付信息加载失败，请检查网络连接后重试。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_LoadFailedMessage {
+            get {
+                return ResourceManager.GetString("Purchase_LoadFailedMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 重新加载 的本地化字符串。
+        /// </summary>
+        public static string Purchase_RetryButton {
+            get {
+                return ResourceManager.GetString("Purchase_RetryButton", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 开通失败，款项将退回 的本地化字符串。
         /// </summary>
         public static string Purchase_RefundingTitle {

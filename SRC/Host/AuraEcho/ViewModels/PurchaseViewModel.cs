@@ -57,11 +57,14 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         set => SetProperty(ref field, value);
     }
 
-    public bool IsInitializing
+    /// <summary>
+    /// 加载状态
+    /// </summary>
+    public LoadState LoadState
     {
         get;
         set => SetProperty(ref field, value);
-    } = true;
+    }
 
     public RemotePlugin CurrentPlugin
     {
@@ -89,7 +92,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             if (!SetProperty(ref field, value)) return;
             RaisePropertyChanged(nameof(DisplayPayableAmount));
             if (value is null) return;
-            if (IsInitializing) return;
+            if (LoadState == LoadState.Loading) return;
 
             RefreshOrderAsync();
         }
@@ -103,7 +106,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             // 降级组已在 UI 上禁用，此处兜住命令与初始化路径，避免发起注定失败的下单
             if (value is { IsPurchasable: false }) return;
             if (!SetProperty(ref field, value)) return;
-            if (IsInitializing) return;
+            if (LoadState == LoadState.Loading) return;
             if (value?.Skus?.Count > 0)
             {
                 SelectedSku = value.Skus.First();
@@ -166,11 +169,23 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
     }
 
     public DelegateCommand RefreshOrderCommand { get; }
+
     private async void RefreshOrderAsync()
     {
         if (SelectedSku is null) return;
 
         await CreateOrderAsync();
+    }
+
+    public DelegateCommand ReloadCommand { get; }
+    private async void ReloadAsync()
+    {
+        if (LoadState == LoadState.Loading) return;
+        _telemetry.TrackEvent("Purchase.InitRetry", new Dictionary<string, string>
+        {
+            ["resourceId"] = _resourceId.ToString()
+        });
+        await InitializeAsync(_resourceId);
     }
 
     public DelegateCommand OkCommand { get; }
@@ -232,6 +247,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         SelectSkuCommand = new DelegateCommand<Sku>(SelectSku);
         SelectTierCommand = new DelegateCommand<SkuTierGroup>(SelectTier);
         RefreshOrderCommand = new DelegateCommand(RefreshOrderAsync);
+        ReloadCommand = new DelegateCommand(ReloadAsync);
         ConfirmFreeOrderCommand = new DelegateCommand(ConfirmFreeOrderAsync);
 
         _eventAggregator.GetEvent<OrderSettledEvent>().Subscribe(OnOrderSettled);
@@ -249,10 +265,9 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
 
     private async Task InitializeAsync(Guid resourceId)
     {
+        LoadState = LoadState.Loading;
         try
         {
-            State = PurchaseState.Loading;
-
             var minTimeTask = Task.Delay(TimeSpan.FromSeconds(.5));
 
             var tPlugin = _apiClient.Plugin.GetPluginByIdAsync(resourceId);
@@ -263,6 +278,9 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             CurrentPlugin = tPlugin.Result?.ToRemotePlugin();
             CurrentPluginLicense = tLicense.Result;
             var skuList = tSkus.Result?.Skus?.Select(s => s.ToSku()) ?? [];
+
+            if (CurrentPlugin is null || CurrentPluginLicense is null || tSkus.Result is null)
+                throw new Exception();
 
             // 按 LicenseTierId 构建等级分组，同等级下按时长排序
             List<SkuTierGroup> groups =
@@ -309,12 +327,15 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         catch (Exception ex)
         {
             Debug.WriteLine($"[Purchase] Init load failed: {ex}");
-            _auraToastService.Show(Labels.Purchase_QRCodeGenerateFailed, ToastLevel.Error);
-            State = PurchaseState.OrderFailed;
+            LoadState = LoadState.Failed;
         }
         finally
         {
-            IsInitializing = false;
+            // 成功走完才转 Loaded；catch 已置 Failed 时保持 Failed
+            if (LoadState == LoadState.Loading)
+            {
+                LoadState = LoadState.Loaded;
+            }
         }
     }
 

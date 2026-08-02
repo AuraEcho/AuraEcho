@@ -441,6 +441,15 @@
   <data name="Purchase_NoSkuAvailable" xml:space="preserve">
     <value>購入できる選択肢がありません</value>
   </data>
+  <data name="Purchase_LoadFailedTitle" xml:space="preserve">
+    <value>読み込み失敗</value>
+  </data>
+  <data name="Purchase_LoadFailedMessage" xml:space="preserve">
+    <value>決済情報の読み込みに失敗しました。ネットワーク接続を確認して再試行してください。</value>
+  </data>
+  <data name="Purchase_RetryButton" xml:space="preserve">
+    <value>再読み込み</value>
+  </data>
   <data name="Purchase_SubscriptionTermsPrefix" xml:space="preserve">
     <value>お支払いをもって、</value>
   </data>

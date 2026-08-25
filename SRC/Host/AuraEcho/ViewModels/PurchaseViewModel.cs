@@ -279,7 +279,7 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             CurrentPluginLicense = tLicense.Result;
             var skuList = tSkus.Result?.Skus?.Select(s => s.ToSku()) ?? [];
 
-            if (CurrentPlugin is null || CurrentPluginLicense is null || tSkus.Result is null)
+            if (CurrentPlugin is null || tSkus.Result is null)
                 throw new Exception();
 
             // 按 LicenseTierId 构建等级分组，同等级下按时长排序

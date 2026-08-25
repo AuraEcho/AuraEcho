@@ -441,6 +441,12 @@
   <data name="Purchase_NoSkuAvailable" xml:space="preserve">
     <value>購入できる選択肢がありません</value>
   </data>
+  <data name="Purchase_NoOrderTitle" xml:space="preserve">
+    <value>注文なし</value>
+  </data>
+  <data name="Purchase_NoOrderMessage" xml:space="preserve">
+    <value>プラン選択で決済</value>
+  </data>
   <data name="Purchase_LoadFailedTitle" xml:space="preserve">
     <value>読み込み失敗</value>
   </data>

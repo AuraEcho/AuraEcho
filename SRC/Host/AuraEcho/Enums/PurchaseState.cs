@@ -6,7 +6,7 @@ public enum PurchaseState
     /// 内容就绪
     /// </summary>
     Ready,
-    
+
     /// <summary>
     /// 正在创建订单
     /// </summary>
@@ -30,5 +30,10 @@ public enum PurchaseState
     /// <summary>
     /// 订单完成
     /// </summary>
-    OrderCompleted
+    OrderCompleted,
+
+    /// <summary>
+    /// 无可购买选项
+    /// </summary>
+    NoSkuAvailable
 }

@@ -441,6 +441,12 @@
   <data name="Purchase_NoSkuAvailable" xml:space="preserve">
     <value>No options available</value>
   </data>
+  <data name="Purchase_NoOrderTitle" xml:space="preserve">
+    <value>No Order</value>
+  </data>
+  <data name="Purchase_NoOrderMessage" xml:space="preserve">
+    <value>Select plan to pay</value>
+  </data>
   <data name="Purchase_LoadFailedTitle" xml:space="preserve">
     <value>Failed to load</value>
   </data>

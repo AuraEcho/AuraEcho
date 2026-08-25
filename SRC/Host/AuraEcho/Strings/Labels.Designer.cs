@@ -1177,6 +1177,24 @@ namespace AuraEcho.Strings {
         }
 
         /// <summary>
+        ///   查找类似 暂无订单 的本地化字符串。
+        /// </summary>
+        public static string Purchase_NoOrderTitle {
+            get {
+                return ResourceManager.GetString("Purchase_NoOrderTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 选择订阅后生成支付二维码 的本地化字符串。
+        /// </summary>
+        public static string Purchase_NoOrderMessage {
+            get {
+                return ResourceManager.GetString("Purchase_NoOrderMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 加载失败 的本地化字符串。
         /// </summary>
         public static string Purchase_LoadFailedTitle {

@@ -103,13 +103,22 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
         get;
         set
         {
-            // 降级组已在 UI 上禁用，此处兜住命令与初始化路径，避免发起注定失败的下单
             if (value is { IsPurchasable: false }) return;
+
             if (!SetProperty(ref field, value)) return;
+
             if (LoadState == LoadState.Loading) return;
+
             if (value?.Skus?.Count > 0)
             {
                 SelectedSku = value.Skus.First();
+            }
+            else
+            {
+                SelectedSku = null;
+                CurrentOrder = null;
+                QRCode = QRCODE_PLACEHOLDER_TEXT;
+                State = PurchaseState.NoSkuAvailable;
             }
         }
     }
@@ -311,10 +320,10 @@ public class PurchaseViewModel : BindableBase, IRegionDialogAware
             TierGroups = new ObservableCollection<SkuTierGroup>(groups);
             SelectedTierGroup = PickDefaultTierGroup(groups, CurrentPluginLicense?.TierLevel);
 
-            // 无可购买项（无上架 SKU / 等级全部低于当前订阅 / 该等级无上架时长），
+            // 无可购买项（无上架 SKU / 等级全部低于当前订阅 / 该等级无上架时长）
             if (SelectedTierGroup is null || SelectedTierGroup.Skus.Count == 0)
             {
-                State = PurchaseState.Ready;
+                State = PurchaseState.NoSkuAvailable;
                 await minTimeTask;
                 return;
             }

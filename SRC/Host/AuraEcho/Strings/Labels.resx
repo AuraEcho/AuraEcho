@@ -441,6 +441,12 @@
   <data name="Purchase_NoSkuAvailable" xml:space="preserve">
     <value>暂无可购买选项</value>
   </data>
+  <data name="Purchase_NoOrderTitle" xml:space="preserve">
+    <value>暂无订单</value>
+  </data>
+  <data name="Purchase_NoOrderMessage" xml:space="preserve">
+    <value>选择订阅后生成支付二维码</value>
+  </data>
   <data name="Purchase_LoadFailedTitle" xml:space="preserve">
     <value>加载失败</value>
   </data>

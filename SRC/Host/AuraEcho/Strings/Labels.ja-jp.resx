@@ -762,4 +762,49 @@
   <data name="SystemToast_PluginInstalledMessage" xml:space="preserve">
     <value>ここをクリックして開く</value>
   </data>
+  <data name="MainWindow_Subscriptions" xml:space="preserve">
+    <value>サブスク</value>
+  </data>
+  <data name="Subscriptions_Title" xml:space="preserve">
+    <value>マイサブスクリプション</value>
+  </data>
+  <data name="Subscriptions_Description" xml:space="preserve">
+    <value>拡張機能のサブスクを管理</value>
+  </data>
+  <data name="Subscriptions_Refresh" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Subscriptions_NoSubscriptions" xml:space="preserve">
+    <value>サブスクリプションはありません</value>
+  </data>
+  <data name="Subscriptions_NoSubscriptionsDescription" xml:space="preserve">
+    <value>まだ拡張機能を購読していません</value>
+  </data>
+  <data name="Subscriptions_LoadFailed" xml:space="preserve">
+    <value>読み込みに失敗しました</value>
+  </data>
+  <data name="Subscriptions_LoadFailedDescription" xml:space="preserve">
+    <value>読み込みに失敗しました。後でもう一度お試しください</value>
+  </data>
+  <data name="Subscriptions_Retry" xml:space="preserve">
+    <value>再試行</value>
+  </data>
+  <data name="Subscriptions_ExpiresAt" xml:space="preserve">
+    <value>有効期限：</value>
+  </data>
+  <data name="Subscriptions_Expired" xml:space="preserve">
+    <value>期限切れ</value>
+  </data>
+  <data name="Subscriptions_DaysRemaining" xml:space="preserve">
+    <value>残り {0} 日</value>
+  </data>
+  <data name="Subscriptions_Renew" xml:space="preserve">
+    <value>更新する</value>
+  </data>
+  <data name="Subscriptions_ValidUntil" xml:space="preserve">
+    <value>有効期限</value>
+  </data>
+  <data name="Subscriptions_BrowsePluginsMarketplace" xml:space="preserve">
+    <value>拡張機能ストアを閲覧</value>
+  </data>
 </root>

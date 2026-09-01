@@ -89,6 +89,12 @@ public class MainWindowViewModel : BindableBase
         NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.SendFeedback);
     }
 
+    public DelegateCommand NavigationToSubscriptionsCommand { get; }
+    private void NavigationToSubscriptions()
+    {
+        NavigationService.RequestNavigate(HostRegionNames.MainRegion, ViewNames.Subscriptions);
+    }
+
     public DelegateCommand ShowAnnouncementsCommand { get; }
     private void ShowAnnouncements()
     {
@@ -160,6 +166,7 @@ public class MainWindowViewModel : BindableBase
         SignOutCommand = new DelegateCommand(SignOut);
         NavigationToSettingsCommand = new DelegateCommand(NavigationToSettings);
         NavigationToSendFeedbackCommand = new DelegateCommand(NavigationToSendFeedback);
+        NavigationToSubscriptionsCommand = new DelegateCommand(NavigationToSubscriptions);
         ShowAnnouncementsCommand = new DelegateCommand(ShowAnnouncements);
         if (NavigationService is INotifyPropertyChanged npc)
         {

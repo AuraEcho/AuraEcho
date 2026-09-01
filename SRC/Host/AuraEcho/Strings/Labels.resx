@@ -762,4 +762,49 @@
   <data name="SystemToast_PluginInstalledMessage" xml:space="preserve">
     <value>单击此处以打开</value>
   </data>
+  <data name="MainWindow_Subscriptions" xml:space="preserve">
+    <value>我的订阅</value>
+  </data>
+  <data name="Subscriptions_Title" xml:space="preserve">
+    <value>我的订阅</value>
+  </data>
+  <data name="Subscriptions_Description" xml:space="preserve">
+    <value>管理您的扩展订阅</value>
+  </data>
+  <data name="Subscriptions_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Subscriptions_NoSubscriptions" xml:space="preserve">
+    <value>暂无订阅</value>
+  </data>
+  <data name="Subscriptions_NoSubscriptionsDescription" xml:space="preserve">
+    <value>您还没有订阅任何扩展</value>
+  </data>
+  <data name="Subscriptions_LoadFailed" xml:space="preserve">
+    <value>加载失败</value>
+  </data>
+  <data name="Subscriptions_LoadFailedDescription" xml:space="preserve">
+    <value>加载失败，请稍后重试</value>
+  </data>
+  <data name="Subscriptions_Retry" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="Subscriptions_ExpiresAt" xml:space="preserve">
+    <value>到期时间：</value>
+  </data>
+  <data name="Subscriptions_Expired" xml:space="preserve">
+    <value>已过期</value>
+  </data>
+  <data name="Subscriptions_DaysRemaining" xml:space="preserve">
+    <value>剩余 {0} 天</value>
+  </data>
+  <data name="Subscriptions_Renew" xml:space="preserve">
+    <value>续费</value>
+  </data>
+  <data name="Subscriptions_ValidUntil" xml:space="preserve">
+    <value>有效期至</value>
+  </data>
+  <data name="Subscriptions_BrowsePluginsMarketplace" xml:space="preserve">
+    <value>浏览扩展商店</value>
+  </data>
 </root>

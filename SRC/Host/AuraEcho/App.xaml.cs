@@ -186,6 +186,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<WebContainer>();
         containerRegistry.RegisterForNavigation<AutoSignIn>();
         containerRegistry.RegisterForNavigation<AnnouncementView>();
+        containerRegistry.RegisterForNavigation<Subscriptions>();
     }
 
     protected override void OnInitialized()

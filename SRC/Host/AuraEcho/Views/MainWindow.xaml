@@ -373,6 +373,7 @@
                     <Button x:Name="AnnouncementButton"
                             Width="47"
                             Padding="0"
+                            auraecho:ControlHelper.CornerRadius="0"
                             Background="Transparent"
                             BorderThickness="0"
                             Command="{Binding ShowAnnouncementsCommand}"
@@ -399,6 +400,7 @@
                     <ToggleButton x:Name="OptionsToggleButton"
                                   Width="47"
                                   Padding="0"
+                                  auraecho:ControlHelper.CornerRadius="0"
                                   Background="Transparent"
                                   BorderThickness="0"
                                   Foreground="{DynamicResource Brushes.OnSurface}"
@@ -657,7 +659,34 @@
                                                                     TargetName="OptionsPopup"
                                                                     Value="False" />
                                         </i:EventTrigger>
+                                        <i:EventTrigger EventName="Click" SourceName="SubscriptionsButton">
+                                            <i:ChangePropertyAction PropertyName="IsOpen"
+                                                                    TargetName="OptionsPopup"
+                                                                    Value="False" />
+                                        </i:EventTrigger>
                                     </i:Interaction.Triggers>
+                                    <Button x:Name="SubscriptionsButton"
+                                            Height="36"
+                                            Padding="8,0"
+                                            HorizontalContentAlignment="Left"
+                                            BorderThickness="0"
+                                            Command="{Binding NavigationToSubscriptionsCommand}"
+                                            FontSize="{DynamicResource FontSize.Label.Medium}"
+                                            Style="{DynamicResource IconButtonStyle}">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Viewbox Width="24"
+                                                     Height="24"
+                                                     Margin="0,0,8,0">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Data="M 4.77 15.09 H 10.77 M 2.53 9.44 H 21.1 M 3.77 4.59 H 19.77 c 0.69 0 1.25 0.56 1.25 1.25 V 17.84 c 0 0.69 -0.56 1.25 -1.25 1.25 H 3.77 c -0.69 0 -1.25 -0.56 -1.25 -1.25 V 5.84 c 0 -0.69 0.56 -1.25 1.25 -1.25 z"
+                                                          Stroke="{DynamicResource Brushes.OnSurface}"
+                                                          StrokeThickness="1.5" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_Subscriptions}" />
+                                        </StackPanel>
+                                    </Button>
                                     <Button x:Name="SendFeedbackButton"
                                             Height="36"
                                             Padding="8,0"

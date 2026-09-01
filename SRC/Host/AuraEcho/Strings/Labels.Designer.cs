@@ -1958,5 +1958,140 @@ namespace AuraEcho.Strings {
                 return ResourceManager.GetString("SystemToast_PluginInstalledMessage", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 我的订阅 的本地化字符串。
+        /// </summary>
+        public static string MainWindow_Subscriptions {
+            get {
+                return ResourceManager.GetString("MainWindow_Subscriptions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 我的订阅 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_Title {
+            get {
+                return ResourceManager.GetString("Subscriptions_Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 管理您的所有插件订阅 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_Description {
+            get {
+                return ResourceManager.GetString("Subscriptions_Description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 刷新 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_Refresh {
+            get {
+                return ResourceManager.GetString("Subscriptions_Refresh", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 暂无订阅 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_NoSubscriptions {
+            get {
+                return ResourceManager.GetString("Subscriptions_NoSubscriptions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 您还没有订阅任何插件，去插件市场看看吧 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_NoSubscriptionsDescription {
+            get {
+                return ResourceManager.GetString("Subscriptions_NoSubscriptionsDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 加载失败 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_LoadFailed {
+            get {
+                return ResourceManager.GetString("Subscriptions_LoadFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 无法加载订阅信息，请稍后重试 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_LoadFailedDescription {
+            get {
+                return ResourceManager.GetString("Subscriptions_LoadFailedDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 重试 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_Retry {
+            get {
+                return ResourceManager.GetString("Subscriptions_Retry", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 到期时间： 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_ExpiresAt {
+            get {
+                return ResourceManager.GetString("Subscriptions_ExpiresAt", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 已过期 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_Expired {
+            get {
+                return ResourceManager.GetString("Subscriptions_Expired", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 剩余 {0} 天 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_DaysRemaining {
+            get {
+                return ResourceManager.GetString("Subscriptions_DaysRemaining", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 续费 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_Renew {
+            get {
+                return ResourceManager.GetString("Subscriptions_Renew", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 有效期至 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_ValidUntil {
+            get {
+                return ResourceManager.GetString("Subscriptions_ValidUntil", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 浏览扩展商店 的本地化字符串。
+        /// </summary>
+        public static string Subscriptions_BrowsePluginsMarketplace {
+            get {
+                return ResourceManager.GetString("Subscriptions_BrowsePluginsMarketplace", resourceCulture);
+            }
+        }
     }
 }

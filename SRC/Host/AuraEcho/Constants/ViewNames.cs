@@ -86,4 +86,9 @@ public static class ViewNames
     /// 公告
     /// </summary>
     public const string AnnouncementView = nameof(Views.AnnouncementView);
+
+    /// <summary>
+    /// 订阅管理
+    /// </summary>
+    public const string Subscriptions = nameof(Views.Subscriptions);
 }

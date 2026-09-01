@@ -762,4 +762,49 @@
   <data name="SystemToast_PluginInstalledMessage" xml:space="preserve">
     <value>Click here to open</value>
   </data>
+  <data name="MainWindow_Subscriptions" xml:space="preserve">
+    <value>My Subscriptions</value>
+  </data>
+  <data name="Subscriptions_Title" xml:space="preserve">
+    <value>My Subscriptions</value>
+  </data>
+  <data name="Subscriptions_Description" xml:space="preserve">
+    <value>Manage your extension subscriptions</value>
+  </data>
+  <data name="Subscriptions_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Subscriptions_NoSubscriptions" xml:space="preserve">
+    <value>No subscriptions</value>
+  </data>
+  <data name="Subscriptions_NoSubscriptionsDescription" xml:space="preserve">
+    <value>You haven't subscribed to any extensions yet</value>
+  </data>
+  <data name="Subscriptions_LoadFailed" xml:space="preserve">
+    <value>Failed to load</value>
+  </data>
+  <data name="Subscriptions_LoadFailedDescription" xml:space="preserve">
+    <value>Failed to load, please try again later</value>
+  </data>
+  <data name="Subscriptions_Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="Subscriptions_ExpiresAt" xml:space="preserve">
+    <value>Expires:</value>
+  </data>
+  <data name="Subscriptions_Expired" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="Subscriptions_DaysRemaining" xml:space="preserve">
+    <value>{0} days left</value>
+  </data>
+  <data name="Subscriptions_Renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="Subscriptions_ValidUntil" xml:space="preserve">
+    <value>Valid until</value>
+  </data>
+  <data name="Subscriptions_BrowsePluginsMarketplace" xml:space="preserve">
+    <value>Browse Extensions Store</value>
+  </data>
 </root>

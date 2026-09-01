@@ -1,0 +1,252 @@
+<UserControl x:Class="AuraEcho.Views.Subscriptions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:AuraEcho.Enums"
+             xmlns:hm="clr-namespace:AuraEcho.Models"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://ui.auraecho.com/"
+             xmlns:viewmodels="clr-namespace:AuraEcho.ViewModels"
+             Padding="0,36,0,0"
+             d:DataContext="{d:DesignInstance Type=viewmodels:SubscriptionsViewModel}"
+             d:DesignHeight="770"
+             d:DesignWidth="860"
+             d:Foreground="{DynamicResource Brushes.OnSurface}"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="{DynamicResource Brushes.SurfaceContainerLowest}"
+             mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadSubscriptionsCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <ui:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+        <ui:EnumToBooleanConverter x:Key="EnumToBoolean" />
+
+        <!-- 订阅卡片 -->
+        <DataTemplate x:Key="SubscriptionItemTemplate" DataType="{x:Type hm:SubscriptionItem}">
+            <Border Margin="0,0,0,4"
+                    Padding="16"
+                    Background="{DynamicResource Brushes.SurfaceContainer}"
+                    BorderBrush="{DynamicResource Brushes.OutlineInner}"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    <!-- 插件图标 -->
+                    <Border Grid.Column="0"
+                            Width="48"
+                            Height="48"
+                            Margin="0,0,16,0"
+                            VerticalAlignment="Center"
+                            ClipToBounds="True"
+                            CornerRadius="4">
+                        <Border.Background>
+                            <ImageBrush ui:WebImageHelper.DecodePixelWidth="64"
+                                        ui:WebImageHelper.Url="{Binding PluginIconUrl}"
+                                        Stretch="UniformToFill" />
+                        </Border.Background>
+                    </Border>
+
+                    <!-- 订阅信息 -->
+                    <StackPanel Grid.Column="1"
+                                Margin="0,0,8,0"
+                                VerticalAlignment="Center">
+                        <TextBlock d:Text="示例插件"
+                                   FontWeight="Bold"
+                                   Style="{DynamicResource TitleMediumTextBlockStyle}"
+                                   Text="{Binding PluginName}"
+                                   TextTrimming="CharacterEllipsis" />
+
+
+                        <!-- 到期信息 -->
+                        <WrapPanel Margin="0,6,0,0" Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                       Style="{DynamicResource BodyMediumTextBlockStyle}"
+                                       Text="{Binding TierName}" />
+                            <!-- 到期日 -->
+                            <TextBlock Margin="0,0,4,0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                       Style="{DynamicResource BodyMediumTextBlockStyle}">
+                                <Run Text="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_ValidUntil, Mode=OneWay}" />
+                                <Run Text="{Binding ExpiredAt, StringFormat=yyyy.MM.dd, Mode=OneWay}" />
+                            </TextBlock>
+
+                            <!-- 即将到期徽标 -->
+                            <Border Padding="6,2"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource Brushes.TertiaryContainer}"
+                                    CornerRadius="4"
+                                    Visibility="Collapsed">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding IsExpiringSoon}" Value="True">
+                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                                <TextBlock FontSize="{DynamicResource FontSize.Label.Small}"
+                                           Foreground="{DynamicResource Brushes.OnTertiaryContainer}"
+                                           Text="{Binding DaysRemainingText, Mode=OneWay}" />
+                            </Border>
+
+                            <!-- 已过期徽标 -->
+                            <Border Padding="6,2"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource Brushes.ErrorContainer}"
+                                    CornerRadius="4"
+                                    Visibility="Collapsed">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding IsExpired}" Value="True">
+                                        <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                                <TextBlock FontSize="{DynamicResource FontSize.Label.Small}"
+                                           Foreground="{DynamicResource Brushes.OnErrorContainer}"
+                                           Text="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_Expired}" />
+                            </Border>
+                        </WrapPanel>
+                    </StackPanel>
+
+                    <!-- 续费 -->
+                    <Button Grid.Column="2"
+                            Padding="16,8"
+                            VerticalAlignment="Center"
+                            Command="{Binding Source={StaticResource BindingProxy}, Path=Data.RenewSubscriptionCommand}"
+                            CommandParameter="{Binding}"
+                            FontSize="{DynamicResource FontSize.Body.Medium}">
+                        <TextBlock Text="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_Renew}" />
+                    </Button>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid MaxWidth="1000"
+          Margin="32,24"
+          RowDefinitions="Auto, *">
+        <i:Interaction.Behaviors>
+            <ui:LoadedEntranceAnimationBehavior />
+        </i:Interaction.Behaviors>
+        <!-- 页面标题 -->
+        <StackPanel Grid.Column="0" Margin="0,0,0,24">
+            <TextBlock Style="{DynamicResource DisplayMediumTextBlockStyle}"
+                       Text="{Binding Source={StaticResource Loc}, Path=Labels.MainWindow_Subscriptions}"
+                       TextWrapping="Wrap" />
+            <TextBlock Margin="0,8,0,0"
+                       FontSize="{DynamicResource FontSize.Body.Large}"
+                       Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                       Text="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_Description}"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+
+        <!-- 内容区 -->
+        <Grid Grid.Row="1">
+            <!-- 加载中骨架 -->
+            <ui:SkeletonContainer IsLoading="{Binding LoadState, Converter={StaticResource EnumToBoolean}, ConverterParameter={x:Static enums:LoadState.Loading}}">
+                <ui:SkeletonContainer.Skeleton>
+                    <StackPanel>
+                        <ui:SkeletonRectangle Height="82"
+                                              Margin="0,0,0,8"
+                                              CornerRadius="4" />
+                        <ui:SkeletonRectangle Height="82"
+                                              Margin="0,0,0,8"
+                                              CornerRadius="4" />
+                        <ui:SkeletonRectangle Height="82" CornerRadius="4" />
+                    </StackPanel>
+                </ui:SkeletonContainer.Skeleton>
+
+                <Grid>
+                    <ScrollViewer>
+                        <!-- 订阅列表 -->
+                        <ItemsControl d:ItemsSource="{d:SampleData ItemCount=10}"
+                                      Visibility="Collapsed"
+                                      ItemTemplate="{StaticResource SubscriptionItemTemplate}"
+                                      ItemsSource="{Binding Subscriptions}">
+                            <i:Interaction.Triggers>
+                                <i:DataTrigger Binding="{Binding HasSubscriptions}" Value="False">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Hidden}" />
+                                </i:DataTrigger>
+                                <i:DataTrigger Binding="{Binding HasSubscriptions}" Value="True">
+                                    <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                                </i:DataTrigger>
+                            </i:Interaction.Triggers>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- 空态：无任何订阅 -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Visibility="Visible">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding HasSubscriptions}" Value="False">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding HasSubscriptions}" Value="True">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Viewbox Width="64" Height="64">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M 4.77 15.09 H 10.77 M 2.53 9.44 H 21.1 M 3.77 4.59 H 19.77 c 0.69 0 1.25 0.56 1.25 1.25 V 17.84 c 0 0.69 -0.56 1.25 -1.25 1.25 H 3.77 c -0.69 0 -1.25 -0.56 -1.25 -1.25 V 5.84 c 0 -0.69 0.56 -1.25 1.25 -1.25 z"
+                                      Stroke="{DynamicResource Brushes.OnSurfaceVariant}"
+                                      StrokeThickness="1.5" />
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Margin="0,0,0,16"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_NoSubscriptionsDescription}"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap" />
+                        <Button Height="36"
+                                Padding="24,0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding NavigateToPluginsMarketplaceCommand}"
+                                Content="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_BrowsePluginsMarketplace}"
+                                FontSize="{DynamicResource FontSize.Label.Medium}"
+                                Style="{DynamicResource PrimaryButtonStyle}" />
+                    </StackPanel>
+                    <!-- 加载失败 -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Visibility="Collapsed">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding LoadState}" Value="{x:Static enums:LoadState.Failed}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Visible}" />
+                            </i:DataTrigger>
+                            <i:DataTrigger Binding="{Binding LoadState}"
+                                           Comparison="NotEqual"
+                                           Value="{x:Static enums:LoadState.Failed}">
+                                <i:ChangePropertyAction PropertyName="Visibility" Value="{x:Static Visibility.Collapsed}" />
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                        <Viewbox Width="64"
+                                 Height="64"
+                                 Margin="0,0,0,8">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" Fill="{DynamicResource Brushes.Error}" />
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Margin="0,0,0,16"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource Brushes.OnSurfaceVariant}"
+                                   Style="{DynamicResource BodyLargeTextBlockStyle}"
+                                   Text="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_LoadFailedDescription}"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap" />
+                        <Button Padding="24,8"
+                                HorizontalAlignment="Center"
+                                Command="{Binding RefreshCommand}"
+                                Content="{Binding Source={StaticResource Loc}, Path=Labels.Subscriptions_Retry}"
+                                FontSize="{DynamicResource FontSize.Body.Medium}"
+                                Style="{DynamicResource PrimaryButtonStyle}" />
+                    </StackPanel>
+                </Grid>
+            </ui:SkeletonContainer>
+        </Grid>
+    </Grid>
+</UserControl>
